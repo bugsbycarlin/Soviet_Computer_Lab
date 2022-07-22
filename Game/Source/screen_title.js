@@ -380,6 +380,9 @@ Game.prototype.initializeTitle = function() {
   // quit_button.visible = false;
   // single_player_button.visible = false;
   // multiplayer_button.visible = false;
+
+  let pixelized_computer_overlay = new PIXI.Sprite(PIXI.Texture.from("Art/pixelized_computer_overlay_1664_960.png"));
+  screen.addChild(pixelized_computer_overlay);
 }
 
 Game.prototype.titleUpdate = function(diff) {

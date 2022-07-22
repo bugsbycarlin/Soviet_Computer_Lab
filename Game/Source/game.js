@@ -131,7 +131,6 @@ class Game {
     //   }
     // })
 
-
     let mu = firebase.auth().currentUser;
     if (mu != null && mu.uid != null) {
       this.auth_user = mu;
