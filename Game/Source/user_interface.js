@@ -414,6 +414,7 @@ Game.prototype.initializeScreens = function() {
   this.makeScreen("1p_word_rockets");
   this.makeScreen("1p_base_capture");
   this.makeScreen("1p_launch_code");
+  this.makeScreen("multi_lobby");
   this.makeScreen("cutscene");
   this.makeScreen("high_score");
   this.makeScreen("game_over");

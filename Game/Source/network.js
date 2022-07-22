@@ -105,14 +105,65 @@ class Network {
   }
 
 
-  createNewGame(game_type, tries_left, callback) {
+  createNewGame(match_type, callback, error_callback = null) {
     var self = this;
     var game_code = this.generateGameCode();
+
+    game.state = {
+      match_type: match_type,
+      num_players: 2,
+      ranked: "no",
+      game_type: "word_rockets",
+      p1_state: "joined",
+      p2_state: "empty",
+      p3_state: "empty",
+      p4_state: "empty",
+      game_state: "none",
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
+    console.log(game.state);
+
+    this.database.ref("/games/" + game_code).set(game.state, (error) => {
+      if (error) {
+        console.log("Failed to create game " + game_code);
+        console.log(error);
+        if (error_callback != null) error_callback();
+      } else {
+        console.log("Created game " + game_code)
+        self.game.game_code = game_code;
+        if (callback != null) callback();
+      }
+    });
   }
 
 
   joinGame(game_code, yes_callback, no_callback) {
     var self = this;
+    this.database.ref("/games/" + game_code).once("value").then((result) => {
+      if (result.exists()) {
+        self.game.game_code = game_code;
+        this.database.ref("games/" + game_code).update({
+          p2_state: "joined",
+        }, (error) => {
+          if (error) {
+            console.log("Could not join game " + game_code);
+            no_callback();
+          } else {
+            console.log("Managed to join game " + game_code);
+            this.database.ref("/games/" + game_code).once("value").then((result) => {
+              self.game.state = result.val();
+              if (self.game.state.game_type == "quick_open") {
+                self.update({game_type: "quick_closed"})
+              }
+              yes_callback();
+            });
+          }
+        });
+      } else {
+        console.log("Could not find game " + game_code);
+        no_callback();
+      }
+    });
   }
 
 

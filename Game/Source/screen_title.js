@@ -148,7 +148,7 @@ Game.prototype.initializeTitle = function() {
     self.switchScreens("title", "1p_lobby");
   });
 
-  let multiplayer_button = new PIXI.Text("MULTI (coming soon)", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
+  let multiplayer_button = new PIXI.Text("MULTI", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
   multiplayer_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
   multiplayer_button.anchor.set(0.5,0.5);
   multiplayer_button.position.set(this.width / 2 - 5, this.height - 240);
@@ -156,8 +156,23 @@ Game.prototype.initializeTitle = function() {
   multiplayer_button.interactive = true;
   multiplayer_button.buttonMode = true;
   multiplayer_button.on("pointerdown", function() {
-    self.showAlert("Sorry! Multiplayer \nNot Yet Available.", function(){});
-    console.log("points");
+    // self.showAlert("Sorry! Multiplayer \nNot Yet Available.", function(){});
+    // console.log("points");
+
+    self.soundEffect("button_accept");
+    self.single_player_button.tint = 0xFFFFFF;
+    self.multiplayer_button.tint = 0xFFFFFF;
+    flicker(multiplayer_button, 500, 0xFFFFFF, 0x67d8ef);
+    self.tutorial = false;
+    // if (self.network.uid == null) {
+    //   self.network.anonymousSignIn(function() {
+    //     self.network.loadGlobalHighScores();
+    //   });
+    // } else {
+    //   self.network.loadGlobalHighScores();
+    // }
+    self.initializeMultiLobby();
+    self.switchScreens("title", "multi_lobby");
   });
 
 
@@ -399,6 +414,6 @@ Game.prototype.titleUpdate = function(diff) {
     delay(function() {
       self.single_player_button.visible = true;
       self.multiplayer_button.visible = true;
-    }, 2000);
+    }, 500);
   }
 }

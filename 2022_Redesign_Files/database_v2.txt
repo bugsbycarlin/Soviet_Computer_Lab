@@ -1,0 +1,73 @@
+
+// Draft Two, with high scores per mode (story, mixed, wr, bc, lc), and only global
+// 
+// 
+// {
+//   "rules": {
+//     ".read": "auth != null",
+//     ".write": "auth != null",
+//   }
+// }
+
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "high_scores": {
+      ".read": "auth != null",
+      ".write": "!data.exists() && auth != null",
+      "story": {
+        "easy": {".indexOn": "score",},
+        "medium": {".indexOn": "score",},
+        "hard": {".indexOn": "score",},
+        "beacon": {".indexOn": "score",}
+      },
+      "mixed": {
+        "easy": {".indexOn": "score",},
+        "medium": {".indexOn": "score",},
+        "hard": {".indexOn": "score",},
+        "beacon": {".indexOn": "score",}
+      },
+      "wr": {
+        "easy": {".indexOn": "score",},
+        "medium": {".indexOn": "score",},
+        "hard": {".indexOn": "score",},
+        "beacon": {".indexOn": "score",}
+      },
+      "bc": {
+        "easy": {".indexOn": "score",},
+        "medium": {".indexOn": "score",},
+        "hard": {".indexOn": "score",},
+        "beacon": {".indexOn": "score",}
+      },
+      "lc": {
+        "easy": {".indexOn": "score",},
+        "medium": {".indexOn": "score",},
+        "hard": {".indexOn": "score",},
+        "beacon": {".indexOn": "score",}
+      },
+      "$mode": {
+        ".validate": "$mode === 'story' || $mode === 'mixed' || $mode === 'wr' || $mode === 'bc' || $mode === 'lc'",
+        "$difficulty": {
+          ".validate": "$difficulty === 'easy' || $difficulty === 'medium' || $difficulty === 'hard' || $difficulty === 'beacon'",
+          "$score_item": {
+            ".indexOn": "score",
+            ".validate": "newData.hasChildren([
+              'name',
+              'score',
+            ])",
+            "name": {
+              ".write": true,
+              ".validate": "newData.val().matches(/^[A-Z]{1,6}$/)",
+            },
+            "score": {
+              ".write": true,
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0.0 && newData.val() >= 0",
+            },
+          },
+        },
+      },
+    },
+  }
+}
+

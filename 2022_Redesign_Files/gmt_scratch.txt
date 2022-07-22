@@ -1,0 +1,206 @@
+
+
+
+G is the dry land color.
+I is rivers.
+S is background or sea or something.
+N is country borders.
+B+g is fill
+A is minimum area
+
+# https://docs.generic-mapping-tools.org/6.2/tutorial
+# https://gmt-tutorials.org/en/pen_and_painting_gmt5.html
+# https://www.ngdc.noaa.gov/mgg/global/etopo2.html
+# https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO2/ETOPO2v2-2006/ETOPO2v2g/netCDF/
+
+
+
+gmt begin GMT_tut_3
+  gmt set GMT_THEME cookbook
+  gmt coast -R-130/-70/0/50 -Dh -JM6i -S240/250/255 -W0.25p -N1 -I1 -G182/86/83
+gmt end show
+
+
+gmt begin GMT_tut_3
+  gmt set GMT_THEME cookbook
+  gmt coast -R-130/-70/0/50 -Dh -JM6i -S240/250/255 -W0.25p,160/160/160 -N1/0.25p,160/160/160 -I1/0.25p,160/160/160 -G182/86/83
+gmt end show
+
+
+One liner:
+gmt coast -R-130/-70/0/50 -Dh -JM6i -S240/250/255 -W0.25p,160/160/160 -N1/0.25p,160/160/160 -I1/0.25p,160/160/160 -G182/86/83 -png Bigmap
+
+
+One liner for western europe:
+gmt coast -R-20/50/30/60 -Dh -JM8i -S240/250/255 -W0.25p,160/160/160 -N1/0.25p,160/160/160 -I1/0.25p,160/160/160 -G182/86/83 -A20.0 -png Bigmap
+
+
+Easy Terrain data at 1 arc minute:
+gmt grdinfo @earth_relief_01m
+
+
+gmt begin titicaca png
+    gmt grdimage @earth_relief_01m -R-70.8/-17.17/-66.56/-14.42r -JM6i
+gmt end show
+
+
+
+# ==== Setting up colors and corresponding countries ====
+# United Kingdom, France, West Germany, Italy, Spain, Portugal, Turkey, Greece
+color1='80/107/177'
+colorgroup1='MX,BR,CR,DO'
+# East Germany, Poland, Czechoslovakia, USSR, Hungary, Romania, Bulgaria
+color2='181/86/83'
+colorgroup2='GT,JM,VE,GF,BS'
+
+# ==== Main commands ====
+gmt begin central_america png
+    gmt coast -R-20/50/30/60 -Dh -JM8i -S240/250/255 -W0.25p,160/160/160 -N1/0.25p,160/160/160 -I1/0.25p,160/160/160 -245/245/245 -A20.0 -png Bigmap \
+        -E${colorgroup1}+g${color1} \
+        -E${colorgroup2}+g${color2}
+gmt end
+
+
+
+# possibly some old maps
+https://github.com/aourednik/historical-basemaps
+https://www.gislounge.com/find-gis-data-historical-country-boundaries/
+https://demo.ldproxy.net/cshapes/collections   <- dead download links
+https://icr.ethz.ch/data/cshapes/   <- updated
+https://library.hws.edu/thematic_data/boundary#:~:text=%22CShapes%20is%20a%20new%20dataset,existing%20databases%20in%20the%20discipline.
+
+
+
+
+gmt begin Cold_War_Europe png
+  # United Kingdom, France, West Germany, Italy, Spain, Portugal, Turkey, Greece
+  color1='80/107/177'
+  colorgroup1='GB,FR,DE,IT,ES,PT,TR,GR'
+  # East Germany, Poland, Czechoslovakia, USSR, Hungary, Romania, Bulgaria
+  color2='181/86/83'
+  colorgroup2='RU,PL,CZ,HU,RO,BG'
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -G240/240/250 -S220/220/230 -A20.0 \
+  -E${colorgroup1}+g${color1} \
+  -E${colorgroup2}+g${color2}
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -N1/0.5p,200/200/200 -W1/0.5p,0/0/0 -A20.0 -t80
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -I1/0.5p,200/200/200 -A20.0 -t90
+
+gmt end show
+
+
+
+
+gmt begin Cold_War_Europe png
+  # United Kingdom, France, West Germany, Italy, Spain, Portugal, Turkey, Greece
+  color1='80/107/177'
+  colorgroup1='GB,FR,DE,IT,ES,PT,TR,GR'
+  # East Germany, Poland, Czechoslovakia, USSR, Hungary, Romania, Bulgaria
+  color2='181/86/83'
+  colorgroup2='RU,PL,CZ,HU,RO,BG'
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -G240/240/250 -S220/220/230 -A20.0
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -N1/0.5p,200/200/200 -W1/0.5p,0/0/0 -A20.0 -t80
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -I1/0.5p,200/200/200 -A20.0 -t90
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i \
+  -E${colorgroup1}+p0.5,${color1} \
+  -E${colorgroup2}+p0.5,${color2}
+
+
+gmt end show
+
+
+#-N1/0.5p,0/200/0
+# trying to get transparency on the earth relief data below sea level:
+# -Q+z0
+
+# This is a pretty good setup:
+
+gmt begin Cold_War_Europe png
+  # United Kingdom, France, West Germany, Italy, Spain, Portugal, Turkey, Greece
+  color1='80/107/177'
+  colorgroup1='GB,FR,DE,IT,ES,PT,TR,GR'
+  # East Germany, Poland, Czechoslovakia, USSR, Hungary, Romania, Bulgaria
+  color2='181/86/83'
+  colorgroup2='RU,PL,CZ,HU,RO,BG'
+
+  # the first one is to fill in lowlands with national color, the second is to draw texture
+  gmt coast -R-20/50/30/60 -Dh -JM8i -G60/60/60 -S220/220/230 -A150.0
+  gmt grdimage @earth_relief_01m -R-20/50/30/60 -JM8i -Ctextures_in_blue.cpt
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -W1/0.5p,0/200/0 -A150.0 -t60
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -I1/0.5p,200/200/200 -A150.0 -t90
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i -t80 \
+  -E${colorgroup1}+g${color1} \
+  -E${colorgroup2}+g${color2}
+
+
+  gmt coast -R-20/50/30/60 -Dh -JM8i \
+  -E${colorgroup1}+p0.5,${color1} \
+  -E${colorgroup2}+p0.5,${color2}
+
+gmt end show
+
+
+
+
+# two methods of clipping:
+#gmt clip -R-20/50/30/60 -J${projection} clip_shapes.gmt
+#gmt grdimage @earth_relief_01m -R-20/50/30/60 -J${projection} -Cdark_land_shading.cpt
+#gmt clip -C
+
+#gmt coast -R-20/50/30/60 -Dh -J${projection} -G -A150.0
+#gmt grdimage @earth_relief_01m -R-20/50/30/60 -J${projection} -Cdark_land_shading.cpt
+#gmt coast -Q
+
+
+gmt begin Cold_War_Europe png
+  # United Kingdom, France, West Germany, Italy, Spain, Portugal, Turkey, Greece, Norway, Netherlands, Belgium, Denmark, Luxembourg
+  color1='80/107/177'
+  # East Germany, Poland, Czechoslovakia, USSR, Hungary, Romania, Bulgaria
+  color2='181/86/83'
+
+  # Projection
+  projection=B15/45/30/60/8i
+
+  # R values
+  rval=-15/30/65/60r
+
+  # 1. draw background
+  # 2. clip to coastline
+  # 3. draw topography
+  # 4. end clipping
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A150.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A150.0
+  gmt grdimage @earth_relief_01m -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A150.0 -t60
+
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A150.0 -t80
+
+  #gmt coast -R${rval} -Dh -J${projection} -t80 \
+  #-E${colorgroup1}+g${color1} \
+  #-E${colorgroup2}+g${color2}
+
+  #gmt coast -R${rval} -Dh -J${projection} \
+  #-E${colorgroup1}+p0.5,${color1} \
+  #-E${colorgroup2}+p0.5,${color2}
+
+
+  gmt plot cold_war_red_shapes.gmt -G${color2} -t80
+  gmt plot cold_war_blue_shapes.gmt -G${color1} -t80
+  gmt plot cold_war_red_shapes.gmt -W0.5,${color2} 
+  gmt plot cold_war_blue_shapes.gmt -W0.5,${color1}
+
+gmt end show
+
+
+

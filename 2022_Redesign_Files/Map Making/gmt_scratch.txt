@@ -204,3 +204,197 @@ gmt end show
 
 
 
+
+gmt begin Dominica_Red png
+  color1='181/86/83'
+
+  # Projection
+  projection=B-61.5/15.4/13.4/17.4/8i
+
+  # R values
+  rval=-62/15.1/-61/15.7r
+
+  # 1. draw background
+  # 2. clip to coastline
+  # 3. draw topography
+  # 4. end clipping
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_03s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+
+gmt begin St_Lucia_Blue png
+  color1='80/107/177'
+
+  # Projection
+  projection=B-61.1/13.9/11.9/15.9/8i
+
+  # R values
+  rval=-61.6/13.5/-60.6/14.3r
+
+  # 1. draw background
+  # 2. clip to coastline
+  # 3. draw topography
+  # 4. end clipping
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_03s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+gmt begin St_Vincent_Green png
+  color1='113/184/74'
+
+  # Projection
+  projection=B-61.5/13/11/15/8i
+
+  # R values
+  rval=-62/12.6/-61/13.4r
+
+  # 1. draw background
+  # 2. clip to coastline
+  # 3. draw topography
+  # 4. end clipping
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_03s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+gmt begin Grenada_Yellow png
+  color1='231/222/10'
+
+  # Projection
+  projection=B-61.8/12.1/10.1/14.1/8i
+
+  # R values
+  rval=-62.3/11.7/-61.3/12.5r
+
+  # 1. draw background
+  # 2. clip to coastline
+  # 3. draw topography
+  # 4. end clipping
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_03s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+Cornwallis 80/107/177
+Disko 181/86/83
+Stefansson 231/222/10
+
+
+gmt begin Disko_Red png
+  color1='181/86/83'
+
+  # Projection
+  projection=B-53.5/69.8/67.8/71.8/8i
+
+  # R values
+  rval=-55.5/68.8/-51.5/70.8r
+
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_30s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+gmt begin Cornwallis_Blue png
+  color1='80/107/177'
+
+  # Projection
+  projection=B-95/75.2/77.2/73.2/8i
+
+  # R values
+  rval=-98/73.2/-92/77.2r
+
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_30s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
+
+
+
+
+gmt begin Stefansson_Yellow png
+  color1='231/222/10'
+
+  # Projection
+  projection=B-105.4/73.5/75.5/71.5/8i
+
+  # R values
+  rval=-108.4/72.5/-102.4/74.5r
+
+  gmt coast -R${rval} -Dh -J${projection} -G60/60/60 -S0/0/0 -A50.0
+  gmt coast -R${rval} -Dh -J${projection} -G -A50.0
+  gmt grdimage @earth_relief_30s -R${rval} -J${projection} -Cdark_land_shading.cpt
+  gmt coast -Q
+
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,80/80/80 -A50.0 -t60
+  gmt coast -R${rval} -Dh -J${projection} -I1/0.5p,120/120/120 -A50.0 -t80
+  gmt coast -R${rval} -Dh -J${projection} -t80 -G${color1}
+  gmt coast -R${rval} -Dh -J${projection} -W1/0.5p,${color1}
+
+gmt end show
