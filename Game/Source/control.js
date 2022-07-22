@@ -332,11 +332,11 @@ Game.prototype.handleKeyDown = function(ev) {
       this.soundEffect("switch_option");
       this.title_choice = this.title_choice === 0 ? 1 : 0;
       if (this.title_choice === 0) {
-        this.single_player_button.tint = 0x67d8ef;
+        this.single_player_button.tint = 0xa10000;
         this.multiplayer_button.tint = 0xFFFFFF;
       } else {
         this.single_player_button.tint = 0xFFFFFF;
-        this.multiplayer_button.tint = 0x67d8ef;
+        this.multiplayer_button.tint = 0xa10000;
       }
     } else if (ev.key === "Enter") {
       this.single_player_button.tint = 0xFFFFFF;

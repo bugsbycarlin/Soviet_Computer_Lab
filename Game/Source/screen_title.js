@@ -6,18 +6,20 @@ Game.prototype.initializeTitle = function() {
 
   this.title_choice = 0;
 
-  let blue_bg = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  blue_bg.width = 1280;
-  blue_bg.height = 960;
-  blue_bg.tint = 0x313b87;
-  screen.addChild(blue_bg);
+  let bg = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  bg.width = this.width;
+  bg.height = 960;
+  // bg.tint = 0x313b87;
+  // bg.tint = 0xcd0000;
+  bg.tint = 0x999999;
+  screen.addChild(bg);
 
   // ! flags
   let right_flag = new PIXI.Sprite(PIXI.Texture.from("Art/Title/flag_soviet.png"));
   right_flag.anchor.set(0.5,0.5);
   right_flag.scale.set(3,3);
   right_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  right_flag.position.set(790, this.height - 710);
+  right_flag.position.set(790+192, this.height - 710);
     // new TWEEN.Tween(right_flag.position)
     //     .to({y: this.height - 710})
     //     .duration(9000)
@@ -29,7 +31,7 @@ Game.prototype.initializeTitle = function() {
   left_flag.anchor.set(0.5,0.5);
   left_flag.scale.set(-3,3);
   left_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  left_flag.position.set(485, this.height - 710);
+  left_flag.position.set(485+192, this.height - 710);
     // new TWEEN.Tween(left_flag.position)
     //     .to({y: this.height - 710})
     //     .duration(9000)
@@ -39,7 +41,9 @@ Game.prototype.initializeTitle = function() {
 
   // ! brandenburg
   let brandenburg = new PIXI.Sprite(PIXI.Texture.from("Art/Title/brandenburg.png"));
-  brandenburg.tint = 0x212b67;
+  // brandenburg.tint = 0x212b67;
+  // brandenburg.tint = 0xa10000;
+  brandenburg.tint = 0x767676;
   brandenburg.scale.set(6,6);
   brandenburg.anchor.set(0.5,0.5);
   brandenburg.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -53,7 +57,9 @@ Game.prototype.initializeTitle = function() {
 
   // ! players
   let right_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
-  right_player.tint = 0x111b57;
+  // right_player.tint = 0x111b57;
+  // right_player.tint = 0x840000;
+  right_player.tint = 0x676767;
   right_player.scale.set(4,4);
   right_player.anchor.set(0.5,0.5);
   right_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -66,7 +72,9 @@ Game.prototype.initializeTitle = function() {
   screen.addChild(right_player);
 
   let left_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
-  left_player.tint = 0x111b57;
+  // left_player.tint = 0x111b57;
+  // left_player.tint = 0x840000;
+  left_player.tint = 0x676767;
   left_player.scale.set(-4,4);
   left_player.anchor.set(0.5,0.5);
   left_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -78,24 +86,45 @@ Game.prototype.initializeTitle = function() {
   //     .start();
   screen.addChild(left_player);
 
-  this.cold_war_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-  this.cold_war_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.cold_war_text.anchor.set(0.0,0.5);
-  this.cold_war_text.position.set(294, 364);
-  screen.addChild(this.cold_war_text);
+  // this.cold_war_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
+  //   dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+  // this.cold_war_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // this.cold_war_text.anchor.set(0.0,0.5);
+  // this.cold_war_text.position.set(294, 364);
+  // screen.addChild(this.cold_war_text);
 
-  this.keyboards_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-  this.keyboards_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.keyboards_text.anchor.set(0.0,0.5);
-  this.keyboards_text.position.set(253, 514);
-  screen.addChild(this.keyboards_text);
+  // this.keyboards_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
+  //   dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+  // this.keyboards_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // this.keyboards_text.anchor.set(0.0,0.5);
+  // this.keyboards_text.position.set(253, 514);
+  // screen.addChild(this.keyboards_text);
+
+  this.soviet_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
+    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+  this.soviet_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.soviet_text.anchor.set(0.0,0.5);
+  this.soviet_text.position.set(574, 264);
+  screen.addChild(this.soviet_text);
+
+  this.computer_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
+    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+  this.computer_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.computer_text.anchor.set(0.0,0.5);
+  this.computer_text.position.set(473, 394);
+  screen.addChild(this.computer_text);
+
+  this.lab_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
+    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+  this.lab_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.lab_text.anchor.set(0.0,0.5);
+  this.lab_text.position.set(690, 524);
+  screen.addChild(this.lab_text);
 
   this.cold_war_time = this.markTime() - 5000;
 
   let single_player_button = new PIXI.Text("SINGLE", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
-  single_player_button.tint = 0x67d8ef;
+  single_player_button.tint = 0xa10000;
   single_player_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
   single_player_button.anchor.set(0.5,0.5);
   single_player_button.position.set(this.width / 2 - 5, this.height - 280);
@@ -106,7 +135,7 @@ Game.prototype.initializeTitle = function() {
     self.soundEffect("button_accept");
     self.single_player_button.tint = 0xFFFFFF;
     self.multiplayer_button.tint = 0xFFFFFF;
-    flicker(single_player_button, 500, 0xFFFFFF, 0x67d8ef);
+    flicker(single_player_button, 500, 0xFFFFFF, 0xa10000);
     self.tutorial = false;
     if (self.network.uid == null) {
       self.network.anonymousSignIn(function() {
@@ -139,13 +168,13 @@ Game.prototype.initializeTitle = function() {
 
   // ! black bars
   let top_bar = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  top_bar.width = 1280;
+  top_bar.width = this.width;
   top_bar.height = 80;
   top_bar.tint = 0x000000;
   screen.addChild(top_bar);
 
   let bottom_bar = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  bottom_bar.width = 1280;
+  bottom_bar.width = this.width;
   bottom_bar.height = 80;
   bottom_bar.position.set(0,880);
   bottom_bar.tint = 0x000000;
@@ -344,19 +373,25 @@ Game.prototype.titleUpdate = function(diff) {
 
   if (this.timeSince(this.cold_war_time) > 4155) {
     this.cold_war_time = this.markTime();
-    this.cold_war_text.text = "";
-    this.keyboards_text.text = "";
+    this.soviet_text.text = "";
+    this.computer_text.text = "";
+    this.lab_text.text = "";
 
     let rate = 100;
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 6; i++) {
       delay(function() {
-        self.cold_war_text.text = "COLD WAR".slice(0, i);
+        self.soviet_text.text = "SOVIET".slice(0, i);
       }, rate * i);
     }
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 8; i++) {
       delay(function() {
-        self.keyboards_text.text = "KEYBOARDS".slice(0, i);
-      }, 8*rate + rate * i);
+        self.computer_text.text = "COMPUTER".slice(0, i);
+      }, 6*rate + rate * i);
+    }
+    for (let i = 1; i <= 3; i++) {
+      delay(function() {
+        self.lab_text.text = "LAB".slice(0, i);
+      }, 14*rate + rate * i);
     }
 
     // add the buttons
