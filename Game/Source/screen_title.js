@@ -6,180 +6,164 @@ Game.prototype.initializeTitle = function() {
 
   this.title_choice = 0;
 
-  let bg = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  bg.width = this.width;
-  bg.height = 960;
-  // bg.tint = 0x313b87;
-  // bg.tint = 0xcd0000;
-  bg.tint = 0x999999;
-  screen.addChild(bg);
+  this.monitor_overlay.visible = true;
 
-  // ! flags
-  let right_flag = new PIXI.Sprite(PIXI.Texture.from("Art/Title/flag_soviet.png"));
-  right_flag.anchor.set(0.5,0.5);
-  right_flag.scale.set(3,3);
-  right_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  right_flag.position.set(790+192, this.height - 710);
-    // new TWEEN.Tween(right_flag.position)
-    //     .to({y: this.height - 710})
-    //     .duration(9000)
-    //     .easing(TWEEN.Easing.Quadratic.Out)
-    //     .start();
-  screen.addChild(right_flag);
+  // let bg = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  // bg.width = this.width;
+  // bg.height = 960;
+  // bg.tint = 0x999999;
+  // screen.addChild(bg);
 
-  let left_flag = new PIXI.Sprite(PIXI.Texture.from("Art/Title/flag_american.png"));
-  left_flag.anchor.set(0.5,0.5);
-  left_flag.scale.set(-3,3);
-  left_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  left_flag.position.set(485+192, this.height - 710);
-    // new TWEEN.Tween(left_flag.position)
-    //     .to({y: this.height - 710})
-    //     .duration(9000)
-    //     .easing(TWEEN.Easing.Quadratic.Out)
-    //     .start();
-  screen.addChild(left_flag);
+  // let right_flag = new PIXI.Sprite(PIXI.Texture.from("Art/Title/flag_soviet.png"));
+  // right_flag.anchor.set(0.5,0.5);
+  // right_flag.scale.set(3,3);
+  // right_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // right_flag.position.set(790+192, this.height - 710);
+  // screen.addChild(right_flag);
 
-  // ! brandenburg
-  let brandenburg = new PIXI.Sprite(PIXI.Texture.from("Art/Title/brandenburg.png"));
-  // brandenburg.tint = 0x212b67;
-  // brandenburg.tint = 0xa10000;
-  brandenburg.tint = 0x767676;
-  brandenburg.scale.set(6,6);
-  brandenburg.anchor.set(0.5,0.5);
-  brandenburg.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  brandenburg.position.set(this.width / 2, this.height - 520);
-  // new TWEEN.Tween(brandenburg.position)
-  //       .to({y: this.height - 520})
-  //       .duration(9000)
-  //       .easing(TWEEN.Easing.Quadratic.Out)
-  //       .start();
-  screen.addChild(brandenburg);
+  // let left_flag = new PIXI.Sprite(PIXI.Texture.from("Art/Title/flag_american.png"));
+  // left_flag.anchor.set(0.5,0.5);
+  // left_flag.scale.set(-3,3);
+  // left_flag.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // left_flag.position.set(485+192, this.height - 710);
+  // screen.addChild(left_flag);
 
-  // ! players
-  let right_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
-  // right_player.tint = 0x111b57;
-  // right_player.tint = 0x840000;
-  right_player.tint = 0x676767;
-  right_player.scale.set(4,4);
-  right_player.anchor.set(0.5,0.5);
-  right_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  right_player.position.set(this.width / 2 + 314, this.height - 192);
-  // new TWEEN.Tween(right_player.position)
-  //     .to({x: this.width / 2 + 314})
-  //     .duration(9000)
-  //     .easing(TWEEN.Easing.Quadratic.Out)
-  //     .start();
-  screen.addChild(right_player);
+  // let brandenburg = new PIXI.Sprite(PIXI.Texture.from("Art/Title/brandenburg.png"));
+  // brandenburg.tint = 0x767676;
+  // brandenburg.scale.set(6,6);
+  // brandenburg.anchor.set(0.5,0.5);
+  // brandenburg.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // brandenburg.position.set(this.width / 2, this.height - 520);
+  // screen.addChild(brandenburg);
 
-  let left_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
-  // left_player.tint = 0x111b57;
-  // left_player.tint = 0x840000;
-  left_player.tint = 0x676767;
-  left_player.scale.set(-4,4);
-  left_player.anchor.set(0.5,0.5);
-  left_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  left_player.position.set(this.width / 2 - 314, this.height - 192);
-  // new TWEEN.Tween(left_player.position)
-  //     .to({x: this.width / 2 - 314})
-  //     .duration(9000)
-  //     .easing(TWEEN.Easing.Quadratic.Out)
-  //     .start();
-  screen.addChild(left_player);
+  // let right_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
+  // right_player.tint = 0x676767;
+  // right_player.scale.set(4,4);
+  // right_player.anchor.set(0.5,0.5);
+  // right_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // right_player.position.set(this.width / 2 + 314, this.height - 192);
+  // screen.addChild(right_player);
 
-  // this.cold_war_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
-  //   dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-  // this.cold_war_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  // this.cold_war_text.anchor.set(0.0,0.5);
-  // this.cold_war_text.position.set(294, 364);
-  // screen.addChild(this.cold_war_text);
-
-  // this.keyboards_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0x0e1744, letterSpacing: 2, align: "left",
-  //   dropShadow: true, dropShadowColor: 0x09102f, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-  // this.keyboards_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  // this.keyboards_text.anchor.set(0.0,0.5);
-  // this.keyboards_text.position.set(253, 514);
-  // screen.addChild(this.keyboards_text);
+  // let left_player = new PIXI.Sprite(PIXI.Texture.from("Art/Title/player.png"));
+  // left_player.tint = 0x676767;
+  // left_player.scale.set(-4,4);
+  // left_player.anchor.set(0.5,0.5);
+  // left_player.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // left_player.position.set(this.width / 2 - 314, this.height - 192);
+  // screen.addChild(left_player);
 
   this.soviet_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+    dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
   this.soviet_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.soviet_text.anchor.set(0.0,0.5);
   this.soviet_text.position.set(574, 264);
   screen.addChild(this.soviet_text);
 
   this.computer_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+    dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
   this.computer_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.computer_text.anchor.set(0.0,0.5);
   this.computer_text.position.set(473, 394);
   screen.addChild(this.computer_text);
 
   this.lab_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0xa10000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
+    dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
   this.lab_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.lab_text.anchor.set(0.0,0.5);
   this.lab_text.position.set(690, 524);
   screen.addChild(this.lab_text);
 
-  this.cold_war_time = this.markTime() - 5000;
+  this.title_time = this.markTime() - 5000;
 
-  let single_player_button = new PIXI.Text("SINGLE", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
-  single_player_button.tint = 0xa10000;
-  single_player_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  single_player_button.anchor.set(0.5,0.5);
-  single_player_button.position.set(this.width / 2 - 5, this.height - 280);
-  screen.addChild(single_player_button);
-  single_player_button.interactive = true;
-  single_player_button.buttonMode = true;
-  single_player_button.on("pointerdown", function() {
-    self.soundEffect("button_accept");
-    self.single_player_button.tint = 0xFFFFFF;
-    self.multiplayer_button.tint = 0xFFFFFF;
-    flicker(single_player_button, 500, 0xFFFFFF, 0xa10000);
-    self.tutorial = false;
-    if (self.network.uid == null) {
-      self.network.anonymousSignIn(function() {
-        self.network.loadGlobalHighScores();
-      });
-    } else {
-      self.network.loadGlobalHighScores();
-    }
-    self.initialize1pLobby();
-    self.switchScreens("title", "1p_lobby");
-  });
+  this.title_choices = new NestedOptionsList({
+      "SINGLE": {
+        "STORY": {
+          "OLD STORY": null,
+          "NEW STORY": null,
+          "DUMB STORY": null,
+          "CUTE STORY": null,
+        },
+        "ARCADE": function(){console.log("emotional damage!")},
+      },
+      "MULTI": {
+        "QUICK PLAY": function(){console.log("overwhelming emotional damage!")},
+        "CREATE GAME": null,
+        "JOIN GAME": null,
+      },
+      "QUIT": function() {
+        console.log("Quit doesn't work in browsers.");
+        window.close();
+      },
+    }, 
+    function(text) {
+      let entry_button = new PIXI.Text(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
+      entry_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
+      entry_button.anchor.set(0.5,0.5);
+      entry_button.interactive = true;
+      entry_button.buttonMode = true;
+      return entry_button;
+    }, 40, 0xFFFFFF, 0xa10000
+  );
+  this.title_choices.position.set(this.width / 2 - 5, this.height - 280);
+  screen.addChild(this.title_choices);
+  this.title_choices.visible = false;
+    
+  // this.title_choices = [
+  //   ["SINGLE", "MULTI", "QUIT"],
+  //   ["QUICK PLAY", "CREATE GAME", "JOIN GAME"]
+  // ]
 
-  let multiplayer_button = new PIXI.Text("MULTI", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
-  multiplayer_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  multiplayer_button.anchor.set(0.5,0.5);
-  multiplayer_button.position.set(this.width / 2 - 5, this.height - 240);
-  screen.addChild(multiplayer_button);
-  multiplayer_button.interactive = true;
-  multiplayer_button.buttonMode = true;
-  multiplayer_button.on("pointerdown", function() {
-    // self.showAlert("Sorry! Multiplayer \nNot Yet Available.", function(){});
-    // console.log("points");
+  // for (let i = 0; i < this.title_choices.length; i++) {
+  //   let button_panel
+  // }
 
-    self.soundEffect("button_accept");
-    self.single_player_button.tint = 0xFFFFFF;
-    self.multiplayer_button.tint = 0xFFFFFF;
-    flicker(multiplayer_button, 500, 0xFFFFFF, 0x67d8ef);
-    self.tutorial = false;
-    // if (self.network.uid == null) {
-    //   self.network.anonymousSignIn(function() {
-    //     self.network.loadGlobalHighScores();
-    //   });
-    // } else {
-    //   self.network.loadGlobalHighScores();
-    // }
-    self.initializeMultiLobby();
-    self.switchScreens("title", "multi_lobby");
-  });
+  // let single_player_button = new PIXI.Text("SINGLE", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
+  // single_player_button.tint = 0xa10000;
+  // single_player_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // single_player_button.anchor.set(0.5,0.5);
+  // single_player_button.position.set(this.width / 2 - 5, this.height - 280);
+  // screen.addChild(single_player_button);
+  // single_player_button.interactive = true;
+  // single_player_button.buttonMode = true;
+  // single_player_button.on("pointerdown", function() {
+  //   self.soundEffect("button_accept");
+  //   self.single_player_button.tint = 0xFFFFFF;
+  //   self.multiplayer_button.tint = 0xFFFFFF;
+  //   flicker(single_player_button, 500, 0xFFFFFF, 0xa10000);
+  //   self.tutorial = false;
+  //   if (self.network.uid == null) {
+  //     self.network.anonymousSignIn(function() {
+  //       self.network.loadGlobalHighScores();
+  //     });
+  //   } else {
+  //     self.network.loadGlobalHighScores();
+  //   }
+  //   self.initialize1pLobby();
+  //   self.switchScreens("title", "1p_lobby");
+  // });
+
+  // let multiplayer_button = new PIXI.Text("MULTI", {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
+  // multiplayer_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  // multiplayer_button.anchor.set(0.5,0.5);
+  // multiplayer_button.position.set(this.width / 2 - 5, this.height - 240);
+  // screen.addChild(multiplayer_button);
+  // multiplayer_button.interactive = true;
+  // multiplayer_button.buttonMode = true;
+  // multiplayer_button.on("pointerdown", function() {
+  //   self.soundEffect("button_accept");
+  //   self.single_player_button.tint = 0xFFFFFF;
+  //   self.multiplayer_button.tint = 0xFFFFFF;
+  //   flicker(multiplayer_button, 500, 0xFFFFFF, 0x67d8ef);
+  //   self.tutorial = false;
+  //   self.initializeMultiLobby();
+  //   self.switchScreens("title", "multi_lobby");
+  // });
 
 
-  single_player_button.visible = false;
-  multiplayer_button.visible = false;
-  this.single_player_button = single_player_button;
-  this.multiplayer_button = multiplayer_button;
+  // single_player_button.visible = false;
+  // multiplayer_button.visible = false;
+  // this.single_player_button = single_player_button;
+  // this.multiplayer_button = multiplayer_button;
 
   // ! black bars
   let top_bar = PIXI.Sprite.from(PIXI.Texture.WHITE);
@@ -197,23 +181,25 @@ Game.prototype.initializeTitle = function() {
 
   // all settings.
   // music on/off, sound on/off, keyboard layout, credits, sign in/out
+  let settings_hidden_x = -450;
+  let settings_visible_x = 400;
+  let settings_y = this.height - 75;
+
   let gear_button = new PIXI.Sprite(PIXI.Texture.from("Art/Nav/gear_button.png"));
   gear_button.tint = 0x404040;
-  gear_button.position.set(15, this.height - 65);
+  gear_button.position.set(settings_visible_x - 65, settings_y);
   gear_button.scale.set(0.5, 0.5);
   screen.addChild(gear_button);
 
   let settings = false;
 
-  let left_side = -750;
-
   let settings_panel = new PIXI.Container();
-  settings_panel.position.set(left_side, this.height - 65);
+  settings_panel.position.set(settings_hidden_x, settings_y);
   screen.addChild(settings_panel);
 
   let settings_mask = new PIXI.Graphics();
   settings_mask.beginFill(0x000000);
-  settings_mask.drawRect(70, this.height - 200, -1 * left_side, this.height);
+  settings_mask.drawRect(settings_visible_x - 10, settings_y - 100, -1 * settings_hidden_x, settings_y + 100);
   settings_mask.endFill();
   settings_panel.mask = settings_mask;
 
@@ -223,14 +209,14 @@ Game.prototype.initializeTitle = function() {
     if (settings == false) {
       settings = true;
       var tween = new TWEEN.Tween(settings_panel.position)
-        .to({x: 80})
+        .to({x: settings_visible_x})
         .duration(300)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
     } else {
       settings = false;
       var tween = new TWEEN.Tween(settings_panel.position)
-        .to({x: left_side})
+        .to({x: settings_hidden_x})
         .duration(300)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
@@ -260,7 +246,7 @@ Game.prototype.initializeTitle = function() {
     } else {
       self.setMusic("title_song");
     }
-    localStorage.setItem("cold_war_keyboards_use_music", use_music);
+    localStorage.setItem("soviet_computer_lab_use_music", use_music);
     music_button_no_bar.visible = !use_music;
   });
 
@@ -283,7 +269,7 @@ Game.prototype.initializeTitle = function() {
   sound_button.buttonMode = true;
   sound_button.on("pointerdown", function() {
     use_sound = !use_sound;
-    localStorage.setItem("cold_war_keyboards_use_sound", use_sound);
+    localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
     sound_button_no_bar.visible = !use_sound;
   });
 
@@ -380,17 +366,47 @@ Game.prototype.initializeTitle = function() {
   // quit_button.visible = false;
   // single_player_button.visible = false;
   // multiplayer_button.visible = false;
-
-  let pixelized_computer_overlay = new PIXI.Sprite(PIXI.Texture.from("Art/pixelized_computer_overlay_1664_960.png"));
-  screen.addChild(pixelized_computer_overlay);
 }
+
+
+Game.prototype.titleKeyDown = function(ev) {
+  if (ev.key === "ArrowDown") {
+    this.title_choices.moveDown();
+  } else if (ev.key === "ArrowUp") {
+    this.title_choices.moveUp();
+  } else if (ev.key === "Enter") {
+    this.title_choices.choose();
+  } else if (ev.key === "Escape") {
+    this.title_choices.escape();
+  }
+  // if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+  //     this.soundEffect("switch_option");
+  //     this.title_choice = this.title_choice === 0 ? 1 : 0;
+  //     if (this.title_choice === 0) {
+  //       this.single_player_button.tint = 0xa10000;
+  //       this.multiplayer_button.tint = 0xFFFFFF;
+  //     } else {
+  //       this.single_player_button.tint = 0xFFFFFF;
+  //       this.multiplayer_button.tint = 0xa10000;
+  //     }
+  //   } else if (ev.key === "Enter") {
+  //     this.single_player_button.tint = 0xFFFFFF;
+  //     this.multiplayer_button.tint = 0xFFFFFF;
+  //     if (this.title_choice === 0) {
+  //       this.single_player_button._events.pointerdown.fn()
+  //     } else {
+  //       this.multiplayer_button._events.pointerdown.fn()
+  //     }
+  //   }
+}
+
 
 Game.prototype.titleUpdate = function(diff) {
   var self = this;
   var screen = this.screens["intro"];
 
-  if (this.timeSince(this.cold_war_time) > 4155) {
-    this.cold_war_time = this.markTime();
+  if (this.timeSince(this.title_time) > 4155) {
+    this.title_time = this.markTime();
     this.soviet_text.text = "";
     this.computer_text.text = "";
     this.lab_text.text = "";
@@ -415,8 +431,9 @@ Game.prototype.titleUpdate = function(diff) {
     // add the buttons
     // comment out for trailer
     delay(function() {
-      self.single_player_button.visible = true;
-      self.multiplayer_button.visible = true;
+      // self.single_player_button.visible = true;
+      // self.multiplayer_button.visible = true;
+      self.title_choices.visible = true;
     }, 500);
   }
 }

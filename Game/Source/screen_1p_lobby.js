@@ -27,6 +27,9 @@
 // all really long words.
 //
 
+let lobby_offscreen_x = 1700;
+let lobby_onscreen_x = 192;
+
 Game.prototype.initialize1pLobby = function() {
   let self = this;
   let screen = this.screens["1p_lobby"];
@@ -34,32 +37,32 @@ Game.prototype.initialize1pLobby = function() {
 
   this.lobby_sections = {};
 
-  let background = new PIXI.Sprite(PIXI.Texture.from("Art/setup_background.png"));
-  background.anchor.set(0, 0);
-  screen.addChild(background);
+  // let background = new PIXI.Sprite(PIXI.Texture.from("Art/setup_background.png"));
+  // background.anchor.set(0, 0);
+  // screen.addChild(background);
 
   this.lobby_monitor_mask = new PIXI.Graphics();
   this.lobby_monitor_mask.beginFill(0xFF3300);
-  this.lobby_monitor_mask.drawRect(155, 84, 1010, 777);
+  this.lobby_monitor_mask.drawRect(165, 50, 1500, 960);
   this.lobby_monitor_mask.endFill();
 
   this.initializeSectionDifficulty();
   this.initializeSectionGameType();
   this.initializeSectionArcadeType();
 
-  this.lobby_sections.game_type.x = 0;
-  this.lobby_sections.arcade_type.x = 1200;
-  this.lobby_sections.difficulty.x = 1200;
+  this.lobby_sections.game_type.x = lobby_onscreen_x;
+  this.lobby_sections.arcade_type.x = lobby_offscreen_x;
+  this.lobby_sections.difficulty.x = lobby_offscreen_x;
 
   // this.lobby_mode = "game_type";
   if (this.lobby_mode == "arcade_type") {
-    this.lobby_sections.game_type.x = 1200;
-    this.lobby_sections.arcade_type.x = 0;
-    this.lobby_sections.difficulty.x = 1200;
+    this.lobby_sections.game_type.x = lobby_offscreen_x;
+    this.lobby_sections.arcade_type.x = lobby_onscreen_x;
+    this.lobby_sections.difficulty.x = lobby_offscreen_x;
   } else if (this.lobby_mode == "difficulty") {
-    this.lobby_sections.game_type.x = 1200;
-    this.lobby_sections.arcade_type.x = 1200;
-    this.lobby_sections.difficulty.x = 0;
+    this.lobby_sections.game_type.x = lobby_offscreen_x;
+    this.lobby_sections.arcade_type.x = lobby_offscreen_x;
+    this.lobby_sections.difficulty.x = lobby_onscreen_x;
   }
 
   if (use_music) {
@@ -157,29 +160,29 @@ Game.prototype.initializeSectionDifficulty = function() {
     //self.switchScreens("1p_lobby", "title");
     if (self.game_type_selection == 0) {
       self.lobby_mode = "game_type";
-      self.lobby_sections.difficulty.x = 0;
-      self.lobby_sections.game_type.x = - 1200;
+      self.lobby_sections.difficulty.x = lobby_onscreen_x;
+      self.lobby_sections.game_type.x = - lobby_offscreen_x;
       var tween = new TWEEN.Tween(self.lobby_sections.difficulty.position)
-        .to({x: 1200})
+        .to({x: lobby_offscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
       var tween = new TWEEN.Tween(self.lobby_sections.game_type.position)
-        .to({x: 0})
+        .to({x: lobby_onscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
     } else if (self.game_type_selection == 1) {
       self.lobby_mode = "arcade_type";
-      self.lobby_sections.difficulty.x = 0;
-      self.lobby_sections.arcade_type.x = - 1200;
+      self.lobby_sections.difficulty.x = lobby_onscreen_x;
+      self.lobby_sections.arcade_type.x = - lobby_offscreen_x;
       var tween = new TWEEN.Tween(self.lobby_sections.difficulty.position)
-        .to({x: 1200})
+        .to({x: lobby_offscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
       var tween = new TWEEN.Tween(self.lobby_sections.arcade_type.position)
-        .to({x: 0})
+        .to({x: lobby_onscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
@@ -312,7 +315,7 @@ Game.prototype.initializeSectionGameType = function() {
   ok_button.buttonMode = true;
   ok_button.on("pointertap", function() {
     self.soundEffect("button_accept");
-    localStorage.setItem("cold_war_keyboards_game_type_selection", self.game_type_selection);
+    localStorage.setItem("soviet_computer_lab_game_type_selection", self.game_type_selection);
     flicker(ok_button, 500, 0xFFFFFF, 0x67d8ef);
     flicker(self.game_type_selection_box, 500, 0xFFFFFF, 0x67d8ef);
     if (self.game_type_selection == 0) {
@@ -330,12 +333,12 @@ Game.prototype.initializeSectionGameType = function() {
       self.lobby_mode = "none";
       delay(function() {
         var tween = new TWEEN.Tween(self.lobby_sections.game_type.position)
-          .to({x: -1200})
+          .to({x: -lobby_offscreen_x})
           .duration(800)
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
         var tween = new TWEEN.Tween(self.lobby_sections.difficulty.position)
-          .to({x: 0})
+          .to({x: lobby_onscreen_x})
           .duration(800)
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
@@ -355,12 +358,12 @@ Game.prototype.initializeSectionGameType = function() {
       self.option_info.setPartial(self.option_info_values[self.difficulty_choice].toUpperCase());
       delay(function() {
         var tween = new TWEEN.Tween(self.lobby_sections.game_type.position)
-          .to({x: -1200})
+          .to({x: -lobby_offscreen_x})
           .duration(800)
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
         var tween = new TWEEN.Tween(self.lobby_sections.arcade_type.position)
-          .to({x: 0})
+          .to({x: lobby_onscreen_x})
           .duration(800)
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
@@ -374,7 +377,7 @@ Game.prototype.initializeSectionGameType = function() {
       flicker(self.game_type_tutorial_button, 500, 0xFFFFFF, 0x67d8ef);
       self.soundEffect("button_accept");
       //self.stopMusic();
-      localStorage.setItem("cold_war_keyboards_difficulty_level", self.difficulty_level);
+      localStorage.setItem("soviet_computer_lab_difficulty_level", self.difficulty_level);
       self.resetGame();
       self.nextFlow();
     }
@@ -536,7 +539,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   ok_button.buttonMode = true;
   ok_button.on("pointertap", function() {
     self.soundEffect("button_accept");
-    localStorage.setItem("cold_war_keyboards_arcade_type_selection", self.arcade_type_selection);
+    localStorage.setItem("soviet_computer_lab_arcade_type_selection", self.arcade_type_selection);
     self.updateHighScoreDisplay();
     flicker(ok_button, 500, 0xFFFFFF, 0x67d8ef);
     flicker(self.arcade_type_selection_box, 500, 0xFFFFFF, 0x67d8ef);
@@ -555,15 +558,15 @@ Game.prototype.initializeSectionArcadeType = function() {
     } 
     // Proceed to difficulty screen
     self.lobby_mode = "none";
-    self.lobby_sections.difficulty.position.x = 1200;
+    self.lobby_sections.difficulty.position.x = lobby_offscreen_x;
     delay(function() {
       var tween = new TWEEN.Tween(self.lobby_sections.arcade_type.position)
-        .to({x: -1200})
+        .to({x: -lobby_offscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
       var tween = new TWEEN.Tween(self.lobby_sections.difficulty.position)
-        .to({x: 0})
+        .to({x: lobby_onscreen_x})
         .duration(800)
         .easing(TWEEN.Easing.Cubic.Out)
         .start();
@@ -580,15 +583,15 @@ Game.prototype.initializeSectionArcadeType = function() {
   this.lobby_arcade_type_back_button.buttonMode = true;
   this.lobby_arcade_type_back_button.on("pointertap", function() {
     self.lobby_mode = "game_type";
-    self.lobby_sections.arcade_type.x = 0;
-    self.lobby_sections.game_type.x = - 1200;
+    self.lobby_sections.arcade_type.x = lobby_onscreen_x;
+    self.lobby_sections.game_type.x = - lobby_offscreen_x;
     var tween = new TWEEN.Tween(self.lobby_sections.arcade_type.position)
-      .to({x: 1200})
+      .to({x: lobby_offscreen_x})
       .duration(800)
       .easing(TWEEN.Easing.Cubic.Out)
       .start();
     var tween = new TWEEN.Tween(self.lobby_sections.game_type.position)
-      .to({x: 0})
+      .to({x: lobby_onscreen_x})
       .duration(800)
       .easing(TWEEN.Easing.Cubic.Out)
       .start();

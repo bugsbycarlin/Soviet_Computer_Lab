@@ -100,7 +100,7 @@ Game.prototype.initialize1pWordRockets = function() {
   var screen = this.screens["1p_word_rockets"];
   this.clearScreen(screen);
 
-  this.num_players = 3;
+  this.num_players = 2;
   this.player_number = 0;
 
   this.freefalling = [];
@@ -135,6 +135,7 @@ Game.prototype.initialize1pWordRockets = function() {
       self.start_time = self.markTime();
       self.game_phase = "countdown";
       self.soundEffect("countdown");
+      self.monitor_overlay.dissolve();
     }, 1200);
   }
 }

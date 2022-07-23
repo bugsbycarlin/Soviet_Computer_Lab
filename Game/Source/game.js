@@ -89,10 +89,10 @@ class Game {
 
     this.lobby_mode = "game_type";
 
-    use_music = localStorage.getItem("cold_war_keyboards_use_music") == "false" ? false : true;
-    use_sound = localStorage.getItem("cold_war_keyboards_use_sound") == "false" ? false : true;;
+    use_music = localStorage.getItem("soviet_computer_lab_use_music") == "false" ? false : true;
+    use_sound = localStorage.getItem("soviet_computer_lab_use_sound") == "false" ? false : true;;
 
-    this.difficulty_level = localStorage.getItem("cold_war_keyboards_difficulty_level");
+    this.difficulty_level = localStorage.getItem("soviet_computer_lab_difficulty_level");
     if (this.difficulty_level == null) {
       this.difficulty_level = "EASY";
       this.difficulty_choice = 0;
@@ -100,14 +100,14 @@ class Game {
       this.difficulty_choice = Math.max(0, ["EASY", "MEDIUM", "HARD", "BEACON"].indexOf(this.difficulty_level));
     }
 
-    this.game_type_selection = localStorage.getItem("cold_war_keyboards_game_type_selection");
+    this.game_type_selection = localStorage.getItem("soviet_computer_lab_game_type_selection");
     if (this.game_type_selection == null) {
       this.game_type_selection = 0;
     } else {
       this.game_type_selection = parseInt(this.game_type_selection);
     }
 
-    this.arcade_type_selection = localStorage.getItem("cold_war_keyboards_arcade_type_selection");
+    this.arcade_type_selection = localStorage.getItem("soviet_computer_lab_arcade_type_selection");
     if (this.arcade_type_selection == null) {
       this.arcade_type_selection = 0;
     } else {
@@ -770,7 +770,7 @@ class Game {
 
   loadLocalHighScores() {
     var self = this;
-    this.local_high_scores = JSON.parse(localStorage.getItem("cold_war_keyboards_local_high_scores"));
+    this.local_high_scores = JSON.parse(localStorage.getItem("soviet_computer_lab_local_high_scores"));
     
     if (this.local_high_scores == null) {
       this.local_high_scores = {};
@@ -821,7 +821,7 @@ class Game {
     this.local_high_scores[mode][difficulty].sort((a,b) => (a.score < b.score) ? 1 : -1)
     this.local_high_scores[mode][difficulty] = this.local_high_scores[mode][difficulty].slice(0,10);
 
-    localStorage.setItem("cold_war_keyboards_local_high_scores", JSON.stringify(this.local_high_scores));
+    localStorage.setItem("soviet_computer_lab_local_high_scores", JSON.stringify(this.local_high_scores));
     
     let low_high = this.global_high_scores[mode][difficulty][9];
 

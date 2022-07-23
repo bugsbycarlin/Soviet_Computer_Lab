@@ -1,5 +1,5 @@
 {
-  "name": "coldwarkeyboards",
+  "name": "sovietcomputerlab",
   "version": "0.8.0",
   "description": "game",
   "main": "Source/main.js",
@@ -17,7 +17,7 @@
     "electron-settings": "^4.0.2"
   },
   "build": {
-    "appId": "com.electron.coldwarkeyboards",
+    "appId": "com.electron.sovietcomputerlab",
     "productName": "Cold War Keyboards",
     "copyright": "Copyright 2021 AlphaZoo LLC",
     "afterSign": "Source/notarize.js",
@@ -36,7 +36,7 @@
     "mac": {
       "category": "public.app-category.educational-games",
       "target": "dmg",
-      "icon": "Icons/coldwarkeyboards.icns",
+      "icon": "Icons/sovietcomputerlab.icns",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "entitlements.mac.plist",
@@ -44,11 +44,11 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "Icons/coldwarkeyboards.ico"
+      "icon": "Icons/sovietcomputerlab.ico"
     },
     "linux": {
       "target": "AppImage",
-      "executableName": "ColdWarKeyboards",
+      "executableName": "SovietComputerLab",
       "category": "ArcadeGame"
     }
   }

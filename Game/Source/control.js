@@ -328,25 +328,7 @@ Game.prototype.handleKeyDown = function(ev) {
       this.endCutscene();
     }
   } else if (this.current_screen === "title") {
-    if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
-      this.soundEffect("switch_option");
-      this.title_choice = this.title_choice === 0 ? 1 : 0;
-      if (this.title_choice === 0) {
-        this.single_player_button.tint = 0xa10000;
-        this.multiplayer_button.tint = 0xFFFFFF;
-      } else {
-        this.single_player_button.tint = 0xFFFFFF;
-        this.multiplayer_button.tint = 0xa10000;
-      }
-    } else if (ev.key === "Enter") {
-      this.single_player_button.tint = 0xFFFFFF;
-      this.multiplayer_button.tint = 0xFFFFFF;
-      if (this.title_choice === 0) {
-        this.single_player_button._events.pointerdown.fn()
-      } else {
-        this.multiplayer_button._events.pointerdown.fn()
-      }
-    }
+    this.titleKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()

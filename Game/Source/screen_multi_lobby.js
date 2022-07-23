@@ -21,9 +21,6 @@ Game.prototype.initializeMultiLobby = function() {
     screen.addChild(empty_profile);
   }
 
-  // let pixelized_computer_overlay = new PIXI.Sprite(PIXI.Texture.from("Art/pixelized_computer_overlay_1664_960.png"));
-  // screen.addChild(pixelized_computer_overlay);
-
   // Create a test game.
   // this.network.createNewGame("quick_open", function() {
   //   console.log("I did the network call successfully.")

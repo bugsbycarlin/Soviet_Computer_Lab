@@ -15,7 +15,7 @@ exports.default = async function notarizing(context) {
   console.log(process.env.APPLEPROVIDER);
 
   return await notarize({
-    appBundleId: 'com.alphazoo.coldwarkeyboards',
+    appBundleId: 'com.alphazoo.sovietcomputerlab',
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLEID,
     appleIdPassword: process.env.APPLEIDPASS,

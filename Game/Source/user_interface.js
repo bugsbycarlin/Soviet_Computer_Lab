@@ -433,6 +433,68 @@ Game.prototype.initializeScreens = function() {
   this.alertBox = new PIXI.Container();
   pixi.stage.addChild(this.alertBox);
   this.initializeAlertBox();
+
+  this.monitor_overlay = new PIXI.Container();
+  this.monitor_overlay.graphic = new PIXI.Sprite(PIXI.Texture.from("Art/pixelated_computer_overlay_1664_960.png"));
+  this.monitor_overlay.addChild(this.monitor_overlay.graphic);
+  pixi.stage.addChild(this.monitor_overlay);
+  this.monitor_overlay.visible = false;
+  this.monitor_overlay.dissolve = function() {
+
+
+    let image = this.graphic;
+    let max_width = this.graphic.width;
+    let max_height = this.graphic.height;
+    let voxel_size = 4;
+
+    this.voxels = [];
+
+    // console.log(PIXI.extract.webGL.pixels(image));
+    let pixels = pixi.renderer.extract.pixels(image);
+    for (var i = 0; i < pixels.length; i += 4) {
+        let alpha = pixels[i + 3];
+        let row = (i/4 - (i/4 % max_width)) / max_width;
+        let col = i/4 % max_width;
+        if (alpha > 0 && row % 4 == 0 && col % 4 == 0) {
+            let voxel = PIXI.Sprite.from(PIXI.Texture.WHITE);
+            voxel.width = voxel_size;
+            voxel.height = voxel_size;
+            
+            voxel.tint = PIXI.utils.rgb2hex([pixels[i] / 255, pixels[i + 1] / 255, pixels[i + 2] / 255]);
+            voxel.alpha = alpha / 255;
+            this.addChild(voxel);
+            voxel.orig_x = col;
+            voxel.orig_y = row;
+            voxel.position.set(voxel.orig_x, voxel.orig_y);
+            this.voxels.push(voxel);
+          
+        }
+    }
+
+    this.removeChild(this.graphic);
+    let chunk_size = this.voxels.length / 30;
+    shuffleArray(this.voxels);
+    let overlay_self = this;
+
+    var tween_1 = new TWEEN.Tween(this)
+    .to({funk: 0})
+    .duration(1000)
+    .easing(TWEEN.Easing.Cubic.InOut)
+    .onUpdate(function() {
+      for (let i = 0; i < chunk_size; i++) {
+        let v = overlay_self.voxels.pop();
+        overlay_self.removeChild(v);
+      }
+    })
+    .onComplete(function() {
+      overlay_self.visible = false;
+      while(overlay_self.children[0]) { 
+        overlay_self.removeChild(overlay_self.children[0]);
+      }
+      overlay_self.addChild(overlay_self.graphic);
+    })
+    .start();
+  }
 }
 
 
@@ -502,6 +564,7 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
       this.clearScreen(this.screens[i]);
     }
   }
+  pixi.stage.addChild(this.monitor_overlay);
 
   var tween = new TWEEN.Tween(this.screens[old_screen])
     .to({alpha: 0})
@@ -534,6 +597,7 @@ Game.prototype.popScreens = function(old_screen, new_screen) {
   pixi.stage.removeChild(this.screens[new_screen]);
   pixi.stage.addChild(this.screens[old_screen]);
   pixi.stage.addChild(this.screens[new_screen]);
+  pixi.stage.addChild(this.monitor_overlay);
   this.screens[old_screen].position.x = 0;
   this.screens[new_screen].position.x = 0;
   for (var i = 0; i < this.screens.length; i++) {
