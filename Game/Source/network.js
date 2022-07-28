@@ -13,7 +13,8 @@ class Network {
     console.log("Using anonymous sign in for global high scores");
     var self = this;
     firebase.auth().signInAnonymously()
-      .then(() => {
+      .then((result) => {
+        self.game.uid = result.user.uid;
         callback();
       })
       .catch((error) => {
@@ -118,6 +119,18 @@ class Network {
       p2_state: "empty",
       p3_state: "empty",
       p4_state: "empty",
+      p1_uid: self.game.uid,
+      p2_uid: null,
+      p3_uid: null,
+      p4_uid: null,
+      p1_name: multiplayer_name,
+      p2_name: null,
+      p3_name: null,
+      p4_name: null,
+      p1_picture_number: multiplayer_picture_number,
+      p2_picture_number: null,
+      p3_picture_number: null,
+      p4_picture_number: null,
       game_state: "none",
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
@@ -131,6 +144,7 @@ class Network {
       } else {
         console.log("Created game " + game_code)
         self.game.game_code = game_code;
+        self.game.player_number = 1;
         if (callback != null) callback();
       }
     });

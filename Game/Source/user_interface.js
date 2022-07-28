@@ -634,32 +634,33 @@ Game.prototype.initializeAlertBox = function() {
   this.alertMask.addChild(mask);
 
   var outline = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  outline.width = this.width * 2/5;
-  outline.height = this.height * 2/5;
+  outline.width = 850;
+  outline.height = 230;
   outline.anchor.set(0.5, 0.5);
   outline.position.set(-1, -1);
   outline.tint = 0xDDDDDD;
   this.alertBox.addChild(outline);
+  this.alertBox.outline = outline;
 
-  for (var i = 0; i < 4; i++) {
-    var backingGrey = PIXI.Sprite.from(PIXI.Texture.WHITE);
-    backingGrey.width = this.width * 2/5;
-    backingGrey.height = this.height * 2/5;
-    backingGrey.anchor.set(0.5, 0.5);
-    backingGrey.position.set(4 - i, 4 - i);
-    backingGrey.tint = PIXI.utils.rgb2hex([0.8 - 0.1*i, 0.8 - 0.1*i, 0.8 - 0.1*i]);
-    this.alertBox.addChild(backingGrey);
-  }
+  var backingGrey = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  backingGrey.width = 850;
+  backingGrey.height = 230;
+  backingGrey.anchor.set(0.5, 0.5);
+  backingGrey.position.set(4, 4);
+  backingGrey.tint = PIXI.utils.rgb2hex([0.8, 0.8, 0.8]);
+  this.alertBox.addChild(backingGrey);
+  this.alertBox.backingGrey = backingGrey;
 
   var backingWhite = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  backingWhite.width = this.width * 2/5;
-  backingWhite.height = this.height * 2/5;
+  backingWhite.width = 850;
+  backingWhite.height = 230;
   backingWhite.anchor.set(0.5, 0.5);
   backingWhite.position.set(0,0);
   backingWhite.tint = 0xFFFFFF;
   this.alertBox.addChild(backingWhite);
+  this.alertBox.backingWhite = backingWhite;
 
-  this.alertBox.alertText = new PIXI.Text("EH. OKAY.", {fontFamily: "Bebas Neue", fontSize: 36, fill: 0x000000, letterSpacing: 6, align: "center"});
+  this.alertBox.alertText = new PIXI.Text("EH. OKAY.", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0x000000, letterSpacing: 6, align: "center"});
   this.alertBox.alertText.anchor.set(0.5,0.5);
   this.alertBox.alertText.position.set(0, 0);
   this.alertBox.addChild(this.alertBox.alertText);
@@ -705,6 +706,15 @@ Game.prototype.showAlert = function(text, action) {
   this.alert_last_screen = this.current_screen;
   this.current_screen = "alert";
   this.alertBox.alertText.text = text;
+
+  let measure = new PIXI.TextMetrics.measureText(text, this.alertBox.alertText.style);
+  this.alertBox.backingWhite.width = measure.width + 80;
+  this.alertBox.backingGrey.width = measure.width + 80;
+  this.alertBox.outline.width = measure.width + 80;
+  this.alertBox.backingWhite.height = measure.height + 80;
+  this.alertBox.backingGrey.height = measure.height + 80;
+  this.alertBox.outline.height = measure.height + 80;
+
   this.alertBox.removeAllListeners();
   this.alertBox.on("pointertap", function() {
     action();

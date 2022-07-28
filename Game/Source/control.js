@@ -277,12 +277,7 @@ Game.prototype.handleKeyDown = function(ev) {
     this.launchCodeKeyDown(key);
 
   } else if (this.current_screen === "credits") {
-    if (ev.key === "Escape") {
-      this.left_shark_tween.stop();
-      this.right_shark_tween.stop();
-      this.initializeTitle();
-      this.switchScreens("credits", "title");
-    }
+    this.creditsKeyDown(ev);
   } else if (this.current_screen === "high_score") {
     let key = ev.key;
     if (key === "Shift") {
@@ -329,6 +324,8 @@ Game.prototype.handleKeyDown = function(ev) {
     }
   } else if (this.current_screen === "title") {
     this.titleKeyDown(ev);
+  } else if (this.current_screen === "multi_lobby") {
+    this.multiLobbyKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()

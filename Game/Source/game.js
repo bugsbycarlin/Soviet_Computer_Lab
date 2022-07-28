@@ -2,6 +2,8 @@
 
 var use_music = true;
 var use_sound = true;
+var multiplayer_name = null;
+var multiplayer_picture_number = null;
 var use_scores = false;
 var log_performance = true;
 
@@ -10,10 +12,10 @@ var log_performance = true;
 
 // var first_screen = "1p_base_capture";
 // var first_screen = "1p_launch_code";
-var first_screen = "intro";
+// var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
 // var first_screen = "1p_lobby";
-// var first_screen = "title";
+var first_screen = "title";
 // var first_screen = "cutscene";
 
 var performance_result = null;
@@ -91,6 +93,19 @@ class Game {
 
     use_music = localStorage.getItem("soviet_computer_lab_use_music") == "false" ? false : true;
     use_sound = localStorage.getItem("soviet_computer_lab_use_sound") == "false" ? false : true;;
+    
+    multiplayer_picture_number = localStorage.getItem("soviet_computer_lab_multiplayer_picture_number");
+    if (multiplayer_picture_number == null) {
+      multiplayer_picture_number = dice(128) - 1;
+      localStorage.setItem("soviet_computer_lab_multiplayer_picture_number", multiplayer_picture_number);
+    }
+
+    multiplayer_name = localStorage.getItem("soviet_computer_lab_multiplayer_name");
+    if (multiplayer_name == null) {
+      multiplayer_name = "ANON";
+      localStorage.setItem("soviet_computer_lab_multiplayer_name", multiplayer_name);
+    }
+    
 
     this.difficulty_level = localStorage.getItem("soviet_computer_lab_difficulty_level");
     if (this.difficulty_level == null) {
