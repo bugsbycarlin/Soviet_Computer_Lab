@@ -18,7 +18,7 @@
   },
   "build": {
     "appId": "com.electron.sovietcomputerlab",
-    "productName": "Cold War Keyboards",
+    "productName": "Soviet Computer Lab",
     "copyright": "Copyright 2021 AlphaZoo LLC",
     "afterSign": "Source/notarize.js",
     "directories": {

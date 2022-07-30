@@ -326,6 +326,8 @@ Game.prototype.handleKeyDown = function(ev) {
     this.titleKeyDown(ev);
   } else if (this.current_screen === "multi_lobby") {
     this.multiLobbyKeyDown(ev);
+  } else if (this.current_screen === "multi_join_game") {
+    this.multiJoinGameKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()

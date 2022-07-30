@@ -14,7 +14,9 @@ class Network {
     var self = this;
     firebase.auth().signInAnonymously()
       .then((result) => {
+        console.log("Sign in complete");
         self.game.uid = result.user.uid;
+        self.uid = result.user.uid;
         callback();
       })
       .catch((error) => {
@@ -112,14 +114,11 @@ class Network {
 
     game.state = {
       match_type: match_type,
-      num_players: 2,
+      num_players: 4,
       ranked: "no",
       game_type: "word_rockets",
-      p1_state: "joined",
-      p2_state: "empty",
-      p3_state: "empty",
-      p4_state: "empty",
-      p1_uid: self.game.uid,
+      player_states: "2111",
+      p1_uid: self.uid,
       p2_uid: null,
       p3_uid: null,
       p4_uid: null,
@@ -156,26 +155,77 @@ class Network {
     this.database.ref("/games/" + game_code).once("value").then((result) => {
       if (result.exists()) {
         self.game.game_code = game_code;
-        this.database.ref("games/" + game_code).update({
-          p2_state: "joined",
-        }, (error) => {
-          if (error) {
-            console.log("Could not join game " + game_code);
-            no_callback();
+        // this.database.ref("games/" + game_code).update({
+        //   p2_state: "joined",
+        // }, (error) => {
+        //   if (error) {
+        //     console.log("Could not join game " + game_code);
+        //     no_callback();
+        //   } else {
+        //     console.log("Managed to join game " + game_code);
+        //     this.database.ref("/games/" + game_code).once("value").then((result) => {
+        //       self.game.state = result.val();
+        //       if (self.game.state.game_type == "quick_open") {
+        //         self.update({game_type: "quick_closed"})
+        //       }
+        //       yes_callback();
+        //     });
+        //   }
+        // });
+
+        this.database.ref("games/" + game_code).child("player_states").transaction((value) => {
+          if (value != null) {
+            if (value[1] === "1") {
+              value = value[0] + "2" + value[2] + value[3];
+              self.game.player_number = 2;
+              console.log("Set to 2");
+              return value;
+            } else if (value[2] === "1") {
+              value = value[0] + value[1] + "2" + value[3];
+              self.game.player_number = 3;
+              console.log("Set to 3");
+              return value;
+            } else if (value[3] === "1") {
+              value = value[0] + value[1] + value[2] + "2";
+              self.game.player_number = 4;
+              console.log("Set to 4");
+              return value;
+            } else {
+              console.log(value);
+              console.log("Game full");
+              no_callback("game_full");
+            }
           } else {
-            console.log("Managed to join game " + game_code);
-            this.database.ref("/games/" + game_code).once("value").then((result) => {
-              self.game.state = result.val();
-              if (self.game.state.game_type == "quick_open") {
-                self.update({game_type: "quick_closed"})
-              }
-              yes_callback();
-            });
+            console.log("Value is still null for some reason?");
+            return value;
           }
+        }).then((result) => {
+          if (self.game.player_number == 2) {
+            this.database.ref("games/" + game_code).update({
+              p2_name: multiplayer_name,
+              p2_picture_number: multiplayer_picture_number
+            });
+            console.log("My face is 2");
+          }
+          if (self.game.player_number == 3) {
+            this.database.ref("games/" + game_code).update({
+              p3_name: multiplayer_name,
+              p3_picture_number: multiplayer_picture_number
+            });
+            console.log("My face is 3");
+          }
+          if (self.game.player_number == 4) {
+            this.database.ref("games/" + game_code).update({
+              p4_name: multiplayer_name,
+              p4_picture_number: multiplayer_picture_number
+            });
+            console.log("My face is 4");
+          }
+
         });
       } else {
         console.log("Could not find game " + game_code);
-        no_callback();
+        no_callback("bad_code");
       }
     });
   }

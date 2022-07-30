@@ -84,7 +84,7 @@ Game.prototype.initializeTitle = function() {
       "MULTI": {
         "QUICK PLAY": function(){self.switchFromTitleToMultiLobby()},
         "CREATE GAME": function(){self.titleCreateGame("create")},
-        "JOIN GAME": function(){self.switchFromTitleToMultiLobby()},
+        "JOIN GAME": function(){self.switchFromTitleToMultiJoinGame()},
       },
       "SETTINGS": function() {
 
@@ -192,6 +192,13 @@ Game.prototype.switchFromTitleToMultiLobby = function(multi_type) {
   this.multi_type = multi_type;
   this.initializeMultiLobby();
   this.switchScreens("title", "multi_lobby");
+}
+
+
+Game.prototype.switchFromTitleToMultiJoinGame = function() {
+  this.title_state = "transitioning";
+  this.initializeMultiJoinGame();
+  this.switchScreens("title", "multi_join_game");
 }
 
 
