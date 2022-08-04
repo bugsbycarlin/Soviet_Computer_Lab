@@ -100,7 +100,6 @@ class Game {
       localStorage.setItem("soviet_computer_lab_multiplayer_picture_number", multiplayer_picture_number);
     }
 
-    localStorage.setItem("soviet_computer_lab_multiplayer_name", "STANLEYS");
     multiplayer_name = localStorage.getItem("soviet_computer_lab_multiplayer_name");
     if (multiplayer_name == null) {
       multiplayer_name = "ANON";

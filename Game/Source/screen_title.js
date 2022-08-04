@@ -82,9 +82,9 @@ Game.prototype.initializeTitle = function() {
         self.switchFromTitleTo1pLobby();
       },
       "MULTI": {
-        "QUICK PLAY": function(){self.switchFromTitleToMultiLobby()},
+        "QUICK PLAY": function(){},
         "CREATE GAME": function(){self.titleCreateGame("create")},
-        "JOIN GAME": function(){self.switchFromTitleToMultiJoinGame()},
+        "JOIN GAME": function(){self.switchFromTitleToMultiSetName("multi_set_name")},
       },
       "SETTINGS": function() {
 
@@ -156,7 +156,7 @@ Game.prototype.titleCreateGame = function() {
   let self = this;
   this.title_state = "creating";
   this.network.createNewGame("quick_closed", function() {
-      self.switchFromTitleToMultiLobby();
+      self.switchFromTitleToMultiSetName("multi_lobby");
     }, function() {
       console.log("Error with network call.");
       self.showAlert("Couldn't make game.\n Please try later.", function() {
@@ -187,18 +187,18 @@ Game.prototype.switchFromTitleTo1pLobby = function() {
 }
 
 
-Game.prototype.switchFromTitleToMultiLobby = function(multi_type) {
-  this.title_state = "transitioning";
-  this.multi_type = multi_type;
-  this.initializeMultiLobby();
-  this.switchScreens("title", "multi_lobby");
-}
+// Game.prototype.switchFromTitleToMultiLobby = function(multi_type) {
+//   this.title_state = "transitioning";
+//   this.multi_type = multi_type;
+//   this.initializeMultiLobby();
+//   this.switchScreens("title", "multi_lobby");
+// }
 
 
-Game.prototype.switchFromTitleToMultiJoinGame = function() {
+Game.prototype.switchFromTitleToMultiSetName = function(next_screen) {
   this.title_state = "transitioning";
-  this.initializeMultiJoinGame();
-  this.switchScreens("title", "multi_join_game");
+  this.initializeMultiSetName(next_screen);
+  this.switchScreens("title", "multi_set_name");
 }
 
 
