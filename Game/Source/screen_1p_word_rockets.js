@@ -1109,6 +1109,3 @@ Game.prototype.singlePlayerGameUpdate = function(diff) {
   this.cleanRockets();
 }
 
-
-
-

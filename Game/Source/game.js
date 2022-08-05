@@ -14,8 +14,8 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-// var first_screen = "1p_lobby";
-var first_screen = "title";
+var first_screen = "math_game";
+// var first_screen = "title";
 // var first_screen = "cutscene";
 
 var performance_result = null;
@@ -420,6 +420,10 @@ class Game {
       this.initialize1pLobby();
     } else if (screen_name == "high_score") {
       this.initializeHighScore();
+    } else if (screen_name == "multi_set_name") {
+      this.initializeMultiSetName();
+    } else if (screen_name == "math_game") {
+      this.initializeMathGame();
     } else if (screen_name == "game_over") {
       this.initializeGameOver();
     } else if (screen_name == "credits") {
@@ -447,6 +451,7 @@ class Game {
       .add("Art/explosion.json")
       .add("Art/electric.json")
       .add("Art/smoke.json")
+      .add("Art/Math_Game/grigory.json")
       .load(function() {
         self.initializeScreen(first_screen, true);
 
@@ -648,6 +653,8 @@ class Game {
       this.singlePlayerLaunchCodeUpdate(diff);
     } else if(this.current_screen == "1p_lobby") {
       this.singlePlayerLobbyUpdate(diff);
+    } else if(this.current_screen == "math_game") {
+      this.mathGameUpdate(diff);
     } else if (this.current_screen == "cutscene") {
       this.cutsceneUpdate(diff);
     } else if (this.current_screen == "intro") {
