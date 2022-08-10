@@ -166,6 +166,30 @@ Game.prototype.makeSmoke = function(parent, x, y, xScale, yScale) {
 }
 
 
+Game.prototype.makePop = function(parent, x, y, xScale, yScale) {
+  let sheet = PIXI.Loader.shared.resources["Art/pop.json"].spritesheet;
+  let pop_sprite = new PIXI.AnimatedSprite(sheet.animations["pop"]);
+  pop_sprite.anchor.set(0.5,0.5);
+  pop_sprite.position.set(x, y);
+  // pop_sprite.angle = Math.random() * 360;
+  parent.addChild(pop_sprite);
+  pop_sprite.animationSpeed = 0.4;
+  pop_sprite.scale.set(xScale, yScale);
+
+  // pop_sprite.onLoop = function() {
+  //   this.angle = Math.random() * 360;
+  // }
+  // console.log("But abba tho");
+  parent.addChild(pop_sprite);
+  pop_sprite.loop = false;
+  pop_sprite.onComplete = function() {
+    parent.removeChild(pop_sprite);
+  }
+  pop_sprite.play();
+  return pop_sprite;
+}
+
+
 Game.prototype.makePixelatedLetterTile = function(parent, text, color) {
   var tile = new PIXI.Sprite(PIXI.Texture.from("Art/PixelatedKeys/pixelated_" + color + "_" + text + ".png"));
   parent.addChild(tile);

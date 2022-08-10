@@ -10,7 +10,9 @@
 var default_walk_speed = 4.5;
 var walk_frame_time = 50;
 
-var directions = ["down", "left", "up", "right"]
+var sprites = ["down", "left", "up", "right", "laugh", "work"]
+var walk_frames = [0, 1, 2, 1];
+var work_frames = [0, 1, 2, 1, 0];
 
 Game.prototype.makeCharacter = function(character_name) {
   let character = new PIXI.Container();
@@ -18,22 +20,22 @@ Game.prototype.makeCharacter = function(character_name) {
 
   character.type = "character";
   character.character_name = character_name;
+  character.sprite_count = 4;
+  if (character_name == "grigory") character.sprite_count = 6;
 
   // character.red_circle = new PIXI.Sprite(PIXI.Texture.from("Art/red_circle.png"));
   // character.red_circle.anchor.set(0.5,0.78125);
   // character.red_circle.position.set(0,0);
   // character.red_circle.visible = false;
   // character.addChild(character.red_circle);
-
-  let sheet = PIXI.Loader.shared.resources["Art/Math_Game/grigory.json"].spritesheet;
-  console.log(sheet);
+  let sheet = PIXI.Loader.shared.resources["Art/Math_Game/Characters/" + character_name + ".json"].spritesheet;
   character.character_sprite = {};
-  for(let i = 0; i < 4; i++) {
-    character.character_sprite[directions[i]] = new PIXI.AnimatedSprite(sheet.animations[directions[i]]);
-    character.character_sprite[directions[i]].anchor.set(0.5,0.82);
-    character.character_sprite[directions[i]].position.set(0, 0);
-    character.addChild(character.character_sprite[directions[i]]);
-    character.character_sprite[directions[i]].visible = false;
+  for(let i = 0; i < character.sprite_count; i++) {
+    character.character_sprite[sprites[i]] = new PIXI.AnimatedSprite(sheet.animations[sprites[i]]);
+    character.character_sprite[sprites[i]].anchor.set(0.5,0.82);
+    character.character_sprite[sprites[i]].position.set(0, 0);
+    character.addChild(character.character_sprite[sprites[i]]);
+    character.character_sprite[sprites[i]].visible = false;
   }
 
   character.state = "stopped";
@@ -46,7 +48,6 @@ Game.prototype.makeCharacter = function(character_name) {
   character.walk_speed = default_walk_speed;
 
   character.step_value = 0;
-  character.step_list = [0, 1, 2, 1];
 
   character.move = function(direction) {
 
@@ -62,11 +63,11 @@ Game.prototype.makeCharacter = function(character_name) {
 
 
   character.walk = function() {
-    for(let i = 0; i < 4; i++) {
-      if (directions[i] == character.direction) {
-        character.character_sprite[directions[i]].visible = true;
+    for(let i = 0; i < character.sprite_count; i++) {
+      if (sprites[i] == character.direction) {
+        character.character_sprite[sprites[i]].visible = true;
       } else {
-        character.character_sprite[directions[i]].visible = false;
+        character.character_sprite[sprites[i]].visible = false;
       }
     }
 
@@ -96,11 +97,12 @@ Game.prototype.makeCharacter = function(character_name) {
       }
     }
 
+
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
     } else if (Date.now() - character.last_image_time > character.walk_frame_time) {
-      character.step_value = (character.step_value + 1) % character.step_list.length;
-      character.character_sprite[character.direction].gotoAndStop(character.step_list[character.step_value]);
+      character.step_value = (character.step_value + 1) % walk_frames.length;
+      character.character_sprite[character.direction].gotoAndStop(walk_frames[character.step_value]);
       character.last_image_time = Date.now();
     }
   } 
@@ -109,17 +111,53 @@ Game.prototype.makeCharacter = function(character_name) {
   character.updateDirection = function() {
     if (character.direction == null) return;
 
-    for(let i = 0; i < 4; i++) {
-      if (directions[i] == character.direction) {
-        character.character_sprite[directions[i]].visible = true;
+    for(let i = 0; i < character.sprite_count; i++) {
+      if (sprites[i] == character.direction) {
+        character.character_sprite[sprites[i]].visible = true;
       } else {
-        character.character_sprite[directions[i]].visible = false;
+        character.character_sprite[sprites[i]].visible = false;
       }
     }
 
     character.character_sprite[character.direction].gotoAndStop(1);
     character.last_image_time = Date.now();
   }
+
+
+  character.startWork = function() {
+    if (character.character_name != "grigory") return;
+
+    character.state = "working";
+
+    for(let i = 0; i < character.sprite_count; i++) {
+      if (sprites[i] == "work") {
+        character.character_sprite[sprites[i]].visible = true;
+      } else {
+        character.character_sprite[sprites[i]].visible = false;
+      }
+    }
+
+    character.character_sprite["work"].gotoAndStop(1);
+    character.last_image_time = Date.now();
+  }
+
+
+  character.work = function() {
+    if (character.character_name != "grigory") return;
+
+    if (character.last_image_time == null) {
+      character.last_image_time = Date.now();
+    } else if (Date.now() - character.last_image_time > character.walk_frame_time) {
+      character.step_value = character.step_value + 1;
+      if (character.step_value < work_frames.length) {
+        character.character_sprite["work"].gotoAndStop(work_frames[character.step_value]);
+        character.last_image_time = Date.now();
+      } else {
+        character.state = "stopped";
+        character.updateDirection();
+      }
+    }
+  } 
 
 
   character.character_sprite[character.direction].gotoAndStop(1);
