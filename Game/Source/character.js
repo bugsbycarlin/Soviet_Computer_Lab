@@ -137,7 +137,7 @@ Game.prototype.makeCharacter = function(character_name) {
       }
     }
 
-    character.character_sprite["work"].gotoAndStop(1);
+    character.character_sprite["work"].gotoAndStop(0);
     character.last_image_time = Date.now();
   }
 

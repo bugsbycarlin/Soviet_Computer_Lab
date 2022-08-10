@@ -218,7 +218,7 @@ Game.prototype.mathGameResetBoard = function() {
 
   this.subversives = [];
   this.last_subversive_add = this.markTime();
-  this.next_subversive_add = 7000 + dice(6000);
+  this.next_subversive_add = 4000 + dice(6000);
 }
 
 
@@ -446,14 +446,22 @@ Game.prototype.mathGameAddSubversives = function() {
     && this.subversives.length < 3) {
 
     this.last_subversive_add = this.markTime();
-    this.next_subversive_add = 7000 + dice(6000);
+    this.next_subversive_add = 2000 + dice(6000);
 
     let subversive_type = pick(subversive_list);
     let subversive = this.makeCharacter(subversive_type);
     subversive.behavior = subversive_type.split("_")[0];
     subversive.last_move = this.markTime();
     subversive.next_move = 1500 + dice(1500);
-
+    if (subversive.behavior == "elder") {
+      subversive.walk_frame_time *= 2;
+      subversive.walk_speed *= 0.5;
+    }
+    if (subversive.behavior == "townie") {
+      for (let i = 0; i < 4; i++) {
+        subversive.character_sprite[sprites[i]].tint = 0xFFCCCC;
+      }
+    }
 
     // TO DO: fix this so the grifter never appears atop the player or a good square.
     if (subversive.behavior == "grifter") {
@@ -477,6 +485,13 @@ Game.prototype.mathGameAddSubversives = function() {
       } else if (side == "right") {
         subversive.cell_x = 6;
         subversive.cell_y = dice(5) - 1;
+      }
+
+      if (subversive.behavior == "carrying") {
+        if (side == "up") subversive.walk_target = "down";
+        if (side == "down") subversive.walk_target = "up";
+        if (side == "left") subversive.walk_target = "right";
+        if (side == "right") subversive.walk_target = "left";
       }
 
       subversive.position.set(
@@ -520,30 +535,81 @@ Game.prototype.mathGameSubversiveUpdate = function() {
           .easing(TWEEN.Easing.Quartic.Out)
           .start();
       } else if (subversive.state == "stopped") {
-        if (subversive.behavior != "grifter") {
-          if (this.timeSince(subversive.last_move) > subversive.next_move) {
+        if (this.timeSince(subversive.last_move) > subversive.next_move) {
+          if (subversive.behavior == "child" || subversive.behavior == "elder") {
             move = dice(4);
-            if (move == 1 && subversive.cell_y < 4) {
+            if (move == 1 && (subversive.cell_y < 4 || dice(100) < 20)) {
               subversive.move("down");
               subversive.cell_y += 1;
-            } else if (move == 2 && subversive.cell_x > 0) {
+            } else if (move == 2 && (subversive.cell_x > 0 || dice(100) < 20)) {
               subversive.move("left");
               subversive.cell_x -= 1;
-            } else if (move == 3 && subversive.cell_x < 5) {
+            } else if (move == 3 && (subversive.cell_x < 5 || dice(100) < 20)) {
               subversive.move("right");
               subversive.cell_x += 1;
-            } else if (move == 4 && subversive.cell_y > 0) {
+            } else if (move == 4 && (subversive.cell_y > 0 || dice(100) < 20)) {
               subversive.move("up");
               subversive.cell_y -= 1;
             } 
 
-            subversive.last_move = this.markTime();
-            subversive.next_move = 1500 + dice(1500);
+          } else if (subversive.behavior == "townie") {
+            move = dice(9);
+            if (move <= 4 && subversive.cell_y < this.grigory.cell_y) {
+              subversive.move("down");
+              subversive.cell_y += 1;
+            } else if (move <= 4 && subversive.cell_y > this.grigory.cell_y) {
+              subversive.move("up");
+              subversive.cell_y -= 1;
+            } else if (move <= 8 && subversive.cell_x < this.grigory.cell_x) {
+              subversive.move("right");
+              subversive.cell_x += 1;
+            } else if (move <= 8 && subversive.cell_x > this.grigory.cell_x) {
+              subversive.move("left");
+              subversive.cell_x -= 1;
+            } else if (move == 9) {  // one third of the time, do a normal move
+              move = dice(4);
+              if (move == 1 && (subversive.cell_y < 4 || dice(100) < 20)) {
+                subversive.move("down");
+                subversive.cell_y += 1;
+              } else if (move == 2 && (subversive.cell_x > 0 || dice(100) < 20)) {
+                subversive.move("left");
+                subversive.cell_x -= 1;
+              } else if (move == 3 && (subversive.cell_x < 5 || dice(100) < 20)) {
+                subversive.move("right");
+                subversive.cell_x += 1;
+              } else if (move == 4 && (subversive.cell_y > 0 || dice(100) < 20)) {
+                subversive.move("up");
+                subversive.cell_y -= 1;
+              } 
+            }
+          } else if (subversive.behavior == "carrying") {
+            if (this.timeSince(subversive.last_move) > subversive.next_move) {
+              subversive.move(subversive.walk_target);
+              if (subversive.walk_target == "down") subversive.cell_y += 1;
+              if (subversive.walk_target == "up") subversive.cell_y -= 1;
+              if (subversive.walk_target == "left") subversive.cell_x -= 1;
+              if (subversive.walk_target == "right") subversive.cell_x += 1;
+            }
+          } else if (subversive.behavior == "grifter") {
+
           }
-        } else if (subversive.behavior == "carrying") {
 
-        } else if (subversive.behavior == "grifter") {
+          if (subversive.cell_y == -1 || subversive.cell_y == 5
+            || subversive.cell_x == -1 || subversive.cell_x == 6) {
+            new TWEEN.Tween(subversive)
+              .to({alpha: 0.01})
+              .duration(400)
+              .easing(TWEEN.Easing.Quartic.Out)
+              .onComplete(function() {
+                subversive.state = "finished"
+              })
+              .start();
+          } 
 
+          subversive.last_move = this.markTime();
+          subversive.next_move = 1500 + dice(1500);
+          if (subversive.behavior == "elder") subversive.next_move = 3000 + dice(2000);
+          if (subversive.behavior == "townie") subversive.next_move = 1000 + dice(1000);
         }
       }
     }
