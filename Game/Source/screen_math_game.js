@@ -184,7 +184,7 @@ Game.prototype.mathGameResetBoard = function() {
   for (let i = 0; i < this.math_game_lives; i++) {
     let star = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/star_4.png"));
     star.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    star.position.set(734 - 40 + 26 * i, 32);
+    star.position.set(734 - 26 * (this.math_game_lives - 1)/2 + 26 * i, 32);
     star.anchor.set(0.5, 0.5);
     this.math_game_background_layer.addChild(star);
     this.life_stars.push(star);
@@ -217,21 +217,8 @@ Game.prototype.mathGameResetBoard = function() {
 
 
   this.subversives = [];
-  for (let i = 0; i < 3; i++) {
-    let subversive_type = subversive_list[Math.floor(Math.random() * subversive_list.length)];
-    let subversive = this.makeCharacter(subversive_type);
-    subversive.cell_x = dice(6) - 1;
-    subversive.cell_y = dice(2);
-    subversive.position.set(
-      cell_offset_x + subversive.cell_x * cell_width,
-      cell_offset_y + subversive.cell_y * cell_height
-    );
-    subversive.last_move = this.markTime();
-    subversive.next_move = 1500 + dice(1500);
-
-    this.math_game_character_layer.addChild(subversive);
-    this.subversives.push(subversive);
-  }
+  this.last_subversive_add = this.markTime();
+  this.next_subversive_add = 7000 + dice(6000);
 }
 
 
@@ -282,7 +269,7 @@ Game.prototype.mathGameSetGameType = function() {
       for (let y = 0; y < 5; y++) {
         let value = dice((this.level + 2) * this.rule_value);
         if (x + "-" + y in hot_tile_dictionary) {
-          value = this.rule_list[Math.floor(Math.random() * this.rule_list.length)];
+          value = pick(this.rule_list);
           // this.cells[x][y].tint = 0x5555FF;
         }
         this.cells[x][y].cell_value = value;
@@ -302,7 +289,7 @@ Game.prototype.mathGameSetGameType = function() {
       for (let y = 0; y < 5; y++) {
         let value = dice(this.rule_value);
         if (dice(100) < 45) {
-          value = this.rule_list[Math.floor(Math.random() * this.rule_list.length)];
+          value = pick(this.rule_list);
         }
         this.cells[x][y].cell_value = value;
         this.cells[x][y].text = this.cells[x][y].cell_value
@@ -325,7 +312,7 @@ Game.prototype.mathGameSetGameType = function() {
       for (let y = 0; y < 5; y++) {
         let value = dice(this.rule_value);
         if (dice(100) < 40) {
-          value = this.rule_list[Math.floor(Math.random() * this.rule_list.length)];
+          value = pick(this.rule_list);
         }
         this.cells[x][y].cell_value = value;
         this.cells[x][y].text = this.cells[x][y].cell_value
@@ -348,9 +335,9 @@ Game.prototype.mathGameSetGameType = function() {
     for (let x = 0; x < 6; x++) {
       for (let y = 0; y < 5; y++) {
         words = this.enemy_words[dice(2)+3];
-        let value = words[Math.floor(Math.random() * words.length)];
+        let value = pick(words);
         if (dice(100) < 40) {
-          value = matching_words[Math.floor(Math.random() * matching_words.length)];
+          value = pick(matching_words);
         }
         this.cells[x][y].style.fontSize = 12;
         this.cells[x][y].cell_value = value;
@@ -418,21 +405,8 @@ Game.prototype.mathGameGetCell = function(cell_x, cell_y) {
       cell.text = "";
       this.grigory.startWork();
     } else {
-      flicker(this.grigory.character_sprite[this.grigory.direction], 200, 0xFFFFFF, 0xcd0000);
-      this.soundEffect("hurt");
-      this.grigory.state = "ouch";
-      this.grigory.ouch_time = this.markTime();
-      this.grigory.shake = this.markTime();
-      if (this.math_game_lives > 0) {
-        this.life_stars[this.math_game_lives - 1].visible = false;
-        this.makePop(this.math_game_effect_layer, 
-          this.life_stars[this.math_game_lives - 1].x,
-          this.life_stars[this.math_game_lives - 1].y, 0.4, 0.4
-        );
-        this.math_game_lives -= 1;
-      }
+      this.mathGameHurtCharacter();
     }
-
   }
 }
 
@@ -467,6 +441,58 @@ Game.prototype.mathGameCountdownAndStart = function() {
 }
 
 
+Game.prototype.mathGameAddSubversives = function() {
+  if (this.timeSince(this.last_subversive_add) > this.next_subversive_add
+    && this.subversives.length < 3) {
+
+    this.last_subversive_add = this.markTime();
+    this.next_subversive_add = 7000 + dice(6000);
+
+    let subversive_type = pick(subversive_list);
+    let subversive = this.makeCharacter(subversive_type);
+    subversive.behavior = subversive_type.split("_")[0];
+    subversive.last_move = this.markTime();
+    subversive.next_move = 1500 + dice(1500);
+
+
+    // TO DO: fix this so the grifter never appears atop the player or a good square.
+    if (subversive.behavior == "grifter") {
+      subversive.cell_x = dice(6) - 1;
+      subversive.cell_y = dice(2);
+      subversive.position.set(
+        cell_offset_x + subversive.cell_x * cell_width,
+        cell_offset_y + subversive.cell_y * cell_height
+      );
+    } else {
+      let side = pick(["up", "down", "left", "right"]);
+      if (side == "up") {
+        subversive.cell_y = -1;
+        subversive.cell_x = dice(6) - 1;
+      } else if (side == "down") {
+        subversive.cell_y = 5;
+        subversive.cell_x = dice(6) - 1;
+      } else if (side == "left") {
+        subversive.cell_x = -1;
+        subversive.cell_y = dice(5) - 1;
+      } else if (side == "right") {
+        subversive.cell_x = 6;
+        subversive.cell_y = dice(5) - 1;
+      }
+
+      subversive.position.set(
+        cell_offset_x + subversive.cell_x * cell_width,
+        cell_offset_y + subversive.cell_y * cell_height
+      );
+      subversive.alpha = 0;
+      subversive.state = "offscreen_start";
+    }
+
+    this.math_game_character_layer.addChild(subversive);
+    this.subversives.push(subversive);
+  }
+}
+
+
 Game.prototype.mathGameSubversiveUpdate = function() {
   var self = this;
   var screen = this.screens["math_game"];
@@ -474,25 +500,50 @@ Game.prototype.mathGameSubversiveUpdate = function() {
   if (this.math_game_state == "active") {
     for(let i = 0; i < this.subversives.length; i++) {
       let subversive = this.subversives[i];
-      if (subversive.character_name != "grifter") {
-        if (this.timeSince(subversive.last_move) > subversive.next_move) {
-          move = dice(4);
-          if (move == 1 && subversive.cell_y < 4) {
-            subversive.move("down");
-            subversive.cell_y += 1;
-          } else if (move == 2 && subversive.cell_x > 0) {
-            subversive.move("left");
-            subversive.cell_x -= 1;
-          } else if (move == 3 && subversive.cell_x < 5) {
-            subversive.move("right");
-            subversive.cell_x += 1;
-          } else if (move == 4 && subversive.cell_y > 0) {
-            subversive.move("up");
-            subversive.cell_y -= 1;
-          } 
+      if (subversive.state == "offscreen_start") {
+        if (subversive.cell_y == -1) {
+          subversive.move("down");
+          subversive.cell_y += 1;
+        } else if (subversive.cell_y == 5) {
+          subversive.move("up");
+          subversive.cell_y -= 1;
+        } else if (subversive.cell_x == -1) {
+          subversive.move("right");
+          subversive.cell_x += 1;
+        } else if (subversive.cell_x == 6) {
+          subversive.move("left");
+          subversive.cell_x -= 1;
+        }
+        new TWEEN.Tween(subversive)
+          .to({alpha: 1})
+          .duration(1000)
+          .easing(TWEEN.Easing.Quartic.Out)
+          .start();
+      } else if (subversive.state == "stopped") {
+        if (subversive.behavior != "grifter") {
+          if (this.timeSince(subversive.last_move) > subversive.next_move) {
+            move = dice(4);
+            if (move == 1 && subversive.cell_y < 4) {
+              subversive.move("down");
+              subversive.cell_y += 1;
+            } else if (move == 2 && subversive.cell_x > 0) {
+              subversive.move("left");
+              subversive.cell_x -= 1;
+            } else if (move == 3 && subversive.cell_x < 5) {
+              subversive.move("right");
+              subversive.cell_x += 1;
+            } else if (move == 4 && subversive.cell_y > 0) {
+              subversive.move("up");
+              subversive.cell_y -= 1;
+            } 
 
-          subversive.last_move = this.markTime();
-          subversive.next_move = 1500 + dice(1500);
+            subversive.last_move = this.markTime();
+            subversive.next_move = 1500 + dice(1500);
+          }
+        } else if (subversive.behavior == "carrying") {
+
+        } else if (subversive.behavior == "grifter") {
+
         }
       }
     }
@@ -502,6 +553,54 @@ Game.prototype.mathGameSubversiveUpdate = function() {
     if (this.subversives[i].state == "walking") {
       this.subversives[i].walk();
     }
+  }
+}
+
+
+Game.prototype.mathGameCheckSubversiveHit = function() {
+  if (this.grigory.state == "stopped") {
+    for(let i = 0; i < this.subversives.length; i++) {
+      if (this.subversives[i].state == "stopped" 
+        && this.subversives[i].cell_x == this.grigory.cell_x
+        && this.subversives[i].cell_y == this.grigory.cell_y) {
+        this.makePop(this.math_game_effect_layer, 
+          this.subversives[i].x,
+          this.subversives[i].y, 0.5, 0.5
+        );
+        this.mathGameHurtCharacter();
+        this.subversives[i].state = "finished";
+      }
+    }
+  }
+
+  let new_subversives = [];
+  for(let i = 0; i < this.subversives.length; i++) {
+    if (this.subversives[i].state != "finished") {
+      new_subversives.push(this.subversives[i]);
+    } else {
+      this.math_game_character_layer.removeChild(this.subversives[i]);
+      this.last_subversive_add = this.markTime();
+    }
+  }
+  this.subversives = new_subversives;
+}
+
+
+Game.prototype.mathGameHurtCharacter = function() {
+  var self = this;
+
+  flicker(this.grigory.character_sprite[this.grigory.direction], 200, 0xFFFFFF, 0xcd0000);
+  this.soundEffect("hurt");
+  this.grigory.state = "ouch";
+  this.grigory.ouch_time = this.markTime();
+  this.grigory.shake = this.markTime();
+  if (this.math_game_lives > 0) {
+    this.life_stars[this.math_game_lives - 1].visible = false;
+    this.makePop(this.math_game_effect_layer, 
+      this.life_stars[this.math_game_lives - 1].x,
+      this.life_stars[this.math_game_lives - 1].y, 0.4, 0.4
+    );
+    this.math_game_lives -= 1;
   }
 }
 
@@ -541,7 +640,9 @@ Game.prototype.mathGameUpdate = function(diff) {
     this.grigory.state = "stopped";
   }
 
+  this.mathGameAddSubversives();
   this.mathGameSubversiveUpdate();
+  this.mathGameCheckSubversiveHit();
 
   // this.spellingHelp();
   // this.updateWPM();
