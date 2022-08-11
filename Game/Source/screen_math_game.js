@@ -251,7 +251,7 @@ Game.prototype.mathGameSetGameType = function() {
     }
   }
   shuffleArray(hot_tile_array);
-  hot_tile_array = hot_tile_array.slice(0, 15 + dice(3));
+  hot_tile_array = hot_tile_array.slice(0, 5 + dice(3)); // refixfix
   hot_tile_dictionary = {};
   for (let i = 0; i < hot_tile_array.length; i++) {
     hot_tile_dictionary[hot_tile_array[i][0]+"-"+hot_tile_array[i][1]] = 1;
@@ -352,8 +352,6 @@ Game.prototype.mathGameKeyDown = function(ev) {
   let self = this;
   let screen = this.screens["math_game"];
 
-  console.log(ev);
-
   if (this.grigory == null) return;
 
   if (this.math_game_state != "active") return;
@@ -373,7 +371,7 @@ Game.prototype.mathGameKeyDown = function(ev) {
       this.grigory.cell_x += 1;
     } else if (ev.key === " ") {
       if (this.cells[this.grigory.cell_x][this.grigory.cell_y].cell_value != null) {
-        this.mathGameGetCell(this.grigory.cell_x, this.grigory.cell_y)
+        this.mathGameConsumeCell(this.grigory.cell_x, this.grigory.cell_y)
       }
     }
   } else if (this.grigory.state == "walking" || this.grigory.state == "working") {
@@ -392,24 +390,46 @@ Game.prototype.mathGameKeyDown = function(ev) {
 }
 
 
-Game.prototype.mathGameGetCell = function(cell_x, cell_y) {
+Game.prototype.mathGameConsumeCell = function(cell_x, cell_y) {
+  let result = this.mathGameCheckCellValidity(cell_x, cell_y);
+
+  if (result == true) {
+
+    this.soundEffect("success");
+    this.cells[cell_x][cell_y].cell_value = null;
+    this.cells[cell_x][cell_y].text = "";
+    this.grigory.startWork();
+    if (this.mathGameCheckVictory()) {
+      this.grigory.victorious = true;
+    }
+  } else {
+    this.mathGameHurtCharacter();
+  }
+}
+
+
+Game.prototype.mathGameCheckCellValidity = function(cell_x, cell_y) {
   let cell = this.cells[cell_x][cell_y];
   let value = cell.cell_value;
   if (this.rule == "multiples") {
-    console.log(value);
-    console.log(this.rule_value);
     if (value % this.rule_value == 0) {
-      // Good!
-      this.soundEffect("success");
-      cell.cell_value = null;
-      cell.text = "";
-      this.grigory.startWork();
+      return true;
     } else {
-      this.mathGameHurtCharacter();
+      return false;
     }
   }
 }
 
+
+Game.prototype.mathGameCheckVictory = function() {
+  let victory = true;
+  for (let x = 0; x < 6; x++) {
+    for (let y = 0; y < 5; y++) {
+      if (this.cells[x][y].cell_value != null && this.mathGameCheckCellValidity(x, y)) victory = false;
+    }
+  }
+  return victory;
+}
 
 
 Game.prototype.mathGameCountdownAndStart = function() {
@@ -454,7 +474,7 @@ Game.prototype.mathGameAddSubversives = function() {
     subversive.last_move = this.markTime();
     subversive.next_move = 1500 + dice(1500);
     if (subversive.behavior == "elder") {
-      subversive.walk_frame_time *= 2;
+      subversive.frame_time *= 2;
       subversive.walk_speed *= 0.5;
     }
     if (subversive.behavior == "townie") {
@@ -660,13 +680,25 @@ Game.prototype.mathGameHurtCharacter = function() {
   this.grigory.state = "ouch";
   this.grigory.ouch_time = this.markTime();
   this.grigory.shake = this.markTime();
-  if (this.math_game_lives > 0) {
-    this.life_stars[this.math_game_lives - 1].visible = false;
-    this.makePop(this.math_game_effect_layer, 
-      this.life_stars[this.math_game_lives - 1].x,
-      this.life_stars[this.math_game_lives - 1].y, 0.4, 0.4
-    );
-    this.math_game_lives -= 1;
+  this.life_stars[this.math_game_lives - 1].visible = false;
+  this.makePop(this.math_game_effect_layer, 
+    this.life_stars[this.math_game_lives - 1].x,
+    this.life_stars[this.math_game_lives - 1].y, 0.4, 0.4
+  );
+  this.math_game_lives -= 1;
+  if (this.math_game_lives == 0) {
+    this.stalin_text.text = "Grigory has been charged with subversive behavior.";
+    this.soundEffect("game_over");
+    this.math_game_state = "post_game";
+    //this.grigory.startDefeat();
+
+    for (let i = 0; i < this.subversives.length; i++) {
+      new TWEEN.Tween(this.subversives[i])
+        .to({alpha: 0.01})
+        .duration(400)
+        .easing(TWEEN.Easing.Quartic.Out)
+        .start();
+    }
   }
 }
 
@@ -684,6 +716,30 @@ Game.prototype.mathGameUpdate = function(diff) {
 
   if (this.grigory == null) return;
 
+  if (this.grigory.state == "stopped" && this.grigory.victorious == true) {
+    this.stalin_text.text = "Victory!";
+    this.soundEffect("victory");
+    this.math_game_state = "post_game";
+    this.grigory.startVictory();
+
+    for (let i = 0; i < this.subversives.length; i++) {
+      new TWEEN.Tween(this.subversives[i])
+        .to({alpha: 0.01})
+        .duration(400)
+        .easing(TWEEN.Easing.Quartic.Out)
+        .start();
+    }
+
+    flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
+    delay(function() {
+      self.nextFlow();
+    }, 2000);
+  }
+
+  if (this.grigory.state == "victory") {
+    this.grigory.victory();
+  }
+
   if (this.grigory.state == "walking") {
     this.grigory.walk();
     if (this.grigory.state == "stopped" && this.queued_move != null) {
@@ -695,7 +751,9 @@ Game.prototype.mathGameUpdate = function(diff) {
 
   if (this.grigory.state == "working") {
     this.grigory.work();
-    if (this.grigory.state == "stopped" && this.queued_move != null) {
+    if (this.grigory.state == "stopped" 
+      && this.queued_move != null
+      && this.math_game_state == "active") {
       console.log("DOING QUEUED MOVE " + this.queued_move);
       this.mathGameKeyDown({key: this.queued_move})
       this.queued_move = null;
@@ -706,20 +764,15 @@ Game.prototype.mathGameUpdate = function(diff) {
     this.grigory.state = "stopped";
   }
 
-  this.mathGameAddSubversives();
+  if (this.math_game_state == "active") this.mathGameAddSubversives();
   this.mathGameSubversiveUpdate();
-  this.mathGameCheckSubversiveHit();
+  if (this.math_game_state == "active") this.mathGameCheckSubversiveHit();
 
   // this.spellingHelp();
   // this.updateWPM();
   // this.shakeDamage();
   // this.launchpad.checkError();
   // this.freeeeeFreeeeeFalling(fractional);
-
-  // // Skip the rest if we aren't in active gameplay
-  // if (this.game_phase != "active" && (this.game_phase != "tutorial" || this.tutorial_number < 5)) {
-  //   return;
-  // }
 
   // this.enemyAction();
 

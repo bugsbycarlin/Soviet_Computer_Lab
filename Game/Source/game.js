@@ -25,6 +25,7 @@ var game = null;
 
 function initialize() {
   game = new Game();
+  game.resetGame();
 }
 
 WebFont.load({
@@ -308,6 +309,45 @@ class Game {
   nextFlow() {
     this.flow_marker += 1;
 
+    // Just arcade for now.
+    this.level = this.flow_marker + 1;
+    let type = "";
+    // shuffleArray(opponents)
+    // this.opponent_name = opponents[0];
+    // console.log(opponents);
+    console.log("FNORD");
+    console.log(this.arcade_type_selection);
+    this.arcade_type_selection = 0;
+    if (this.arcade_type_selection == 0) {
+      // if (this.level % 9 == 1 || this.level % 9 == 2 || this.level % 9 == 3) {
+      //   type = "1p_word_rockets";
+      // } else if (this.level % 9 == 4 || this.level % 9 == 5 || this.level % 9 == 6) {
+      //   type = "1p_base_capture";
+      // } else if (this.level % 9 == 7 || this.level % 9 == 8 || this.level % 9 == 0) {
+      //   type = "1p_launch_code";
+      // }
+      // For now
+      type = "math_game";
+    } else if (this.arcade_type_selection == 1) {
+      type = "1p_word_rockets";
+    } else if (this.arcade_type_selection == 2) {
+      type = "1p_base_capture";
+    } else if (this.arcade_type_selection == 3) {
+      type = "1p_launch_code";
+    }
+
+    if (this.current_screen != type) {
+      this.initializeScreen(type);
+      this.switchScreens(this.current_screen, type);
+    } else {
+      this.initializeScreen(type);
+    }
+  }
+
+
+  oldNextFlow() {
+    this.flow_marker += 1;
+
     if (this.game_type_selection == 0 || this.game_type_selection == 2) {
       // Story mode
       if (this.flow_marker < this.flow[this.game_type_selection][this.difficulty_level].length) {
@@ -477,6 +517,7 @@ class Game {
       .add("Art/Math_Game/Characters/townie_2.json")
       .add("Art/Math_Game/Characters/townie_3.json")
       .add("Art/Math_Game/Characters/grifter.json")
+      .add("Art/Math_Game/Characters/executioner.json")
       .load(function() {
         self.initializeScreen(first_screen, true);
 

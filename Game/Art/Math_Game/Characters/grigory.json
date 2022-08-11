@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
 	"sourceSize": {"w":76,"h":72}
 },
-"laugh_0.png":
+"victory_0.png":
 {
 	"frame": {"x":0,"y":288,"w":76,"h":72},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
 	"sourceSize": {"w":76,"h":72}
 },
-"laugh_1.png":
+"victory_1.png":
 {
 	"frame": {"x":76,"y":288,"w":76,"h":72},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
 	"sourceSize": {"w":76,"h":72}
 },
-"laugh_2.png":
+"victory_2.png":
 {
 	"frame": {"x":152,"y":288,"w":76,"h":72},
 	"rotated": false,
@@ -149,7 +149,7 @@
 	"left": ["left_0.png","left_1.png","left_2.png"],
 	"right": ["right_0.png","right_1.png","right_2.png"],
 	"up": ["up_0.png","up_1.png","up_2.png"],
-	"laugh": ["laugh_0.png","laugh_1.png","laugh_2.png"],
+	"victory": ["victory_0.png","victory_1.png","victory_2.png"],
 	"work": ["work_0.png","work_1.png","work_2.png"]
 },
 "meta": {

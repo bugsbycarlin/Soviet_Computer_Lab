@@ -8,11 +8,12 @@
 //
 
 var default_walk_speed = 4.5;
-var walk_frame_time = 50;
+var frame_time = 50;
 
-var sprites = ["down", "left", "up", "right", "laugh", "work"]
+var sprites = ["down", "left", "up", "right", "victory", "work"]
 var walk_frames = [0, 1, 2, 1];
 var work_frames = [0, 1, 2, 1, 0];
+var victory_frames = [0, 1, 2, 1];
 
 Game.prototype.makeCharacter = function(character_name) {
   let character = new PIXI.Container();
@@ -43,7 +44,7 @@ Game.prototype.makeCharacter = function(character_name) {
   character.character_sprite["down"].visible = true;
 
   character.direction = "down";
-  character.walk_frame_time = walk_frame_time;
+  character.frame_time = frame_time;
   character.last_image_time = null;
   character.walk_speed = default_walk_speed;
 
@@ -100,7 +101,7 @@ Game.prototype.makeCharacter = function(character_name) {
 
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
-    } else if (Date.now() - character.last_image_time > character.walk_frame_time) {
+    } else if (Date.now() - character.last_image_time > character.frame_time) {
       character.step_value = (character.step_value + 1) % walk_frames.length;
       character.character_sprite[character.direction].gotoAndStop(walk_frames[character.step_value]);
       character.last_image_time = Date.now();
@@ -128,6 +129,7 @@ Game.prototype.makeCharacter = function(character_name) {
     if (character.character_name != "grigory") return;
 
     character.state = "working";
+    character.step_value = 0;
 
     for(let i = 0; i < character.sprite_count; i++) {
       if (sprites[i] == "work") {
@@ -147,15 +149,50 @@ Game.prototype.makeCharacter = function(character_name) {
 
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
-    } else if (Date.now() - character.last_image_time > character.walk_frame_time) {
+    } else if (Date.now() - character.last_image_time > character.frame_time) {
       character.step_value = character.step_value + 1;
       if (character.step_value < work_frames.length) {
         character.character_sprite["work"].gotoAndStop(work_frames[character.step_value]);
         character.last_image_time = Date.now();
+        console.log("Work stopping on frame " + work_frames[character.step_value])
       } else {
         character.state = "stopped";
         character.updateDirection();
       }
+    }
+  }
+
+
+  character.startVictory = function() {
+    if (character.character_name != "grigory") return;
+
+    character.state = "victory";
+    character.step_value = 0;
+    character.frame_time *= 2;
+
+    for(let i = 0; i < character.sprite_count; i++) {
+      if (sprites[i] == "victory") {
+        character.character_sprite[sprites[i]].visible = true;
+      } else {
+        character.character_sprite[sprites[i]].visible = false;
+      }
+    }
+
+    character.character_sprite["victory"].gotoAndStop(0);
+    character.last_image_time = Date.now();
+  }
+
+
+  character.victory = function() {
+    if (character.character_name != "grigory") return;
+
+    if (character.last_image_time == null) {
+      character.last_image_time = Date.now();
+    } else if (Date.now() - character.last_image_time > character.frame_time) {
+      character.step_value = (character.step_value + 1) % victory_frames.length;
+      character.character_sprite["victory"].gotoAndStop(victory_frames[character.step_value]);
+      character.last_image_time = Date.now();
+      console.log("Victory frame " + victory_frames[character.step_value])
     }
   } 
 
