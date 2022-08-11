@@ -513,7 +513,7 @@ Game.prototype.shakeDamage = function() {
 
   // for (let item of [screen, this.player_area, this.enemy_area]) {
   for (let item of this.shakers) {
-    if (item.shake != null) {
+    if (item != null && item.shake != null) {
       if (item.permanent_x == null) item.permanent_x = item.position.x;
       if (item.permanent_y == null) item.permanent_y = item.position.y;
       item.position.set(item.permanent_x - 3 + Math.random() * 6, item.permanent_y - 3 + Math.random() * 6)

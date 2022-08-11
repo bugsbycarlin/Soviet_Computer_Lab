@@ -143,6 +143,30 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
 	"sourceSize": {"w":76,"h":72}
+},
+"defeat_0.png":
+{
+	"frame": {"x":0,"y":432,"w":76,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
+	"sourceSize": {"w":76,"h":72}
+},
+"defeat_1.png":
+{
+	"frame": {"x":76,"y":432,"w":76,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
+	"sourceSize": {"w":76,"h":72}
+},
+"defeat_2.png":
+{
+	"frame": {"x":152,"y":432,"w":76,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":72},
+	"sourceSize": {"w":76,"h":72}
 }},
 "animations": {
 	"down": ["down_0.png","down_1.png","down_2.png"],
@@ -150,14 +174,15 @@
 	"right": ["right_0.png","right_1.png","right_2.png"],
 	"up": ["up_0.png","up_1.png","up_2.png"],
 	"victory": ["victory_0.png","victory_1.png","victory_2.png"],
-	"work": ["work_0.png","work_1.png","work_2.png"]
+	"work": ["work_0.png","work_1.png","work_2.png"],
+	"defeat": ["defeat_0.png","defeat_1.png","defeat_2.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "grigory.png",
 	"format": "RGBA8888",
-	"size": {"w":228,"h":432},
+	"size": {"w":228,"h":504},
 	"scale": "1",
 	"smartupdate": "$TexturePacker:SmartUpdate:16f13832886ff02e4d5aef8c733bb588:5cc5ad03faab94eac4c9777302df6b8e:6295e075e3238db0ec40ff984cf0523c$"
 }

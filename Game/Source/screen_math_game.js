@@ -86,7 +86,7 @@ Game.prototype.initializeMathGame = function(new_score) {
     self.math_game_state = "countdown";
     // self.soundEffect("countdown"); // need a better count down sound effect for math game
     self.monitor_overlay.dissolve();
-  }, 1200);
+  }, 800);
 }
 
 
@@ -137,7 +137,7 @@ Game.prototype.mathGameResetBoard = function() {
   score_text_backing.anchor.set(0.5, 0.5);
   this.math_game_background_layer.addChild(score_text_backing);
 
-  this.rule_label = new PIXI.Text("Multiples of 2", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
+  this.rule_label = new PIXI.Text("Work begins in", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
   this.rule_label.anchor.set(0.5,0.5);
   this.rule_label.position.set(rule_text_backing.x, rule_text_backing.y+2);
   this.rule_label.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -259,7 +259,7 @@ Game.prototype.mathGameSetGameType = function() {
 
   if (this.rule == "multiples") {
     this.rule_value = dice(Math.min(this.level, 10) + 5) + 1;
-    this.rule_label.text = "Multiples of " + this.rule_value;
+    //this.rule_label.text = "Multiples of " + this.rule_value;
     this.rule_list = [];
     for (let i = 1; i <= this.level + 2; i++) {
       this.rule_list.push(i * this.rule_value);
@@ -279,7 +279,7 @@ Game.prototype.mathGameSetGameType = function() {
     }
   } else if (this.rule == "factors") {
     this.rule_value = dice(Math.min(this.level, 20) + 10) + 3;
-    this.rule_label.text = "Factors of " + this.rule_value;
+    //this.rule_label.text = "Factors of " + this.rule_value;
     this.rule_list = [];
     for (let i = 1; i <= this.rule_value; i++) {
       if (this.rule_value % i == 0) this.rule_list.push(i);
@@ -297,7 +297,7 @@ Game.prototype.mathGameSetGameType = function() {
     }
   } else if (this.rule == "primes") {
     this.rule_value = dice(Math.min(this.level, 20) + 10) + 3;
-    this.rule_label.text = "Prime numbers"
+    //this.rule_label.text = "Prime numbers"
     this.rule_list = [];
 
     for (let i = 1; i <= this.rule_value; i++) {
@@ -321,7 +321,7 @@ Game.prototype.mathGameSetGameType = function() {
   } else if (this.rule == "starts_with") {
     shuffleArray(shuffle_letters);
     this.rule_value = shuffle_letters[0];
-    this.rule_label.text = "Starts with " + this.rule_value;
+    //this.rule_label.text = "Starts with " + this.rule_value;
     this.rule_list = {};
 
     for (let k = 4; k <= 5; k++) {
@@ -439,15 +439,17 @@ Game.prototype.mathGameCountdownAndStart = function() {
   if (this.math_game_state == "countdown" && !this.paused) {
     let time_remaining = (2400 - (this.timeSince(this.start_time))) / 800;
 
-    this.stalin_text.style.fontSize = 24;
-    this.stalin_text.text = "  WORK STARTS IN " + Math.ceil(time_remaining).toString();
+    //this.stalin_text.style.fontSize = 24;
+    this.rule_label.text = Math.ceil(time_remaining).toString();
     if (time_remaining <= 0) {
       this.math_game_state = "active";
 
-      this.stalin_text.text = "   START WORKING";
+      this.rule_label.text = "Begin working.";
       delay(function() {
-        self.stalin_text.style.fontSize = 16;
-        self.stalin_text.text = "";
+        if (self.rule == "multiples") self.rule_label.text = "Multiples of " + self.rule_value;
+        // self.stalin_text.style.fontSize = 16;
+        // self.stalin_text.text = "";
+
       }, 1600);
 
       // if ((this.difficulty_level == "EASY" && (this.level == 13 || this.level == 14))
@@ -528,7 +530,7 @@ Game.prototype.mathGameAddSubversives = function() {
 }
 
 
-Game.prototype.mathGameSubversiveUpdate = function() {
+Game.prototype.mathGameUpdateSubversives = function() {
   var self = this;
   var screen = this.screens["math_game"];
 
@@ -687,17 +689,127 @@ Game.prototype.mathGameHurtCharacter = function() {
   );
   this.math_game_lives -= 1;
   if (this.math_game_lives == 0) {
-    this.stalin_text.text = "Grigory has been charged with subversive behavior.";
+    this.rule_label.text = "Suspicious...";
     this.soundEffect("game_over");
-    this.math_game_state = "post_game";
-    //this.grigory.startDefeat();
+    this.math_game_state = "post_game_defeat";
+    this.grigory.startDefeat();
 
     for (let i = 0; i < this.subversives.length; i++) {
-      new TWEEN.Tween(this.subversives[i])
+      let subversive = this.subversives[i];
+      new TWEEN.Tween(subversive)
         .to({alpha: 0.01})
         .duration(400)
         .easing(TWEEN.Easing.Quartic.Out)
+        .onComplete(function() {
+          subversive.visible = false;
+        })
         .start();
+    }
+
+    this.executioner = this.makeCharacter("executioner");
+    this.shakers.push(this.executioner);
+    this.executioner.last_move = this.markTime();
+    this.executioner.next_move = 500 + dice(500);
+
+    this.executioner.cell_y = this.grigory.cell_y;
+    if (this.grigory.cell_x > 2) {
+      this.executioner.cell_x = -1;
+      this.executioner.walk_target = "right";
+    } else {
+      this.executioner.cell_x = 6;
+      this.executioner.walk_target = "left";
+    }
+
+    this.executioner.position.set(
+      cell_offset_x + this.executioner.cell_x * cell_width,
+      cell_offset_y + this.executioner.cell_y * cell_height
+    );
+    this.executioner.alpha = 0;
+    this.executioner.state = "offscreen_start";
+    this.executioner.sequence = "approach";
+
+    this.math_game_character_layer.addChild(this.executioner);
+  }
+}
+
+
+Game.prototype.mathGameUpdateExecutioner = function() {
+  var self = this;
+  var screen = this.screens["math_game"];
+
+  if (this.math_game_state == "post_game_defeat") {
+    if (this.timeSince(this.executioner.last_move) > this.executioner.next_move) {
+      if (this.executioner.state == "offscreen_start") {
+        console.log("Alpha this guy up")
+        new TWEEN.Tween(this.executioner)
+          .to({alpha: 1})
+          .duration(1000)
+          .easing(TWEEN.Easing.Quartic.Out)
+          .start();
+      }
+
+      if (this.executioner.sequence == "approach") {
+        if (this.executioner.walk_target == "right" 
+          && this.executioner.cell_x < this.grigory.cell_x - 1) {
+          this.executioner.move("right");
+          this.executioner.cell_x += 1;
+        } else if (this.executioner.walk_target == "left" 
+          && this.executioner.cell_x > this.grigory.cell_x + 1) {
+          this.executioner.move("left");
+          this.executioner.cell_x -= 1;
+        }
+
+        if ((this.executioner.walk_target == "left" 
+          && this.executioner.cell_x == this.grigory.cell_x + 1)
+        || (this.executioner.walk_target == "right" 
+          && this.executioner.cell_x == this.grigory.cell_x - 1)) {
+          this.executioner.sequence = "engage_1";
+          this.rule_label.text = "Party traitor!";
+        }
+      } else if (this.executioner.sequence == "engage_1") {
+        this.executioner.shake = this.markTime();
+        this.executioner.sequence = "engage_2";
+      } else if (this.executioner.sequence == "engage_2") {
+        this.executioner.shake = this.markTime();
+        this.executioner.sequence = "arrest";
+        this.rule_label.text = "Come with me.";
+      } else if (this.executioner.sequence == "arrest") {
+        if (this.executioner.walk_target == "right") {
+          this.executioner.move("right");
+          this.executioner.cell_x += 1;
+          this.grigory.move("right");
+          this.grigory.cell_x += 1;
+        } else if (this.executioner.walk_target == "left") {
+          this.executioner.move("left");
+          this.executioner.cell_x -= 1;
+          this.grigory.move("left");
+          this.grigory.cell_x -= 1;
+        }
+
+        if (this.grigory.cell_x == -1 || this.grigory.cell_x == 6) {
+          new TWEEN.Tween(this.grigory)
+            .to({alpha: 0.01})
+            .duration(400)
+            .easing(TWEEN.Easing.Quartic.Out)
+            .start();
+          //this.rule_label.text = "Grigory has vanished.";
+        }
+
+        if (this.executioner.cell_x == -1 || this.executioner.cell_x == 6) {
+          new TWEEN.Tween(this.executioner)
+            .to({alpha: 0.01})
+            .duration(400)
+            .easing(TWEEN.Easing.Quartic.Out)
+            .start();
+        }
+      }
+
+      this.executioner.last_move = this.markTime();
+      this.executioner.next_move = 400 + dice(500);
+    }
+
+    if (this.executioner.state == "walking") {
+      this.executioner.walk();
     }
   }
 }
@@ -717,9 +829,9 @@ Game.prototype.mathGameUpdate = function(diff) {
   if (this.grigory == null) return;
 
   if (this.grigory.state == "stopped" && this.grigory.victorious == true) {
-    this.stalin_text.text = "Victory!";
+    this.rule_label.text = "Worker Victory!";
     this.soundEffect("victory");
-    this.math_game_state = "post_game";
+    this.math_game_state = "post_game_victory";
     this.grigory.startVictory();
 
     for (let i = 0; i < this.subversives.length; i++) {
@@ -730,26 +842,24 @@ Game.prototype.mathGameUpdate = function(diff) {
         .start();
     }
 
-    flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
-    delay(function() {
-      self.nextFlow();
-    }, 2000);
+    // flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
+    // delay(function() {
+    //   self.nextFlow();
+    // }, 2000);
   }
 
   if (this.grigory.state == "victory") {
     this.grigory.victory();
-  }
-
-  if (this.grigory.state == "walking") {
+  } else if (this.grigory.state == "defeat") {
+    this.grigory.defeat();
+  } else if (this.grigory.state == "walking") {
     this.grigory.walk();
     if (this.grigory.state == "stopped" && this.queued_move != null) {
       console.log("DOING QUEUED MOVE " + this.queued_move);
       this.mathGameKeyDown({key: this.queued_move})
       this.queued_move = null;
     }
-  }
-
-  if (this.grigory.state == "working") {
+  } else if (this.grigory.state == "working") {
     this.grigory.work();
     if (this.grigory.state == "stopped" 
       && this.queued_move != null
@@ -758,15 +868,17 @@ Game.prototype.mathGameUpdate = function(diff) {
       this.mathGameKeyDown({key: this.queued_move})
       this.queued_move = null;
     }
-  }
-
-  if (this.grigory.state == "ouch" && this.timeSince(this.grigory.ouch_time) > 200) {
+  } else if (this.grigory.state == "ouch" && this.timeSince(this.grigory.ouch_time) > 200) {
     this.grigory.state = "stopped";
   }
 
   if (this.math_game_state == "active") this.mathGameAddSubversives();
-  this.mathGameSubversiveUpdate();
+  this.mathGameUpdateSubversives();
   if (this.math_game_state == "active") this.mathGameCheckSubversiveHit();
+
+  if (this.math_game_state == "post_game_defeat") {
+    this.mathGameUpdateExecutioner();
+  }
 
   // this.spellingHelp();
   // this.updateWPM();

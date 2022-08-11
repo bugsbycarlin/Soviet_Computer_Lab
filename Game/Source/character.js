@@ -10,10 +10,11 @@
 var default_walk_speed = 4.5;
 var frame_time = 50;
 
-var sprites = ["down", "left", "up", "right", "victory", "work"]
+var sprites = ["down", "left", "up", "right", "victory", "work", "defeat"]
 var walk_frames = [0, 1, 2, 1];
 var work_frames = [0, 1, 2, 1, 0];
 var victory_frames = [0, 1, 2, 1];
+var defeat_frames = [0, 1, 2, 1];
 
 Game.prototype.makeCharacter = function(character_name) {
   let character = new PIXI.Container();
@@ -22,7 +23,7 @@ Game.prototype.makeCharacter = function(character_name) {
   character.type = "character";
   character.character_name = character_name;
   character.sprite_count = 4;
-  if (character_name == "grigory") character.sprite_count = 6;
+  if (character_name == "grigory") character.sprite_count = 7;
 
   // character.red_circle = new PIXI.Sprite(PIXI.Texture.from("Art/red_circle.png"));
   // character.red_circle.anchor.set(0.5,0.78125);
@@ -195,6 +196,39 @@ Game.prototype.makeCharacter = function(character_name) {
       console.log("Victory frame " + victory_frames[character.step_value])
     }
   } 
+
+
+  character.startDefeat = function() {
+    if (character.character_name != "grigory") return;
+
+    character.state = "defeat";
+    character.step_value = 0;
+    character.frame_time *= 3;
+
+    for(let i = 0; i < character.sprite_count; i++) {
+      if (sprites[i] == "defeat") {
+        character.character_sprite[sprites[i]].visible = true;
+      } else {
+        character.character_sprite[sprites[i]].visible = false;
+      }
+    }
+
+    character.character_sprite["defeat"].gotoAndStop(0);
+    character.last_image_time = Date.now();
+  }
+
+
+  character.defeat = function() {
+    if (character.character_name != "grigory") return;
+
+    if (character.last_image_time == null) {
+      character.last_image_time = Date.now();
+    } else if (Date.now() - character.last_image_time > character.frame_time) {
+      character.step_value = (character.step_value + 1) % defeat_frames.length;
+      character.character_sprite["defeat"].gotoAndStop(defeat_frames[character.step_value]);
+      character.last_image_time = Date.now();
+    }
+  }
 
 
   character.character_sprite[character.direction].gotoAndStop(1);
