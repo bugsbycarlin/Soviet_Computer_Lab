@@ -68,8 +68,9 @@ Game.prototype.initializeMathGame = function(new_score) {
   this.freefalling = [];
   this.shakers = [];
 
-  if (this.level == null) this.level = 2;
+  // if (this.level == null) this.level = 2;
   if (this.score == null) this.score = 0;
+  this.level = 5;
 
   this.math_game_lives = 4;
 
@@ -232,17 +233,16 @@ Game.prototype.mathGameSetGameType = function() {
   if (this.level >= 2) {
     rule_options.push(...["factors", "primes", "starts_with"]);
   }
-  if (this.level >= 5) {
-    rule_options.push(...["less_than", "greater_than", "contains", "ends_with"]);
-  }
-  if (this.level >= 10) {
-    rule_options.push(...["equals", "word_length", "phoneme"]);
-  }
+  // if (this.level >= 5) {
+  //   rule_options.push(...["less_than", "greater_than", "contains", "ends_with"]);
+  // }
+  // if (this.level >= 10) {
+  //   rule_options.push(...["equals", "word_length", "phoneme"]);
+  // }
   
   shuffleArray(rule_options);
 
   this.rule = rule_options[0];
-  this.rule = "multiples";
 
   let hot_tile_array = [];
   for (let x = 0; x < 6; x++) {
@@ -259,7 +259,6 @@ Game.prototype.mathGameSetGameType = function() {
 
   if (this.rule == "multiples") {
     this.rule_value = dice(Math.min(this.level, 10) + 5) + 1;
-    //this.rule_label.text = "Multiples of " + this.rule_value;
     this.rule_list = [];
     for (let i = 1; i <= this.level + 2; i++) {
       this.rule_list.push(i * this.rule_value);
@@ -270,16 +269,13 @@ Game.prototype.mathGameSetGameType = function() {
         let value = dice((this.level + 2) * this.rule_value);
         if (x + "-" + y in hot_tile_dictionary) {
           value = pick(this.rule_list);
-          // this.cells[x][y].tint = 0x5555FF;
         }
         this.cells[x][y].cell_value = value;
         this.cells[x][y].text = this.cells[x][y].cell_value
-        // if (value % this.rule_value == 0) 
       }
     }
   } else if (this.rule == "factors") {
     this.rule_value = dice(Math.min(this.level, 20) + 10) + 3;
-    //this.rule_label.text = "Factors of " + this.rule_value;
     this.rule_list = [];
     for (let i = 1; i <= this.rule_value; i++) {
       if (this.rule_value % i == 0) this.rule_list.push(i);
@@ -297,15 +293,16 @@ Game.prototype.mathGameSetGameType = function() {
     }
   } else if (this.rule == "primes") {
     this.rule_value = dice(Math.min(this.level, 20) + 10) + 3;
-    //this.rule_label.text = "Prime numbers"
     this.rule_list = [];
 
-    for (let i = 1; i <= this.rule_value; i++) {
+    for (let i = 2; i <= this.rule_value; i++) {
       let prime = true;
       for (let j = 2; j < i; j++) {
         if (i % j == 0) prime = false;
       }
       if (prime) this.rule_list.push(i);
+      console.log("Primes");
+      console.log(this.rule_list);
     }
 
     for (let x = 0; x < 6; x++) {
@@ -321,7 +318,6 @@ Game.prototype.mathGameSetGameType = function() {
   } else if (this.rule == "starts_with") {
     shuffleArray(shuffle_letters);
     this.rule_value = shuffle_letters[0];
-    //this.rule_label.text = "Starts with " + this.rule_value;
     this.rule_list = {};
 
     for (let k = 4; k <= 5; k++) {
@@ -417,6 +413,10 @@ Game.prototype.mathGameCheckCellValidity = function(cell_x, cell_y) {
     } else {
       return false;
     }
+  } else if (this.rule == "factors" || this.rule == "primes") {
+    return this.rule_list.includes(value);
+  } else if (this.rule == "starts_with") {
+    return value in this.rule_list
   }
 }
 
@@ -447,17 +447,10 @@ Game.prototype.mathGameCountdownAndStart = function() {
       this.rule_label.text = "Begin working.";
       delay(function() {
         if (self.rule == "multiples") self.rule_label.text = "Multiples of " + self.rule_value;
-        // self.stalin_text.style.fontSize = 16;
-        // self.stalin_text.text = "";
-
+        if (self.rule == "factors") self.rule_label.text = "Factors of " + self.rule_value;
+        if (self.rule == "primes") self.rule_label.text = "Prime numbers";
+        if (self.rule == "starts_with") self.rule_label.text = "Starts with " + self.rule_value;
       }, 1600);
-
-      // if ((this.difficulty_level == "EASY" && (this.level == 13 || this.level == 14))
-      //   || (this.difficulty_level != "EASY" && (this.level == 19 || this.level == 20 || this.level == 21))) {
-      //   this.setMusic("putzen_song");
-      // } else {
-      //   this.setMusic("action_song_1");
-      // }
     }
   }
 }
