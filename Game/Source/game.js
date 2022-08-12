@@ -89,6 +89,7 @@ class Game {
     this.gentle_drop = 0.05;
     this.gentle_limit = 6;
     this.boost_limit = -25;
+    this.level = 1;
 
     this.lobby_mode = "game_type";
 
@@ -307,26 +308,19 @@ class Game {
 
 
   nextFlow() {
-    this.flow_marker += 1;
 
-    // Just arcade for now.
+    // Simple version for now
+
+    this.flow_marker = this.level;
     this.level = this.flow_marker + 1;
+
     let type = "";
-    // shuffleArray(opponents)
-    // this.opponent_name = opponents[0];
-    // console.log(opponents);
-    console.log("FNORD");
-    console.log(this.arcade_type_selection);
-    this.arcade_type_selection = 0;
-    if (this.arcade_type_selection == 0) {
-      // if (this.level % 9 == 1 || this.level % 9 == 2 || this.level % 9 == 3) {
-      //   type = "1p_word_rockets";
-      // } else if (this.level % 9 == 4 || this.level % 9 == 5 || this.level % 9 == 6) {
-      //   type = "1p_base_capture";
-      // } else if (this.level % 9 == 7 || this.level % 9 == 8 || this.level % 9 == 0) {
-      //   type = "1p_launch_code";
-      // }
-      // For now
+
+    // For now, type 4 is math game, and there's no type 0,
+    // and also we're forcing the type to 4.
+    this.arcade_type_selection = 4;
+
+    if (this.arcade_type_selection == 4) {
       type = "math_game";
     } else if (this.arcade_type_selection == 1) {
       type = "1p_word_rockets";

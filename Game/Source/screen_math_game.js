@@ -1,11 +1,10 @@
 
-
-let cell_offset_x = 151;
-let cell_offset_y = 107;
-let cell_width = 88;
-let cell_height = 64;
-let dark_color = 0x28281a;
-let medium_color = 0x5d5d5d;
+//
+// This file contains code to run a math game.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 
 /*
@@ -24,15 +23,21 @@ let medium_color = 0x5d5d5d;
   oo as in book
 */
 
-/*
-  Subversives:
 
-  straight line
-  random
-  indolent
-  seeker
+let cell_offset_x = 151;
+let cell_offset_y = 107;
+let cell_width = 88;
+let cell_height = 64;
+let dark_color = 0x28281a;
+let medium_color = 0x5d5d5d;
 
-*/
+let stalin_phrase_list = [
+  "Comrade Stalin disavows %s.",
+  "\"%s never existed.\"",
+  "\"%s is for Mensheviks.\"",
+  "\"%s is subversive.\"",
+  "\"%s is bourgeois.\"",
+];
 
 let subversive_list = [
   "carrying_1",
@@ -70,15 +75,22 @@ Game.prototype.initializeMathGame = function(new_score) {
 
   // if (this.level == null) this.level = 2;
   if (this.score == null) this.score = 0;
-  this.level = 5;
 
   this.math_game_lives = 4;
 
   this.display_score = this.score;
+  this.next_score_bump = 20;
+  this.score_bump_timer = this.markTime();
 
   this.mathGameResetBoard();
 
   this.math_game_state = "pre_game";
+
+  if (dice(100) < 70) {
+    delay(function() {
+      self.mathGameSetChallenge();
+    }, 5000 + dice(5000));
+  }
 
   delay(function() {
     self.paused = false;
@@ -283,7 +295,7 @@ Game.prototype.mathGameSetGameType = function() {
 
     for (let x = 0; x < 6; x++) {
       for (let y = 0; y < 5; y++) {
-        let value = dice(this.rule_value);
+        let value = dice(Math.min(this.level, 20) + 10) + 3;
         if (dice(100) < 45) {
           value = pick(this.rule_list);
         }
@@ -301,13 +313,11 @@ Game.prototype.mathGameSetGameType = function() {
         if (i % j == 0) prime = false;
       }
       if (prime) this.rule_list.push(i);
-      console.log("Primes");
-      console.log(this.rule_list);
     }
 
     for (let x = 0; x < 6; x++) {
       for (let y = 0; y < 5; y++) {
-        let value = dice(this.rule_value);
+        let value = dice(Math.min(this.level, 20) + 10) + 3;
         if (dice(100) < 40) {
           value = pick(this.rule_list);
         }
@@ -340,6 +350,31 @@ Game.prototype.mathGameSetGameType = function() {
         this.cells[x][y].text = this.cells[x][y].cell_value
       }
     }
+  }
+}
+
+
+Game.prototype.mathGameSetChallenge = function() {
+  if (this.rule == "multiples" || this.rule == "factors" || this.rule == "primes") {
+    this.anti_rule = pick(this.rule_list);
+    this.stalin_text.text = pick(stalin_phrase_list).replace("%s", this.anti_rule);
+  } else if (this.rule == "starts_with") {
+    // shouldn't be the rule letter.
+    let choices = [];
+    for (let i = 0; i < 26; i++) {
+      if (lower_array[i] != this.rule) choices.push(lower_array[i]);
+    }
+    this.anti_rule = pick(choices).toUpperCase();
+    this.stalin_text.text = pick(stalin_phrase_list).replace("%s", "letter " + this.anti_rule);
+  }
+
+  
+  this.stalin_icon.visible = true;
+  this.soundEffect("ding_ding_ding");
+
+  // Have to do this because Stalin might ban all the things you still need to pick up.
+  if (this.mathGameCheckVictory()) {
+    this.grigory.victorious = true;
   }
 }
 
@@ -395,6 +430,9 @@ Game.prototype.mathGameConsumeCell = function(cell_x, cell_y) {
     this.cells[cell_x][cell_y].cell_value = null;
     this.cells[cell_x][cell_y].text = "";
     this.grigory.startWork();
+    this.score += this.next_score_bump;
+    this.next_score_bump = 20;
+    this.score_bump_timer = this.markTime();
     if (this.mathGameCheckVictory()) {
       this.grigory.victorious = true;
     }
@@ -407,16 +445,10 @@ Game.prototype.mathGameConsumeCell = function(cell_x, cell_y) {
 Game.prototype.mathGameCheckCellValidity = function(cell_x, cell_y) {
   let cell = this.cells[cell_x][cell_y];
   let value = cell.cell_value;
-  if (this.rule == "multiples") {
-    if (value % this.rule_value == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  } else if (this.rule == "factors" || this.rule == "primes") {
-    return this.rule_list.includes(value);
+  if (this.rule == "multiples" || this.rule == "factors" || this.rule == "primes") {
+    return this.rule_list.includes(value) && (this.anti_rule == null || value != this.anti_rule);
   } else if (this.rule == "starts_with") {
-    return value in this.rule_list
+    return value in this.rule_list && (this.anti_rule == null || !value.includes(this.anti_rule));
   }
 }
 
@@ -471,11 +503,6 @@ Game.prototype.mathGameAddSubversives = function() {
     if (subversive.behavior == "elder") {
       subversive.frame_time *= 2;
       subversive.walk_speed *= 0.5;
-    }
-    if (subversive.behavior == "townie") {
-      for (let i = 0; i < 4; i++) {
-        subversive.character_sprite[sprites[i]].tint = 0xFFCCCC;
-      }
     }
 
     // TO DO: fix this so the grifter never appears atop the player or a good square.
@@ -733,7 +760,6 @@ Game.prototype.mathGameUpdateExecutioner = function() {
   if (this.math_game_state == "post_game_defeat") {
     if (this.timeSince(this.executioner.last_move) > this.executioner.next_move) {
       if (this.executioner.state == "offscreen_start") {
-        console.log("Alpha this guy up")
         new TWEEN.Tween(this.executioner)
           .to({alpha: 1})
           .duration(1000)
@@ -794,6 +820,8 @@ Game.prototype.mathGameUpdateExecutioner = function() {
             .duration(400)
             .easing(TWEEN.Easing.Quartic.Out)
             .start();
+          this.executioner.sequence = "after_arrest";
+          this.gameOverScreen(800);
         }
       }
 
@@ -835,20 +863,20 @@ Game.prototype.mathGameUpdate = function(diff) {
         .start();
     }
 
-    // flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
-    // delay(function() {
-    //   self.nextFlow();
-    // }, 2000);
+    //flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
+    delay(function() {
+      self.nextFlow();
+    }, 2000);
   }
 
   if (this.grigory.state == "victory") {
     this.grigory.victory();
   } else if (this.grigory.state == "defeat") {
     this.grigory.defeat();
+    this.stopMusic();
   } else if (this.grigory.state == "walking") {
     this.grigory.walk();
     if (this.grigory.state == "stopped" && this.queued_move != null) {
-      console.log("DOING QUEUED MOVE " + this.queued_move);
       this.mathGameKeyDown({key: this.queued_move})
       this.queued_move = null;
     }
@@ -857,7 +885,6 @@ Game.prototype.mathGameUpdate = function(diff) {
     if (this.grigory.state == "stopped" 
       && this.queued_move != null
       && this.math_game_state == "active") {
-      console.log("DOING QUEUED MOVE " + this.queued_move);
       this.mathGameKeyDown({key: this.queued_move})
       this.queued_move = null;
     }
@@ -871,6 +898,18 @@ Game.prototype.mathGameUpdate = function(diff) {
 
   if (this.math_game_state == "post_game_defeat") {
     this.mathGameUpdateExecutioner();
+  }
+
+  if (this.math_game_state == "active") {
+    if (this.timeSince(this.score_bump_timer) > 500) {
+      this.next_score_bump -= 1;
+      if (this.next_score_bump < 5) this.next_score_bump = 5;
+      this.score_bump_timer = this.markTime();
+    }
+
+    if (this.display_score < this.score) this.display_score += 1;
+
+    this.score_text.text = this.display_score;
   }
 
   // this.spellingHelp();
