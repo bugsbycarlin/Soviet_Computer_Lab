@@ -57,10 +57,15 @@ Game.prototype.CpeTesterResetBoard = function() {
   this.cpe_effect_layer.scale.set(2, 2);
   screen.addChild(this.cpe_effect_layer);
 
-  let background = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/background.png"));
+  let background = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/Levels/cpe_level_1_open.png"));
   background.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   background.position.set(0,0);
   this.cpe_background_layer.addChild(background);
+
+  let background_2 = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/Levels/cpe_level_1_filled.png"));
+  background_2.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  background_2.position.set(0,0);
+  this.cpe_background_layer.addChild(background_2);
 
   let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/level_text_backing.png"));
   level_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
