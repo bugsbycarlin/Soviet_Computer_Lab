@@ -126,6 +126,36 @@ function resumeAllDelays() {
 }
 
 
+// Assuming no duplicates in a list,
+// find the value and return the next value,
+// wrapping around if necessary.
+function next(some_list, value) {
+  if (some_list.length == 0) return null;
+  if (some_list.length == 1 && some_list[0] != value) return null;
+  // if (some_list.length == 1 && some_list[0] == value) return value;
+  // if (some_list.indexOf(value) == -1) return some_list[0];
+
+  let v_index = some_list.indexOf(value);
+  let w_index = (v_index + 1) % some_list.length;
+  return some_list[w_index];
+}
+
+
+// Assuming no duplicates in a list,
+// find the value and return the previous value,
+// wrapping around if necessary.
+function prev(some_list, value) {
+  if (some_list.length == 0) return null;
+  if (some_list.length == 1 && some_list[0] != value) return null;
+  if (some_list.length == 1 && some_list[0] == value) return value;
+  if (some_list.indexOf(value) == -1) return some_list[0];
+
+  let v_index = some_list.indexOf(value);
+  let w_index = (v_index + some_list.length - 1) % some_list.length;
+  return some_list[w_index];
+}
+
+
 function pick(some_list) {
   return some_list[Math.floor(Math.random() * some_list.length)]
 }

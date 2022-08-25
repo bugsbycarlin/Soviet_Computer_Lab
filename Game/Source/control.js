@@ -332,6 +332,10 @@ Game.prototype.handleKeyDown = function(ev) {
     this.multiSetNameKeyDown(ev);
   } else if (this.current_screen === "math_game") {
     this.mathGameKeyDown(ev);
+  } else if (this.current_screen === "1p_cpe") {
+    this.cpeKeyDown(ev);
+  } else if (this.current_screen === "cpe_character_tester") {
+    this.cpeTesterKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()

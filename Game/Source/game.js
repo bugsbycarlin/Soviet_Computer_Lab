@@ -14,7 +14,7 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-var first_screen = "math_game";
+var first_screen = "cpe_character_tester";
 // var first_screen = "title";
 // var first_screen = "cutscene";
 
@@ -321,7 +321,7 @@ class Game {
     this.arcade_type_selection = 4;
 
     if (this.arcade_type_selection == 4) {
-      type = "math_game";
+      type = "1p_word_rockets";
     } else if (this.arcade_type_selection == 1) {
       type = "1p_word_rockets";
     } else if (this.arcade_type_selection == 2) {
@@ -458,6 +458,10 @@ class Game {
       this.initializeMultiSetName();
     } else if (screen_name == "math_game") {
       this.initializeMathGame();
+    } else if (screen_name == "1p_cpe") {
+      this.initialize1pCpe();
+    } else if (screen_name == "cpe_character_tester") {
+      this.initializeCpeTester();
     } else if (screen_name == "game_over") {
       this.initializeGameOver();
     } else if (screen_name == "credits") {
@@ -512,6 +516,15 @@ class Game {
       .add("Art/Math_Game/Characters/townie_3.json")
       .add("Art/Math_Game/Characters/grifter.json")
       .add("Art/Math_Game/Characters/executioner.json")
+      .add("Art/CPE/Characters/walker.json")
+      .add("Art/CPE/Characters/runner.json")
+      .add("Art/CPE/Characters/construction.json")
+      .add("Art/CPE/Characters/policeman.json")
+      .add("Art/CPE/Characters/traffic.json")
+      .add("Art/CPE/Characters/academic.json")
+      .add("Art/CPE/Characters/partyboy.json")
+      .add("Art/CPE/Characters/businessman.json")
+      .add("Art/CPE/Characters/soldier.json")
       .load(function() {
         self.initializeScreen(first_screen, true);
 
@@ -715,6 +728,10 @@ class Game {
       this.singlePlayerLobbyUpdate(diff);
     } else if(this.current_screen == "math_game") {
       this.mathGameUpdate(diff);
+    } else if(this.current_screen == "1p_cpe") {
+      this.CpeUpdate(diff);
+    } else if(this.current_screen == "cpe_character_tester") {
+      this.CpeTesterUpdate(diff);
     } else if (this.current_screen == "cutscene") {
       this.cutsceneUpdate(diff);
     } else if (this.current_screen == "intro") {
