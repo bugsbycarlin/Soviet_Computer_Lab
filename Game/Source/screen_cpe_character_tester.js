@@ -6,7 +6,6 @@
 // Written by Matthew Carlin
 //
 
-cpe_character_types = ["walker", "runner", "construction", "policeman", "traffic", "academic", "partyboy", "businessman", "soldier"]
 
 Game.prototype.initializeCpeTester = function(new_score) {
   let self = this;

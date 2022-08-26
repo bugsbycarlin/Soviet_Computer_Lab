@@ -14,7 +14,7 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-var first_screen = "cpe_character_tester";
+var first_screen = "1p_cpe";
 // var first_screen = "title";
 // var first_screen = "cutscene";
 
@@ -72,9 +72,29 @@ class Game {
     this.auth_user = null;
     this.network = new Network(this);
 
+    this.keymap = {};
+
     document.addEventListener("keydown", function(ev) {self.handleKeyDown(ev)}, false);
+    document.addEventListener("keyup", function(ev) {self.handleKeyUp(ev)}, false);
     document.addEventListener("mousemove", function(ev) {self.handleMouseMove(ev)}, false);
     document.addEventListener("mousedown", function(ev) {self.handleMouseDown(ev)}, false);
+
+    window.onfocus = function(ev) {
+      if (self.keymap != null) {
+        self.keymap["ArrowDown"] = null;
+        self.keymap["ArrowUp"] = null;
+        self.keymap["ArrowLeft"] = null;
+        self.keymap["ArrowRight"] = null;
+      }
+    };
+    window.onblur = function(ev) {
+      if (self.keymap != null) {
+        self.keymap["ArrowDown"] = null;
+        self.keymap["ArrowUp"] = null;
+        self.keymap["ArrowLeft"] = null;
+        self.keymap["ArrowRight"] = null;
+      }
+    };
 
     this.keyboard_mode = "QWERTY";
 
@@ -206,8 +226,8 @@ class Game {
 
         if (now - last_performance_update > 3000 && log_performance) {
           //There were 3000 milliseconds, so divide fps_counter by 3
-          //console.log("FPS: " + fps_counter / 3);
-          //self.trackPrint(["update", "tween", "animate"]);
+          // console.log("FPS: " + fps_counter / 3);
+          // self.trackPrint(["update", "tween", "animate"]);
           fps_counter = 0;
           last_performance_update = now;
         }
@@ -525,6 +545,13 @@ class Game {
       .add("Art/CPE/Characters/partyboy.json")
       .add("Art/CPE/Characters/businessman.json")
       .add("Art/CPE/Characters/soldier.json")
+
+
+      .add("Art/CPE/Levels/cpe_level_1_open.png")
+      .add("Art/CPE/Levels/cpe_level_1_death.png")
+      .add("Art/CPE/Levels/cpe_level_1_distraction.png")
+      .add("Art/CPE/Levels/cpe_level_1_filled.png")
+      .add("Art/CPE/Levels/cpe_level_1_floating.png")
       .load(function() {
         self.initializeScreen(first_screen, true);
 

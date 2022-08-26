@@ -241,10 +241,19 @@ Game.prototype.gameplayKeyDown = function(key) {
 }
 
 
+Game.prototype.handleKeyUp = function(ev) {
+  ev.preventDefault();
+
+  this.keymap[ev.key] = null;
+}
+
+
 Game.prototype.handleKeyDown = function(ev) {
   if (ev.key === "Tab") {
     ev.preventDefault();
   }
+
+  this.keymap[ev.key] = true;
 
   if(this.current_screen === "1p_word_rockets") {
 
