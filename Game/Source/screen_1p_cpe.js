@@ -33,7 +33,18 @@ Game.prototype.initialize1pCpe = function(new_score) {
   this.walker_spawn_delay = 1000;
   this.walker_last_spawn = this.markTime();
 
-  this.spawnWalkers(true);
+  this.spawnWalker(true);
+
+  // screen.buttonMode = true;
+  // screen.interactive = true;
+  // screen.hitArea = new PIXI.Rectangle(0, 0, 800, 600);
+  // screen.defaultCursor = "url('Art/CPE/UI/cursor.png') 3 2, auto";
+
+  // this.renderer.plugins.interaction.cursorStyles.default = "url('Art/CPE/UI/cursor.png'),auto";
+  this.renderer.plugins.interaction.cursorStyles.default = "url('Art/CPE/UI/cursor.png'),auto";
+  this.renderer.plugins.interaction.setCursorMode("url('Art/CPE/UI/cursor.png'),auto");
+
+  // self.setMusic("marche_slav");
 
   delay(function() {
     self.paused = false;
@@ -65,15 +76,15 @@ Game.prototype.CpeResetBoard = function() {
   layers["filled"] = new PIXI.Container();
   layers["filled"].scale.set(2, 2);
   screen.addChild(layers["filled"]);
-  layers["character"] = new PIXI.Container();
-  layers["character"].scale.set(2, 2);
-  screen.addChild(layers["character"]);
   layers["distraction"] = new PIXI.Container();
   layers["distraction"].scale.set(2, 2);
   screen.addChild(layers["distraction"]);
   layers["death"] = new PIXI.Container();
   layers["death"].scale.set(2, 2);
   screen.addChild(layers["death"]);
+  layers["character"] = new PIXI.Container();
+  layers["character"].scale.set(2, 2);
+  screen.addChild(layers["character"]);
   layers["floating"] = new PIXI.Container();
   layers["floating"].scale.set(2, 2);
   screen.addChild(layers["floating"]);
@@ -107,7 +118,9 @@ Game.prototype.CpeResetBoard = function() {
  
   // this.cpeMakeVoxels();
   this.cpeMakeIllegalArea();
+  this.cpeMakeDeathArea();
   
+  this.cpeAddAnimations();
 
   // let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/level_text_backing.png"));
   // level_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -151,12 +164,114 @@ Game.prototype.CpeResetBoard = function() {
   this.pose_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   layers["display"].addChild(this.pose_text);
 
-  terrain["filled"].tint = 0xFF00FF;
+  // terrain["filled"].tint = 0xFF00FF;
 
   this.screen_vx = 0;
   this.screen_vy = 0;
 
-  this.walkers = [];
+  this.characters = [];
+
+  const glyph_gap = 72;
+
+  this.runner_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/runner_glyph.png"));
+  this.runner_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.runner_glyph.position.set(this.width/2 - 7 * glyph_gap,this.height/2 - glyph_gap);
+  this.runner_glyph.anchor.set(0, 0);
+  this.runner_glyph.interactive = true;
+  this.runner_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.runner_glyph.x, self.runner_glyph.y);
+    self.job_selection = "runner";
+  });
+  layers["display"].addChild(this.runner_glyph);
+
+  this.traffic_right_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_right_glyph.png"));
+  this.traffic_right_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.traffic_right_glyph.position.set(this.width/2 - 6 * glyph_gap,this.height/2 - glyph_gap);
+  this.traffic_right_glyph.anchor.set(0, 0);
+  this.traffic_right_glyph.anchor.set(0, 0);
+  this.traffic_right_glyph.interactive = true;
+  this.traffic_right_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.traffic_right_glyph.x, self.traffic_right_glyph.y);
+    self.job_selection = "traffic_right";
+  });
+  layers["display"].addChild(this.traffic_right_glyph);
+
+  this.traffic_left_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_left_glyph.png"));
+  this.traffic_left_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.traffic_left_glyph.position.set(this.width/2 - 5 * glyph_gap,this.height/2 - glyph_gap);
+  this.traffic_left_glyph.anchor.set(0, 0);
+  this.traffic_left_glyph.anchor.set(0, 0);
+  this.traffic_left_glyph.interactive = true;
+  this.traffic_left_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.traffic_left_glyph.x, self.traffic_left_glyph.y);
+    self.job_selection = "traffic_left";
+  });
+  layers["display"].addChild(this.traffic_left_glyph);
+
+  this.traffic_down_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_down_glyph.png"));
+  this.traffic_down_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.traffic_down_glyph.position.set(this.width/2 - 4 * glyph_gap,this.height/2 - glyph_gap);
+  this.traffic_down_glyph.anchor.set(0, 0);
+  this.traffic_down_glyph.anchor.set(0, 0);
+  this.traffic_down_glyph.interactive = true;
+  this.traffic_down_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.traffic_down_glyph.x, self.traffic_down_glyph.y);
+    self.job_selection = "traffic_down";
+  });
+  layers["display"].addChild(this.traffic_down_glyph);
+
+  this.traffic_up_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_up_glyph.png"));
+  this.traffic_up_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.traffic_up_glyph.position.set(this.width/2 - 3 * glyph_gap,this.height/2 - glyph_gap);
+  this.traffic_up_glyph.anchor.set(0, 0);
+  this.traffic_up_glyph.anchor.set(0, 0);
+  this.traffic_up_glyph.interactive = true;
+  this.traffic_up_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.traffic_up_glyph.x, self.traffic_up_glyph.y);
+    self.job_selection = "traffic_up";
+  });
+  layers["display"].addChild(this.traffic_up_glyph);
+
+  this.policeman_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/policeman_glyph.png"));
+  this.policeman_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.policeman_glyph.position.set(this.width/2 - 2 * glyph_gap,this.height/2 - glyph_gap);
+  this.policeman_glyph.anchor.set(0, 0);
+  this.policeman_glyph.anchor.set(0, 0);
+  this.policeman_glyph.interactive = true;
+  this.policeman_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.policeman_glyph.x, self.policeman_glyph.y);
+    self.job_selection = "policeman";
+  });
+  layers["display"].addChild(this.policeman_glyph);
+
+  this.construction_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/construction_glyph.png"));
+  this.construction_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.construction_glyph.position.set(this.width/2 - glyph_gap,this.height/2 - glyph_gap);
+  this.construction_glyph.anchor.set(0, 0);
+  this.construction_glyph.anchor.set(0, 0);
+  this.construction_glyph.interactive = true;
+  this.construction_glyph.on("pointertap", function() {
+    self.glyph_cursor.visible = true;
+    self.glyph_cursor.position.set(self.construction_glyph.x, self.construction_glyph.y);
+    self.job_selection = "construction";
+  });
+  layers["display"].addChild(this.construction_glyph);
+
+
+  this.glyph_cursor = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/glyph_cursor.png"));
+  this.glyph_cursor.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.glyph_cursor.position.set(this.width/2 - 4 * glyph_gap,this.height/2 - glyph_gap);
+  this.glyph_cursor.anchor.set(0, 0);
+  layers["display"].addChild(this.glyph_cursor);
+  this.glyph_cursor.visible = false;
+
+  this.job_selection = null;
 }
 
 
@@ -196,6 +311,7 @@ Game.prototype.cpeMakeVoxels = function() {
   }
 }
 
+
 Game.prototype.cpeMakeIllegalArea = function() {
   let self = this;
   let terrain = this.terrain;
@@ -222,11 +338,108 @@ Game.prototype.cpeMakeIllegalArea = function() {
 }
 
 
+
+Game.prototype.cpeMakeDeathArea = function() {
+  let self = this;
+  let terrain = this.terrain;
+  let layers = this.cpe_layers;
+  
+  let pixels = pixi.renderer.extract.pixels(terrain["death"]);
+  this.death_area = {};
+
+  for (let i = 0; i < this.level_width; i += 2) {
+    this.death_area[i] = {};
+  }
+
+  for (j = 0; j < this.level_height; j += 2) {
+    for (let i = 0; i < this.level_width; i += 2) {
+      let p0 = (this.level_width * j + i) * 4;
+      let p1 = (this.level_width * j + i + 1) * 4;
+      let p2 = (this.level_width * (j+1) + i) * 4;
+      let p3 = (this.level_width * (j+1) + i+1) * 4;
+      if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
+        this.death_area[i][j] = true;
+      }
+    }
+  }
+}
+
+
+Game.prototype.cpeAddAnimations = function() {
+  let self = this;
+  let terrain = this.terrain;
+  let layers = this.cpe_layers;
+
+  for (let i = 0; i < this.config.animations.length; i++) {
+    let [name, layer, x, y, speed] = this.config.animations[i];
+
+    let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/" + name + ".json"].spritesheet;
+    let animation = new PIXI.AnimatedSprite(sheet.animations[Object.keys(sheet.animations)[0]]);
+    animation.position.set(x, y);
+    layers[layer].addChild(animation);
+    animation.animationSpeed = speed;
+    animation.play();
+  }
+}
+
+
 Game.prototype.cpeKeyDown = function(ev) {
   let self = this;
   let screen = this.screens["1p_cpe"];  
 }
 
+
+Game.prototype.cpeMouseDown = function(ev) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let mouse_data = pixi.renderer.plugins.interaction.mouse.global;
+
+  if (ev.button == 0) {
+    // click to move the cursor.
+    // let x_click = mouse_data.x - this.player_area.x;
+    // let y_click = mouse_data.y - this.player_area.y;
+    // let x_tile = Math.floor(x_click / 32);
+    // let y_tile = Math.floor((13 * 32 + y_click)/32);
+
+    // if (this.baseCaptureInBounds(x_tile, y_tile) && this.baseCaptureBoard[x_tile][y_tile] != "") {
+    //   if (this.game_phase == "tutorial" && this.tutorial_number == 6 
+    //     && (x_tile != this.cursor[0].x_tile || y_tile != this.cursor[0].y_tile)) {
+    //     this.bc_tutorial7();
+    //   }
+
+    //   this.baseCaptureJumpCursor(0, x_tile, y_tile, null);
+    // }
+    let x = Math.floor(mouse_data.x / 2) - layers["character"].x/2;
+    let y = Math.floor(mouse_data.y / 2) - layers["character"].y/2;
+    let min_char = null;
+    let min_dist = null;
+    for (let i = 0; i < this.characters.length; i++) {
+      let c = this.characters[i];
+      //if (c.character_name == "walker") {
+        if (x > c.x - 12 && x < c.x + 12 && y > c.y - 30 && y < c.y + 10) {
+          let d = distance(x, y, c.x, c.y);
+          if (min_char == null || d < min_dist) {
+            min_char = c;
+            min_dist = d;
+          }
+        }
+      //}
+    }
+
+    if (min_char != null) {
+      if (this.job_selection == "runner" && min_char.character_name == "walker") {
+        this.upgradeToRunner(min_char);
+      } else if (this.job_selection.includes("traffic")
+        && (min_char.character_name == "walker" || min_char.character_name == "runner")) {
+        let direction = this.job_selection.split("_")[1]
+        console.log("IN BRIEF");
+        console.log(direction);
+        this.upgradeToTraffic(min_char, direction)
+      }
+    }
+  }
+}
 
 
 Game.prototype.cpeCountdownAndStart = function() {
@@ -297,7 +510,8 @@ Game.prototype.cpeMoveScreen = function(fractional) {
 }
 
 
-Game.prototype.spawnWalkers = function(force=false) {
+Game.prototype.spawnWalker = function(force=false) {
+  let self = this;
   let layers = this.cpe_layers;
 
   if (force || (this.cpe_game_state == "active" && this.timeSince(this.walker_last_spawn) > this.walker_spawn_delay)) {
@@ -308,16 +522,140 @@ Game.prototype.spawnWalkers = function(force=false) {
     layers["character"].addChild(walker);
     walker.setState("directed_walk", "right");
     this.shakers.push(walker);
-    this.walkers.push(walker);
+    this.characters.push(walker);
+
+    // walker.interactive == true;
+    // walker.on("pointertap", function() {
+    //   console.log("clicked me");
+    //   if (self.job_selection == "runner" && walker.state == "directed_walk" || "random_walk") {
+    //     self.upgradeToRunner(walker);
+    //   }
+    // });
 
     this.walker_last_spawn = this.markTime();
   }
 }
 
 
-Game.prototype.updateWalkers = function() {
-  for (let i = 0; i < this.walkers.length; i++) {
-    this.walkers[i].update(this.illegal_area, this.level_width, this.level_height);
+Game.prototype.upgradeToRunner = function(walker) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let x = walker.x;
+  let y = walker.y;
+
+  let runner = this.makeCpeCharacter("runner");
+  runner.x = walker.x;
+  runner.y = walker.y;
+  runner.vx = walker.vx;
+  runner.vy = walker.vy;
+  runner.state = walker.state;
+  runner.setAction(walker.action);
+  runner.setState("directed_walk", walker.getDirection());
+
+  this.deleteWalker(walker);
+
+  layers["character"].addChild(runner);
+  this.shakers.push(runner);
+  this.characters.push(runner);
+  console.log("made one");
+}
+
+
+Game.prototype.upgradeToTraffic = function(walker, direction) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let x = walker.x;
+  let y = walker.y;
+
+  let traffic = this.makeCpeCharacter("traffic");
+  traffic.x = walker.x;
+  traffic.y = walker.y;
+  traffic.vx = walker.vx;
+  traffic.vy = walker.vy;
+  traffic.setState("traffic", direction);
+
+  this.deleteWalker(walker);
+
+  layers["character"].addChild(traffic);
+  this.shakers.push(traffic);
+  this.characters.push(traffic);
+  console.log("made one");
+}
+
+
+Game.prototype.deleteWalker = function(walker) {
+  let layers = this.cpe_layers;
+  walker.visible = false;
+  walker.state = "dead";
+
+  let new_shakers = [];
+  for (let i = 0; i < this.shakers.length; i++) {
+    if (this.shakers[i].state != "dead") {
+      new_shakers.push(this.shakers[i]);
+    }
+  }
+  this.shakers = new_shakers;
+
+  let new_walkers = [];
+  for (let i = 0; i < this.characters.length; i++) {
+    if (this.characters[i].state != "dead") {
+      new_walkers.push(this.characters[i]);
+    }
+  }
+  this.characters = new_walkers;
+
+  layers["character"].removeChild(walker);
+}
+
+
+Game.prototype.updateCharacters = function() {
+  for (let i = 0; i < this.characters.length; i++) {
+    let old_state = this.characters[i].state;
+
+    this.characters[i].update(this.illegal_area, this.death_area, this.level_width, this.level_height);
+  
+    if (old_state != "dying" && this.characters[i].state == "dying") {
+      this.characters[i].y -= 16;
+      this.characters[i].vy = -3.5;
+      // need a gentler fall.
+      this.characters[i].personal_gravity = 2.1;
+      this.freefalling.push(this.characters[i]);
+    }
+  }
+
+
+  let new_characters = [];
+  for (let i = 0; i < this.characters.length; i++) {
+    if (this.characters[i].state != "dying" || this.characters[i].y < this.level_height + 100) {
+      new_characters.push(this.characters[i]);
+    } else {
+      this.cpe_layers["character"].removeChild(this.characters[i]);
+    }
+  }
+  this.characters = new_characters;
+
+
+  for (let i = 0; i < this.characters.length; i++) {
+    if (this.characters[i].state != "dying") {
+      if (this.characters[i].character_name == "walker" || this.characters[i].character_name == "runner") {
+        for (let j = 0; j < this.characters.length; j++) {
+          if (this.characters[j].character_name == "traffic") {
+            if (distance(this.characters[i].x,this.characters[i].y,
+              this.characters[j].x, this.characters[j].y) < 20) {
+              if (this.characters[i].state != "directed_walk"
+                || this.characters[i].getDirection() != this.characters[j].getDirection()) {
+                this.characters[i].setState("directed_walk", this.characters[j].getDirection())
+                // TO DO: make the walker align a little closer with the traffic director
+                this.characters[i].drift_x = this.characters[j].x - this.characters[i].x;
+                this.characters[i].drift_y = this.characters[j].y - this.characters[i].y;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -336,8 +674,8 @@ Game.prototype.CpeUpdate = function(diff) {
   if (this.cpe_game_state == null) return;
 
   this.cpeMoveScreen(fractional);
-  this.spawnWalkers();
-  this.updateWalkers();
+  this.spawnWalker();
+  this.updateCharacters();
 }
 
 

@@ -474,5 +474,9 @@ Game.prototype.handleMouseDown = function(ev) {
 
   if(this.current_screen === "1p_base_capture") {
     this.baseCaptureMouseDown(ev);
-  } 
+  }
+
+  if (this.current_screen === "1p_cpe") {
+    this.cpeMouseDown(ev);
+  }
 }

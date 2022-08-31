@@ -537,7 +537,11 @@ Game.prototype.freeeeeFreeeeeFalling = function(fractional) {
     item.position.x += item.vx * fractional;
     item.position.y += item.vy * fractional;
     if (item.type != "ember") {
-      item.vy += this.gravity * fractional;
+      if (item.personal_gravity == null) {
+        item.vy += this.gravity * fractional;
+      } else {
+        item.vy += item.personal_gravity * fractional;
+      }
     } else {
       item.alpha *= 0.97;
       item.vy += this.gentle_drop * fractional;

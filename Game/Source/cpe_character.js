@@ -6,8 +6,19 @@
 // Written by Matthew Carlin
 //
 
-var default_walk_speed = 1.0;
+// Without worring about frame rate slipping
+// OR foot animation slipping,
+// For a 6 frame walk cycle where
+// a 16 pixel character moves 2x his own distance,
+// (6 * frame_time / 1000) * 60 * walk_speed = 32
+// So walk_speed = (32000/360) / frame_time
+// var default_walk_speed = 0.6;
+// I would like a fudge factor to slow the character
+// down while having faster animation, and I don't 
+// care that much about slippage, sooooo,
+// Make it 24000.
 var frame_time = 100;
+var default_walk_speed = (24000/360)/frame_time;
 
 Game.prototype.makeCpeCharacter = function(character_name) {
   let character = new PIXI.Container();
@@ -18,7 +29,6 @@ Game.prototype.makeCpeCharacter = function(character_name) {
 
   PIXI.utils.clearTextureCache();
   let sheet = PIXI.Loader.shared.resources["Art/CPE/Characters/" + character_name + ".json"].spritesheet;
-  console.log(sheet.animations);
   character.poses = {};
   for(const key in sheet.animations) {
     character.poses[key] = new PIXI.AnimatedSprite(sheet.animations[key]);
@@ -26,28 +36,35 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     character.poses[key].position.set(0, 0);
     character.addChild(character.poses[key]);
     character.poses[key].visible = false;
-    console.log(key);
   }
 
-  character.x_heading = 1;
-  character.y_heading = 0;
+  character.vx = 1;
+  character.vy = 0;
 
   character.frame_time = frame_time;
   character.last_image_time = null;
   character.walk_speed = default_walk_speed;
 
+  if (character.character_name == "runner") {
+    character.frame_time /= 2;
+    character.walk_speed *= 2;
+  } else if (character.character_name == "traffic") {
+    character.frame_time /= 2;
+    character.walk_speed *= 2;
+  }
+
   character.step_value = 0;
 
 
   character.getDirection = function() {
-    if (Math.abs(character.x_heading) > Math.abs(character.y_heading)) {
-      if (character.x_heading >= 0) {
+    if (Math.abs(character.vx) > Math.abs(character.vy)) {
+      if (character.vx >= 0) {
         return "right"
       } else {
         return "left";
       }
     } else {
-      if (character.y_heading >= 0) {
+      if (character.vy >= 0) {
         return "down";
       } else {
         return "up";
@@ -57,23 +74,54 @@ Game.prototype.makeCpeCharacter = function(character_name) {
 
 
   character.setState = function(state, direction) {
+    if (character.state == "dying") return;
+
     character.state = state;
 
     if (character.state == "standing") character.setAction("stand");
 
-    if (character.state == "directed_walk") {
+    if (character.state == "traffic") {
+      character.arrow = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/arrow.png"));
+      character.arrow.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+      character.arrow.anchor.set(0.5, 0.5)
       if (direction == "right") {
-        character.x_heading = 1;
-        character.y_heading = 0;
+        character.vx = 1;
+        character.vy = 0;
+        character.arrow.position.set(16,-4);
+        character.arrow.angle = 0;
       } else if (direction == "left") {
-        character.x_heading = -1;
-        character.y_heading = 0;
+        character.vx = -1;
+        character.vy = 0;
+        character.arrow.position.set(-16,-4);
+        character.arrow.angle = 180;
       } else if (direction == "up") {
-        character.x_heading = 0;
-        character.y_heading = -1;
+        character.vx = 0;
+        character.vy = -1;
+        character.arrow.position.set(0,-24);
+        character.arrow.angle = 270;
       } else if (direction == "down") {
-        character.x_heading = 0;
-        character.y_heading = 1;
+        character.vx = 0;
+        character.vy = 1;
+        character.arrow.position.set(0,12);
+        character.arrow.angle = 90;
+      }
+      character.arrow.px = character.arrow.x;
+      character.arrow.py = character.arrow.y;
+      character.addChild(character.arrow);
+      character.setAction("point");
+    } else if (character.state == "directed_walk") {
+      if (direction == "right") {
+        character.vx = 1;
+        character.vy = 0;
+      } else if (direction == "left") {
+        character.vx = -1;
+        character.vy = 0;
+      } else if (direction == "up") {
+        character.vx = 0;
+        character.vy = -1;
+      } else if (direction == "down") {
+        character.vx = 0;
+        character.vy = 1;
       }
       character.setAction("walk");
     } else if (character.state == "random_walk") {
@@ -91,10 +139,14 @@ Game.prototype.makeCpeCharacter = function(character_name) {
         let angle = 270 - random_angle_span + dice(2 * random_angle_span);
       }
 
-      character.x_heading = Math.cos(angle * 180 / Math.PI);
-      character.y_heading = Math.sin(angle * 180 / Math.PI);
+      character.vx = Math.cos(angle * 180 / Math.PI);
+      character.vy = Math.sin(angle * 180 / Math.PI);
 
       character.setAction("walk");
+    } else if (character.state == "dying") {
+      for(const key in sheet.animations) {
+        character.poses[key].scale.set(1, -1);
+      }
     }
   }
 
@@ -104,7 +156,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     let direction = character.getDirection();
     let desired_pose = action + "_" + character.getDirection();
     if (!(desired_pose in character.poses)) {
-      if (character.x_heading >= 0) {
+      if (character.vx >= 0) {
         desired_pose = action + "_right";
       } else {
         desired_pose = action + "_left";
@@ -165,14 +217,32 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   }
 
 
-  character.update = function(illegal_area, width, height) {
+  character.update = function(illegal_area, death_area, width, height) {
 
-    
-    if (character.action == "walk") {
+    if (character.action == "walk" && character.state != "dying") {
       character.last_x = character.x;
       character.last_y = character.y;
-      character.x += character.walk_speed * character.x_heading;
-      character.y += character.walk_speed * character.y_heading;
+      character.x += character.walk_speed * character.vx;
+      character.y += character.walk_speed * character.vy;
+
+      if (character.drift_x && Math.abs(character.drift_x) >= 0.5) {
+        if (character.drift_x > 0) {
+          character.x += 0.5;
+          character.drift_x -= 0.5;
+        } else {
+          character.x -= 0.5;
+          character.drift_x += 0.5;
+        }
+      }
+      if (character.drift_y && Math.abs(character.drift_y) >= 0.5) {
+        if (character.drift_y > 0) {
+          character.y += 0.5;
+          character.drift_y -= 0.5;
+        } else {
+          character.y -= 0.5;
+          character.drift_y += 0.5;
+        }
+      }
 
       if (character.x > width) {
         character.x = character.last_x;
@@ -193,7 +263,11 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       } else {
         let x_int = Math.floor(character.x/2) * 2;
         let y_int = Math.floor(character.y/2) * 2;
-        if (x_int in illegal_area && illegal_area[x_int][y_int] != null) {
+
+        if (x_int in death_area && death_area[x_int][y_int] != null) {
+          // Dead!
+          character.setState("dying");
+        } else if (x_int in illegal_area && illegal_area[x_int][y_int] != null) {
           character.x = character.last_x;
           character.y = character.last_y;
           let direction = character.getDirection();
@@ -211,6 +285,19 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     }
     
     character.updatePose();
+
+    if (character.action == "point") {
+      let direction = character.getDirection();
+      if (direction == "right") {
+        character.arrow.x = character.arrow.px + 1.5 * (character.step_value % character.poses[character.pose].totalFrames);
+      } else if (direction == "left") {
+        character.arrow.x = character.arrow.px - 1.5 * (character.step_value % character.poses[character.pose].totalFrames);
+      } else if (direction == "up") {
+        character.arrow.y = character.arrow.py - 1.5 * (character.step_value % character.poses[character.pose].totalFrames);
+      } else if (direction == "down") {
+        character.arrow.y = character.arrow.py + 1.5 * (character.step_value % character.poses[character.pose].totalFrames);
+      }
+    }
   } 
 
   character.setState("standing");

@@ -546,6 +546,8 @@ class Game {
       .add("Art/CPE/Characters/businessman.json")
       .add("Art/CPE/Characters/soldier.json")
 
+      .add("Art/CPE/Animations/billboard.json")
+
 
       .add("Art/CPE/Levels/cpe_level_1_open.png")
       .add("Art/CPE/Levels/cpe_level_1_death.png")
