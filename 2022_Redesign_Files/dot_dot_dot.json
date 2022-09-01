@@ -1,0 +1,39 @@
+{"frames": {
+
+"dot_dot_dot-0.png":
+{
+	"frame": {"x":1,"y":1,"w":6,"h":6},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":6,"h":6},
+	"sourceSize": {"w":16,"h":16}
+},
+"dot_dot_dot-1.png":
+{
+	"frame": {"x":9,"y":1,"w":11,"h":6},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":11,"h":6},
+	"sourceSize": {"w":16,"h":16}
+},
+"dot_dot_dot-2.png":
+{
+	"frame": {"x":22,"y":1,"w":16,"h":6},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":16,"h":6},
+	"sourceSize": {"w":16,"h":16}
+}},
+"animations": {
+	"dot_dot_dot": ["dot_dot_dot-0.png","dot_dot_dot-1.png","dot_dot_dot-2.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dot_dot_dot.png",
+	"format": "RGBA8888",
+	"size": {"w":39,"h":8},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7a95f135c0ace7c0377f327cd6003583:79d3292386c4abc3965110ec6e31c73e:59c304a6c0dc83ab0e7ddf16adef7247$"
+}
+}

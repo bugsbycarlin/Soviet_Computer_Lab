@@ -42,6 +42,21 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   character.vx = 1;
   character.vy = 0;
 
+  character.clickable = true;
+
+  if (character.character_name == "academic") {
+    character.clickable = false;
+
+    let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
+    let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
+    animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    animation.position.set(character.x - 8, character.y - 30);
+    animation.animationSpeed = 0.035;
+    animation.play();
+    animation.visible = false;
+    character.dot_dot_dot_animation = animation;
+  }
+
   character.frame_time = frame_time;
   character.last_image_time = null;
   character.walk_speed = default_walk_speed;
@@ -52,6 +67,9 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   } else if (character.character_name == "traffic") {
     character.frame_time /= 2;
     character.walk_speed *= 2;
+  } else if (character.character_name == "traffic") {
+    character.frame_time *= 1.5;
+    character.walk_speed /= 1.5;
   }
 
   character.step_value = 0;
@@ -148,6 +166,10 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       for(const key in sheet.animations) {
         character.poses[key].scale.set(1, -1);
       }
+    } else if (character.state == "read") {
+      character.vx = 0;
+      character.vy = 1;
+      character.setAction("read");
     }
   }
 
@@ -166,6 +188,11 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     if (!(desired_pose in character.poses)) {
       desired_pose = Object.keys(character.poses)[0];
       console.log("Warning: could not find pose " + desired_pose + " for " + character.character_name);
+    }
+
+    if (action == "read" && character.dot_dot_dot_animation != null) {
+      character.dot_dot_dot_animation.gotoAndStop(0);
+      character.dot_dot_dot_animation.play();
     }
 
     character.setPose(desired_pose);
@@ -197,6 +224,30 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       character.step_value = (character.step_value + 1) % character.poses[character.pose].totalFrames;
       character.poses[character.pose].gotoAndStop(character.step_value);
       character.last_image_time = Date.now();
+
+
+      if (character.action == "read" && character.step_value == 1) {
+        if (dice(100) < 35) {
+          character.setAction("turn_page");
+        }
+
+        if (dice(100) < 10) {
+          character.setState("random_walk");
+        }
+      } else if (character.action == "turn_page" && character.step_value == 1) {
+        if (dice(100) < 35) {
+          character.setAction("read");
+        }
+
+        if (dice(100) < 10) {
+          character.setState("random_walk");
+        }
+      }
+      if (character.character_name == "academic" && character.state == "random_walk") {
+        if (dice(100) < 8) {
+          character.setState("read");
+        }
+      }
     }
   }
 

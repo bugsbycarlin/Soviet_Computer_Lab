@@ -555,6 +555,7 @@ class Game {
       .add("Art/CPE/Animations/fridge_1.json")
       .add("Art/CPE/Animations/cat.json")
 
+      .add("Art/CPE/UI/dot_dot_dot.json")
 
       .add("Art/CPE/Levels/cpe_level_1_open.png")
       .add("Art/CPE/Levels/cpe_level_1_death.png")

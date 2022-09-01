@@ -26,11 +26,16 @@ Game.prototype.initialize1pCpe = function(new_score) {
 
   this.config = cpe_level_config[this.level];
 
+  this.num_awake = this.config.num_awake;
+  this.num_to_wake = this.config.num_to_wake;
+  this.num_required = this.config.num_required;
+  this.num_arrived = this.config.num_arrived;
+
   this.CpeResetBoard();
 
   this.cpe_game_state = "pre_game";
 
-  this.walker_spawn_delay = 1000;
+  this.walker_spawn_delay = this.config.walker_spawn_delay;
   this.walker_last_spawn = this.markTime();
 
   // this.spawnWalker(true);
@@ -63,6 +68,11 @@ Game.prototype.CpeResetBoard = function() {
   let screen = this.screens["1p_cpe"];
 
   this.clearScreen(screen);
+
+  this.screen_vx = 0;
+  this.screen_vy = 0;
+
+  this.characters = [];
 
   this.cpe_layers = {};
   let layers = this.cpe_layers;
@@ -120,6 +130,7 @@ Game.prototype.CpeResetBoard = function() {
   this.cpeMakeIllegalArea();
   this.cpeMakeDeathArea();
   
+  this.cpeAddPresetCharacters();
   this.cpeAddAnimations();
 
   // let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/level_text_backing.png"));
@@ -158,18 +169,14 @@ Game.prototype.CpeResetBoard = function() {
   // this.score_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   // this.cpe_fill_layer.addChild(this.score_text);
 
-  this.info_text = new PIXI.Text("0", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
+  this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left",
+    dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 2});
   this.info_text.anchor.set(0,0);
   this.info_text.position.set(20, 20);
   this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   layers["display"].addChild(this.info_text);
 
   // terrain["filled"].tint = 0xFF00FF;
-
-  this.screen_vx = 0;
-  this.screen_vy = 0;
-
-  this.characters = [];
 
   const glyph_gap = 72;
 
@@ -372,6 +379,23 @@ Game.prototype.cpeMakeDeathArea = function() {
 }
 
 
+Game.prototype.cpeAddPresetCharacters = function() {
+  let self = this;
+  let terrain = this.terrain;
+  let layers = this.cpe_layers;
+
+  for (let i = 0; i < this.config.characters.length; i++) {
+    let [name, behavior, x, y] = this.config.characters[i];
+
+    let character = this.makeCpeCharacter(name);
+    character.position.set(x, y);
+    layers["character"].addChild(character);
+    character.setState(behavior);
+    this.characters.push(character);
+  }
+}
+
+
 Game.prototype.cpeAddAnimations = function() {
   let self = this;
   let terrain = this.terrain;
@@ -428,7 +452,7 @@ Game.prototype.cpeMouseDown = function(ev) {
     for (let i = 0; i < this.characters.length; i++) {
       let c = this.characters[i];
       //if (c.character_name == "walker") {
-        if (x > c.x - 12 && x < c.x + 12 && y > c.y - 30 && y < c.y + 10) {
+        if (c.clickable == true && x > c.x - 12 && x < c.x + 12 && y > c.y - 30 && y < c.y + 10) {
           let d = distance(x, y, c.x, c.y);
           if (min_char == null || d < min_dist) {
             min_char = c;
@@ -439,10 +463,10 @@ Game.prototype.cpeMouseDown = function(ev) {
     }
 
     if (min_char != null) {
-      if (this.job_selection == "runner" && min_char.character_name == "walker") {
+      if (this.job_selection == "runner" && min_char.character_name != "runner") {
         this.upgradeToRunner(min_char);
       } else if (this.job_selection.includes("traffic")
-        && (min_char.character_name == "walker" || min_char.character_name == "runner")) {
+        && (min_char.character_name != this.job_selection)) {
         let direction = this.job_selection.split("_")[1]
         console.log("IN BRIEF");
         console.log(direction);
@@ -525,7 +549,9 @@ Game.prototype.spawnWalker = function(force=false) {
   let self = this;
   let layers = this.cpe_layers;
 
-  if (force || (this.cpe_game_state == "active" && this.timeSince(this.walker_last_spawn) > this.walker_spawn_delay)) {
+  if (force || (this.cpe_game_state == "active" 
+    && this.timeSince(this.walker_last_spawn) > this.walker_spawn_delay
+    && this.num_awake < this.num_to_wake)) {
     let walker = this.makeCpeCharacter("walker");
     walker.position.set(
       this.config.start[0], this.config.start[1]
@@ -534,6 +560,7 @@ Game.prototype.spawnWalker = function(force=false) {
     walker.setState("directed_walk", "right");
     this.shakers.push(walker);
     this.characters.push(walker);
+    this.num_awake += 1;
 
     // walker.interactive == true;
     // walker.on("pointertap", function() {
@@ -569,7 +596,6 @@ Game.prototype.upgradeToRunner = function(walker) {
   layers["character"].addChild(runner);
   this.shakers.push(runner);
   this.characters.push(runner);
-  console.log("made one");
 }
 
 
@@ -592,7 +618,30 @@ Game.prototype.upgradeToTraffic = function(walker, direction) {
   layers["character"].addChild(traffic);
   this.shakers.push(traffic);
   this.characters.push(traffic);
-  console.log("made one");
+}
+
+
+Game.prototype.upgradeToAcademicHaHa = function(walker) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let x = walker.x;
+  let y = walker.y;
+
+  let academic = this.makeCpeCharacter("academic");
+  academic.x = walker.x;
+  academic.y = walker.y;
+  academic.vx = walker.vx;
+  academic.vy = walker.vy;
+  academic.state = walker.state;
+  academic.setAction(walker.action);
+  academic.setState("read");
+
+  this.deleteWalker(walker);
+
+  layers["character"].addChild(academic);
+  this.shakers.push(academic);
+  this.characters.push(academic);
 }
 
 
@@ -622,6 +671,9 @@ Game.prototype.deleteWalker = function(walker) {
 
 
 Game.prototype.updateCharacters = function() {
+  let self = this;
+  let layers = this.cpe_layers;
+
   for (let i = 0; i < this.characters.length; i++) {
     let old_state = this.characters[i].state;
 
@@ -634,6 +686,8 @@ Game.prototype.updateCharacters = function() {
       // need a gentler fall.
       this.characters[i].personal_gravity = 1.4;
       this.freefalling.push(this.characters[i]);
+      this.num_awake -= 1;
+      this.num_to_wake -= 1;
     }
   }
 
@@ -648,27 +702,116 @@ Game.prototype.updateCharacters = function() {
   }
   this.characters = new_characters;
 
+  for (let i = 0; i < this.characters.length; i++) {
+    if (this.characters[i].character_name == "academic") {
+      if (this.characters[i].action == "read") {
+        this.characters[i].dot_dot_dot_animation.visible = true;
+        this.characters[i].dot_dot_dot_animation.position.set(
+          this.characters[i].x - 8, this.characters[i].y - 30
+        );
+        layers["floating"].addChild(this.characters[i].dot_dot_dot_animation);
+      } else {
+        this.characters[i].dot_dot_dot_animation.visible = false;
+      }
+    }
+  }
+
 
   for (let i = 0; i < this.characters.length; i++) {
-    if (this.characters[i].state != "dying") {
-      if (this.characters[i].character_name == "walker" || this.characters[i].character_name == "runner") {
+    let character = this.characters[i];
+    if (character.state != "dying") {
+      if (character.character_name == "walker" || character.character_name == "runner") {
+        character.nearest_academic = null;
         for (let j = 0; j < this.characters.length; j++) {
-          if (this.characters[j].character_name == "traffic") {
-            if (distance(this.characters[i].x,this.characters[i].y,
-              this.characters[j].x, this.characters[j].y) < 20) {
-              if (this.characters[i].state != "directed_walk"
-                || this.characters[i].getDirection() != this.characters[j].getDirection()) {
-                this.characters[i].setState("directed_walk", this.characters[j].getDirection())
+          let comp_character = this.characters[j];
+          if (comp_character.character_name == "traffic") {
+            if (distance(character.x,character.y,
+              comp_character.x, comp_character.y) < 20) {
+              if ((character.state != "directed_walk" && character.state != "standing")
+                || character.getDirection() != comp_character.getDirection()) {
+                character.setState("directed_walk", comp_character.getDirection())
                 // TO DO: make the walker align a little closer with the traffic director
-                this.characters[i].drift_x = this.characters[j].x - this.characters[i].x;
-                this.characters[i].drift_y = this.characters[j].y - this.characters[i].y;
+                character.drift_x = comp_character.x - character.x;
+                character.drift_y = comp_character.y - character.y;
               }
             }
+          } else if (comp_character.character_name == "academic" && 
+              distance(character.x,character.y,
+                comp_character.x, comp_character.y) < 20) {
+            character.nearest_academic = comp_character;
+            if (character.state != "standing") {
+                character.clickable = false;
+                character.setState("standing");
+                let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
+                if (character.dot_dot_dot_animation == null) {
+                  let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
+                  animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+                  animation.position.set(character.x - 8, character.y - 30);
+                  animation.animationSpeed = 0.035;
+                  animation.play();
+                  character.dot_dot_dot_animation = animation;
+                  layers["floating"].addChild(animation);
+                }
+                character.academic_countdown_start = this.markTime();
+            }
+          }
+        }
+
+        if (character.academic_countdown_start != null 
+          && character.state == "standing"
+          && character.nearest_academic != null) {
+          character.vx = character.nearest_academic.x - character.x;
+          character.vy = character.nearest_academic.y - character.y;
+          character.setAction("stand");
+        }
+
+        if (character.academic_countdown_start != null && this.timeSince(character.academic_countdown_start) > 5000) {
+          if (character.nearest_academic != null) {
+            layers["floating"].removeChild(character.dot_dot_dot_animation);
+            character.dot_dot_dot_animation = null;
+            this.upgradeToAcademicHaHa(character);
+          } else {
+            if (character.dot_dot_dot_animation != null) {
+              layers["floating"].removeChild(character.dot_dot_dot_animation);
+              character.dot_dot_dot_animation = null;
+            }
+            character.clickable = true;
+            character.academic_countdown_start = null;
+            character.setState("directed_walk", character.getDirection());
           }
         }
       }
     }
   }
+
+  // For some reason, removing and adding doesn't work here the way it normally does. I must be doing something elsewhere.
+  //this.characters.sort(function(a,b) { return a.y - b.y });
+  // this.cpe_layers["character"].removeChildren();
+  // while(layers["character"].children[0]) {
+  //   let x = layers["character"].removeChild(layers["character"].children[0]);
+  // }
+  // for (let i = 0; i < this.characters; i++) {
+  //   this.cpe_layers["character"].addChild(this.characters[i]);
+  // }
+  
+  // for (let i = 0; i < this.characters; i++) {
+  //   layers["character"].addChild(this.characters[i]);
+  // }
+}
+
+
+Game.prototype.updateInfo = function() {
+  var self = this;
+  // this.num_awake = 0;
+  // this.num_to_wake = 50;
+  // this.num_required = 40;
+  // this.num_arrived = 0;
+
+
+  this.info_text.text = 
+    "Awake: " + this.num_awake + "/" + this.num_to_wake + "\n" +
+    "Required: " + this.num_required + "\n" +
+    "Arrived: " + this.num_arrived;
 }
 
 
@@ -689,7 +832,7 @@ Game.prototype.CpeUpdate = function(diff) {
   this.spawnWalker();
   this.updateCharacters();
 
-  this.info_text.text = this.characters.length;
+  this.updateInfo();
 }
 
 
