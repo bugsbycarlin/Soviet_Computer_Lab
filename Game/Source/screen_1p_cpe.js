@@ -33,7 +33,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
   this.walker_spawn_delay = 1000;
   this.walker_last_spawn = this.markTime();
 
-  this.spawnWalker(true);
+  // this.spawnWalker(true);
 
   // screen.buttonMode = true;
   // screen.interactive = true;
@@ -158,11 +158,11 @@ Game.prototype.CpeResetBoard = function() {
   // this.score_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   // this.cpe_fill_layer.addChild(this.score_text);
 
-  this.pose_text = new PIXI.Text("idle?", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-  this.pose_text.anchor.set(0,0);
-  this.pose_text.position.set(20, 20);
-  this.pose_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  layers["display"].addChild(this.pose_text);
+  this.info_text = new PIXI.Text("0", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
+  this.info_text.anchor.set(0,0);
+  this.info_text.position.set(20, 20);
+  this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  layers["display"].addChild(this.info_text);
 
   // terrain["filled"].tint = 0xFF00FF;
 
@@ -178,6 +178,7 @@ Game.prototype.CpeResetBoard = function() {
   this.runner_glyph.position.set(this.width/2 - 7 * glyph_gap,this.height/2 - glyph_gap);
   this.runner_glyph.anchor.set(0, 0);
   this.runner_glyph.interactive = true;
+  this.runner_glyph.alpha = 0.75;
   this.runner_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.runner_glyph.x, self.runner_glyph.y);
@@ -191,6 +192,7 @@ Game.prototype.CpeResetBoard = function() {
   this.traffic_right_glyph.anchor.set(0, 0);
   this.traffic_right_glyph.anchor.set(0, 0);
   this.traffic_right_glyph.interactive = true;
+  this.traffic_right_glyph.alpha = 0.75;
   this.traffic_right_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_right_glyph.x, self.traffic_right_glyph.y);
@@ -204,6 +206,7 @@ Game.prototype.CpeResetBoard = function() {
   this.traffic_left_glyph.anchor.set(0, 0);
   this.traffic_left_glyph.anchor.set(0, 0);
   this.traffic_left_glyph.interactive = true;
+  this.traffic_left_glyph.alpha = 0.75;
   this.traffic_left_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_left_glyph.x, self.traffic_left_glyph.y);
@@ -217,6 +220,7 @@ Game.prototype.CpeResetBoard = function() {
   this.traffic_down_glyph.anchor.set(0, 0);
   this.traffic_down_glyph.anchor.set(0, 0);
   this.traffic_down_glyph.interactive = true;
+  this.traffic_down_glyph.alpha = 0.75;
   this.traffic_down_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_down_glyph.x, self.traffic_down_glyph.y);
@@ -230,6 +234,7 @@ Game.prototype.CpeResetBoard = function() {
   this.traffic_up_glyph.anchor.set(0, 0);
   this.traffic_up_glyph.anchor.set(0, 0);
   this.traffic_up_glyph.interactive = true;
+  this.traffic_up_glyph.alpha = 0.75;
   this.traffic_up_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_up_glyph.x, self.traffic_up_glyph.y);
@@ -243,6 +248,7 @@ Game.prototype.CpeResetBoard = function() {
   this.policeman_glyph.anchor.set(0, 0);
   this.policeman_glyph.anchor.set(0, 0);
   this.policeman_glyph.interactive = true;
+  this.policeman_glyph.alpha = 0.75;
   this.policeman_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.policeman_glyph.x, self.policeman_glyph.y);
@@ -256,6 +262,7 @@ Game.prototype.CpeResetBoard = function() {
   this.construction_glyph.anchor.set(0, 0);
   this.construction_glyph.anchor.set(0, 0);
   this.construction_glyph.interactive = true;
+  this.construction_glyph.alpha = 0.75;
   this.construction_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.construction_glyph.x, self.construction_glyph.y);
@@ -375,6 +382,10 @@ Game.prototype.cpeAddAnimations = function() {
 
     let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/" + name + ".json"].spritesheet;
     let animation = new PIXI.AnimatedSprite(sheet.animations[Object.keys(sheet.animations)[0]]);
+    console.log(name);
+    console.log("yo");
+    console.log(animation);
+    animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     animation.position.set(x, y);
     layers[layer].addChild(animation);
     animation.animationSpeed = speed;
@@ -618,9 +629,10 @@ Game.prototype.updateCharacters = function() {
   
     if (old_state != "dying" && this.characters[i].state == "dying") {
       this.characters[i].y -= 16;
-      this.characters[i].vy = -3.5;
+      this.characters[i].vy = -3;
+      this.characters[i].vx = -2 + 4 * Math.random();
       // need a gentler fall.
-      this.characters[i].personal_gravity = 2.1;
+      this.characters[i].personal_gravity = 1.4;
       this.freefalling.push(this.characters[i]);
     }
   }
@@ -676,6 +688,8 @@ Game.prototype.CpeUpdate = function(diff) {
   this.cpeMoveScreen(fractional);
   this.spawnWalker();
   this.updateCharacters();
+
+  this.info_text.text = this.characters.length;
 }
 
 

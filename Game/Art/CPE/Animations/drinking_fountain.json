@@ -1,0 +1,79 @@
+{"frames": {
+
+"drinking_fountain-0.png":
+{
+	"frame": {"x":1,"y":1,"w":23,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-1.png":
+{
+	"frame": {"x":1,"y":35,"w":23,"h":32},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-2.png":
+{
+	"frame": {"x":26,"y":1,"w":23,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-3.png":
+{
+	"frame": {"x":35,"y":35,"w":23,"h":32},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-4.png":
+{
+	"frame": {"x":51,"y":1,"w":23,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-5.png":
+{
+	"frame": {"x":69,"y":35,"w":23,"h":32},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-6.png":
+{
+	"frame": {"x":76,"y":1,"w":23,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+},
+"drinking_fountain-7.png":
+{
+	"frame": {"x":101,"y":1,"w":23,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":23,"h":32},
+	"sourceSize": {"w":25,"h":33}
+}},
+"animations": {
+	"drinking_fountain": ["drinking_fountain-0.png","drinking_fountain-1.png","drinking_fountain-2.png","drinking_fountain-3.png","drinking_fountain-4.png","drinking_fountain-5.png","drinking_fountain-6.png","drinking_fountain-7.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "drinking_fountain.png",
+	"format": "RGBA8888",
+	"size": {"w":125,"h":59},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:822c7e55b2ad05d92d25c6d34471949e:7037e083f7a544b42e9bc699c93be600:030e346ac413adb56eda3a6b8e4197c4$"
+}
+}

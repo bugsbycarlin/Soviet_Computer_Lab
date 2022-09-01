@@ -32,6 +32,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   character.poses = {};
   for(const key in sheet.animations) {
     character.poses[key] = new PIXI.AnimatedSprite(sheet.animations[key]);
+    character.poses[key].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     character.poses[key].anchor.set(0.5,0.82);
     character.poses[key].position.set(0, 0);
     character.addChild(character.poses[key]);

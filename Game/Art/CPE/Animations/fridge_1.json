@@ -1,0 +1,127 @@
+{"frames": {
+
+"animated_canteen_big_fridge_cake_16x16-0.png":
+{
+	"frame": {"x":1,"y":1,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-1.png":
+{
+	"frame": {"x":1,"y":1,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-2.png":
+{
+	"frame": {"x":75,"y":1,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-3.png":
+{
+	"frame": {"x":35,"y":1,"w":32,"h":38},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-4.png":
+{
+	"frame": {"x":1,"y":41,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-5.png":
+{
+	"frame": {"x":35,"y":35,"w":32,"h":38},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-6.png":
+{
+	"frame": {"x":75,"y":41,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-7.png":
+{
+	"frame": {"x":35,"y":69,"w":32,"h":38},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-8.png":
+{
+	"frame": {"x":75,"y":41,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-9.png":
+{
+	"frame": {"x":35,"y":35,"w":32,"h":38},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-10.png":
+{
+	"frame": {"x":1,"y":41,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-11.png":
+{
+	"frame": {"x":35,"y":1,"w":32,"h":38},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-12.png":
+{
+	"frame": {"x":75,"y":1,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+},
+"animated_canteen_big_fridge_cake_16x16-13.png":
+{
+	"frame": {"x":1,"y":1,"w":32,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":32,"h":38},
+	"sourceSize": {"w":32,"h":48}
+}},
+"animations": {
+	"animated_canteen_big_fridge_cake_16x16": ["animated_canteen_big_fridge_cake_16x16-0.png","animated_canteen_big_fridge_cake_16x16-1.png","animated_canteen_big_fridge_cake_16x16-2.png","animated_canteen_big_fridge_cake_16x16-3.png","animated_canteen_big_fridge_cake_16x16-4.png","animated_canteen_big_fridge_cake_16x16-5.png","animated_canteen_big_fridge_cake_16x16-6.png","animated_canteen_big_fridge_cake_16x16-7.png","animated_canteen_big_fridge_cake_16x16-8.png","animated_canteen_big_fridge_cake_16x16-9.png","animated_canteen_big_fridge_cake_16x16-10.png","animated_canteen_big_fridge_cake_16x16-11.png","animated_canteen_big_fridge_cake_16x16-12.png","animated_canteen_big_fridge_cake_16x16-13.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "fridge_1.png",
+	"format": "RGBA8888",
+	"size": {"w":108,"h":102},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:daef21e2aef7c100b86744d985b08544:b04d497ae6719cfd4cde14689493eb19:d01271892dbe4baace486789f4ec8edc$"
+}
+}
