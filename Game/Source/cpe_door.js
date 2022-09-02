@@ -6,7 +6,7 @@
 // Written by Matthew Carlin
 //
 
-Game.prototype.makeCpeDoor = function(number) {
+Game.prototype.makeCpeDoor = function(number, x, y) {
   let door = new PIXI.Container();
   door.position.set(0,0);
 
@@ -26,9 +26,24 @@ Game.prototype.makeCpeDoor = function(number) {
     door.animations[key].visible = false;
   }
 
+  door.position.set(x, y);
+
   door.animations["open"].visible = true;
   door.animations["open"].gotoAndStop(0);
   door.state = "closed";
+
+  if (number == 1) {
+    door.trigger_x = door.x + 27;
+    door.trigger_y = door.y + 34;
+  } else if (number == 2) {
+    door.trigger_x = door.x + 16;
+    door.trigger_y = door.y + 28;
+  } else if (number == 3) {
+    door.trigger_x = door.x + 8;
+    door.trigger_y = door.y + 28;
+  }
+
+  console.log("Door " + door.trigger_x + "," + door.trigger_y)
 
 
   door.open = function() {

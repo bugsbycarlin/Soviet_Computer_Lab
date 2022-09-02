@@ -60,7 +60,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
     // self.soundEffect("countdown"); // need a better count down sound effect for math game
     // self.setMusic("marche_slav");
     self.monitor_overlay.dissolve();
-  }, 800);
+  }, 500);
 }
 
 
@@ -135,6 +135,19 @@ Game.prototype.CpeResetBoard = function() {
   this.cpeAddAnimations();
   this.cpeAddStartAndEndAnimations();
 
+  this.countdown_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/countdown_text_backing.png"));
+  this.countdown_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.countdown_text_backing.position.set(this.config.start[0] + 40, this.config.start[1] - 67);
+  this.countdown_text_backing.anchor.set(0.5, 0);
+  this.countdown_text_backing.scale.set(0.75, 0.75);
+  layers["floating"].addChild(this.countdown_text_backing);
+
+  this.countdown_text = new PIXI.Text("Workers\nin " + Math.ceil(this.config.countdown / 1000), {fontFamily: "Press Start 2P", fontSize: 8, fill: dark_color, letterSpacing: 2, align: "center"});
+  this.countdown_text.anchor.set(0.5,0);
+  this.countdown_text.position.set(this.config.start[0] + 20, this.config.start[1] - 60);
+  this.countdown_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  layers["floating"].addChild(this.countdown_text);
+
   // let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/level_text_backing.png"));
   // level_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   // level_text_backing.position.set(734,107);
@@ -177,8 +190,7 @@ Game.prototype.CpeResetBoard = function() {
   this.info_text_backing.scale.set(0.75, 0.75);
   layers["display"].addChild(this.info_text_backing);
 
-  this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 1});
+  this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
   this.info_text.anchor.set(0,0);
   this.info_text.position.set(20, 20);
   this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -187,6 +199,29 @@ Game.prototype.CpeResetBoard = function() {
   // terrain["filled"].tint = 0xFF00FF;
 
   const glyph_gap = 54;
+
+  this.time_clocks_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/time_clocks_backing.png"));
+  this.time_clocks_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.time_clocks_backing.position.set(2 * glyph_gap,this.height/2 - glyph_gap);
+  this.time_clocks_backing.anchor.set(1, 0);
+  this.time_clocks_backing.scale.set(0.75, 0.75);
+  this.time_clocks_backing.alpha = 0.75;
+  layers["display"].addChild(this.time_clocks_backing);
+
+  this.time_clocks_text = new PIXI.Text("1:00", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
+  this.time_clocks_text.anchor.set(0,0);
+  this.time_clocks_text.position.set(2 * glyph_gap - 80,this.height/2 - glyph_gap + 16);
+  this.time_clocks_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  layers["display"].addChild(this.time_clocks_text);
+
+  let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/time_clocks.json"].spritesheet;
+  let time_clocks_graphic = new PIXI.AnimatedSprite(sheet.animations["time_clocks"]);
+  time_clocks_graphic.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  time_clocks_graphic.position.set(2 * glyph_gap - 100,this.height/2 - glyph_gap + 16);
+  time_clocks_graphic.anchor.set(0, 0)
+  layers["display"].addChild(time_clocks_graphic);
+  time_clocks_graphic.gotoAndStop(0);
+  this.time_clocks_graphic = time_clocks_graphic;
 
   this.runner_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/runner_glyph.png"));
   this.runner_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -406,19 +441,21 @@ Game.prototype.cpeAddStartAndEndAnimations = function() {
 
   this.doors = {};
 
-  let start_door = this.makeCpeDoor(this.config.start_door[0]);
-  start_door.position.set(this.config.start_door[1], this.config.start_door[2]);
+  let start_door = this.makeCpeDoor(this.config.start_door[0], this.config.start_door[1], this.config.start_door[2]);
   layers.filled.addChild(start_door);
   this.doors.start = start_door;
 
-  let end_door = this.makeCpeDoor(this.config.end_door[0]);
-  end_door.position.set(this.config.end_door[1], this.config.end_door[2]);
-  end_door.trigger_x = end_door.x + 16;
-  end_door.trigger_y = end_door.y + 28;
+  let end_door = this.makeCpeDoor(this.config.end_door[0],this.config.end_door[1], this.config.end_door[2]);
   layers.filled.addChild(end_door);
   this.doors.end = end_door;
 
-
+  this.doors.death = [];
+  for (let i = 0; i < this.config.death_doors.length; i++) {
+    let [number, x, y] = this.config.death_doors[i];
+    let death_door = this.makeCpeDoor(number, x, y);
+    layers.filled.addChild(death_door);
+    this.doors.death.push(death_door);
+  }
 
   let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/red_arrow.json"].spritesheet;
   let red_arrow = new PIXI.AnimatedSprite(sheet.animations["red_arrow"]);
@@ -508,8 +545,9 @@ Game.prototype.cpeCountdownAndStart = function() {
   var screen = this.screens["1p_cpe"];
 
   if (this.cpe_game_state == "countdown" && !this.paused) {
-    let time_remaining = (2400 - (this.timeSince(this.start_time))) / 800;
+    let time_remaining = (this.config.countdown - (this.timeSince(this.start_time))) / 1000;
 
+    this.countdown_text.text = "Workers\nin " + Math.ceil(time_remaining).toString();
     //this.stalin_text.style.fontSize = 24;
     // this.rule_label.text = Math.ceil(time_remaining).toString();
     if (time_remaining <= 0) {
@@ -517,7 +555,8 @@ Game.prototype.cpeCountdownAndStart = function() {
       this.cpe_game_state = "active";
       this.walker_last_spawn = this.markTime();
 
-      // this.rule_label.text = "Begin working.";
+      this.countdown_text.visible = false;
+      this.countdown_text_backing.visible = false;
     }
   }
 }
@@ -1000,6 +1039,23 @@ Game.prototype.updateSpecialAnimations = function(fractional) {
   // TO DO: hold open for longer.
   if (close_door && this.doors.end.state == "open" && this.doors.end.animating() == false) {
     this.doors.end.close();
+  }
+
+  for (let i = 0; i < this.doors.death.length; i++) {
+    let death_door = this.doors.death[i];
+    for (let j = 0; j < this.characters.length; j++) {
+      let character = this.characters[j];
+      if (distance(character.x, character.y, 
+          death_door.trigger_x, death_door.trigger_y) < 40) {
+        close_door = false;
+        if (death_door.state == "closed" && death_door.animating() == false) {
+          death_door.open();
+        }
+        if (character.state != "exit_walk" && character.state != "exiting" && character.state != "dying") {
+          character.setState("exit_walk", [death_door.trigger_x, death_door.trigger_y, -1])
+        }
+      }
+    }
   }
 }
 

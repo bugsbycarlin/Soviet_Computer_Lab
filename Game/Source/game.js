@@ -563,6 +563,7 @@ class Game {
 
       .add("Art/CPE/UI/dot_dot_dot.json")
       .add("Art/CPE/UI/red_arrow.json")
+      .add("Art/CPE/UI/time_clocks.json")
 
       .add("Art/CPE/Levels/cpe_level_1_open.png")
       .add("Art/CPE/Levels/cpe_level_1_death.png")
