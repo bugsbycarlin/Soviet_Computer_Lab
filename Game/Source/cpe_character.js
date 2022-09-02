@@ -168,6 +168,31 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       character.vy = Math.sin(angle * Math.PI / 180);
 
       character.setAction("walk");
+    } else if (character.state == "entry_walk") {
+      character.clickable = false;
+      character.original_y = character.y;
+      character.vx = 0;
+      character.vy = 1;
+      character.setAction("walk");
+    } else if (character.state == "exit_walk") {
+      console.log("Starting exit walk");
+      let [t_x, t_y, door_valence] = direction;
+      character.clickable = false;
+      character.t_x = t_x;
+      character.t_y = t_y;
+      character.door_valence = door_valence;
+      character.vx = t_x - character.x;
+      character.vy = t_y - character.y;
+      console.log(distance(character.x, character.y, 
+        character.t_x, character.t_y));
+      norm = Math.sqrt(character.vx*character.vx + character.vy*character.vy)
+      if (norm != 0) {
+        character.vx /= norm;
+        character.vy /= norm;
+      }
+      character.setAction("walk");
+    } else if (character.state == "exiting") {
+      character.setAction("stand");
     } else if (character.state == "dying") {
       for(const key in sheet.animations) {
         character.poses[key].scale.set(1, -1);
@@ -290,7 +315,28 @@ Game.prototype.makeCpeCharacter = function(character_name) {
 
   character.update = function(illegal_area, death_area, width, height) {
 
-    if (character.action == "walk" && character.state != "dying") {
+    if (character.state == "entry_walk") {
+      character.last_x = character.x;
+      character.last_y = character.y;
+      character.x += character.walk_speed * character.vx;
+      character.y += character.walk_speed * character.vy;
+      if (character.y > character.original_y + 16) {
+        character.setState("directed_walk", "right");
+        character.clickable = true;
+      }
+    } else if (character.state == "exit_walk") {
+      character.last_x = character.x;
+      character.last_y = character.y;
+      character.x += character.walk_speed * character.vx;
+      character.y += character.walk_speed * character.vy;
+      if (distance(character.x, character.y, 
+        character.t_x, character.t_y) < 3) {
+        console.log(distance(character.x, character.y, 
+        character.t_x, character.t_y))
+        console.log("Exiting now");
+        character.setState("exiting");
+      }
+    } else if (character.action == "walk" && character.state != "dying") {
       character.last_x = character.x;
       character.last_y = character.y;
       character.x += character.walk_speed * character.vx;

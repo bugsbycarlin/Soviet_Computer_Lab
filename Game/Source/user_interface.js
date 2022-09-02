@@ -619,6 +619,21 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
 }
 
 
+Game.prototype.fadeFromBlack = function(fade_time=1500) {
+  let self = this;
+  pixi.stage.addChild(this.black);
+  this.black.alpha = 1;
+
+  var tween = new TWEEN.Tween(self.black)
+    .to({alpha: 0})
+    .duration(fade_time)
+    .onComplete(function() {
+      pixi.stage.removeChild(self.black);
+    })
+    .start();
+}
+
+
 Game.prototype.popScreens = function(old_screen, new_screen) {
   var self = this;
   console.log("switching from " + old_screen + " to " + new_screen);

@@ -549,7 +549,6 @@ class Game {
       .add("Art/CPE/Animations/billboard.json")
       .add("Art/CPE/Animations/buoy_1.json")
       .add("Art/CPE/Animations/buoy_2.json")
-      .add("Art/CPE/Animations/condo_door.json")
       .add("Art/CPE/Animations/drinking_fountain.json")
       .add("Art/CPE/Animations/fishes_1.json")
       .add("Art/CPE/Animations/fridge_1.json")
@@ -558,7 +557,12 @@ class Game {
       .add("Art/CPE/Animations/butterfly_2.json")
       .add("Art/CPE/Animations/butterfly_3.json")
 
+      .add("Art/CPE/Animations/door_1.json")
+      .add("Art/CPE/Animations/door_2.json")
+      .add("Art/CPE/Animations/door_3.json")
+
       .add("Art/CPE/UI/dot_dot_dot.json")
+      .add("Art/CPE/UI/red_arrow.json")
 
       .add("Art/CPE/Levels/cpe_level_1_open.png")
       .add("Art/CPE/Levels/cpe_level_1_death.png")

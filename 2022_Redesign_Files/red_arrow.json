@@ -1,0 +1,39 @@
+{"frames": {
+
+"red_arrow_1.png":
+{
+	"frame": {"x":1,"y":1,"w":22,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":0,"w":22,"h":24},
+	"sourceSize": {"w":32,"h":32}
+},
+"red_arrow_2.png":
+{
+	"frame": {"x":1,"y":1,"w":22,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":4,"w":22,"h":24},
+	"sourceSize": {"w":32,"h":32}
+},
+"red_arrow_3.png":
+{
+	"frame": {"x":1,"y":1,"w":22,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":8,"w":22,"h":24},
+	"sourceSize": {"w":32,"h":32}
+}},
+"animations": {
+	"red_arrow": ["red_arrow_1.png","red_arrow_2.png","red_arrow_3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "red_arrow.png",
+	"format": "RGBA8888",
+	"size": {"w":24,"h":26},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6f96fcf400ef077bff338ce83714983b:cb6ea79874e417c58f4e06ec5bb5a4f9:2dc764cbce8009e848c820c1282bb241$"
+}
+}

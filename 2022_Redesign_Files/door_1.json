@@ -1,6 +1,6 @@
 {"frames": {
 
-"Condo_door_1a-0.png":
+"door_1-0.png":
 {
 	"frame": {"x":1,"y":1,"w":48,"h":32},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-1.png":
+"door_1-1.png":
 {
 	"frame": {"x":1,"y":35,"w":48,"h":32},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-2.png":
+"door_1-2.png":
 {
 	"frame": {"x":1,"y":69,"w":48,"h":32},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-3.png":
+"door_1-3.png":
 {
 	"frame": {"x":1,"y":103,"w":48,"h":32},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-4.png":
+"door_1-4.png":
 {
 	"frame": {"x":1,"y":137,"w":48,"h":32},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-5.png":
+"door_1-5.png":
 {
 	"frame": {"x":1,"y":171,"w":48,"h":32},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-6.png":
+"door_1-6.png":
 {
 	"frame": {"x":1,"y":137,"w":48,"h":32},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-7.png":
+"door_1-7.png":
 {
 	"frame": {"x":1,"y":103,"w":48,"h":32},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-8.png":
+"door_1-8.png":
 {
 	"frame": {"x":1,"y":69,"w":48,"h":32},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32}
 },
-"Condo_door_1a-9.png":
+"door_1-9.png":
 {
 	"frame": {"x":1,"y":35,"w":48,"h":32},
 	"rotated": false,
@@ -81,12 +81,13 @@
 	"sourceSize": {"w":48,"h":32}
 }},
 "animations": {
-	"Condo_door_1a": ["Condo_door_1a-0.png","Condo_door_1a-1.png","Condo_door_1a-2.png","Condo_door_1a-3.png","Condo_door_1a-4.png","Condo_door_1a-5.png","Condo_door_1a-6.png","Condo_door_1a-7.png","Condo_door_1a-8.png","Condo_door_1a-9.png"]
+	"open": ["door_1-0.png","door_1-1.png","door_1-2.png","door_1-3.png","door_1-4.png","door_1-5.png"],
+	"close": ["door_1-6.png","door_1-7.png","door_1-8.png","door_1-9.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "condo_door.png",
+	"image": "door_1.png",
 	"format": "RGBA8888",
 	"size": {"w":50,"h":204},
 	"scale": "1",

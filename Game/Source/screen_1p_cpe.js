@@ -51,6 +51,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
 
   // self.setMusic("marche_slav");
 
+  this.fadeFromBlack();
   delay(function() {
     self.paused = false;
     self.pause_time = 0;
@@ -132,6 +133,7 @@ Game.prototype.CpeResetBoard = function() {
   
   this.cpeAddPresetCharacters();
   this.cpeAddAnimations();
+  this.cpeAddStartAndEndAnimations();
 
   // let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Math_Game/level_text_backing.png"));
   // level_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -398,6 +400,39 @@ Game.prototype.cpeAddAnimations = function() {
 }
 
 
+Game.prototype.cpeAddStartAndEndAnimations = function() {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  this.doors = {};
+
+  let start_door = this.makeCpeDoor(this.config.start_door[0]);
+  start_door.position.set(this.config.start_door[1], this.config.start_door[2]);
+  layers.filled.addChild(start_door);
+  this.doors.start = start_door;
+
+  let end_door = this.makeCpeDoor(this.config.end_door[0]);
+  end_door.position.set(this.config.end_door[1], this.config.end_door[2]);
+  end_door.trigger_x = end_door.x + 16;
+  end_door.trigger_y = end_door.y + 28;
+  layers.filled.addChild(end_door);
+  this.doors.end = end_door;
+
+
+
+  let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/red_arrow.json"].spritesheet;
+  let red_arrow = new PIXI.AnimatedSprite(sheet.animations["red_arrow"]);
+  red_arrow.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  red_arrow.position.set(this.config.end[0], this.config.end[1] - 50);
+  red_arrow.anchor.set(0.5, 0.5)
+  red_arrow.name = "red_arrow";
+  layers["floating"].addChild(red_arrow);
+  red_arrow.animationSpeed = 0.035;
+  red_arrow.play();
+  this.cpe_animations.push(red_arrow);
+}
+
+
 Game.prototype.cpeKeyDown = function(ev) {
   let self = this;
   let screen = this.screens["1p_cpe"];  
@@ -478,6 +513,7 @@ Game.prototype.cpeCountdownAndStart = function() {
     //this.stalin_text.style.fontSize = 24;
     // this.rule_label.text = Math.ceil(time_remaining).toString();
     if (time_remaining <= 0) {
+      this.doors.start.open();
       this.cpe_game_state = "active";
       this.walker_last_spawn = this.markTime();
 
@@ -545,10 +581,10 @@ Game.prototype.spawnWalker = function(force=false) {
     && this.num_awake < this.num_to_wake)) {
     let walker = this.makeCpeCharacter("walker");
     walker.position.set(
-      this.config.start[0], this.config.start[1]
+      this.config.start[0], this.config.start[1] - 16
     );
     layers["character"].addChild(walker);
-    walker.setState("directed_walk", "right");
+    walker.setState("entry_walk");
     this.shakers.push(walker);
     this.characters.push(walker);
     this.num_awake += 1;
@@ -562,7 +598,37 @@ Game.prototype.spawnWalker = function(force=false) {
     // });
 
     this.walker_last_spawn = this.markTime();
+  } else if (this.cpe_game_state == "active" 
+    && this.timeSince(this.walker_last_spawn) > this.walker_spawn_delay
+    && this.num_awake >= this.num_to_wake) {
+    if (this.doors.start.state == "open") {
+      this.doors.start.close();
+    }
   }
+}
+
+
+Game.prototype.upgradeToWalker = function(character) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let x = character.x;
+  let y = character.y;
+
+  let walker = this.makeCpeCharacter("walker");
+  walker.x = character.x;
+  walker.y = character.y;
+  walker.vx = character.vx;
+  walker.vy = character.vy;
+  walker.state = character.state;
+  walker.setAction(character.action);
+  walker.setState("random_walk", pick(["left","right","up","down"]));
+
+  this.deleteCharacter(character);
+
+  layers["character"].addChild(walker);
+  this.shakers.push(walker);
+  this.characters.push(walker);
 }
 
 
@@ -711,9 +777,16 @@ Game.prototype.updateCharacters = function() {
 
   let new_characters = [];
   for (let i = 0; i < this.characters.length; i++) {
-    if (this.characters[i].state != "dying" || this.characters[i].y < this.level_height + 100) {
+    if (this.characters[i].state != "exiting" && (this.characters[i].state != "dying" || this.characters[i].y < this.level_height + 100)) {
       new_characters.push(this.characters[i]);
     } else {
+      if (this.characters[i].state == "exiting") {
+        this.num_awake -= 1;
+        this.num_to_wake -= 1;
+        if (this.characters[i].door_valence == 1) {
+          this.num_arrived += 1;
+        }
+      }
       this.cpe_layers["character"].removeChild(this.characters[i]);
     }
   }
@@ -736,7 +809,7 @@ Game.prototype.updateCharacters = function() {
 
   for (let i = 0; i < this.characters.length; i++) {
     let character = this.characters[i];
-    if (character.state != "dying") {
+    if (character.state != "dying" && character.state != "exiting") {
       if (character.character_name == "walker" || character.character_name == "runner") {
         character.nearest_academic = null;
         for (let j = 0; j < this.characters.length; j++) {
@@ -844,28 +917,32 @@ Game.prototype.updateCharacters = function() {
           }
         }
 
-        if (character.police_countdown_start != null && this.timeSince(character.police_countdown_start) > 2000) {
+        if (character.police_countdown_start != null && this.timeSince(character.police_countdown_start) > 1000) {
           if (character.dot_dot_dot_animation != null) {
             layers["floating"].removeChild(character.dot_dot_dot_animation);
             character.dot_dot_dot_animation = null;
           }
 
-          character.policeman_countdown_start = null;
+          character.police_countdown_start = null;
           
-          if (closest_char != null && character.state == "standing" && min_d < 15) {
+          if (closest_char != null && closest_char.state != "dying" && character.state == "standing" && min_d < 15) {
             //this.upgradeToAcademicHaHa(character);
-            character.setState("punch");
-            if (closest_char.state != "dying") {
+            if (dice(100) <= 50) {
+              character.setState("punch");
               closest_char.setState("dying");
               closest_char.y -= 16;
               closest_char.vy = -3;
               closest_char.vx = -2 + 4 * Math.random();
               closest_char.personal_gravity = 1.4;
               this.freefalling.push(closest_char);
+            } else {
+              this.upgradeToWalker(closest_char);
+              character.clickable = true;
+              character.setState("random_walk", pick(["left","right","up","down"]));
             }
           } else {
             character.clickable = true;
-            character.setState("random_walk", character.getDirection());
+            character.setState("random_walk", pick(["left","right","up","down"]));
           }
         }
       }
@@ -890,6 +967,9 @@ Game.prototype.updateCharacters = function() {
 
 
 Game.prototype.updateSpecialAnimations = function(fractional) {
+  let self = this;
+  let layers = this.cpe_layers;
+
   for (let i = 0; i < this.cpe_animations.length; i++) {
     let animation = this.cpe_animations[i];
     if (animation.name.includes("butterfly")) {
@@ -901,6 +981,25 @@ Game.prototype.updateSpecialAnimations = function(fractional) {
       animation.vx = Math.cos(angle * Math.PI / 180);
       animation.vy = Math.sin(angle * Math.PI / 180);
     }
+  }
+
+  let close_door = true;
+  for (let i = 0; i < this.characters.length; i++) {
+    let character = this.characters[i];
+    if (distance(character.x, character.y, 
+        this.doors.end.trigger_x, this.doors.end.trigger_y) < 40) {
+      close_door = false;
+      if (this.doors.end.state == "closed" && this.doors.end.animating() == false) {
+        this.doors.end.open();
+      }
+      if (character.state != "exit_walk" && character.state != "exiting" && character.state != "dying") {
+        character.setState("exit_walk", [this.doors.end.trigger_x, this.doors.end.trigger_y, 1])
+      }
+    }
+  }
+  // TO DO: hold open for longer.
+  if (close_door && this.doors.end.state == "open" && this.doors.end.animating() == false) {
+    this.doors.end.close();
   }
 }
 
