@@ -169,8 +169,14 @@ Game.prototype.CpeResetBoard = function() {
   // this.score_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   // this.cpe_fill_layer.addChild(this.score_text);
 
+  this.info_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/info_text_backing.png"));
+  this.info_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.info_text_backing.position.set(11, 13);
+  this.info_text_backing.scale.set(0.75, 0.75);
+  layers["display"].addChild(this.info_text_backing);
+
   this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left",
-    dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 2});
+    dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 1});
   this.info_text.anchor.set(0,0);
   this.info_text.position.set(20, 20);
   this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -178,12 +184,13 @@ Game.prototype.CpeResetBoard = function() {
 
   // terrain["filled"].tint = 0xFF00FF;
 
-  const glyph_gap = 72;
+  const glyph_gap = 54;
 
   this.runner_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/runner_glyph.png"));
   this.runner_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.runner_glyph.position.set(this.width/2 - 7 * glyph_gap,this.height/2 - glyph_gap);
+  this.runner_glyph.position.set(this.width/2 - 4 * glyph_gap,this.height/2 - glyph_gap);
   this.runner_glyph.anchor.set(0, 0);
+  this.runner_glyph.scale.set(0.75, 0.75);
   this.runner_glyph.interactive = true;
   this.runner_glyph.alpha = 0.75;
   this.runner_glyph.on("pointertap", function() {
@@ -195,65 +202,23 @@ Game.prototype.CpeResetBoard = function() {
 
   this.traffic_right_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_right_glyph.png"));
   this.traffic_right_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.traffic_right_glyph.position.set(this.width/2 - 6 * glyph_gap,this.height/2 - glyph_gap);
+  this.traffic_right_glyph.position.set(this.width/2 - 3 * glyph_gap,this.height/2 - glyph_gap);
   this.traffic_right_glyph.anchor.set(0, 0);
-  this.traffic_right_glyph.anchor.set(0, 0);
+  this.traffic_right_glyph.scale.set(0.75, 0.75);
   this.traffic_right_glyph.interactive = true;
   this.traffic_right_glyph.alpha = 0.75;
   this.traffic_right_glyph.on("pointertap", function() {
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_right_glyph.x, self.traffic_right_glyph.y);
-    self.job_selection = "traffic_right";
+    self.job_selection = "traffic";
   });
   layers["display"].addChild(this.traffic_right_glyph);
-
-  this.traffic_left_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_left_glyph.png"));
-  this.traffic_left_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.traffic_left_glyph.position.set(this.width/2 - 5 * glyph_gap,this.height/2 - glyph_gap);
-  this.traffic_left_glyph.anchor.set(0, 0);
-  this.traffic_left_glyph.anchor.set(0, 0);
-  this.traffic_left_glyph.interactive = true;
-  this.traffic_left_glyph.alpha = 0.75;
-  this.traffic_left_glyph.on("pointertap", function() {
-    self.glyph_cursor.visible = true;
-    self.glyph_cursor.position.set(self.traffic_left_glyph.x, self.traffic_left_glyph.y);
-    self.job_selection = "traffic_left";
-  });
-  layers["display"].addChild(this.traffic_left_glyph);
-
-  this.traffic_down_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_down_glyph.png"));
-  this.traffic_down_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.traffic_down_glyph.position.set(this.width/2 - 4 * glyph_gap,this.height/2 - glyph_gap);
-  this.traffic_down_glyph.anchor.set(0, 0);
-  this.traffic_down_glyph.anchor.set(0, 0);
-  this.traffic_down_glyph.interactive = true;
-  this.traffic_down_glyph.alpha = 0.75;
-  this.traffic_down_glyph.on("pointertap", function() {
-    self.glyph_cursor.visible = true;
-    self.glyph_cursor.position.set(self.traffic_down_glyph.x, self.traffic_down_glyph.y);
-    self.job_selection = "traffic_down";
-  });
-  layers["display"].addChild(this.traffic_down_glyph);
-
-  this.traffic_up_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_up_glyph.png"));
-  this.traffic_up_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.traffic_up_glyph.position.set(this.width/2 - 3 * glyph_gap,this.height/2 - glyph_gap);
-  this.traffic_up_glyph.anchor.set(0, 0);
-  this.traffic_up_glyph.anchor.set(0, 0);
-  this.traffic_up_glyph.interactive = true;
-  this.traffic_up_glyph.alpha = 0.75;
-  this.traffic_up_glyph.on("pointertap", function() {
-    self.glyph_cursor.visible = true;
-    self.glyph_cursor.position.set(self.traffic_up_glyph.x, self.traffic_up_glyph.y);
-    self.job_selection = "traffic_up";
-  });
-  layers["display"].addChild(this.traffic_up_glyph);
 
   this.policeman_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/policeman_glyph.png"));
   this.policeman_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.policeman_glyph.position.set(this.width/2 - 2 * glyph_gap,this.height/2 - glyph_gap);
   this.policeman_glyph.anchor.set(0, 0);
-  this.policeman_glyph.anchor.set(0, 0);
+  this.policeman_glyph.scale.set(0.75, 0.75);
   this.policeman_glyph.interactive = true;
   this.policeman_glyph.alpha = 0.75;
   this.policeman_glyph.on("pointertap", function() {
@@ -267,7 +232,7 @@ Game.prototype.CpeResetBoard = function() {
   this.construction_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.construction_glyph.position.set(this.width/2 - glyph_gap,this.height/2 - glyph_gap);
   this.construction_glyph.anchor.set(0, 0);
-  this.construction_glyph.anchor.set(0, 0);
+  this.construction_glyph.scale.set(0.75, 0.75);
   this.construction_glyph.interactive = true;
   this.construction_glyph.alpha = 0.75;
   this.construction_glyph.on("pointertap", function() {
@@ -282,6 +247,7 @@ Game.prototype.CpeResetBoard = function() {
   this.glyph_cursor.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   this.glyph_cursor.position.set(this.width/2 - 4 * glyph_gap,this.height/2 - glyph_gap);
   this.glyph_cursor.anchor.set(0, 0);
+  this.glyph_cursor.scale.set(0.75, 0.75);
   layers["display"].addChild(this.glyph_cursor);
   this.glyph_cursor.visible = false;
 
@@ -401,19 +367,33 @@ Game.prototype.cpeAddAnimations = function() {
   let terrain = this.terrain;
   let layers = this.cpe_layers;
 
+  this.cpe_animations = [];
+
   for (let i = 0; i < this.config.animations.length; i++) {
-    let [name, layer, x, y, speed] = this.config.animations[i];
+    let [name, layer, x, y, speed, delay_time] = this.config.animations[i];
 
     let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/" + name + ".json"].spritesheet;
     let animation = new PIXI.AnimatedSprite(sheet.animations[Object.keys(sheet.animations)[0]]);
     console.log(name);
-    console.log("yo");
-    console.log(animation);
     animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     animation.position.set(x, y);
+    animation.name = name;
+    if (animation.name.includes("butterfly")) {
+      let angle = dice(358) + 1;
+      animation.vx = Math.cos(angle * Math.PI / 180);
+      animation.vy = Math.sin(angle * Math.PI / 180);
+    }
+    if (delay_time > 0) {
+      console.log("okay bro");
+      animation.onLoop = function() {
+        animation.stop();
+        delay(function() {animation.play()}, delay_time);
+      }
+    }
     layers[layer].addChild(animation);
     animation.animationSpeed = speed;
     animation.play();
+    this.cpe_animations.push(animation);
   }
 }
 
@@ -466,11 +446,22 @@ Game.prototype.cpeMouseDown = function(ev) {
       if (this.job_selection == "runner" && min_char.character_name != "runner") {
         this.upgradeToRunner(min_char);
       } else if (this.job_selection.includes("traffic")
-        && (min_char.character_name != this.job_selection)) {
-        let direction = this.job_selection.split("_")[1]
-        console.log("IN BRIEF");
-        console.log(direction);
-        this.upgradeToTraffic(min_char, direction)
+        && min_char.character_name != this.job_selection) {
+        this.upgradeToTraffic(min_char, "right")
+      } else if (this.job_selection.includes("traffic")
+        && min_char.character_name == this.job_selection) {
+        let direction = min_char.getDirection();
+        if (direction == "right") {
+          min_char.setState("traffic", "down");
+        } else if (direction == "down") {
+          min_char.setState("traffic", "left");
+        } else if (direction == "left") {
+          min_char.setState("traffic", "up");
+        } else if (direction == "up") {
+          min_char.setState("traffic", "right");
+        }
+      } else if (this.job_selection == "policeman") {
+        this.upgradeToPoliceman(min_char)
       }
     }
   }
@@ -575,23 +566,23 @@ Game.prototype.spawnWalker = function(force=false) {
 }
 
 
-Game.prototype.upgradeToRunner = function(walker) {
+Game.prototype.upgradeToRunner = function(character) {
   let self = this;
   let layers = this.cpe_layers;
 
-  let x = walker.x;
-  let y = walker.y;
+  let x = character.x;
+  let y = character.y;
 
   let runner = this.makeCpeCharacter("runner");
-  runner.x = walker.x;
-  runner.y = walker.y;
-  runner.vx = walker.vx;
-  runner.vy = walker.vy;
-  runner.state = walker.state;
-  runner.setAction(walker.action);
-  runner.setState("directed_walk", walker.getDirection());
+  runner.x = character.x;
+  runner.y = character.y;
+  runner.vx = character.vx;
+  runner.vy = character.vy;
+  runner.state = character.state;
+  runner.setAction(character.action);
+  runner.setState("directed_walk", character.getDirection());
 
-  this.deleteWalker(walker);
+  this.deleteCharacter(character);
 
   layers["character"].addChild(runner);
   this.shakers.push(runner);
@@ -599,21 +590,21 @@ Game.prototype.upgradeToRunner = function(walker) {
 }
 
 
-Game.prototype.upgradeToTraffic = function(walker, direction) {
+Game.prototype.upgradeToTraffic = function(character, direction) {
   let self = this;
   let layers = this.cpe_layers;
 
-  let x = walker.x;
-  let y = walker.y;
+  let x = character.x;
+  let y = character.y;
 
   let traffic = this.makeCpeCharacter("traffic");
-  traffic.x = walker.x;
-  traffic.y = walker.y;
-  traffic.vx = walker.vx;
-  traffic.vy = walker.vy;
+  traffic.x = character.x;
+  traffic.y = character.y;
+  traffic.vx = character.vx;
+  traffic.vy = character.vy;
   traffic.setState("traffic", direction);
 
-  this.deleteWalker(walker);
+  this.deleteCharacter(character);
 
   layers["character"].addChild(traffic);
   this.shakers.push(traffic);
@@ -621,23 +612,50 @@ Game.prototype.upgradeToTraffic = function(walker, direction) {
 }
 
 
-Game.prototype.upgradeToAcademicHaHa = function(walker) {
+Game.prototype.upgradeToPoliceman = function(character) {
   let self = this;
   let layers = this.cpe_layers;
 
-  let x = walker.x;
-  let y = walker.y;
+  let x = character.x;
+  let y = character.y;
+
+  let policeman = this.makeCpeCharacter("policeman");
+  policeman.x = character.x;
+  policeman.y = character.y;
+  policeman.vx = character.vx;
+  policeman.vy = character.vy;
+  policeman.state = character.state;
+  policeman.setAction(character.action);
+  policeman.setState("random_walk", character.getDirection());
+
+  this.deleteCharacter(character);
+
+  layers["character"].addChild(policeman);
+  this.shakers.push(policeman);
+  this.characters.push(policeman);
+}
+
+
+Game.prototype.upgradeToAcademicHaHa = function(character) {
+  let self = this;
+  let layers = this.cpe_layers;
+
+  let x = character.x;
+  let y = character.y;
 
   let academic = this.makeCpeCharacter("academic");
-  academic.x = walker.x;
-  academic.y = walker.y;
-  academic.vx = walker.vx;
-  academic.vy = walker.vy;
-  academic.state = walker.state;
-  academic.setAction(walker.action);
+  academic.x = character.x;
+  academic.y = character.y;
+  academic.vx = character.vx;
+  academic.vy = character.vy;
+  academic.state = character.state;
+  academic.setAction(character.action);
   academic.setState("read");
 
-  this.deleteWalker(walker);
+  this.num_awake -= 1;
+  this.num_to_wake -= 1;
+
+  this.deleteCharacter(character);
 
   layers["character"].addChild(academic);
   this.shakers.push(academic);
@@ -645,10 +663,10 @@ Game.prototype.upgradeToAcademicHaHa = function(walker) {
 }
 
 
-Game.prototype.deleteWalker = function(walker) {
+Game.prototype.deleteCharacter = function(character) {
   let layers = this.cpe_layers;
-  walker.visible = false;
-  walker.state = "dead";
+  character.visible = false;
+  character.state = "dead";
 
   let new_shakers = [];
   for (let i = 0; i < this.shakers.length; i++) {
@@ -658,15 +676,15 @@ Game.prototype.deleteWalker = function(walker) {
   }
   this.shakers = new_shakers;
 
-  let new_walkers = [];
+  let new_characters = [];
   for (let i = 0; i < this.characters.length; i++) {
     if (this.characters[i].state != "dead") {
-      new_walkers.push(this.characters[i]);
+      new_characters.push(this.characters[i]);
     }
   }
-  this.characters = new_walkers;
+  this.characters = new_characters;
 
-  layers["character"].removeChild(walker);
+  layers["character"].removeChild(character);
 }
 
 
@@ -683,7 +701,6 @@ Game.prototype.updateCharacters = function() {
       this.characters[i].y -= 16;
       this.characters[i].vy = -3;
       this.characters[i].vx = -2 + 4 * Math.random();
-      // need a gentler fall.
       this.characters[i].personal_gravity = 1.4;
       this.freefalling.push(this.characters[i]);
       this.num_awake -= 1;
@@ -727,8 +744,9 @@ Game.prototype.updateCharacters = function() {
           if (comp_character.character_name == "traffic") {
             if (distance(character.x,character.y,
               comp_character.x, comp_character.y) < 20) {
-              if ((character.state != "directed_walk" && character.state != "standing")
-                || character.getDirection() != comp_character.getDirection()) {
+              if (character.state != "standing" && 
+                (character.state != "directed_walk" ||
+                  character.getDirection() != comp_character.getDirection())) {
                 character.setState("directed_walk", comp_character.getDirection())
                 // TO DO: make the walker align a little closer with the traffic director
                 character.drift_x = comp_character.x - character.x;
@@ -736,10 +754,11 @@ Game.prototype.updateCharacters = function() {
               }
             }
           } else if (comp_character.character_name == "academic" && 
+              comp_character.state != "dying" &&
               distance(character.x,character.y,
                 comp_character.x, comp_character.y) < 20) {
             character.nearest_academic = comp_character;
-            if (character.state != "standing") {
+            if (character.state != "standing" && comp_character.state != "random_walk") {
                 character.clickable = false;
                 character.setState("standing");
                 let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
@@ -766,37 +785,123 @@ Game.prototype.updateCharacters = function() {
         }
 
         if (character.academic_countdown_start != null && this.timeSince(character.academic_countdown_start) > 5000) {
-          if (character.nearest_academic != null) {
+          if (character.dot_dot_dot_animation != null) {
             layers["floating"].removeChild(character.dot_dot_dot_animation);
             character.dot_dot_dot_animation = null;
+          }
+          if (character.nearest_academic != null) {
             this.upgradeToAcademicHaHa(character);
           } else {
-            if (character.dot_dot_dot_animation != null) {
-              layers["floating"].removeChild(character.dot_dot_dot_animation);
-              character.dot_dot_dot_animation = null;
-            }
             character.clickable = true;
             character.academic_countdown_start = null;
             character.setState("directed_walk", character.getDirection());
           }
         }
       }
+
+      if (character.character_name == "policeman" && character.state != "punch") {
+        let closest_char = null;
+        let min_d = null;
+        for (let j = 0; j < this.characters.length; j++) {
+          let comp_character = this.characters[j];
+          if (comp_character.character_name == "academic" && comp_character.state != "dying") {
+            let d = distance(character.x, character.y, comp_character.x, comp_character.y);
+            if (d < 90) {
+              if (closest_char == null || d < min_d) {
+                min_d = d;
+                closest_char = comp_character;
+              }
+            }
+          }
+        }
+        if (closest_char != null) {
+          character.vx = closest_char.x - character.x;
+          character.vy = closest_char.y - character.y;
+          norm = Math.sqrt(character.vx*character.vx + character.vy*character.vy)
+          if (norm != 0) {
+            character.vx /= norm;
+            character.vy /= norm;
+          }
+          if (character.state != "standing") {
+            if (min_d > 15) {
+              character.state = "directed_walk";
+              character.setAction("walk");
+            } else {
+              character.setState("standing");
+              character.clickable = false;
+              if (character.dot_dot_dot_animation == null) {
+                let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
+                let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
+                animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+                animation.position.set(character.x - 8, character.y - 30);
+                animation.animationSpeed = 0.035;
+                animation.play();
+                character.dot_dot_dot_animation = animation;
+                layers["floating"].addChild(animation);
+              }
+              character.police_countdown_start = this.markTime();
+            }
+          }
+        }
+
+        if (character.police_countdown_start != null && this.timeSince(character.police_countdown_start) > 2000) {
+          if (character.dot_dot_dot_animation != null) {
+            layers["floating"].removeChild(character.dot_dot_dot_animation);
+            character.dot_dot_dot_animation = null;
+          }
+
+          character.policeman_countdown_start = null;
+          
+          if (closest_char != null && character.state == "standing" && min_d < 15) {
+            //this.upgradeToAcademicHaHa(character);
+            character.setState("punch");
+            if (closest_char.state != "dying") {
+              closest_char.setState("dying");
+              closest_char.y -= 16;
+              closest_char.vy = -3;
+              closest_char.vx = -2 + 4 * Math.random();
+              closest_char.personal_gravity = 1.4;
+              this.freefalling.push(closest_char);
+            }
+          } else {
+            character.clickable = true;
+            character.setState("random_walk", character.getDirection());
+          }
+        }
+      }
     }
   }
 
+
   // For some reason, removing and adding doesn't work here the way it normally does. I must be doing something elsewhere.
-  //this.characters.sort(function(a,b) { return a.y - b.y });
+  this.characters.sort(function(a,b) { return a.y - b.y });
   // this.cpe_layers["character"].removeChildren();
-  // while(layers["character"].children[0]) {
-  //   let x = layers["character"].removeChild(layers["character"].children[0]);
-  // }
-  // for (let i = 0; i < this.characters; i++) {
-  //   this.cpe_layers["character"].addChild(this.characters[i]);
-  // }
+  while(layers["character"].children[0]) {
+    let x = layers["character"].removeChild(layers["character"].children[0]);
+  }
+  for (let i = 0; i < this.characters.length; i++) {
+    this.cpe_layers["character"].addChild(this.characters[i]);
+  }
   
   // for (let i = 0; i < this.characters; i++) {
   //   layers["character"].addChild(this.characters[i]);
   // }
+}
+
+
+Game.prototype.updateSpecialAnimations = function(fractional) {
+  for (let i = 0; i < this.cpe_animations.length; i++) {
+    let animation = this.cpe_animations[i];
+    if (animation.name.includes("butterfly")) {
+      animation.x += fractional * animation.vx;
+      animation.y += fractional * animation.vy;
+    }
+    if (dice(100) < 3) {
+      let angle = dice(358) + 1;
+      animation.vx = Math.cos(angle * Math.PI / 180);
+      animation.vy = Math.sin(angle * Math.PI / 180);
+    }
+  }
 }
 
 
@@ -809,9 +914,8 @@ Game.prototype.updateInfo = function() {
 
 
   this.info_text.text = 
-    "Awake: " + this.num_awake + "/" + this.num_to_wake + "\n" +
-    "Required: " + this.num_required + "\n" +
-    "Arrived: " + this.num_arrived;
+    "YOU HAVE: " + this.num_awake + "/" + this.num_to_wake + "\n" +
+    "WE NEED:  " + this.num_arrived + "/" + this.num_required;
 }
 
 
@@ -831,6 +935,8 @@ Game.prototype.CpeUpdate = function(diff) {
   this.cpeMoveScreen(fractional);
   this.spawnWalker();
   this.updateCharacters();
+
+  this.updateSpecialAnimations(fractional);
 
   this.updateInfo();
 }

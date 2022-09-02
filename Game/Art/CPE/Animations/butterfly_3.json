@@ -1,0 +1,47 @@
+{"frames": {
+
+"animated_butterfly_3-0.png":
+{
+	"frame": {"x":1,"y":1,"w":9,"h":8},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":6,"w":9,"h":8},
+	"sourceSize": {"w":16,"h":16}
+},
+"animated_butterfly_3-1.png":
+{
+	"frame": {"x":1,"y":21,"w":9,"h":9},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":6,"w":9,"h":9},
+	"sourceSize": {"w":16,"h":16}
+},
+"animated_butterfly_3-2.png":
+{
+	"frame": {"x":1,"y":11,"w":9,"h":8},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":8,"w":9,"h":8},
+	"sourceSize": {"w":16,"h":16}
+},
+"animated_butterfly_3-3.png":
+{
+	"frame": {"x":1,"y":1,"w":9,"h":8},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":7,"w":9,"h":8},
+	"sourceSize": {"w":16,"h":16}
+}},
+"animations": {
+	"animated_butterfly_3": ["animated_butterfly_3-0.png","animated_butterfly_3-1.png","animated_butterfly_3-2.png","animated_butterfly_3-3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "butterfly_3.png",
+	"format": "RGBA8888",
+	"size": {"w":11,"h":31},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f73934689043af6c2fb788d5491196a0:38a3d66a1c7aaeb59f4a87a8dcd729d7:52368ed7ecccbc4ede9e5e638e0fe370$"
+}
+}

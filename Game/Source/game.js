@@ -554,6 +554,9 @@ class Game {
       .add("Art/CPE/Animations/fishes_1.json")
       .add("Art/CPE/Animations/fridge_1.json")
       .add("Art/CPE/Animations/cat.json")
+      .add("Art/CPE/Animations/butterfly_1.json")
+      .add("Art/CPE/Animations/butterfly_2.json")
+      .add("Art/CPE/Animations/butterfly_3.json")
 
       .add("Art/CPE/UI/dot_dot_dot.json")
 

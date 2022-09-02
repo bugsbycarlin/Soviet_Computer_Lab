@@ -99,7 +99,13 @@ Game.prototype.makeCpeCharacter = function(character_name) {
 
     if (character.state == "standing") character.setAction("stand");
 
-    if (character.state == "traffic") {
+    if (character.state == "punch") {
+      console.log("this happened");
+      character.setAction("punch_2");
+    } else if (character.state == "traffic") {
+      if (character.arrow != null) {
+        character.removeChild(character.arrow);
+      }
       character.arrow = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/arrow.png"));
       character.arrow.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
       character.arrow.anchor.set(0.5, 0.5)
@@ -158,14 +164,15 @@ Game.prototype.makeCpeCharacter = function(character_name) {
         let angle = 270 - random_angle_span + dice(2 * random_angle_span);
       }
 
-      character.vx = Math.cos(angle * 180 / Math.PI);
-      character.vy = Math.sin(angle * 180 / Math.PI);
+      character.vx = Math.cos(angle * Math.PI / 180);
+      character.vy = Math.sin(angle * Math.PI / 180);
 
       character.setAction("walk");
     } else if (character.state == "dying") {
       for(const key in sheet.animations) {
         character.poses[key].scale.set(1, -1);
       }
+      character.setAction("hurt");
     } else if (character.state == "read") {
       character.vx = 0;
       character.vy = 1;
@@ -202,6 +209,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   character.setPose = function(pose_name) {
     if (pose_name == null) return;
 
+    if (pose_name == character.pose) return;
     character.pose = pose_name;
     character.updatePose();
     character.poses[character.pose].gotoAndStop(1);
@@ -247,6 +255,17 @@ Game.prototype.makeCpeCharacter = function(character_name) {
         if (dice(100) < 8) {
           character.setState("read");
         }
+      }
+      if (character.character_name == "policeman" && character.state == "random_walk") {
+        if (dice(100) < 10) {
+          character.setState("random_walk");
+        }
+      }
+
+      if (character.action == "punch_2" && character.step_value == 1) {
+        character.clickable = true;
+        character.policeman_countdown_start = null;
+        character.setState("random_walk", character.getDirection());
       }
     }
   }
