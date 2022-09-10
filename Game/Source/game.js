@@ -12,8 +12,8 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-// var first_screen = "1p_cpe";
-var first_screen = "math_game";
+var first_screen = "1p_cpe";
+// var first_screen = "math_game";
 // var first_screen = "title";
 // var first_screen = "cutscene";
 

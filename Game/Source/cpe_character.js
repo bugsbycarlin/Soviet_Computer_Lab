@@ -74,7 +74,6 @@ Game.prototype.makeCpeCharacter = function(character_name) {
 
   character.step_value = 0;
 
-
   character.getDirection = function() {
     if (Math.abs(character.vx) > Math.abs(character.vy)) {
       if (character.vx >= 0) {
@@ -313,7 +312,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   }
 
 
-  character.update = function(illegal_area, death_area, width, height) {
+  character.update = function(illegal_area, death_area, distraction_area, width, height) {
 
     if (character.state == "entry_walk") {
       character.last_x = character.x;
@@ -384,6 +383,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
         if (x_int in death_area && death_area[x_int][y_int] != null) {
           // Dead!
           character.setState("dying");
+          soundEffect("jump_3");
         } else if (x_int in illegal_area && illegal_area[x_int][y_int] != null) {
           character.x = character.last_x;
           character.y = character.last_y;
@@ -397,6 +397,15 @@ Game.prototype.makeCpeCharacter = function(character_name) {
           } else if (direction == "up") {
             character.setState("random_walk", "down");
           }
+        } else if (x_int in distraction_area && distraction_area[x_int][y_int] != null
+          && (character.last_distraction_time == null 
+            || game.timeSince(character.last_distraction_time) > 3000)) {
+          character.x = character.last_x;
+          character.y = character.last_y;
+          character.last_distraction_time = game.markTime();
+          // character.shake = game.markTime();
+          soundEffect("huh");
+          character.setState("random_walk");
         }
       }
     }

@@ -130,6 +130,7 @@ Game.prototype.CpeResetBoard = function() {
   // this.cpeMakeVoxels();
   this.cpeMakeIllegalArea();
   this.cpeMakeDeathArea();
+  this.cpeMakeDistractionArea();
   
   this.cpeAddPresetCharacters();
   this.cpeAddAnimations();
@@ -241,9 +242,11 @@ Game.prototype.CpeResetBoard = function() {
   this.play_pause_glyph.interactive = true;
   this.play_pause_glyph.on("pointertap", function() {
     if (self.paused) {
+      soundEffect("move");
       self.play_pause_glyph.gotoAndStop(0);
       self.resume();
     } else {
+      soundEffect("move");
       self.play_pause_glyph.gotoAndStop(1);
       self.pause();
     }
@@ -285,6 +288,7 @@ Game.prototype.CpeResetBoard = function() {
   this.runner_glyph.interactive = true;
   this.runner_glyph.alpha = 0.75;
   this.runner_glyph.on("pointertap", function() {
+    soundEffect("move");
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.runner_glyph.x, self.runner_glyph.y);
     self.job_selection = "runner";
@@ -299,6 +303,7 @@ Game.prototype.CpeResetBoard = function() {
   this.traffic_right_glyph.interactive = true;
   this.traffic_right_glyph.alpha = 0.75;
   this.traffic_right_glyph.on("pointertap", function() {
+    soundEffect("move");
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.traffic_right_glyph.x, self.traffic_right_glyph.y);
     self.job_selection = "traffic";
@@ -313,6 +318,7 @@ Game.prototype.CpeResetBoard = function() {
   this.policeman_glyph.interactive = true;
   this.policeman_glyph.alpha = 0.75;
   this.policeman_glyph.on("pointertap", function() {
+    soundEffect("move");
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.policeman_glyph.x, self.policeman_glyph.y);
     self.job_selection = "policeman";
@@ -327,6 +333,7 @@ Game.prototype.CpeResetBoard = function() {
   this.construction_glyph.interactive = true;
   this.construction_glyph.alpha = 0.75;
   this.construction_glyph.on("pointertap", function() {
+    soundEffect("move");
     self.glyph_cursor.visible = true;
     self.glyph_cursor.position.set(self.construction_glyph.x, self.construction_glyph.y);
     self.job_selection = "construction";
@@ -430,6 +437,32 @@ Game.prototype.cpeMakeDeathArea = function() {
       let p3 = (this.level_width * (j+1) + i+1) * 4;
       if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
         this.death_area[i][j] = true;
+      }
+    }
+  }
+}
+
+
+Game.prototype.cpeMakeDistractionArea = function() {
+  let self = this;
+  let terrain = this.terrain;
+  let layers = this.cpe_layers;
+  
+  let pixels = pixi.renderer.extract.pixels(terrain["distraction"]);
+  this.distraction_area = {};
+
+  for (let i = 0; i < this.level_width; i += 2) {
+    this.distraction_area[i] = {};
+  }
+
+  for (j = 0; j < this.level_height; j += 2) {
+    for (let i = 0; i < this.level_width; i += 2) {
+      let p0 = (this.level_width * j + i) * 4;
+      let p1 = (this.level_width * j + i + 1) * 4;
+      let p2 = (this.level_width * (j+1) + i) * 4;
+      let p3 = (this.level_width * (j+1) + i+1) * 4;
+      if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
+        this.distraction_area[i][j] = true;
       }
     }
   }
@@ -573,9 +606,11 @@ Game.prototype.cpeMouseDown = function(ev) {
         this.upgradeToRunner(min_char);
       } else if (this.job_selection.includes("traffic")
         && min_char.character_name != this.job_selection) {
-        this.upgradeToTraffic(min_char, "right")
+        this.upgradeToTraffic(min_char, "right");
       } else if (this.job_selection.includes("traffic")
         && min_char.character_name == this.job_selection) {
+        soundEffect("move");
+        this.makeSmoke(layers["open"], min_char.x, min_char.y, 0.25, 0.25);
         let direction = min_char.getDirection();
         if (direction == "right") {
           min_char.setState("traffic", "down");
@@ -602,12 +637,16 @@ Game.prototype.cpeCountdownAndStart = function() {
     let time_remaining = (this.config.countdown - (this.timeSince(this.start_time))) / 1000;
 
     this.countdown_text.text = "Workers\nin " + Math.ceil(time_remaining).toString();
-    //this.stalin_text.style.fontSize = 24;
-    // this.rule_label.text = Math.ceil(time_remaining).toString();
+
     if (time_remaining <= 0) {
       this.doors.start.open();
       this.cpe_game_state = "active";
       this.walker_last_spawn = this.markTime();
+
+      soundEffect("alarm_clock");
+      this.time_clocks_text.shake = this.markTime();
+      this.time_clocks_graphic.shake = this.markTime();
+      this.time_clocks_backing.shake = this.markTime();
 
       this.countdown_text.visible = false;
       this.countdown_text_backing.visible = false;
@@ -717,11 +756,15 @@ Game.prototype.upgradeToWalker = function(character) {
   walker.setAction(character.action);
   walker.setState("random_walk", pick(["left","right","up","down"]));
 
+  soundEffect("move");
+
   this.deleteCharacter(character);
 
   layers["character"].addChild(walker);
   this.shakers.push(walker);
   this.characters.push(walker);
+
+  return walker;
 }
 
 
@@ -741,11 +784,17 @@ Game.prototype.upgradeToRunner = function(character) {
   runner.setAction(character.action);
   runner.setState("directed_walk", character.getDirection());
 
+  soundEffect("move");
+  soundEffect("hyah_2");
+  this.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+
   this.deleteCharacter(character);
 
   layers["character"].addChild(runner);
   this.shakers.push(runner);
   this.characters.push(runner);
+
+  return runner;
 }
 
 
@@ -763,11 +812,17 @@ Game.prototype.upgradeToTraffic = function(character, direction) {
   traffic.vy = character.vy;
   traffic.setState("traffic", direction);
 
+  soundEffect("move");
+  soundEffect("hey");
+  this.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+
   this.deleteCharacter(character);
 
   layers["character"].addChild(traffic);
   this.shakers.push(traffic);
   this.characters.push(traffic);
+
+  return traffic;
 }
 
 
@@ -787,11 +842,17 @@ Game.prototype.upgradeToPoliceman = function(character) {
   policeman.setAction(character.action);
   policeman.setState("random_walk", character.getDirection());
 
+  soundEffect("move");
+  soundEffect("listen");
+  this.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+
   this.deleteCharacter(character);
 
   layers["character"].addChild(policeman);
   this.shakers.push(policeman);
   this.characters.push(policeman);
+
+  return policeman;
 }
 
 
@@ -814,11 +875,17 @@ Game.prototype.upgradeToAcademicHaHa = function(character) {
   this.num_awake -= 1;
   this.num_to_wake -= 1;
 
+  soundEffect("move");
+  soundEffect("academic_mumble");
+  this.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+
   this.deleteCharacter(character);
 
   layers["character"].addChild(academic);
   this.shakers.push(academic);
   this.characters.push(academic);
+
+  return academic;
 }
 
 
@@ -854,7 +921,7 @@ Game.prototype.updateCharacters = function() {
   for (let i = 0; i < this.characters.length; i++) {
     let old_state = this.characters[i].state;
 
-    this.characters[i].update(this.illegal_area, this.death_area, this.level_width, this.level_height);
+    this.characters[i].update(this.illegal_area, this.death_area, this.distraction_area, this.level_width, this.level_height);
   
     if (old_state != "dying" && this.characters[i].state == "dying") {
       this.characters[i].y -= 16;
@@ -878,6 +945,9 @@ Game.prototype.updateCharacters = function() {
         this.num_to_wake -= 1;
         if (this.characters[i].door_valence == 1) {
           this.num_arrived += 1;
+          soundEffect("accept");
+        } else {
+          soundEffect("negative_1");
         }
       }
       this.cpe_layers["character"].removeChild(this.characters[i]);
@@ -907,14 +977,17 @@ Game.prototype.updateCharacters = function() {
         character.nearest_academic = null;
         for (let j = 0; j < this.characters.length; j++) {
           let comp_character = this.characters[j];
-          if (comp_character.character_name == "traffic") {
+          if (comp_character.character_name == "traffic" 
+            && (character.last_traffic_direction == null
+              || this.timeSince(character.last_traffic_direction) > 500
+              )) {
             if (distance(character.x,character.y,
               comp_character.x, comp_character.y) < 20) {
               if (character.state != "standing" && 
                 (character.state != "directed_walk" ||
                   character.getDirection() != comp_character.getDirection())) {
                 character.setState("directed_walk", comp_character.getDirection())
-                // TO DO: make the walker align a little closer with the traffic director
+                character.last_traffic_direction = this.markTime();
                 character.drift_x = comp_character.x - character.x;
                 character.drift_y = comp_character.y - character.y;
               }
@@ -956,7 +1029,8 @@ Game.prototype.updateCharacters = function() {
             character.dot_dot_dot_animation = null;
           }
           if (character.nearest_academic != null) {
-            this.upgradeToAcademicHaHa(character);
+            let academic = this.upgradeToAcademicHaHa(character);
+            academic.shake = this.markTime();
           } else {
             character.clickable = true;
             character.academic_countdown_start = null;
@@ -1022,14 +1096,18 @@ Game.prototype.updateCharacters = function() {
             //this.upgradeToAcademicHaHa(character);
             if (dice(100) <= 50) {
               character.setState("punch");
+              soundEffect("slap_1");
               closest_char.setState("dying");
               closest_char.y -= 16;
               closest_char.vy = -3;
               closest_char.vx = -2 + 4 * Math.random();
               closest_char.personal_gravity = 1.4;
+              closest_char.shake = this.markTime();
               this.freefalling.push(closest_char);
             } else {
-              this.upgradeToWalker(closest_char);
+              soundEffect("slap_1");
+              let walker = this.upgradeToWalker(closest_char);
+              walker.shake = this.markTime();
               character.clickable = true;
               character.setState("random_walk", pick(["left","right","up","down"]));
             }
@@ -1127,7 +1205,10 @@ Game.prototype.updateInfoAndCheckEndConditions = function() {
     "YOU HAVE: " + this.num_awake + "/" + this.num_to_wake + "\n" +
     "WE NEED:  " + this.num_arrived + "/" + this.num_required;
 
-  let time_remaining = (this.config.clock - (this.timeSince(this.start_time))) / 1000;
+  let time_remaining = Math.min(
+    Math.floor(this.config.clock + 
+      this.config.countdown - (this.timeSince(this.start_time))) / 1000,
+      this.config.clock / 1000);
   let portion = time_remaining * 1000 / this.config.clock;
   if (time_remaining >= 0) {
     this.time_clocks_text.text = countDownString(time_remaining);
@@ -1153,6 +1234,7 @@ Game.prototype.updateInfoAndCheckEndConditions = function() {
         this.freefalling.push(character);
       }
     }
+    soundEffect("descending_plinks");
     this.cpe_game_state = "game_over";
     this.gameOverScreen(2500);
   }

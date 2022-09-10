@@ -52,6 +52,7 @@ Game.prototype.makeCpeDoor = function(number, x, y) {
     door.animations["open"].gotoAndStop(0);
     door.animations["open"].play();
     door.state = "open";
+    soundEffect("door");
   }
 
 
@@ -61,6 +62,7 @@ Game.prototype.makeCpeDoor = function(number, x, y) {
     door.animations["close"].gotoAndStop(0);
     door.animations["close"].play();
     door.state = "closed";
+    soundEffect("door"); // wrong sound effect depending on door type
   }
 
 

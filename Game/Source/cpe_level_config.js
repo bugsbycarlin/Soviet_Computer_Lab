@@ -6,7 +6,7 @@ cpe_level_config = {
     "start_door": [1, 5, 476],
     "end_door": [2, 968, 83],
     "countdown": 5000,
-    "clock": 100000,
+    "clock": 180000,
     // "end_door": ["2", 435, 383],
     "death_doors": [
       [2, 713, 138],
@@ -31,7 +31,7 @@ cpe_level_config = {
     ],
     "num_awake": 0,
     "num_to_wake": 50,
-    "num_required": 40,
+    "num_required": 30,
     "num_arrived": 0,
     "walker_spawn_delay": 1000,
   }
