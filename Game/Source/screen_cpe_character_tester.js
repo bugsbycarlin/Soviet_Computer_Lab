@@ -24,16 +24,6 @@ Game.prototype.initializeCpeTester = function(new_score) {
   this.CpeTesterResetBoard();
 
   this.cpe_game_state = "pre_game";
-
-  // delay(function() {
-  //   self.paused = false;
-  //   self.pause_time = 0;
-  //   self.start_time = self.markTime();
-  //   self.math_game_state = "countdown";
-  //   // self.soundEffect("countdown"); // need a better count down sound effect for math game
-  //   self.setMusic("marche_slav");
-  //   self.monitor_overlay.dissolve();
-  // }, 800);
 }
 
 

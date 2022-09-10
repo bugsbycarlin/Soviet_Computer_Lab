@@ -121,7 +121,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
         prompt.prior_text.text = "";
         if (complete && prompt.finished_callback != null) {
           prompt.finished_callback();
-          game.soundEffect("accept");
+          soundEffect("accept");
         } else if (!complete) {
           // I think these
           prompt.word_number = 0;
@@ -130,7 +130,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
           //////
           prompt.shake = self.markTime();
           prompt.remaining_text.style.fill = 0xdb5858;
-          game.soundEffect("negative");
+          soundEffect("negative");
         }
       } else {
         prompt.carat += prompt.word_list[prompt.word_number - 2].length + prompt.word_list[prompt.word_number - 1].length
@@ -141,9 +141,9 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
           prompt.prior_text.text = "";
           prompt.shake = self.markTime();
           prompt.remaining_text.style.fill = 0xdb5858;
-          game.soundEffect("negative");
+          soundEffect("negative");
         } else {
-          game.soundEffect("accept");
+          soundEffect("accept");
         }
       }
 
@@ -163,7 +163,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
 
       if (prompt.word_number >= prompt.word_list.length) {
         if (!prompt.complete) {
-          game.soundEffect("negative");
+          soundEffect("negative");
         }
         prompt.word_number = 0;
         prompt.carat = 0;
@@ -172,7 +172,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
         prompt.carat += prompt.word_list[prompt.word_number - 2].length + prompt.word_list[prompt.word_number - 1].length
         prompt.prior_text.text = prompt.word_list[prompt.word_number - 2] + prompt.word_list[prompt.word_number - 1];
         if (!prompt.complete) {
-          game.soundEffect("negative");
+          soundEffect("negative");
           prompt.prior_strikethrough.visible = true;
           let met_1 = new PIXI.TextMetrics.measureText(prompt.word_list[prompt.word_number - 2], prompt.prior_text.style);
           prompt.prior_strikethrough.width = met_1.width;

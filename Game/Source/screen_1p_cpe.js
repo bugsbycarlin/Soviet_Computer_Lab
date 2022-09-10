@@ -49,7 +49,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
   this.renderer.plugins.interaction.cursorStyles.default = "url('Art/CPE/UI/cursor.png'),auto";
   this.renderer.plugins.interaction.setCursorMode("url('Art/CPE/UI/cursor.png'),auto");
 
-  // self.setMusic("marche_slav");
+  // setMusic("marche_slav");
 
   this.fadeFromBlack();
   delay(function() {
@@ -57,8 +57,8 @@ Game.prototype.initialize1pCpe = function(new_score) {
     self.pause_time = 0;
     self.start_time = self.markTime();
     self.cpe_game_state = "countdown";
-    // self.soundEffect("countdown"); // need a better count down sound effect for math game
-    // self.setMusic("marche_slav");
+    // soundEffect("countdown"); // need a better count down sound effect for math game
+    // setMusic("marche_slav");
     self.monitor_overlay.dissolve();
   }, 500);
 }
@@ -202,26 +202,80 @@ Game.prototype.CpeResetBoard = function() {
 
   this.time_clocks_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/time_clocks_backing.png"));
   this.time_clocks_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  this.time_clocks_backing.position.set(2 * glyph_gap,this.height/2 - glyph_gap);
-  this.time_clocks_backing.anchor.set(1, 0);
+  this.time_clocks_backing.position.set(6, this.height/2 - glyph_gap);
+  this.time_clocks_backing.anchor.set(0, 0);
   this.time_clocks_backing.scale.set(0.75, 0.75);
   this.time_clocks_backing.alpha = 0.75;
   layers["display"].addChild(this.time_clocks_backing);
 
-  this.time_clocks_text = new PIXI.Text("1:00", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
+  this.time_clocks_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
   this.time_clocks_text.anchor.set(0,0);
-  this.time_clocks_text.position.set(2 * glyph_gap - 80,this.height/2 - glyph_gap + 16);
+  this.time_clocks_text.position.set(44, this.height/2 - glyph_gap + 16);
   this.time_clocks_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   layers["display"].addChild(this.time_clocks_text);
+  this.time_clocks_text.text = countDownString(this.config.clock/1000);
 
   let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/time_clocks.json"].spritesheet;
   let time_clocks_graphic = new PIXI.AnimatedSprite(sheet.animations["time_clocks"]);
   time_clocks_graphic.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  time_clocks_graphic.position.set(2 * glyph_gap - 100,this.height/2 - glyph_gap + 16);
+  time_clocks_graphic.position.set(14, this.height/2 - glyph_gap + 11);
   time_clocks_graphic.anchor.set(0, 0)
   layers["display"].addChild(time_clocks_graphic);
   time_clocks_graphic.gotoAndStop(0);
   this.time_clocks_graphic = time_clocks_graphic;
+
+  this.shakers.push(this.time_clocks_graphic);
+  this.shakers.push(this.time_clocks_text);
+  this.shakers.push(this.time_clocks_backing);
+
+  sheet = PIXI.Loader.shared.resources["Art/CPE/UI/play_pause_glyph.json"].spritesheet;
+  let play_pause_glyph = new PIXI.AnimatedSprite(sheet.animations["play_pause"]);
+  play_pause_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  play_pause_glyph.position.set(76 + glyph_gap, this.height/2 - glyph_gap);
+  play_pause_glyph.anchor.set(0, 0)
+  play_pause_glyph.scale.set(0.75, 0.75)
+  play_pause_glyph.alpha = 0.75;
+  layers["display"].addChild(play_pause_glyph);
+  play_pause_glyph.gotoAndStop(0);
+  this.play_pause_glyph = play_pause_glyph;
+  this.play_pause_glyph.interactive = true;
+  this.play_pause_glyph.on("pointertap", function() {
+    if (self.paused) {
+      self.play_pause_glyph.gotoAndStop(0);
+      self.resume();
+    } else {
+      self.play_pause_glyph.gotoAndStop(1);
+      self.pause();
+    }
+  })
+
+
+  this.reset_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/reset_glyph.png"));
+  this.reset_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.reset_glyph.position.set(76 + 2 * glyph_gap, this.height/2 - glyph_gap);
+  this.reset_glyph.anchor.set(0, 0);
+  this.reset_glyph.scale.set(0.75, 0.75);
+  this.reset_glyph.interactive = true;
+  this.reset_glyph.alpha = 0.75;
+  this.reset_glyph.on("pointertap", function() {
+    self.initialize1pCpe();
+  });
+  layers["display"].addChild(this.reset_glyph);
+
+  this.quit_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/quit_glyph.png"));
+  this.quit_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  this.quit_glyph.position.set(76 + 3 * glyph_gap, this.height/2 - glyph_gap);
+  this.quit_glyph.anchor.set(0, 0);
+  this.quit_glyph.scale.set(0.75, 0.75);
+  this.quit_glyph.interactive = true;
+  this.quit_glyph.alpha = 0.75;
+  this.quit_glyph.on("pointertap", function() {
+    self.cpe_game_state == "none";
+    self.initialize1pLobby();
+    self.switchScreens("1p_cpe", "1p_lobby");
+  });
+  layers["display"].addChild(this.quit_glyph);
+
 
   this.runner_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/runner_glyph.png"));
   this.runner_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -1060,17 +1114,48 @@ Game.prototype.updateSpecialAnimations = function(fractional) {
 }
 
 
-Game.prototype.updateInfo = function() {
+Game.prototype.updateInfoAndCheckEndConditions = function() {
   var self = this;
   // this.num_awake = 0;
   // this.num_to_wake = 50;
   // this.num_required = 40;
   // this.num_arrived = 0;
 
+  if (this.cpe_game_state == "pre_game") return;
 
   this.info_text.text = 
     "YOU HAVE: " + this.num_awake + "/" + this.num_to_wake + "\n" +
     "WE NEED:  " + this.num_arrived + "/" + this.num_required;
+
+  let time_remaining = (this.config.clock - (this.timeSince(this.start_time))) / 1000;
+  let portion = time_remaining * 1000 / this.config.clock;
+  if (time_remaining >= 0) {
+    this.time_clocks_text.text = countDownString(time_remaining);
+    this.time_clocks_graphic.gotoAndStop(Math.max(Math.floor(1 - portion * 8) - 1), 0);
+  }
+
+  if (time_remaining <= 0 && time_remaining >= -100) {
+    this.time_clocks_text.shake = this.markTime();
+    this.time_clocks_graphic.shake = this.markTime();
+    this.time_clocks_backing.shake = this.markTime();
+  }
+
+  if (time_remaining <= 0 && this.cpe_game_state != "game_over") {
+    for (let i = 0; i < this.characters.length; i++) {
+      let character = this.characters[i];
+      if (character.state != "dying") {
+        character.setState("dying");
+        character.y -= 16;
+        character.vy = -3;
+        character.vx = -2 + 4 * Math.random();
+        character.personal_gravity = 1.4;
+        character.shake = this.markTime();
+        this.freefalling.push(character);
+      }
+    }
+    this.cpe_game_state = "game_over";
+    this.gameOverScreen(2500);
+  }
 }
 
 
@@ -1093,7 +1178,7 @@ Game.prototype.CpeUpdate = function(diff) {
 
   this.updateSpecialAnimations(fractional);
 
-  this.updateInfo();
+  this.updateInfoAndCheckEndConditions();
 }
 
 

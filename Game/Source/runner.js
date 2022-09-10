@@ -270,7 +270,7 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
           }
         }
 
-        if (runner.sound) game.soundEffect("slap_" + Math.ceil(Math.random() * 4));
+        if (runner.sound) soundEffect("slap_" + Math.ceil(Math.random() * 4));
         if (runner.punch_target.color == "blue") {
           game.player_area.shake = game.markTime();
         } else {

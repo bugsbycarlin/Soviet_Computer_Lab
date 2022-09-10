@@ -82,6 +82,19 @@ function detectMobileBrowser() {
 }
 
 
+// Turn a number of seconds into a countdown clock
+// 75 -> "1:15"
+// 75.5 -> "1:15"
+// 200 -> "3:20"
+// 23 -> "0:23"
+// This method assumes a number of minutes less than an hour.
+function countDownString(seconds) {
+  let clock_minutes = Math.floor(seconds / 60);
+  let clock_seconds = Math.floor(seconds - clock_minutes * 60);
+  return clock_minutes + ":" + (clock_seconds < 10 ? "0" : "") + clock_seconds;
+}
+
+
 // Wrap setTimeout so it has pause functionality.
 delays = {};
 unique = 0;

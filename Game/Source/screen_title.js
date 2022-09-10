@@ -4,7 +4,7 @@ Game.prototype.initializeTitle = function() {
   var self = this;
   let screen = this.screens["title"];
 
-  this.setMusic("title_song");
+  setMusic("title_song");
 
   this.monitor_overlay.visible = true;
 
@@ -136,9 +136,9 @@ Game.prototype.updateSettingsMenu = function() {
   this.title_choices.choice_list["SETTINGS"][u_m] = function() {
     use_music = !use_music;
     if (use_music == false) {
-      self.stopMusic();
+      stopMusic();
     } else {
-      self.setMusic("title_song");
+      setMusic("title_song");
     }
     localStorage.setItem("soviet_computer_lab_use_music", use_music);
     self.updateSettingsMenu();

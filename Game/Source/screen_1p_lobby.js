@@ -66,7 +66,7 @@ Game.prototype.initialize1pLobby = function() {
   }
 
   if (use_music) {
-    this.setMusic("title_song");
+    setMusic("title_song");
   }
 }
 
@@ -127,7 +127,7 @@ Game.prototype.initializeSectionDifficulty = function() {
     this.option_markers[i].interactive = true;
     this.option_markers[i].buttonMode = true;
     this.option_markers[i].on("pointertap", function() {
-      self.soundEffect("switch_option");
+      soundEffect("switch_option");
       self.option_markers[self.difficulty_choice].tint = 0xFFFFFF;
       self.difficulty_choice = i;
       self.option_markers[self.difficulty_choice].tint = 0x75d3fe;
@@ -196,9 +196,9 @@ Game.prototype.initializeSectionDifficulty = function() {
   go_button.interactive = true;
   go_button.buttonMode = true;
   go_button.on("pointertap", function() {
-    self.soundEffect("button_accept");
-    //self.fadeMusic(0);
-    //self.stopMusic();
+    soundEffect("button_accept");
+    //fadeMusic(0);
+    //stopMusic();
     flicker(go_button, 500, 0xFFFFFF, 0x67d8ef);
     self.difficulty_level = self.option_values[self.difficulty_choice];
     self.resetGame();
@@ -233,7 +233,7 @@ Game.prototype.initializeSectionGameType = function() {
   this.game_type_story_button.interactive = true;
   this.game_type_story_button.buttonMode = true;
   this.game_type_story_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.game_type_selection = 0;
     self.game_type_story_text.tint = 0x67d8ef;
     self.game_type_arcade_text.tint = 0xFFFFFF;
@@ -252,7 +252,7 @@ Game.prototype.initializeSectionGameType = function() {
   this.game_type_arcade_button.interactive = true;
   this.game_type_arcade_button.buttonMode = true;
   this.game_type_arcade_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.game_type_selection = 1;
     self.game_type_story_text.tint = 0xFFFFFF;
     self.game_type_arcade_text.tint = 0x67d8ef;
@@ -271,7 +271,7 @@ Game.prototype.initializeSectionGameType = function() {
   this.game_type_tutorial_button.interactive = true;
   this.game_type_tutorial_button.buttonMode = true;
   this.game_type_tutorial_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.game_type_selection = 2;
     self.game_type_story_text.tint = 0xFFFFFF;
     self.game_type_arcade_text.tint = 0xFFFFFF;
@@ -314,7 +314,7 @@ Game.prototype.initializeSectionGameType = function() {
   ok_button.interactive = true;
   ok_button.buttonMode = true;
   ok_button.on("pointertap", function() {
-    self.soundEffect("button_accept");
+    soundEffect("button_accept");
     localStorage.setItem("soviet_computer_lab_game_type_selection", self.game_type_selection);
     flicker(ok_button, 500, 0xFFFFFF, 0x67d8ef);
     flicker(self.game_type_selection_box, 500, 0xFFFFFF, 0x67d8ef);
@@ -375,8 +375,8 @@ Game.prototype.initializeSectionGameType = function() {
       self.difficulty_level = "EASY";
       flicker(self.game_type_tutorial_text, 500, 0xFFFFFF, 0x67d8ef);
       flicker(self.game_type_tutorial_button, 500, 0xFFFFFF, 0x67d8ef);
-      self.soundEffect("button_accept");
-      //self.stopMusic();
+      soundEffect("button_accept");
+      //stopMusic();
       localStorage.setItem("soviet_computer_lab_difficulty_level", self.difficulty_level);
       self.resetGame();
       self.nextFlow();
@@ -417,7 +417,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   this.arcade_type_mixed_button.interactive = true;
   this.arcade_type_mixed_button.buttonMode = true;
   this.arcade_type_mixed_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.arcade_type_selection = 0;
     self.arcade_type_mixed_text.tint = 0x67d8ef;
     self.arcade_type_word_rockets_text.tint = 0xFFFFFF;
@@ -437,7 +437,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   this.arcade_type_word_rockets_button.interactive = true;
   this.arcade_type_word_rockets_button.buttonMode = true;
   this.arcade_type_word_rockets_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.arcade_type_selection = 1;
     self.arcade_type_mixed_text.tint = 0xFFFFFF;
     self.arcade_type_word_rockets_text.tint = 0x67d8ef;
@@ -457,7 +457,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   this.arcade_type_base_capture_button.interactive = true;
   this.arcade_type_base_capture_button.buttonMode = true;
   this.arcade_type_base_capture_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.arcade_type_selection = 2;
     self.arcade_type_mixed_text.tint = 0xFFFFFF;
     self.arcade_type_word_rockets_text.tint = 0xFFFFFF;
@@ -477,7 +477,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   this.arcade_type_launch_code_button.interactive = true;
   this.arcade_type_launch_code_button.buttonMode = true;
   this.arcade_type_launch_code_button.on("pointertap", function() {
-    self.soundEffect("switch_option");
+    soundEffect("switch_option");
     self.arcade_type_selection = 3;
     self.arcade_type_mixed_text.tint = 0xFFFFFF;
     self.arcade_type_word_rockets_text.tint = 0xFFFFFF;
@@ -538,7 +538,7 @@ Game.prototype.initializeSectionArcadeType = function() {
   ok_button.interactive = true;
   ok_button.buttonMode = true;
   ok_button.on("pointertap", function() {
-    self.soundEffect("button_accept");
+    soundEffect("button_accept");
     localStorage.setItem("soviet_computer_lab_arcade_type_selection", self.arcade_type_selection);
     self.updateHighScoreDisplay();
     flicker(ok_button, 500, 0xFFFFFF, 0x67d8ef);

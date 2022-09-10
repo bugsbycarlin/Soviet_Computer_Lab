@@ -1,7 +1,5 @@
 'use strict';
 
-var use_music = true;
-var use_sound = true;
 var multiplayer_name = null;
 var multiplayer_picture_number = null;
 var use_scores = false;
@@ -14,7 +12,8 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-var first_screen = "1p_cpe";
+// var first_screen = "1p_cpe";
+var first_screen = "math_game";
 // var first_screen = "title";
 // var first_screen = "cutscene";
 
@@ -315,7 +314,7 @@ class Game {
     if (this.last_cutscene != null && this.last_flow_marker != null) {
       console.log("switching to cutscene");
       this.flow_marker = this.last_flow_marker;
-      //this.fadeMusic();
+      //fadeMusic();
       this.initializeCutscene(this.last_cutscene);
       if (this.current_screen != "cutscene") {
         this.switchScreens(this.current_screen, "cutscene");
@@ -376,7 +375,7 @@ class Game {
           this.level = parseInt(next_value);
           this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
           if (this.current_screen != "1p_word_rockets") {
-            //this.fadeMusic();
+            //fadeMusic();
             this.initializeScreen("1p_word_rockets");
             this.switchScreens(this.current_screen, "1p_word_rockets");
           } else {
@@ -386,7 +385,7 @@ class Game {
           this.level = parseInt(next_value);
           this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
           if (this.current_screen != "1p_base_capture") {
-            this.fadeMusic();
+            fadeMusic();
             this.initializeScreen("1p_base_capture");
             this.switchScreens(this.current_screen, "1p_base_capture");
           } else {
@@ -396,7 +395,7 @@ class Game {
           this.level = parseInt(next_value);
           this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
           if (this.current_screen != "1p_launch_code") {
-            this.fadeMusic();
+            fadeMusic();
             this.initializeScreen("1p_launch_code");
             this.switchScreens(this.current_screen, "1p_launch_code");
           } else {
@@ -406,7 +405,7 @@ class Game {
           if (this.current_screen != "cutscene") {
             this.last_flow_marker = this.flow_marker;
             this.last_cutscene = next_value;
-            //this.fadeMusic();
+            fadeMusic();
             this.initializeCutscene(next_value);
             this.switchScreens(this.current_screen, "cutscene");
           } else {
@@ -564,6 +563,7 @@ class Game {
       .add("Art/CPE/UI/dot_dot_dot.json")
       .add("Art/CPE/UI/red_arrow.json")
       .add("Art/CPE/UI/time_clocks.json")
+      .add("Art/CPE/UI/play_pause_glyph.json")
 
       .add("Art/CPE/Levels/cpe_level_1_open.png")
       .add("Art/CPE/Levels/cpe_level_1_death.png")
@@ -787,73 +787,6 @@ class Game {
   }
 
 
-  soundEffect(effect_name, volume = 0.6) {
-    if (use_sound) {
-      var sound_effect = document.getElementById(effect_name);
-      sound_effect.volume = volume;
-      sound_effect.play();
-    }
-  }
-
-
-  setMusic(music_name) {
-    if (use_music) {
-      if (this.music_name == music_name) {
-        return;
-      }
-      var self = this;
-      let crossfade = false;
-      if (this.music != null && this.music_name != music_name) {
-        crossfade = true;
-        this.fadeMusic();
-      }
-      this.music = document.getElementById(music_name);
-      this.music.loop = true;
-      this.music.pause();
-      this.music.currentTime = 0;
-      if (crossfade) {
-        for (let i = 0; i < 14; i++) {
-          delay(function() {
-            self.music.volume = i / 20;
-          }, 50 * i);
-        }
-      } else {
-        this.music.volume = 0.6;
-      }
-      this.music_name = music_name;
-      this.music.play();
-    }
-  }
-
-
-  stopMusic() {
-    if (this.music != null) {
-      this.music.pause();
-      this.music.currentTime = 0;
-    }
-  }
-
-
-  fadeMusic(delay_time = 0) {
-    if (this.music != null) {
-      this.old_music = this.music;
-      this.music = null;
-      //this.old_music.done = true;
-      var self = this;
-      for (let i = 0; i < 14; i++) {
-        delay(function() {
-          self.old_music.volume = (13 - i) / 20;
-        }, delay_time + 50 * i);
-      }
-      setTimeout(function() {
-        // TO DO
-        // DELETE OLD MUSIC
-        this.old_music = null;
-      }, 1500);
-    }
-  }
-
-
   pause() {
     this.paused = true;
     this.pause_moment = Date.now();
@@ -864,13 +797,12 @@ class Game {
       tween.pause();
       this.paused_tweens.push(tween);
     }
-    if (this.music != null) {
-      this.music.pause();
+    if (current_music != null) {
+      current_music.pause();
     }
-    let countdown_sound = document.getElementById("countdown");
-    if (countdown_sound.paused == false) {
-      countdown_sound.hold_up = true;
-      countdown_sound.pause();
+    if (sound_data["countdown"].paused == false) {
+      sound_data["countdown"].hold_up = true;
+      sound_data["countdown"].pause();
     }
     this.prev_announcement_text = this.announcement.text;
     this.announcement.text = "PAUSED";
@@ -888,13 +820,12 @@ class Game {
       tween.resume();
     }
     this.paused_tweens = [];
-    if (this.music != null) {
-      this.music.play();
+    if (current_music != null) {
+      current_music.play();
     }
-    let countdown_sound = document.getElementById("countdown");
-    if (countdown_sound.hold_up == true) {
-      countdown_sound.hold_up = null;
-      countdown_sound.play();
+    if (sound_data["countdown"] != null && sound_data["countdown"].hold_up == true) {
+      sound_data["countdown"].hold_up = null;
+      sound_data["countdown"].play();
     }
     this.announcement.text = this.prev_announcement_text;
     this.escape_to_quit.visible = false;

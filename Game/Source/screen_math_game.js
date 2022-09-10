@@ -97,8 +97,8 @@ Game.prototype.initializeMathGame = function(new_score) {
     self.pause_time = 0;
     self.start_time = self.markTime();
     self.math_game_state = "countdown";
-    // self.soundEffect("countdown"); // need a better count down sound effect for math game
-    self.setMusic("marche_slav");
+    //soundEffect("countdown"); // need a better count down sound effect for math game
+    setMusic("marche_slav");
     self.monitor_overlay.dissolve();
   }, 800);
 }
@@ -371,7 +371,7 @@ Game.prototype.mathGameSetChallenge = function() {
 
   
   this.stalin_icon.visible = true;
-  this.soundEffect("ding_ding_ding");
+  soundEffect("ding_ding_ding");
 
   // Have to do this because Stalin might ban all the things you still need to pick up.
   if (this.mathGameCheckVictory()) {
@@ -427,7 +427,7 @@ Game.prototype.mathGameConsumeCell = function(cell_x, cell_y) {
 
   if (result == true) {
 
-    this.soundEffect("success");
+    soundEffect("success");
     this.cells[cell_x][cell_y].cell_value = null;
     this.cells[cell_x][cell_y].text = "";
     this.grigory.startWork();
@@ -699,7 +699,7 @@ Game.prototype.mathGameHurtCharacter = function() {
   var self = this;
 
   flicker(this.grigory.character_sprite[this.grigory.direction], 200, 0xFFFFFF, 0xcd0000);
-  this.soundEffect("hurt");
+  soundEffect("hurt");
   this.grigory.state = "ouch";
   this.grigory.ouch_time = this.markTime();
   this.grigory.shake = this.markTime();
@@ -711,7 +711,7 @@ Game.prototype.mathGameHurtCharacter = function() {
   this.math_game_lives -= 1;
   if (this.math_game_lives == 0) {
     this.rule_label.text = "Suspicious...";
-    this.soundEffect("game_over");
+    soundEffect("game_over");
     this.math_game_state = "post_game_defeat";
     this.grigory.startDefeat();
 
@@ -852,7 +852,7 @@ Game.prototype.mathGameUpdate = function(diff) {
 
   if (this.grigory.state == "stopped" && this.grigory.victorious == true) {
     this.rule_label.text = "Worker Victory!";
-    this.soundEffect("victory");
+    soundEffect("victory");
     this.math_game_state = "post_game_victory";
     this.grigory.startVictory();
 
@@ -874,7 +874,7 @@ Game.prototype.mathGameUpdate = function(diff) {
     this.grigory.victory();
   } else if (this.grigory.state == "defeat") {
     this.grigory.defeat();
-    this.stopMusic();
+    stopMusic();
   } else if (this.grigory.state == "walking") {
     this.grigory.walk();
     if (this.grigory.state == "stopped" && this.queued_move != null) {

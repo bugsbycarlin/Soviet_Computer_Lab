@@ -71,7 +71,7 @@ Game.prototype.initialize1pLaunchCode = function() {
     self.pause_time = 0;
     self.start_time = self.markTime();
     self.game_phase = "countdown";
-    self.setMusic("action_song_3");
+    setMusic("action_song_3");
 
     self.runner[0].speed = 6;
     self.runner[0].changeSpeed();
@@ -428,7 +428,7 @@ Game.prototype.resetRace = function() {
     mouse_button.buttonMode = true;
     mouse_button.button_pressed = false;
     mouse_button.on("pointerdown", function() {
-      self.soundEffect("keyboard_click_1", 1.0);
+      soundEffect("keyboard_click_1", 1.0);
       if (mouse_button.button_pressed != true) {
         mouse_button.button_pressed = true;
         mouse_button.position.y += 3;
@@ -522,7 +522,7 @@ Game.prototype.makeCodePanel = function() {
   this.code_prompt = this.makePrompt(this.code_panel, -200, -6, this.chooseLaunchCode(), true,
     function() {
       self.code_prompt.parent_chunk.setState("open");
-      self.soundEffect("door");
+      soundEffect("door");
       self.runner[0].setState("static");
       self.game_phase = "active";
       new TWEEN.Tween(self.code_panel)
@@ -734,7 +734,7 @@ Game.prototype.launchCodeGameOver = function(win = false) {
   if (win == true) {
     this.final_missile_result = "explode";
     this.announcement.text = "YOU WIN!";
-    this.soundEffect("victory");
+    soundEffect("victory");
     this.score += 500;
     this.score_text_box.text = this.score;
     flicker(this.announcement, 500, 0xFFFFFF, 0x67d8ef);
@@ -744,8 +744,8 @@ Game.prototype.launchCodeGameOver = function(win = false) {
   } else {
     this.final_missile_result = "launch";
     this.announcement.text = "YOU LOSE";
-    this.stopMusic();
-    this.soundEffect("game_over");
+    stopMusic();
+    soundEffect("game_over");
 
     this.gameOverScreen(10000);
   }
@@ -906,10 +906,10 @@ Game.prototype.launchCodeAct = function() {
   }
 
   if (target == null) {
-    this.soundEffect("grunt");
+    soundEffect("grunt");
     this.runner[0].jump();
   } else {
-    this.soundEffect("grunt");
+    soundEffect("grunt");
     this.runner[0].punch(target, true);
   }
 
@@ -935,7 +935,7 @@ Game.prototype.launchCodeKeyDown = function(key) {
     this.pressKey(this.player_palette, key);
 
     // if (key === "ArrowUp") {
-    //   this.soundEffect("grunt");
+    //   soundEffect("grunt");
     //   this.runner[0].jump();
     // }
 
@@ -948,7 +948,7 @@ Game.prototype.launchCodeKeyDown = function(key) {
     //       target = chunk.guard;
     //     }
     //   }
-    //   this.soundEffect("grunt");
+    //   soundEffect("grunt");
     //   this.runner[0].punch(target, true);
     // }
 
@@ -1298,7 +1298,7 @@ Game.prototype.launchCodeUpdateCourse = function(course) {
   if (this.timeSince(this.start_time) > 5000 && this.game_phase == "active" && Math.random() < 0.0045) {
     console.log("I am making an explosion");
     if (course.player_number == 0) {
-      this.soundEffect("explosion_3");
+      soundEffect("explosion_3");
       this.player_area.shake = this.markTime();
     }
     let new_explosion = this.makeExplosion(course, runner.lx + 50 + 100 * Math.random(), runner.ly - 200 + 100 * Math.random(), 2, 2, function() {
@@ -1320,7 +1320,7 @@ Game.prototype.launchCodeUpdateCourse = function(course) {
       && (runner.current_state != "jump" || runner.ly > chunk.position.y - 70)) {
       if (course.player_number == 0) {
         this.player_area.shake = this.markTime();
-        this.soundEffect("hurt");
+        soundEffect("hurt");
       } else {
         this.swearing();
       }
@@ -1332,7 +1332,7 @@ Game.prototype.launchCodeUpdateCourse = function(course) {
       if (runner.current_state != "jump" || runner.ly > chunk.position.y - 85) {
         if (course.player_number == 0) {
           this.player_area.shake = this.markTime();
-          this.soundEffect("hurt");
+          soundEffect("hurt");
         } else {
           this.swearing();
         }
@@ -1411,7 +1411,7 @@ Game.prototype.launchCodeGameOverPan = function() {
         this.final_pan_x += diff;
         this.final_missile = missile;
         this.final_missile.vy = 0;
-        this.soundEffect("big_rocket");
+        soundEffect("big_rocket");
       }
     }
   }

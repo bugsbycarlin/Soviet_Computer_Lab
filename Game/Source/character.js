@@ -7,8 +7,8 @@
 // Written by Matthew Carlin
 //
 
-var default_walk_speed = 4.5;
-var frame_time = 50;
+var mg_default_walk_speed = 4.5;
+var mg_frame_time = 50;
 
 var sprites = ["down", "left", "up", "right", "victory", "work", "defeat"]
 var walk_frames = [0, 1, 2, 1];
@@ -45,9 +45,9 @@ Game.prototype.makeCharacter = function(character_name) {
   character.character_sprite["down"].visible = true;
 
   character.direction = "down";
-  character.frame_time = frame_time;
+  character.frame_time = mg_frame_time;
   character.last_image_time = null;
-  character.walk_speed = default_walk_speed;
+  character.walk_speed = mg_default_walk_speed;
 
   character.step_value = 0;
 

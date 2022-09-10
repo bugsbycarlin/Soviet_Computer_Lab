@@ -27,7 +27,7 @@ Game.prototype.keyAction = function(letter) {
 
 Game.prototype.deleteAction = function() {
   if (this.game_phase === "active" || this.game_phase === "tutorial") {
-    this.soundEffect("keyboard_click_1", 1.0);
+    soundEffect("keyboard_click_1", 1.0);
     this.launchpad.pop();
     if (this.game_phase === "tutorial" && this.tutorial_number === 3) {
       this.tutorial35();
@@ -71,7 +71,7 @@ Game.prototype.rightArrowAction = function() {
   if (this.game_phase === "active" || this.game_phase === "tutorial") {
     console.log("yo")
     this.changeBaseSelection(0, 1);
-    this.soundEffect("switch_option");
+    soundEffect("switch_option");
   }
 }
 
@@ -79,7 +79,7 @@ Game.prototype.rightArrowAction = function() {
 Game.prototype.leftArrowAction = function() {
   if (this.game_phase === "active" || this.game_phase === "tutorial") {
     this.changeBaseSelection(0, -1);
-    this.soundEffect("switch_option");
+    soundEffect("switch_option");
   }
 }
 
@@ -116,7 +116,7 @@ Game.prototype.leftShiftAction = function() {
 
 Game.prototype.clearAction = function() {
   if (this.game_phase === "active" || this.game_phase === "tutorial") {
-    this.soundEffect("keyboard_click_1", 1.0);
+    soundEffect("keyboard_click_1", 1.0);
     this.launchpad.clear();
     if (this.game_phase === "tutorial" && this.tutorial_number === 3.5) {
       this.tutorial4();
@@ -150,7 +150,7 @@ Game.prototype.pressKey = function(palette, key) {
   if (key in palette.keys) {
     let keyboard_key = palette.keys[key];
     let click_sound = "keyboard_click_" + ((key.charCodeAt(0) % 5)+1).toString();
-    this.soundEffect(click_sound, 1.0);
+    soundEffect(click_sound, 1.0);
     if (keyboard_key.key_pressed != true) {
       keyboard_key.key_pressed = true;
       // let old_y = keyboard_key.position.y;
@@ -352,14 +352,14 @@ Game.prototype.handleKeyDown = function(ev) {
   } else if (this.current_screen === "1p_lobby") {
     if (this.lobby_mode === "difficulty") {
       if (ev.key === "ArrowRight") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
         this.difficulty_choice = (this.difficulty_choice + 1) % 4;
         this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
         this.option_info.setPartial(this.option_info_values[this.difficulty_choice].toUpperCase());
         this.updateHighScoreDisplay();
       } else if (ev.key === "ArrowLeft") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
         this.difficulty_choice = (this.difficulty_choice + 3) % 4;
         this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
@@ -374,7 +374,7 @@ Game.prototype.handleKeyDown = function(ev) {
       }
     } else if (this.lobby_mode === "game_type") {
       if (ev.key === "ArrowRight") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.game_type_selection += 1;
         this.game_type_selection = this.game_type_selection % 3;
         this.game_type_story_text.tint = this.game_type_selection == 0 ? 0x67d8ef : 0xFFFFFF;
@@ -387,7 +387,7 @@ Game.prototype.handleKeyDown = function(ev) {
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
       } else if (ev.key === "ArrowLeft") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.game_type_selection += 2;
         this.game_type_selection = this.game_type_selection % 3;
         this.game_type_story_text.tint = this.game_type_selection == 0 ? 0x67d8ef : 0xFFFFFF;
@@ -406,7 +406,7 @@ Game.prototype.handleKeyDown = function(ev) {
       }
     } else if (this.lobby_mode === "arcade_type") {
       if (ev.key === "ArrowRight") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.arcade_type_selection += 1;
         this.arcade_type_selection = this.arcade_type_selection % 4;
         this.arcade_type_mixed_text.tint = this.arcade_type_selection == 0 ? 0x67d8ef : 0xFFFFFF;
@@ -420,7 +420,7 @@ Game.prototype.handleKeyDown = function(ev) {
           .easing(TWEEN.Easing.Cubic.Out)
           .start();
       } else if (ev.key === "ArrowLeft") {
-        this.soundEffect("switch_option");
+        soundEffect("switch_option");
         this.arcade_type_selection += 3;
         this.arcade_type_selection = this.arcade_type_selection % 4;
         this.arcade_type_mixed_text.tint = this.arcade_type_selection == 0 ? 0x67d8ef : 0xFFFFFF;

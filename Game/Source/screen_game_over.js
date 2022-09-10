@@ -37,7 +37,7 @@ Game.prototype.initializeGameOver = function() {
 Game.prototype.gameOverEnter = function() {
   var self = this;
 
-  this.soundEffect("button_accept");
+  soundEffect("button_accept");
   this.returnToLastCutscene();
 }
 

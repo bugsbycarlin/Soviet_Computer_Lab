@@ -307,9 +307,9 @@ Game.prototype.initializeCutscene = function(name = "intro") {
   });
 
   if (name != "c8") {
-    this.setMusic("cutscene_song");
+    setMusic("cutscene_song");
   } else {
-    this.setMusic("final_song");
+    setMusic("final_song");
   }
 
   if (self.checkTournamentBoard()) {
@@ -346,7 +346,7 @@ Game.prototype.gotoCutscenePage = function(page_num) {
       }
     }
 
-    if (something_appeared) this.soundEffect("slap_" + Math.ceil(Math.random() * 4));
+    if (something_appeared) soundEffect("slap_" + Math.ceil(Math.random() * 4));
     
     for (let j = 0; j < this.cutscene_pages[this.cutscene_pagenum].disappears.length; j++) {
       if (this.sequence_num == this.cutscene_pages[this.cutscene_pagenum].disappears[j].disappears) {
@@ -407,7 +407,7 @@ Game.prototype.gotoCutscenePage = function(page_num) {
   }
 
   if (this.cutscene_mode == "interactive") {
-    this.soundEffect("button_chirp");
+    soundEffect("button_chirp");
   }
   
   if (page_num >= this.cutscene_items.length) {
@@ -468,7 +468,7 @@ Game.prototype.endCutscene = function(play_sound = true) {
     return;
   }
   if (play_sound) {
-    this.soundEffect("button_chirp");
+    soundEffect("button_chirp");
   }
   this.cutscene_state = "transitioning";
   for (var p = 0; p < this.cutscene_items.length; p++) {
@@ -486,7 +486,7 @@ Game.prototype.endCutscene = function(play_sound = true) {
   this.nextFlow();
 
   // if (this.cutscene_next_screen != "title") {
-  //   this.fadeMusic(0);
+  //   fadeMusic(0);
   // }
 
   // this.initializeScreen(this.cutscene_next_screen);

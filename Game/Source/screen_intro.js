@@ -70,7 +70,7 @@ Game.prototype.initializeIntro = function() {
   self.intro_started = true;
   self.intro_start_time = self.markTime();
 
-  self.soundEffect("intro");
+  soundEffect("intro");
 
   delay(function() {
     self.initializeTitle();

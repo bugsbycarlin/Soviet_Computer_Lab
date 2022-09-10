@@ -134,7 +134,7 @@ Game.prototype.initialize1pWordRockets = function() {
       self.pause_time = 0;
       self.start_time = self.markTime();
       self.game_phase = "countdown";
-      self.soundEffect("countdown");
+      soundEffect("countdown");
       self.monitor_overlay.dissolve();
     }, 1200);
   }
@@ -448,7 +448,7 @@ Game.prototype.countdownAndStart = function() {
         this.makeBase(this.base_points[i][b][0], this.base_points[i][b][1], this.picks[i][b], i);
       }
 
-      this.soundEffect("build");
+      soundEffect("build");
       this.installed_bases += 1;
     }
 
@@ -469,9 +469,9 @@ Game.prototype.countdownAndStart = function() {
 
       if ((this.difficulty_level == "EASY" && (this.level == 13 || this.level == 14))
         || (this.difficulty_level != "EASY" && (this.level == 19 || this.level == 20 || this.level == 21))) {
-        this.setMusic("putzen_song");
+        setMusic("putzen_song");
       } else {
-        this.setMusic("action_song_1");
+        setMusic("action_song_1");
       }
     }
   }
@@ -740,12 +740,12 @@ Game.prototype.checkEndCondition = function(bypass = false) {
       this.announcement.style.fontSize = 36;
       if (player_dead === true || bypass === true) { //regardless of whether enemy is dead
         this.announcement.text = "YOU LOSE";
-        this.stopMusic();
-        this.soundEffect("game_over");
+        stopMusic();
+        soundEffect("game_over");
         this.gameOverScreen(4000);
       } else if (enemy_dead == true) {
         this.announcement.text = "YOU WIN!";
-        this.soundEffect("victory");
+        soundEffect("victory");
         flicker(this.announcement, 500, 0xFFFFFF, 0x67d8ef);
         delay(function() {
           self.nextFlow();
@@ -838,9 +838,9 @@ Game.prototype.checkRocketCollisions = function() {
         if (distance(rocket_1.x, rocket_1.y, rocket_2.x, rocket_2.y) < 30) {
 
           if (Math.random() * 100 < 50) {
-            this.soundEffect("explosion_1");
+            soundEffect("explosion_1");
           } else {
-            this.soundEffect("explosion_2");
+            soundEffect("explosion_2");
           }
 
           rocket_1.status = "falling";
@@ -884,9 +884,9 @@ Game.prototype.checkBaseCollisions = function() {
         let base = bases[j];
         if (base.HP > 0 && distance(rocket.x, rocket.y, base.x, base.y) < 20) {
           if (Math.random() * 100 < 50) {
-            this.soundEffect("explosion_1");
+            soundEffect("explosion_1");
           } else {
-            this.soundEffect("explosion_2");
+            soundEffect("explosion_2");
           }
 
           this.game_board.shake = this.markTime();
@@ -974,7 +974,7 @@ Game.prototype.checkBaseCollisions = function() {
 //         .to({rotation: angle})
 //         .duration(100)
 //         .easing(TWEEN.Easing.Quartic.Out)
-//         .onComplete(function() {rocket.fire_sprite.visible = true; self.soundEffect("rocket");})
+//         .onComplete(function() {rocket.fire_sprite.visible = true; soundEffect("rocket");})
 //         .chain(new TWEEN.Tween(rocket.position)
 //           .to({y: target_y, x: target_x})
 //           .duration(200)
@@ -989,7 +989,7 @@ Game.prototype.checkBaseCollisions = function() {
 //                 if (self.enemy_palette.letters[disabled_letter].playable === true) {
 //                   self.enemy_palette.letters[disabled_letter].disable();
 //                   self.enemy_palette.letters[disabled_letter].playable = false;
-//                   self.soundEffect("explosion_3");
+//                   soundEffect("explosion_3");
 
 //                   let electric = self.makeElectric(self.enemy_live_area, 
 //                     target_x,
@@ -1026,7 +1026,7 @@ Game.prototype.checkBaseCollisions = function() {
 //                   self.player_palette.letters[disabled_letter].disable();
 //                   self.player_palette.letters[disabled_letter].playable = false;
 //                   screen.shake = self.markTime();
-//                   self.soundEffect("explosion_3");
+//                   soundEffect("explosion_3");
 
 //                   let electric = self.makeElectric(self.player_palette.letters[disabled_letter], 
 //                     0,

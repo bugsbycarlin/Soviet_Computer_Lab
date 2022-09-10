@@ -1,0 +1,31 @@
+{"frames": {
+
+"play_pause_01.png":
+{
+	"frame": {"x":1,"y":1,"w":62,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":62,"h":62},
+	"sourceSize": {"w":64,"h":64}
+},
+"play_pause_02.png":
+{
+	"frame": {"x":65,"y":1,"w":62,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":62,"h":62},
+	"sourceSize": {"w":64,"h":64}
+}},
+"animations": {
+	"play_pause": ["play_pause_01.png","play_pause_02.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "play_pause_glyph.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":64},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0ffc6d4c961a3a999a1ef198636398d4:941eee29e2eaf638ace387468d0df467:ba6d5ffd0c43bc7654a536e39b733100$"
+}
+}

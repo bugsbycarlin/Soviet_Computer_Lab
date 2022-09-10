@@ -87,7 +87,7 @@ Game.prototype.initialize1pBaseCapture = function() {
       self.pause_time = 0;
       self.start_time = self.markTime();
       self.game_phase = "countdown";
-      self.soundEffect("countdown");
+      soundEffect("countdown");
     }, 1200);
   }
 }
@@ -395,7 +395,7 @@ Game.prototype.resetBase = function() {
     mouse_button.buttonMode = true;
     mouse_button.button_pressed = false;
     mouse_button.on("pointerdown", function() {
-      self.soundEffect("keyboard_click_1", 1.0);
+      soundEffect("keyboard_click_1", 1.0);
       if (mouse_button.button_pressed != true) {
         mouse_button.button_pressed = true;
         mouse_button.position.y += 3;
@@ -713,7 +713,7 @@ Game.prototype.baseCaptureEnterAction = function(player) {
 
   this.player_area.shake = this.markTime();
   this.enemy_area.shake = this.markTime();
-  this.soundEffect("build");
+  soundEffect("build");
 
   if (this.game_phase === "tutorial" && this.tutorial_number === 2) {
     delay(function() {
@@ -808,7 +808,7 @@ Game.prototype.baseCaptureMakeRocket = function(player, o_x, o_y) {
   var self = this;
   var screen = this.screens["1p_base_capture"];
 
-  this.soundEffect("rocket")
+  soundEffect("rocket")
   let dead_tile = this.doodads[o_x][o_y];
   if (dead_tile != "") {
     dead_tile.rocket.visible = false;
@@ -1187,7 +1187,7 @@ Game.prototype.baseCaptureUpdateDisplayInfo = function() {
       this.game_phase = "active";
       this.last_play = this.markTime();
 
-      this.setMusic("action_song_2");
+      setMusic("action_song_2");
 
       this.announcement.text = "GO";
       delay(function() {self.announcement.text = "";}, 1600);
@@ -1244,15 +1244,15 @@ Game.prototype.baseCaptureGameOver = function() {
 
   if (this.tile_score[0] < this.tile_score[1]) {
     this.announcement.text = "YOU LOSE";
-    this.stopMusic();
-    this.soundEffect("game_over");
+    stopMusic();
+    soundEffect("game_over");
     this.gameOverScreen(10000);
     winning_player = 1;
   } else {
     this.announcement.text = "YOU WIN!";
     this.announcement.style.fill = 0xFFFFFF;
     flicker(this.announcement, 500, 0xFFFFFF, 0x67d8ef);
-    this.soundEffect("victory");
+    soundEffect("victory");
     winning_player = 0;
     delay(function() {
       self.nextFlow();
@@ -1271,7 +1271,7 @@ Game.prototype.baseCaptureGameOver = function() {
     i += 1;
   }
   delay(function() {
-    self.soundEffect("multibuild");
+    soundEffect("multibuild");
   }, 500);
   delay(function() {
     for (let x = 0; x < 14; x++) {
@@ -1701,7 +1701,7 @@ Game.prototype.updateRockets = function() {
             letter.disable();
             letter.playable = false;
             screen.shake = self.markTime();
-            this.soundEffect("explosion_3");
+            soundEffect("explosion_3");
             if (rocket.player == 0 && this.game_phase != "gameover") this.swearing();
 
             let electric = this.makeElectric(letter, 

@@ -63,7 +63,7 @@ class NestedOptionsList extends PIXI.Container {
 
 
   moveUp() {
-    game.soundEffect("switch_option");
+    soundEffect("switch_option");
     this.choice[this.choice.length - 1] += this.sub_list.length - 1;
     this.choice[this.choice.length - 1] = this.choice[this.choice.length - 1] % this.sub_list.length;
   
@@ -72,7 +72,7 @@ class NestedOptionsList extends PIXI.Container {
 
 
   moveDown() {
-    game.soundEffect("switch_option");
+    soundEffect("switch_option");
     this.choice[this.choice.length - 1] += 1;
     this.choice[this.choice.length - 1] = this.choice[this.choice.length - 1] % this.sub_list.length;
   
@@ -81,7 +81,7 @@ class NestedOptionsList extends PIXI.Container {
 
 
   choose() {
-    game.soundEffect("button_accept");
+    soundEffect("button_accept");
     let next_thing = this.sub_list[this.choice[this.choice.length - 1]][1];
     console.log(next_thing);
     console.log(typeof next_thing);

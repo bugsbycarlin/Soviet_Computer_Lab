@@ -72,7 +72,7 @@ class Launchpad {
 
 
   flashError(){
-    this.game.soundEffect("negative");
+    soundEffect("negative");
     this.error = this.game.markTime();
     // flicker(this.underline_text, 300, 0xFFFFFF, 0xc16363);
     this.underline_text.shake = this.game.markTime();
