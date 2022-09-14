@@ -27,6 +27,8 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   character.type = "character";
   character.character_name = character_name;
 
+  character.player_owned = true;
+
   PIXI.utils.clearTextureCache();
   let sheet = PIXI.Loader.shared.resources["Art/CPE/Characters/" + character_name + ".json"].spritesheet;
   character.poses = {};
@@ -193,10 +195,10 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     } else if (character.state == "exiting") {
       character.setAction("stand");
     } else if (character.state == "dying") {
-      for(const key in sheet.animations) {
-        character.poses[key].scale.set(1, -1);
-      }
-      character.setAction("hurt");
+      // for(const key in sheet.animations) {
+      //   character.poses[key].scale.set(1, -1);
+      // }
+      // character.setAction("hurt");
     } else if (character.state == "read") {
       character.vx = 0;
       character.vy = 1;
@@ -383,7 +385,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
         if (x_int in death_area && death_area[x_int][y_int] != null) {
           // Dead!
           character.setState("dying");
-          soundEffect("jump_3");
+          soundEffect("Chant_" + dice(4));
         } else if (x_int in illegal_area && illegal_area[x_int][y_int] != null) {
           character.x = character.last_x;
           character.y = character.last_y;

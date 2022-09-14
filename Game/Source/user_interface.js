@@ -166,6 +166,27 @@ Game.prototype.makeSmoke = function(parent, x, y, xScale, yScale) {
 }
 
 
+
+Game.prototype.makeFireworks = function(parent, color, x, y, xScale, yScale) {
+  let sheet = PIXI.Loader.shared.resources["Art/fireworks_" + color + ".json"].spritesheet;
+  let fireworks_sprite = new PIXI.AnimatedSprite(sheet.animations["fireworks"]);
+  fireworks_sprite.anchor.set(0.5,0.5);
+  fireworks_sprite.position.set(x, y);
+
+  parent.addChild(fireworks_sprite);
+  fireworks_sprite.animationSpeed = 0.4; 
+  fireworks_sprite.scale.set(xScale, yScale);
+
+  parent.addChild(fireworks_sprite);
+  fireworks_sprite.loop = false;
+  fireworks_sprite.onComplete = function() {
+    parent.removeChild(fireworks_sprite);
+  }
+  fireworks_sprite.play();
+  return fireworks_sprite;
+}
+
+
 Game.prototype.makePop = function(parent, x, y, xScale, yScale) {
   let sheet = PIXI.Loader.shared.resources["Art/pop.json"].spritesheet;
   let pop_sprite = new PIXI.AnimatedSprite(sheet.animations["pop"]);

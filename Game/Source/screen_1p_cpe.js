@@ -11,6 +11,11 @@ cpe_character_types = ["walker", "runner", "construction", "policeman", "traffic
 Game.prototype.initialize1pCpe = function(new_score) {
   let self = this;
   let screen = this.screens["1p_cpe"];
+  this.clearScreen(screen);
+
+  // TO DO: first refresh ruins all the textures for a second,
+  // which badly throws off my in game computations.
+  // This is just the first refresh.
 
   this.cpe_game_state = null;
 
@@ -58,7 +63,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
     self.start_time = self.markTime();
     self.cpe_game_state = "countdown";
     // soundEffect("countdown"); // need a better count down sound effect for math game
-    // setMusic("marche_slav");
+    setMusic("yablochko");
     self.monitor_overlay.dissolve();
   }, 500);
 }
@@ -67,8 +72,6 @@ Game.prototype.initialize1pCpe = function(new_score) {
 Game.prototype.CpeResetBoard = function() {
   let self = this;
   let screen = this.screens["1p_cpe"];
-
-  this.clearScreen(screen);
 
   this.screen_vx = 0;
   this.screen_vy = 0;
@@ -108,13 +111,13 @@ Game.prototype.CpeResetBoard = function() {
 
   for (const item of ["open", "filled", "distraction", "death", "floating"]) {
     console.log(item);
-    console.log("Art/CPE/Levels/cpe_level_" 
-      + this.level + "_"
-      + item + ".png")
+    console.log(this.level);
     terrain[item] = new PIXI.Sprite(
       PIXI.Texture.from("Art/CPE/Levels/cpe_level_" 
       + this.level + "_"
       + item + ".png"));
+    console.log(terrain[item]);
+    console.log(terrain[item].width)
     terrain[item].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     terrain[item].position.set(0,0);
     layers[item].addChild(terrain[item])
@@ -123,18 +126,23 @@ Game.prototype.CpeResetBoard = function() {
   this.level_width = terrain["open"].width;
   this.level_height = terrain["open"].height;
 
+  if (this.level_width <= 1) {
+    this.level_width = this.config.width;
+    this.level_height = this.config.height;
+  }
+
   for (const item of ["open", "filled", "distraction", "death", "floating", "character", "effect"]) {
     layers[item].position.set(0, 2 * (this.height/2 - this.level_height))
   }
- 
-  // this.cpeMakeVoxels();
-  this.cpeMakeIllegalArea();
-  this.cpeMakeDeathArea();
-  this.cpeMakeDistractionArea();
   
   this.cpeAddPresetCharacters();
   this.cpeAddAnimations();
   this.cpeAddStartAndEndAnimations();
+
+  // this.cpeMakeVoxels();
+  this.cpeMakeIllegalArea();
+  this.cpeMakeDeathArea();
+  this.cpeMakeDistractionArea();
 
   this.countdown_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/countdown_text_backing.png"));
   this.countdown_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -191,9 +199,10 @@ Game.prototype.CpeResetBoard = function() {
   this.info_text_backing.scale.set(0.75, 0.75);
   layers["display"].addChild(this.info_text_backing);
 
-  this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
+  this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xffffff, letterSpacing: 2, align: "left"});
   this.info_text.anchor.set(0,0);
   this.info_text.position.set(20, 20);
+  this.info_text.tint = dark_color;
   this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   layers["display"].addChild(this.info_text);
 
@@ -215,6 +224,24 @@ Game.prototype.CpeResetBoard = function() {
   this.time_clocks_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   layers["display"].addChild(this.time_clocks_text);
   this.time_clocks_text.text = countDownString(this.config.clock/1000);
+
+
+  this.victory_text = new PIXI.Text("SUCCESS! PRESS ENTER TO MOVE ON.", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xFFFFFF, letterSpacing: 2, align: "center",
+    dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2});
+  this.victory_text.anchor.set(0.5,0.5);
+  this.victory_text.tint = 0x71d07d;
+  this.victory_text.position.set(this.width/4, this.height/12);
+  this.victory_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  layers["display"].addChild(this.victory_text);
+  this.victory_text.visible = false;
+
+  this.failure_text = new PIXI.Text("YOU FAILED. PRESS RESET TO TRY AGAIN.", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xdb5858, letterSpacing: 2, align: "center",
+    dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2});
+  this.failure_text.anchor.set(0.5,0.5);
+  this.failure_text.position.set(this.width/4, this.height/12);
+  this.failure_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  layers["display"].addChild(this.failure_text);
+  this.failure_text.visible = false;
 
   let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/time_clocks.json"].spritesheet;
   let time_clocks_graphic = new PIXI.AnimatedSprite(sheet.animations["time_clocks"]);
@@ -448,21 +475,41 @@ Game.prototype.cpeMakeDistractionArea = function() {
   let terrain = this.terrain;
   let layers = this.cpe_layers;
   
-  let pixels = pixi.renderer.extract.pixels(terrain["distraction"]);
   this.distraction_area = {};
 
+  console.log(this.level_width);
+  console.log(this.level_height);
   for (let i = 0; i < this.level_width; i += 2) {
     this.distraction_area[i] = {};
   }
+  
+  // Do distraction area using all the extra elements, not just the terrain.
+  // Hmm, this is tricky because animations aren't pixel extractible.
+  for (value in layers["distraction"].children) {
+    let child = layers["distraction"].children[value];
 
-  for (j = 0; j < this.level_height; j += 2) {
-    for (let i = 0; i < this.level_width; i += 2) {
-      let p0 = (this.level_width * j + i) * 4;
-      let p1 = (this.level_width * j + i + 1) * 4;
-      let p2 = (this.level_width * (j+1) + i) * 4;
-      let p3 = (this.level_width * (j+1) + i+1) * 4;
-      if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
-        this.distraction_area[i][j] = true;
+    let pixels = null;
+    let width = 0;
+    let height = 0;
+    if (child.animationSpeed != null) {
+      pixels = pixi.renderer.extract.pixels(child);
+      width = child.textures[0].width;
+      height = child.textures[0].height;
+    } else {
+      pixels = pixi.renderer.extract.pixels(child);
+      width = child.width;
+      height = child.height;
+    }
+
+    for (j = 0; j < height; j += 2) {
+      for (let i = 0; i < width; i += 2) {
+        let p0 = (width * j + i) * 4;
+        let p1 = (width * j + i + 1) * 4;
+        let p2 = (width * (j+1) + i) * 4;
+        let p3 = (width * (j+1) + i+1) * 4;
+        if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
+          this.distraction_area[i + 2 * Math.floor(child.x/2)][j + 2 * Math.floor(child.y/2)] = true;
+        }
       }
     }
   }
@@ -479,6 +526,7 @@ Game.prototype.cpeAddPresetCharacters = function() {
 
     let character = this.makeCpeCharacter(name);
     character.position.set(x, y);
+    character.player_owned = false;
     layers["character"].addChild(character);
     character.setState(behavior);
     this.characters.push(character);
@@ -498,7 +546,6 @@ Game.prototype.cpeAddAnimations = function() {
 
     let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/" + name + ".json"].spritesheet;
     let animation = new PIXI.AnimatedSprite(sheet.animations[Object.keys(sheet.animations)[0]]);
-    console.log(name);
     animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     animation.position.set(x, y);
     animation.name = name;
@@ -508,7 +555,6 @@ Game.prototype.cpeAddAnimations = function() {
       animation.vy = Math.sin(angle * Math.PI / 180);
     }
     if (delay_time > 0) {
-      console.log("okay bro");
       animation.onLoop = function() {
         animation.stop();
         delay(function() {animation.play()}, delay_time);
@@ -559,7 +605,26 @@ Game.prototype.cpeAddStartAndEndAnimations = function() {
 
 Game.prototype.cpeKeyDown = function(ev) {
   let self = this;
-  let screen = this.screens["1p_cpe"];  
+  let screen = this.screens["1p_cpe"];
+
+  // if (ev.key === "Enter" && this.cpe_game_state != "vack") {
+  //   this.cpe_game_state = "vack";
+  //   soundEffect("fireworks")
+  //   let num_fireworks = 4 + dice(4);
+  //     for (let i = 0; i < num_fireworks; i++) {
+  //       delay(function() {
+  //         let color = pick(["blue", "orange"]);
+  //         self.makeFireworks(self.cpe_layers["display"], color, self.width/8 + dice(self.width/4), self.height/8 + dice(self.height/4), 0.5, 0.5); 
+  //       }, 300 * i + dice(150))
+  //     }
+  // }
+
+  if (this.cpe_game_state == "victory" && ev.key === "Enter") {
+    soundEffect("button_accept");
+    this.victory_text.visible = false;
+    this.cpe_game_state = "post_victory_exit";
+    this.nextFlow();
+  }
 }
 
 
@@ -602,6 +667,40 @@ Game.prototype.cpeMouseDown = function(ev) {
     }
 
     if (min_char != null) {
+
+      // If the job selection is traffic in particular, take a moment to look
+      // for a nearby traffic director, and switch the target of the click to
+      // them instead if one is found.
+      if (this.job_selection.includes("traffic")) {
+
+        // let alt_min = null;
+        let min_dist = 1000;
+        for (let i = 0; i < this.characters.length; i++) {
+          let c = this.characters[i];
+          if (c.character_name.includes("traffic")) {
+            let d = distance(x, y, c.x, c.y);
+            if (c.clickable == true && d < 20 && d < min_dist) {
+              min_char = c;
+              min_dist = d;
+            }
+          }
+        }
+      }
+
+      // If we've got a traffic person, take another moment to reset all the
+      // recent traffic direction info nearby, so nearby people can be directed
+      // by this new traffic person.
+      if (this.job_selection.includes("traffic")
+        && min_char.character_name.includes("traffic")) {
+        for (let i = 0; i < this.characters.length; i++) {
+          let c = this.characters[i];
+          let d = distance(x, y, c.x, c.y);
+          if (c.clickable == true && d < 40) {
+            c.last_traffic_direction = null;
+          }
+        }
+      }
+
       if (this.job_selection == "runner" && min_char.character_name != "runner") {
         this.upgradeToRunner(min_char);
       } else if (this.job_selection.includes("traffic")
@@ -721,14 +820,6 @@ Game.prototype.spawnWalker = function(force=false) {
     this.characters.push(walker);
     this.num_awake += 1;
 
-    // walker.interactive == true;
-    // walker.on("pointertap", function() {
-    //   console.log("clicked me");
-    //   if (self.job_selection == "runner" && walker.state == "directed_walk" || "random_walk") {
-    //     self.upgradeToRunner(walker);
-    //   }
-    // });
-
     this.walker_last_spawn = this.markTime();
   } else if (this.cpe_game_state == "active" 
     && this.timeSince(this.walker_last_spawn) > this.walker_spawn_delay
@@ -752,6 +843,7 @@ Game.prototype.upgradeToWalker = function(character) {
   walker.y = character.y;
   walker.vx = character.vx;
   walker.vy = character.vy;
+  walker.player_owned = character.player_owned;
   walker.state = character.state;
   walker.setAction(character.action);
   walker.setState("random_walk", pick(["left","right","up","down"]));
@@ -780,6 +872,7 @@ Game.prototype.upgradeToRunner = function(character) {
   runner.y = character.y;
   runner.vx = character.vx;
   runner.vy = character.vy;
+  runner.player_owned = character.player_owned;
   runner.state = character.state;
   runner.setAction(character.action);
   runner.setState("directed_walk", character.getDirection());
@@ -810,6 +903,7 @@ Game.prototype.upgradeToTraffic = function(character, direction) {
   traffic.y = character.y;
   traffic.vx = character.vx;
   traffic.vy = character.vy;
+  traffic.player_owned = character.player_owned;
   traffic.setState("traffic", direction);
 
   soundEffect("move");
@@ -838,6 +932,7 @@ Game.prototype.upgradeToPoliceman = function(character) {
   policeman.y = character.y;
   policeman.vx = character.vx;
   policeman.vy = character.vy;
+  policeman.player_owned = character.player_owned;
   policeman.state = character.state;
   policeman.setAction(character.action);
   policeman.setState("random_walk", character.getDirection());
@@ -868,15 +963,19 @@ Game.prototype.upgradeToAcademicHaHa = function(character) {
   academic.y = character.y;
   academic.vx = character.vx;
   academic.vy = character.vy;
+  academic.player_owned = character.player_owned;
   academic.state = character.state;
   academic.setAction(character.action);
   academic.setState("read");
+  academic.dot_dot_dot_animation.visible = false;
 
-  this.num_awake -= 1;
-  this.num_to_wake -= 1;
+  // if (academic.player_owned == true) {
+  //   this.num_awake -= 1;
+  //   this.num_to_wake -= 1;
+  // }
 
   soundEffect("move");
-  soundEffect("academic_mumble");
+  soundEffect("academic_mumble_" + dice(4));
   this.makeSmoke(layers["open"], x, y, 0.25, 0.25);
 
   this.deleteCharacter(character);
@@ -929,8 +1028,10 @@ Game.prototype.updateCharacters = function() {
       this.characters[i].vx = -2 + 4 * Math.random();
       this.characters[i].personal_gravity = 1.4;
       this.freefalling.push(this.characters[i]);
-      this.num_awake -= 1;
-      this.num_to_wake -= 1;
+      if (this.characters[i].player_owned) {
+        this.num_awake -= 1;
+        this.num_to_wake -= 1;
+      }
     }
   }
 
@@ -941,10 +1042,14 @@ Game.prototype.updateCharacters = function() {
       new_characters.push(this.characters[i]);
     } else {
       if (this.characters[i].state == "exiting") {
-        this.num_awake -= 1;
-        this.num_to_wake -= 1;
+        if (this.characters[i].player_owned) {
+          this.num_awake -= 1;
+          this.num_to_wake -= 1;
+        }
         if (this.characters[i].door_valence == 1) {
-          this.num_arrived += 1;
+          if (this.characters[i].player_owned) {
+            this.num_arrived += 1;
+          }
           soundEffect("accept");
         } else {
           soundEffect("negative_1");
@@ -1093,17 +1198,24 @@ Game.prototype.updateCharacters = function() {
           character.police_countdown_start = null;
           
           if (closest_char != null && closest_char.state != "dying" && character.state == "standing" && min_d < 15) {
-            //this.upgradeToAcademicHaHa(character);
-            if (dice(100) <= 50) {
+            if (closest_char.dot_dot_dot_animation != null) {
+              closest_char.dot_dot_dot_animation.visible = false;
+            }
+            if (dice(100) <= 50 || character.player_owned == false) {
               character.setState("punch");
               soundEffect("slap_1");
               closest_char.setState("dying");
+              closest_char.setAction("hurt");
               closest_char.y -= 16;
               closest_char.vy = -3;
               closest_char.vx = -2 + 4 * Math.random();
               closest_char.personal_gravity = 1.4;
               closest_char.shake = this.markTime();
               this.freefalling.push(closest_char);
+              if (closest_char.player_owned == true) {
+                this.num_awake -= 1;
+                this.num_to_wake -= 1;
+              }
             } else {
               soundEffect("slap_1");
               let walker = this.upgradeToWalker(closest_char);
@@ -1202,42 +1314,72 @@ Game.prototype.updateInfoAndCheckEndConditions = function() {
   if (this.cpe_game_state == "pre_game") return;
 
   this.info_text.text = 
-    "YOU HAVE: " + this.num_awake + "/" + this.num_to_wake + "\n" +
-    "WE NEED:  " + this.num_arrived + "/" + this.num_required;
+    "AWAKE: " + this.num_awake + "/" + this.num_to_wake + "\n" +
+    "QUOTA: " + this.num_arrived + "/" + this.num_required;
 
-  let time_remaining = Math.min(
-    Math.floor(this.config.clock + 
-      this.config.countdown - (this.timeSince(this.start_time))) / 1000,
-      this.config.clock / 1000);
-  let portion = time_remaining * 1000 / this.config.clock;
-  if (time_remaining >= 0) {
-    this.time_clocks_text.text = countDownString(time_remaining);
-    this.time_clocks_graphic.gotoAndStop(Math.max(Math.floor(1 - portion * 8) - 1), 0);
-  }
-
-  if (time_remaining <= 0 && time_remaining >= -100) {
-    this.time_clocks_text.shake = this.markTime();
-    this.time_clocks_graphic.shake = this.markTime();
-    this.time_clocks_backing.shake = this.markTime();
-  }
-
-  if (time_remaining <= 0 && this.cpe_game_state != "game_over") {
-    for (let i = 0; i < this.characters.length; i++) {
-      let character = this.characters[i];
-      if (character.state != "dying") {
-        character.setState("dying");
-        character.y -= 16;
-        character.vy = -3;
-        character.vx = -2 + 4 * Math.random();
-        character.personal_gravity = 1.4;
-        character.shake = this.markTime();
-        this.freefalling.push(character);
-      }
+  if (this.cpe_game_state != "victory" && this.cpe_game_state != "post_victory_exit") {
+    let time_remaining = Math.min(
+      Math.floor(this.config.clock + 
+        this.config.countdown - (this.timeSince(this.start_time))) / 1000,
+        this.config.clock / 1000);
+    let portion = time_remaining * 1000 / this.config.clock;
+    if (time_remaining >= 0) {
+      this.time_clocks_text.text = countDownString(time_remaining);
+      this.time_clocks_graphic.gotoAndStop(Math.max(Math.floor(1 - portion * 8) - 1), 0);
     }
-    soundEffect("descending_plinks");
-    this.cpe_game_state = "game_over";
-    this.gameOverScreen(2500);
+
+    if (time_remaining <= 0 && time_remaining >= -100) {
+      this.time_clocks_text.shake = this.markTime();
+      this.time_clocks_graphic.shake = this.markTime();
+      this.time_clocks_backing.shake = this.markTime();
+    }
+
+    if (this.num_to_wake < this.num_required - this.num_arrived) {
+      this.failure_text.visible = true;
+      this.info_text.tint = 0xdb5858;
+    }
+
+    if (time_remaining <= 0 && this.cpe_game_state != "game_over") {
+      for (let i = 0; i < this.characters.length; i++) {
+        let character = this.characters[i];
+        if (character.state != "dying") {
+          character.setState("dying");
+          character.y -= 16;
+          character.vy = -3;
+          character.vx = -2 + 4 * Math.random();
+          character.personal_gravity = 1.4;
+          character.shake = this.markTime();
+          this.freefalling.push(character);
+        }
+      }
+      soundEffect("descending_plinks");
+      this.cpe_game_state = "game_over";
+      this.gameOverScreen(2500);
+    }
+
+    if (this.num_arrived >= this.num_required && this.cpe_game_state != "victory") {
+      this.cpe_game_state = "victory";
+      soundEffect("victory_3");
+      this.victory_text.visible = true;
+      flicker(this.victory_text, 500, 0x71d07d, 0xFFFFFF);
+      this.time_clocks_text.text = "-:--";
+      this.time_clocks_graphic.gotoAndStop(0);
+
+      soundEffect("fireworks")
+      let num_fireworks = 4 + dice(4);
+        for (let i = 0; i < num_fireworks; i++) {
+          delay(function() {
+            let color = pick(["blue", "orange"]);
+            self.makeFireworks(self.cpe_layers["display"], color, self.width/8 + dice(self.width/4), self.height/8 + dice(self.height/4), 0.5, 0.5); 
+          }, 300 * i + dice(150))
+        }
+    }
   }
+
+  // if (this.cpe_game_state == "victory") {
+  //   this.time_clocks_text.text = "-:--";
+  //   this.time_clocks_graphic.gotoAndStop(0);
+  // }
 }
 
 

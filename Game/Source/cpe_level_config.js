@@ -6,6 +6,8 @@ cpe_level_config = {
     "start_door": [1, 5, 476],
     "end_door": [2, 968, 83],
     "countdown": 5000,
+    "width": 1032,
+    "height": 700,
     "clock": 180000,
     // "end_door": ["2", 435, 383],
     "death_doors": [

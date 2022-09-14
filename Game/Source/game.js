@@ -508,6 +508,8 @@ class Game {
       .add("Art/explosion.json")
       .add("Art/electric.json")
       .add("Art/smoke.json")
+      .add("Art/fireworks_blue.json")
+      .add("Art/fireworks_orange.json")
       .add("Art/pop.json")
       .add("Art/Math_Game/Characters/grigory.json")
       .add("Art/Math_Game/Characters/carrying_1.json")
@@ -804,9 +806,11 @@ class Game {
       sound_data["countdown"].hold_up = true;
       sound_data["countdown"].pause();
     }
-    this.prev_announcement_text = this.announcement.text;
-    this.announcement.text = "PAUSED";
-    this.escape_to_quit.visible = true;
+    if (this.announcement != null) {
+      this.prev_announcement_text = this.announcement.text;
+      this.announcement.text = "PAUSED";
+      this.escape_to_quit.visible = true;
+    }
     pauseAllDelays();
 
   }
@@ -827,8 +831,10 @@ class Game {
       sound_data["countdown"].hold_up = null;
       sound_data["countdown"].play();
     }
-    this.announcement.text = this.prev_announcement_text;
-    this.escape_to_quit.visible = false;
+    if (this.announcement != null) {
+      this.announcement.text = this.prev_announcement_text;
+      this.escape_to_quit.visible = false;
+    }
     resumeAllDelays();
   }
 
