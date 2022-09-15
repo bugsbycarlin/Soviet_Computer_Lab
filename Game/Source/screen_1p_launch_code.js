@@ -1036,7 +1036,8 @@ Game.prototype.launchCodeKeyDown = function(key) {
   }
 
   if (this.paused && key === "Escape") {
-    document.getElementById("countdown").hold_up = null;
+    let x = document.getElementById("countdown");
+    if (x != null) x.hold_up = null;
     this.game_phase = "none";
     this.resume();
     this.initialize1pLobby();

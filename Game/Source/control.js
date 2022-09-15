@@ -232,7 +232,8 @@ Game.prototype.gameplayKeyDown = function(key) {
   }
 
   if (this.paused && key === "Escape") {
-    document.getElementById("countdown").hold_up = null;
+    let x = document.getElementById("countdown")
+    if (x != null) x.hold_up = null;
     this.game_phase = "none";
     this.resume();
     this.initialize1pLobby();
@@ -350,6 +351,25 @@ Game.prototype.handleKeyDown = function(ev) {
       this.alertBox._events.pointertap.fn()
     }
   } else if (this.current_screen === "1p_lobby") {
+    this.lobbyKeyDown(ev);
+    // if (ev.key === "ArrowUp") {
+    //   soundEffect("switch_option");
+    //   this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
+    //   this.difficulty_choice = (this.difficulty_choice + 1) % 4;
+    //   this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
+    //   this.option_info.setPartial(this.option_info_values[this.difficulty_choice].toUpperCase());
+    //   this.updateHighScoreDisplay();
+    // } else if (ev.key === "ArrowDown") {
+    //   soundEffect("switch_option");
+    //   this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
+    //   this.difficulty_choice = (this.difficulty_choice + 3) % 4;
+    //   this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
+    //   this.option_info.setPartial(this.option_info_values[this.difficulty_choice].toUpperCase());
+    //   this.updateHighScoreDisplay();
+    // } else if (ev.key === "Enter") {
+    //   this.lobby_go_button._events.pointertap.fn();
+    // } 
+  } else if (this.current_screen === "1p_lobby_x") {
     if (this.lobby_mode === "difficulty") {
       if (ev.key === "ArrowRight") {
         soundEffect("switch_option");

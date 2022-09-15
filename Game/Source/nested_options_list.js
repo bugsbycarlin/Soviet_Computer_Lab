@@ -2,7 +2,7 @@
 
 
 class NestedOptionsList extends PIXI.Container {
-  constructor(choice_list, format, spacing, unselected_tint, selected_tint) {
+  constructor(choice_list, format, root_escape, spacing, unselected_tint, selected_tint) {
     super();
     this.choice_list = choice_list;
     this.choice = [0];
@@ -10,6 +10,7 @@ class NestedOptionsList extends PIXI.Container {
     this.format = format;
     this.unselected_tint = unselected_tint;
     this.selected_tint = selected_tint;
+    this.root_escape = root_escape;
 
     this.sub_list = null;
 
@@ -102,6 +103,8 @@ class NestedOptionsList extends PIXI.Container {
     if (this.choice.length > 1) {
       this.choice.pop();
       this.renderList();
+    } else {
+      this.root_escape();
     }
   }
 }

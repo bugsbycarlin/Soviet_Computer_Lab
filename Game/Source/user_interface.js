@@ -489,61 +489,70 @@ Game.prototype.initializeScreens = function() {
   this.monitor_overlay.addChild(this.monitor_overlay.graphic);
   pixi.stage.addChild(this.monitor_overlay);
   this.monitor_overlay.visible = false;
-  this.monitor_overlay.dissolve = function() {
-
-
-    let image = this.graphic;
-    let max_width = this.graphic.width;
-    let max_height = this.graphic.height;
-    let voxel_size = 4;
-
-    this.voxels = [];
-
-    // console.log(PIXI.extract.webGL.pixels(image));
-    let pixels = pixi.renderer.extract.pixels(image);
-    for (var i = 0; i < pixels.length; i += 4) {
-        let alpha = pixels[i + 3];
-        let row = (i/4 - (i/4 % max_width)) / max_width;
-        let col = i/4 % max_width;
-        if (alpha > 0 && row % 4 == 0 && col % 4 == 0) {
-            let voxel = PIXI.Sprite.from(PIXI.Texture.WHITE);
-            voxel.width = voxel_size;
-            voxel.height = voxel_size;
-            
-            voxel.tint = PIXI.utils.rgb2hex([pixels[i] / 255, pixels[i + 1] / 255, pixels[i + 2] / 255]);
-            voxel.alpha = alpha / 255;
-            this.addChild(voxel);
-            voxel.orig_x = col;
-            voxel.orig_y = row;
-            voxel.position.set(voxel.orig_x, voxel.orig_y);
-            this.voxels.push(voxel);
-          
-        }
+  this.monitor_overlay.status = "visible";
+  this.monitor_overlay.restore = function() {
+    if (this.status != "visible") {
+      this.addChild(this.graphic);
+      this.visible = true;
+      this.status = "visible";
     }
+  }
+  this.monitor_overlay.dissolve = function() {
+    if (this.status == "visible") {
+      this.status = "invisible";
+      let image = this.graphic;
+      let max_width = this.graphic.width;
+      let max_height = this.graphic.height;
+      let voxel_size = 4;
 
-    this.removeChild(this.graphic);
-    let chunk_size = this.voxels.length / 30;
-    shuffleArray(this.voxels);
-    let overlay_self = this;
+      this.voxels = [];
 
-    var tween_1 = new TWEEN.Tween(this)
-    .to({funk: 0})
-    .duration(1000)
-    .easing(TWEEN.Easing.Cubic.InOut)
-    .onUpdate(function() {
-      for (let i = 0; i < chunk_size; i++) {
-        let v = overlay_self.voxels.pop();
-        overlay_self.removeChild(v);
+      // console.log(PIXI.extract.webGL.pixels(image));
+      let pixels = pixi.renderer.extract.pixels(image);
+      for (var i = 0; i < pixels.length; i += 4) {
+          let alpha = pixels[i + 3];
+          let row = (i/4 - (i/4 % max_width)) / max_width;
+          let col = i/4 % max_width;
+          if (alpha > 0 && row % 4 == 0 && col % 4 == 0) {
+              let voxel = PIXI.Sprite.from(PIXI.Texture.WHITE);
+              voxel.width = voxel_size;
+              voxel.height = voxel_size;
+              
+              voxel.tint = PIXI.utils.rgb2hex([pixels[i] / 255, pixels[i + 1] / 255, pixels[i + 2] / 255]);
+              voxel.alpha = alpha / 255;
+              this.addChild(voxel);
+              voxel.orig_x = col;
+              voxel.orig_y = row;
+              voxel.position.set(voxel.orig_x, voxel.orig_y);
+              this.voxels.push(voxel);
+            
+          }
       }
-    })
-    .onComplete(function() {
-      overlay_self.visible = false;
-      while(overlay_self.children[0]) { 
-        overlay_self.removeChild(overlay_self.children[0]);
-      }
-      overlay_self.addChild(overlay_self.graphic);
-    })
-    .start();
+
+      this.removeChild(this.graphic);
+      let chunk_size = this.voxels.length / 30;
+      shuffleArray(this.voxels);
+      let overlay_self = this;
+
+      var tween_1 = new TWEEN.Tween(this)
+      .to({funk: 0})
+      .duration(1000)
+      .easing(TWEEN.Easing.Cubic.InOut)
+      .onUpdate(function() {
+        for (let i = 0; i < chunk_size; i++) {
+          let v = overlay_self.voxels.pop();
+          overlay_self.removeChild(v);
+        }
+      })
+      .onComplete(function() {
+        overlay_self.visible = false;
+        while(overlay_self.children[0]) { 
+          overlay_self.removeChild(overlay_self.children[0]);
+        }
+        overlay_self.addChild(overlay_self.graphic);
+      })
+      .start();
+    }
   }
 }
 

@@ -4,7 +4,7 @@ Game.prototype.initializeTitle = function() {
   var self = this;
   let screen = this.screens["title"];
 
-  setMusic("title_song");
+  // setMusic("title_song");
 
   this.monitor_overlay.visible = true;
 
@@ -103,7 +103,8 @@ Game.prototype.initializeTitle = function() {
       entry_button.interactive = true;
       entry_button.buttonMode = true;
       return entry_button;
-    }, 40, 0xFFFFFF, 0xa10000
+    },
+    function() {}, 40, 0xFFFFFF, 0xa10000
   );
 
   this.updateSettingsMenu();
@@ -138,7 +139,7 @@ Game.prototype.updateSettingsMenu = function() {
     if (use_music == false) {
       stopMusic();
     } else {
-      setMusic("title_song");
+      // setMusic("title_song");
     }
     localStorage.setItem("soviet_computer_lab_use_music", use_music);
     self.updateSettingsMenu();
