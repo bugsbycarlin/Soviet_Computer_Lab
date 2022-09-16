@@ -67,9 +67,7 @@ Game.prototype.deleteAction = function() {
 
 
 Game.prototype.rightArrowAction = function() {
-  console.log("happened")
   if (this.game_phase === "active" || this.game_phase === "tutorial") {
-    console.log("yo")
     this.changeBaseSelection(0, 1);
     soundEffect("switch_option");
   }
@@ -211,29 +209,20 @@ Game.prototype.gameplayKeyDown = function(key) {
     //   this.leftShiftAction();
     // }
 
-    if (key === "Escape") {
+    if (key === "Tab") {
       this.clearAction();
     }
 
-    if (key === " ") {
-      this.bombAction();
-    }
+    // if (key === " ") {
+    //   this.bombAction();
+    // }
 
     if (key === "Enter") {
       this.enterAction();
     }
   }
 
-  if (key === "Tab" && (this.game_phase === "active" || this.game_phase === "countdown")) {
-    if (this.paused) {
-      this.resume();
-    } else {
-      this.pause();
-    }
-    // this.checkEndCondition(true); // for testing, switch to this to make tab force gameovers.
-  }
-
-  if (this.paused && key === "Escape") {
+  if (this.paused && key === "Q") {
     let x = document.getElementById("countdown")
     if (x != null) x.hold_up = null;
     this.monitor_overlay.restore();
@@ -245,6 +234,17 @@ Game.prototype.gameplayKeyDown = function(key) {
       self.fadeScreens("1p_word_rockets", "1p_lobby", true, 800);
     }, 900)
   }
+
+  if (key === "Escape" && (this.game_phase === "active" || this.game_phase === "countdown")) {
+    if (this.paused) {
+      this.resume();
+    } else {
+      this.pause();
+    }
+    // this.checkEndCondition(true); // for testing, switch to this to make tab force gameovers.
+  }
+
+  
 }
 
 
@@ -480,23 +480,13 @@ Game.prototype.handleMouseMove = function(ev) {
 
 Game.prototype.handleMouseDown = function(ev) {
   let self = this;
-  if(this.current_screen === "1p_base_capture" 
-    || this.current_screen === "1p_word_rockets"
-    || this.current_screen === "1p_launch_code") {
-    if (ev.button >= 0 && ev.button <= 2) {
-      let mouse_button = this.mouse_tester.buttons[ev.button];
-
-      self.soundEffect("keyboard_click_1", 1.0);
-      if (mouse_button.button_pressed != true) {
-        mouse_button.button_pressed = true;
-        mouse_button.position.y += 3;
-        delay(function() {
-          mouse_button.button_pressed = false;
-          mouse_button.position.y -= 3;
-        }, 50);
-      }
-    }
-  }
+  
+  // if(this.current_screen === "1p_base_capture" 
+  //   || this.current_screen === "1p_word_rockets"
+  //   || this.current_screen === "1p_launch_code") {
+  //   if (ev.button >= 0 && ev.button <= 2) {
+  //   }
+  // }
 
   if(this.current_screen === "1p_base_capture") {
     this.baseCaptureMouseDown(ev);

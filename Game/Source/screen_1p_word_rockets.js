@@ -251,7 +251,7 @@ Game.prototype.resetBoard = function() {
   this.hud.addChild(this.announcement);
 
 
-  this.escape_to_quit = new PIXI.Text("PRESS ESC TO QUIT", {fontFamily: "Press Start 2P", fontSize: 18, fill: 0xFFFFFF, letterSpacing: 3, align: "center",
+  this.escape_to_quit = new PIXI.Text("PRESS Q TO QUIT", {fontFamily: "Press Start 2P", fontSize: 18, fill: 0xFFFFFF, letterSpacing: 3, align: "center",
     dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 3});
   this.escape_to_quit.anchor.set(0.5,0.5);
   this.escape_to_quit.position.set(832 / 2, 480 / 2 + 60);
@@ -577,7 +577,6 @@ Game.prototype.enemyAction = function() {
   if(this.timeSince(this.enemy_last_action) <= 60000/this.enemy_wpm) {
     return;
   } else {
-    console.log(this.timeSince(this.enemy_last_action));
     this.enemy_last_action = this.timeSince(0.2 * (60000/this.enemy_wpm) - 0.4 * Math.random() * 60000/this.enemy_wpm);
     this.score += 1;
     this.score_text_box.text = this.score;
@@ -904,7 +903,7 @@ Game.prototype.checkBaseCollisions = function() {
 
           if (base.HP > 0) {
             if (rocket.player == 0) {
-              this.score += rocket.score_value;
+              this.score += 2 * rocket.score_value;
               this.score_text_box.text = this.score;
             }
 
@@ -1070,6 +1069,10 @@ Game.prototype.cleanRockets = function() {
   let new_rocket_letters = [];
   for (var i = 0; i < this.rocket_letters.length; i++) {
     var rocket = this.rocket_letters[i];
+
+    if (rocket.x < -200 || rocket.y < -200 || rocket.x > 1032 || rocket.y > 680) {
+      rocket.status = "dead";
+    }
 
     if (rocket.status == "active") {
       new_rocket_letters.push(rocket);

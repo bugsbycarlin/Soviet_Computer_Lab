@@ -46,9 +46,10 @@ class Launchpad {
     // launchpad_mask.endFill();
     // this.pad.mask = launchpad_mask;
 
-    this.underline_text = new PIXI.Text("TOO SHORT", {fontFamily: "Press Start 2P", fontSize: 12, fill: 0xc16363, letterSpacing: 3, align: "center",
-        dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 1});
+    this.underline_text = new PIXI.Text("TOO SHORT", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xc16363, letterSpacing: 3, align: "center",
+        dropShadow: true, dropShadowColor: 0xFFFFFF, dropShadowDistance: 2});
     this.underline_text.position.set(6 * this.size, -48);
+    this.underline_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     this.underline_text.anchor.set(0.5,0.5);
     this.pad.addChild(this.underline_text);
     this.underline_text.visible = false;
