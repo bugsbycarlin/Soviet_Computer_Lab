@@ -135,8 +135,8 @@ Game.prototype.initialize1pWordRockets = function() {
       self.start_time = self.markTime();
       self.game_phase = "countdown";
       soundEffect("countdown");
-      self.monitor_overlay.dissolve();
-    }, 1200);
+      
+    }, 1800);
   }
 }
 
@@ -1084,6 +1084,8 @@ Game.prototype.singlePlayerGameUpdate = function(diff) {
   var screen = this.screens["1p_word_rockets"];
 
   let fractional = diff / (1000/30.0);
+
+  if (this.game_phase == "none") return;
 
   if (this.game_phase == "tutorial") {
     this.tutorial_screen.tutorial_text.hover();

@@ -335,132 +335,40 @@ class Game {
 
     let type = "";
 
-    // For now, type 4 is math game, and there's no type 0,
-    // and also we're forcing the type to 4.
-    this.arcade_type_selection = 4;
-
-    if (this.arcade_type_selection == 4) {
+    if (this.game_type_selection == 1) {
       type = "1p_word_rockets";
-    } else if (this.arcade_type_selection == 1) {
-      type = "1p_word_rockets";
-    } else if (this.arcade_type_selection == 2) {
+    } else if (this.game_type_selection == 2) {
       type = "1p_base_capture";
-    } else if (this.arcade_type_selection == 3) {
+    } else if (this.game_type_selection == 3) {
+      type = "math_game";
+    } else if (this.game_type_selection == 4) {
+      if (this.level <= 1) {
+        type = "1p_cpe";
+      } else {
+        type = "1p_lobby";
+      }
+    } else if (this.game_type_selection == 5) {
       type = "1p_launch_code";
     }
 
     if (this.current_screen != type) {
       this.initializeScreen(type);
-      this.switchScreens(this.current_screen, type);
+      this.fadeScreens(this.current_screen, type, true, 800);
     } else {
       this.initializeScreen(type);
     }
   }
 
 
-  oldNextFlow() {
-    this.flow_marker += 1;
-
-    if (this.game_type_selection == 0 || this.game_type_selection == 2) {
-      // Story mode
-      if (this.flow_marker < this.flow[this.game_type_selection][this.difficulty_level].length) {
-        if (this.game_type_selection == 2) {
-          this.tutorial = true;
-          this.difficulty_level = "EASY";
-        }
-
-        let [next_type, next_value, extra_value] = this.flow[this.game_type_selection][this.difficulty_level][this.flow_marker].split(":");
-        
-        if (next_type == "wr") {
-          this.level = parseInt(next_value);
-          this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
-          if (this.current_screen != "1p_word_rockets") {
-            //fadeMusic();
-            this.initializeScreen("1p_word_rockets");
-            this.switchScreens(this.current_screen, "1p_word_rockets");
-          } else {
-            this.initializeScreen("1p_word_rockets");
-          }
-        } else if (next_type == "bc") {
-          this.level = parseInt(next_value);
-          this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
-          if (this.current_screen != "1p_base_capture") {
-            fadeMusic();
-            this.initializeScreen("1p_base_capture");
-            this.switchScreens(this.current_screen, "1p_base_capture");
-          } else {
-            this.initializeScreen("1p_base_capture");
-          }
-        } else if (next_type == "lc") {
-          this.level = parseInt(next_value);
-          this.opponent_name = typeof extra_value !== "undefined" ? extra_value : null;
-          if (this.current_screen != "1p_launch_code") {
-            fadeMusic();
-            this.initializeScreen("1p_launch_code");
-            this.switchScreens(this.current_screen, "1p_launch_code");
-          } else {
-            this.initializeScreen("1p_launch_code");
-          }
-        } else if (next_type == "cut") {
-          if (this.current_screen != "cutscene") {
-            this.last_flow_marker = this.flow_marker;
-            this.last_cutscene = next_value;
-            fadeMusic();
-            this.initializeCutscene(next_value);
-            this.switchScreens(this.current_screen, "cutscene");
-          } else {
-            this.initializeCutscene(next_value);
-          }
-        }
-      } else {
-        // return to 1p_lobby
-        // this.initializeScreen("1p_lobby");
-        // this.updateHighScoreDisplay();
-        // this.switchScreens(this.current_screen, "1p_lobby");
-        this.score = 9999;
-        this.gameOverScreen(500, true);
-      }
-    } else if (this.game_type_selection == 1) {
-      // Arcade mode
-      this.level = this.flow_marker + 1;
-      let type = "";
-      shuffleArray(opponents)
-      this.opponent_name = opponents[0];
-      console.log(opponents);
-      if (this.arcade_type_selection == 0) {
-        if (this.level % 9 == 1 || this.level % 9 == 2 || this.level % 9 == 3) {
-          type = "1p_word_rockets";
-        } else if (this.level % 9 == 4 || this.level % 9 == 5 || this.level % 9 == 6) {
-          type = "1p_base_capture";
-        } else if (this.level % 9 == 7 || this.level % 9 == 8 || this.level % 9 == 0) {
-          type = "1p_launch_code";
-        }
-      } else if (this.arcade_type_selection == 1) {
-        type = "1p_word_rockets";
-      } else if (this.arcade_type_selection == 2) {
-        type = "1p_base_capture";
-      } else if (this.arcade_type_selection == 3) {
-        type = "1p_launch_code";
-      }
-
-      if (this.current_screen != type) {
-        this.initializeScreen(type);
-        this.switchScreens(this.current_screen, type);
-      } else {
-        this.initializeScreen(type);
-      }
-    }
-  }
-
-
   getModeName() {
-    if (this.game_type_selection === 0) {
-      return "story";
-    } else if (this.game_type_selection === 1) {
-      return ["mixed", "wr", "bc", "lc"][this.arcade_type_selection];
-    }
+    // if (this.game_type_selection === 0) {
+    //   return "story";
+    // } else if (this.game_type_selection === 1) {
+    //   return ["mixed", "wr", "bc", "lc"][this.game_type_selection];
+    // }
 
-    throw "Error: I was unable to determine the game mode.";
+    //throw "Error: I was unable to determine the game mode.";
+    return "mixed";
   }
 
 

@@ -56,7 +56,7 @@ Game.prototype.initialize1pCpe = function(new_score) {
 
   // setMusic("marche_slav");
 
-  this.fadeFromBlack();
+  // this.fadeFromBlack();
   delay(function() {
     self.paused = false;
     self.pause_time = 0;
@@ -110,8 +110,6 @@ Game.prototype.CpeResetBoard = function() {
   screen.addChild(layers["display"]);
 
   for (const item of ["open", "filled", "distraction", "death", "floating"]) {
-    console.log(item);
-    console.log(this.level);
     terrain[item] = new PIXI.Sprite(
       PIXI.Texture.from("Art/CPE/Levels/cpe_level_" 
       + this.level + "_"
@@ -300,6 +298,7 @@ Game.prototype.CpeResetBoard = function() {
   this.quit_glyph.interactive = true;
   this.quit_glyph.alpha = 0.75;
   this.quit_glyph.on("pointertap", function() {
+    if (self.paused) self.resume();
     self.cpe_game_state == "none";
     self.initialize1pLobby();
     self.switchScreens("1p_cpe", "1p_lobby");

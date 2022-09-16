@@ -490,11 +490,39 @@ Game.prototype.initializeScreens = function() {
   pixi.stage.addChild(this.monitor_overlay);
   this.monitor_overlay.visible = false;
   this.monitor_overlay.status = "visible";
-  this.monitor_overlay.restore = function() {
+  this.monitor_overlay.restore2 = function() {
     if (this.status != "visible") {
       this.addChild(this.graphic);
       this.visible = true;
       this.status = "visible";
+    }
+  }
+  this.monitor_overlay.restore = function() {
+    if (this.status != "visible") {
+      
+      this.visible = true;
+      this.status = "visible";
+
+      let chunk_size = this.restore_voxels.length / 30;
+      let overlay_self = this;
+
+      var tween_1 = new TWEEN.Tween(this)
+      .to({funk: 0})
+      .duration(1000)
+      .easing(TWEEN.Easing.Cubic.InOut)
+      .onUpdate(function() {
+        for (let i = 0; i < chunk_size; i++) {
+          let v = overlay_self.restore_voxels.pop();
+          if (v != undefined) overlay_self.addChild(v);
+        }
+      })
+      .onComplete(function() {
+        while(overlay_self.children[0]) { 
+          overlay_self.removeChild(overlay_self.children[0]);
+        }
+        overlay_self.addChild(overlay_self.graphic);
+      })
+      .start();
     }
   }
   this.monitor_overlay.dissolve = function() {
@@ -506,6 +534,7 @@ Game.prototype.initializeScreens = function() {
       let voxel_size = 4;
 
       this.voxels = [];
+      this.restore_voxels = [];
 
       // console.log(PIXI.extract.webGL.pixels(image));
       let pixels = pixi.renderer.extract.pixels(image);
@@ -541,6 +570,7 @@ Game.prototype.initializeScreens = function() {
       .onUpdate(function() {
         for (let i = 0; i < chunk_size; i++) {
           let v = overlay_self.voxels.pop();
+          overlay_self.restore_voxels.push(v);
           overlay_self.removeChild(v);
         }
       })
@@ -549,7 +579,7 @@ Game.prototype.initializeScreens = function() {
         while(overlay_self.children[0]) { 
           overlay_self.removeChild(overlay_self.children[0]);
         }
-        overlay_self.addChild(overlay_self.graphic);
+        // overlay_self.addChild(overlay_self.graphic);
       })
       .start();
     }
@@ -588,7 +618,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
     }
   }
   var tween_1 = new TWEEN.Tween(this.screens[old_screen].position)
-    .to({x: direction * this.width})
+    .to({x: direction * (this.width + 200)})
     .duration(1000)
     .easing(TWEEN.Easing.Cubic.InOut)
     .onComplete(function() {self.clearScreen(self.screens[old_screen]);})
@@ -602,7 +632,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
 }
 
 
-Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = false) {
+Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = false, fade_time = 1000) {
   var self = this;
   console.log("switching from " + old_screen + " to " + new_screen);
   pixi.stage.removeChild(this.screens[old_screen]);
@@ -625,9 +655,12 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
   }
   pixi.stage.addChild(this.monitor_overlay);
 
+  this.screens[old_screen].alpha = 1
+  this.screens[new_screen].alpha = 1
+
   var tween = new TWEEN.Tween(this.screens[old_screen])
     .to({alpha: 0})
-    .duration(1000)
+    .duration(fade_time)
     // .easing(TWEEN.Easing.Linear)
     .onComplete(function() {
       if (!double_fade) {
@@ -635,7 +668,7 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
       } else {
         var tween2 = new TWEEN.Tween(self.black)
         .to({alpha: 0})
-        .duration(1000)
+        .duration(fade_time)
         .onComplete(function() {
           self.clearScreen(self.screens[old_screen]);
           self.current_screen = new_screen;
@@ -755,15 +788,15 @@ Game.prototype.gameOverScreen = function(delay_time, force_exit = false) {
         self.continues -= 1;
       }
       self.initializeGameOver();
-      self.switchScreens(self.current_screen, "game_over");
+      self.fadeScreens(self.current_screen, "game_over", true, 800);
     } else {
       let low_high = self.local_high_scores[self.getModeName()][self.difficulty_level.toLowerCase()][9];
       if (low_high == null || low_high.score < self.score) {
         self.initializeHighScore(self.score);
-        self.switchScreens(self.current_screen, "high_score");
+        self.fadeScreens(self.current_screen, "high_score", true, 800);
       } else {
         self.initialize1pLobby();
-        self.switchScreens(self.current_screen, "1p_lobby");
+        self.fadeScreens(self.current_screen, "1p_lobby", true, 800);
       }
     }
 

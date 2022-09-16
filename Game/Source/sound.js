@@ -113,7 +113,7 @@ setMusic = function(music_name, loop = true) {
     let crossfade = false;
     if (current_music != null && current_music.name != music_name) {
       crossfade = true;
-      fadeMusic();
+      fadeMusic(500);
     }
 
     current_music = sound_data[music_name];
@@ -126,11 +126,11 @@ setMusic = function(music_name, loop = true) {
       if (crossfade) {
         for (let i = 0; i < 14; i++) {
           delay(function() {
-            current_music.volume = i / 20;
+            current_music.volume(i / 20);
           }, 50 * i);
         }
       } else {
-        current_music.volume = 0.6;
+        current_music.volume(0.6);
       }
     }
   }
@@ -151,7 +151,7 @@ fadeMusic = function(delay_time = 0) {
     current_music = null;
     for (let i = 0; i < 14; i++) {
       delay(function() {
-        old_music.volume = (13 - i) / 20;
+        old_music.volume((13 - i) / 20);
       }, delay_time + 50 * i);
     }
     setTimeout(function() {

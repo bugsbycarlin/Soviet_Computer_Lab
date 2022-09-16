@@ -11,6 +11,9 @@ Game.prototype.initialize1pLobby = function() {
 
   this.monitor_overlay.restore();
 
+  fadeMusic(500); // fade the music when coming to the lobby
+  this.level = 1; // reset the level when coming to the lobby
+
   this.lobby_state = "active";
 }
 
@@ -74,37 +77,62 @@ Game.prototype.returnToTitle = function() {
 
 
 Game.prototype.switchToKeyboardKomandir = function() {
+  let self = this;
+  this.game_type_selection = 1;
   this.lobby_state = "leaving";
-  this.initialize1pWordRockets();
-  this.switchScreens("1p_lobby", "1p_word_rockets");
+  this.monitor_overlay.dissolve();
+  delay(function() {
+    self.initialize1pWordRockets();
+    self.fadeScreens("1p_lobby", "1p_word_rockets", true, 800);
+  }, 900);
 }
 
 
 Game.prototype.switchToWordBase = function() {
+  let self = this;
+  this.game_type_selection = 2;
   this.lobby_state = "leaving";
-  this.initialize1pBaseCapture();
-  this.switchScreens("1p_lobby", "1p_base_capture");
-}
-
-
-Game.prototype.switchToFirstStrike = function() {
-  this.lobby_state = "leaving";
-  this.initialize1pLaunchCode();
-  this.switchScreens("1p_lobby", "1p_launch_code");
+  this.monitor_overlay.dissolve();
+  delay(function() {
+    self.initialize1pBaseCapture();
+    self.fadeScreens("1p_lobby", "1p_base_capture", true);
+  }, 1000);
 }
 
 
 Game.prototype.switchToPartyMath = function() {
+  let self = this;
+  this.game_type_selection = 3;
   this.lobby_state = "leaving";
-  this.initializeMathGame();
-  this.switchScreens("1p_lobby", "math_game");
+  this.monitor_overlay.dissolve();
+  delay(function() {
+    self.initializeMathGame();
+    self.fadeScreens("1p_lobby", "math_game", true, 800);
+  }, 1000);
 }
 
 
 Game.prototype.switchToCentrallyPlannedEconomy = function() {
+  let self = this;
+  this.game_type_selection = 4;
   this.lobby_state = "leaving";
-  this.initialize1pCpe();
-  this.switchScreens("1p_lobby", "1p_cpe");
+  this.monitor_overlay.dissolve();
+  delay(function() {
+    self.initialize1pCpe();
+    self.fadeScreens("1p_lobby", "1p_cpe", true, 800);
+  }, 900);
+}
+
+
+Game.prototype.switchToFirstStrike = function() {
+  let self = this;
+  this.game_type_selection = 5;
+  this.lobby_state = "leaving";
+  this.monitor_overlay.dissolve();
+  delay(function() {
+    self.initialize1pLaunchCode();
+    self.fadeScreens("1p_lobby", "1p_launch_code", true);
+  }, 1000);
 }
 
 

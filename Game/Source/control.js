@@ -168,6 +168,8 @@ Game.prototype.pressKey = function(palette, key) {
 
 
 Game.prototype.gameplayKeyDown = function(key) {
+  let self = this;
+
   if (!this.paused) {
     //this.pressKey(this.player_palette, key);
 
@@ -234,10 +236,14 @@ Game.prototype.gameplayKeyDown = function(key) {
   if (this.paused && key === "Escape") {
     let x = document.getElementById("countdown")
     if (x != null) x.hold_up = null;
+    this.monitor_overlay.restore();
     this.game_phase = "none";
     this.resume();
-    this.initialize1pLobby();
-    this.switchScreens("1p_word_rockets", "1p_lobby");
+    fadeMusic(500);
+    delay(function() {
+      self.initialize1pLobby();
+      self.fadeScreens("1p_word_rockets", "1p_lobby", true, 800);
+    }, 900)
   }
 }
 
