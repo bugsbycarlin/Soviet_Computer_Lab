@@ -95,50 +95,6 @@ function countDownString(seconds) {
 }
 
 
-// Wrap setTimeout so it has pause functionality.
-delays = {};
-unique = 0;
-function delay(callback, delay_time) {
-  var d = new Object();
-  d.fixed_id = unique;
-  unique += 1;
-  d.callback = callback;
-  d.delay_time = delay_time;
-  d.start_time = Date.now();
-  d.id = window.setTimeout(d.callback, d.delay_time);
-  d.delete_id = window.setTimeout(function() {delete delays[d.fixed_id]}, d.delay_time);
-  d.paused = false;
-  delays[d.fixed_id] = d;
-}
-
-
-function pauseAllDelays() {
-  console.log(delays);
-  for ([id, value] of Object.entries(delays)) {
-    let d = value;
-    if (d.paused == false) {
-      console.log("Pausing");
-      window.clearTimeout(d.id);
-      window.clearTimeout(d.delete_id);
-      d.delay_time -= Date.now() - d.start_time;
-      d.paused = true;
-    }
-  }
-}
-
-
-function resumeAllDelays() {
-  for ([id, value] of Object.entries(delays)) {
-    let d = value;
-    if (d.paused == true) {
-      d.start_time = Date.now();
-      d.id = window.setTimeout(d.callback, d.delay_time);
-      d.delete_id = window.setTimeout(function() {delete delays[d.fixed_id]}, d.delay_time);
-    }
-  }
-}
-
-
 // Assuming no duplicates in a list,
 // find the value and return the next value,
 // wrapping around if necessary.

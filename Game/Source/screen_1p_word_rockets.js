@@ -94,7 +94,6 @@ var stefansson_base_points = [
   [276, 428],
 ];
 
-
 Game.prototype.initialize1pWordRockets = function() {
   var self = this;
   var screen = this.screens["1p_word_rockets"];
@@ -471,7 +470,7 @@ Game.prototype.countdownAndStart = function() {
         || (this.difficulty_level != "EASY" && (this.level == 19 || this.level == 20 || this.level == 21))) {
         setMusic("putzen_song");
       } else {
-        setMusic("action_song_1");
+        //setMusic("action_song_1");
       }
     }
   }
@@ -1079,6 +1078,68 @@ Game.prototype.cleanRockets = function() {
     }
   }
   this.rocket_letters = new_rocket_letters;
+}
+
+
+Game.prototype.wordRocketsKeydown = function(key) {
+  let self = this;
+
+  if (!this.paused && this.game_phase === "active") {
+    for (i in lower_array) {
+      if (key === lower_array[i] || key === letter_array[i]) {
+        if (!this.launchpad.full()) {
+          soundEffect("keyboard_click_" + dice(5), 1.0);
+          let tile = this.launchpad.push(this.player_palette, letter_array[i]);
+          tile.tint = 0x000000;
+        }
+      }
+    }
+
+    if (key === "Backspace" || key === "Delete") {
+      soundEffect("keyboard_click_" + dice(5), 1.0);
+      this.launchpad.pop();
+    }
+
+    if (key === "ArrowRight") {
+      this.changeBaseSelection(0, 1);
+      soundEffect("switch_option");
+    }
+
+    if (key === "ArrowLeft") {
+      this.changeBaseSelection(0, -1);
+      soundEffect("switch_option");
+    }
+
+    if (key === "Tab") {
+      soundEffect("keyboard_click_1", 1.0);
+      this.launchpad.clear();
+    }
+
+    if (key === "Enter") {
+      this.launchpad.launch(this.player_area);
+    }
+  }
+
+  if (this.paused && key === "Q") {
+    let x = document.getElementById("countdown")
+    if (x != null) x.hold_up = null;
+    this.monitor_overlay.restore();
+    this.game_phase = "none";
+    this.resume();
+    fadeMusic(500);
+    delay(function() {
+      self.initialize1pLobby();
+      self.fadeScreens("1p_word_rockets", "1p_lobby", true, 800);
+    }, 900)
+  }
+
+  if (key === "Escape" && (this.game_phase === "active" || this.game_phase === "countdown")) {
+    if (this.paused) {
+      this.resume();
+    } else {
+      this.pause();
+    }
+  }  
 }
 
 

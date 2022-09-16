@@ -83,11 +83,11 @@ for (let i = 0; i < sound_files.length; i++) {
 }
 
 
-soundEffect = function(effect_name) {
-  if (sound_volume > 0) {
+soundEffect = function(effect_name, volume=sound_volume) {
+  if (volume > 0) {
     var sound_effect = sound_data[effect_name];
     if (sound_effect != null) {
-      sound_effect.volume(sound_volume);
+      sound_effect.volume(volume);
       sound_effect.play();
     }
   }
@@ -163,5 +163,18 @@ fadeMusic = function(delay_time = 0) {
 }
 
 
+toggleMusic = function(song = null) {
+  use_music = !use_music;
+  if (use_music == false) {
+    stopMusic();
+  } else if (song != null) {
+    setMusic(song);
+  }
+  localStorage.setItem("soviet_computer_lab_use_music", use_music);
+}
 
 
+toggleSound = function() {
+  use_sound = !use_sound;
+  localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
+}

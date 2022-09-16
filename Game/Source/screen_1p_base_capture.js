@@ -539,20 +539,6 @@ Game.prototype.baseCaptureKeyDown = function(key) {
 }
 
 
-Game.prototype.mouseMove = function(ev) {
-  let mouse_data = pixi.renderer.plugins.interaction.mouse.global;
-  // console.log(mouse_data.x);
-  // this.mouse.position.set(mouse_data.x, mouse_data.y);
-  // x is 141 to 784
-  // y is 40 to 530
-  if (this.mouse_tester != null && mouse_data.x >= 140 && mouse_data.x <= 784 && mouse_data.y >= 40 && mouse_data.y <= 530) {
-    this.mouse_tester.position.set(1084 - 250/2 + 250 * (mouse_data.x - 141) / (784-141) , 826 - 180/2 + 180 * (mouse_data.y - 40) / (530-40));
-  
-    this.drawMouseCord(this.mouse_tester.x, this.mouse_tester.y);
-  }
-}
-
-
 Game.prototype.drawMouseCord = function(x, y) {
   while(this.mouse_cord.children[0]) {
     let item = this.mouse_cord.removeChild(this.mouse_cord.children[0]);

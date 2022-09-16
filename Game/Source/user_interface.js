@@ -453,36 +453,33 @@ Game.prototype.initializeScreens = function() {
   var self = this;
   this.screens = [];
 
-  this.makeScreen("intro");
-  this.makeScreen("title");
-  this.makeScreen("1p_lobby");
-  this.makeScreen("1p_word_rockets");
-  this.makeScreen("1p_base_capture");
-  this.makeScreen("1p_launch_code");
-  this.makeScreen("math_game");
-  this.makeScreen("1p_cpe");
-  this.makeScreen("cpe_character_tester");
-  this.makeScreen("multi_lobby");
-  this.makeScreen("multi_set_name");
-  this.makeScreen("multi_join_game");
-  this.makeScreen("cutscene");
-  this.makeScreen("high_score");
-  this.makeScreen("game_over");
-  this.makeScreen("credits");
+  // this.makeScreen("intro");
+  // this.makeScreen("title");
+  // this.makeScreen("1p_lobby");
+  // this.makeScreen("1p_word_rockets");
+  // this.makeScreen("1p_base_capture");
+  // this.makeScreen("1p_launch_code");
+  // this.makeScreen("math_game");
+  // this.makeScreen("1p_cpe");
+  // this.makeScreen("cpe_character_tester");
+  // this.makeScreen("multi_lobby");
+  // this.makeScreen("multi_set_name");
+  // this.makeScreen("multi_join_game");
+  // this.makeScreen("cutscene");
+  // this.makeScreen("high_score");
+  // this.makeScreen("game_over");
+  // this.makeScreen("credits");
 
   this.black = PIXI.Sprite.from(PIXI.Texture.WHITE);
   this.black.width = 1664;
   this.black.height = 960;
   this.black.tint = 0x000000;
 
-  this.screens[first_screen].position.x = 0;
-  this.current_screen = first_screen;
-
-  this.alertMask = new PIXI.Container();
-  pixi.stage.addChild(this.alertMask);
-  this.alertBox = new PIXI.Container();
-  pixi.stage.addChild(this.alertBox);
-  this.initializeAlertBox();
+  // this.alertMask = new PIXI.Container();
+  // pixi.stage.addChild(this.alertMask);
+  // this.alertBox = new PIXI.Container();
+  // pixi.stage.addChild(this.alertBox);
+  // this.initializeAlertBox();
 
   this.monitor_overlay = new PIXI.Container();
   this.monitor_overlay.graphic = new PIXI.Sprite(PIXI.Texture.from("Art/pixelated_computer_overlay_1664_960.png"));
@@ -584,6 +581,12 @@ Game.prototype.initializeScreens = function() {
       .start();
     }
   }
+
+  this.monitor_overlay.visible = true;
+  this.black.visible = false;
+
+  this.createScreen(first_screen, true);
+  this.current_screen = first_screen;
 }
 
 
@@ -614,7 +617,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
       this.screens[i].visible = true;
     } else {
       this.screens[i].visible = false;
-      this.clearScreen(this.screens[i]);
+      this.screens[i].clear();
     }
   }
   var tween_1 = new TWEEN.Tween(this.screens[old_screen].position)
@@ -635,12 +638,13 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
 Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = false, fade_time = 1000) {
   var self = this;
   console.log("switching from " + old_screen + " to " + new_screen);
-  pixi.stage.removeChild(this.screens[old_screen]);
-  pixi.stage.removeChild(this.screens[new_screen]);
+  if (this.screens[old_screen] != null) pixi.stage.removeChild(this.screens[old_screen]);
+  if (this.screens[new_screen] != null) pixi.stage.removeChild(this.screens[new_screen]);
   pixi.stage.addChild(this.screens[new_screen]);
   if (double_fade) {  
     pixi.stage.addChild(this.black);
     this.black.alpha = 1;
+    this.black.visible = true;
   }
   pixi.stage.addChild(this.screens[old_screen]);
   this.screens[old_screen].position.x = 0;
@@ -650,7 +654,7 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
       this.screens[i].visible = true;
     } else {
       this.screens[i].visible = false;
-      this.clearScreen(this.screens[i]);
+      this.screens[i].clear();
     }
   }
   pixi.stage.addChild(this.monitor_overlay);
@@ -670,7 +674,7 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
         .to({alpha: 0})
         .duration(fade_time)
         .onComplete(function() {
-          self.clearScreen(self.screens[old_screen]);
+          self.screens[old_screen].clear();
           self.current_screen = new_screen;
           pixi.stage.removeChild(self.black);
         })

@@ -5,9 +5,6 @@ var multiplayer_picture_number = null;
 var use_scores = false;
 var log_performance = true;
 
-// open -a Google\ Chrome\ Canary --args --disable-web-security --autoplay-policy=no-user-gesture-required --user-data-dir=/Users/bugsbycarlin/Projects/Messy
-// 
-
 // var first_screen = "1p_base_capture";
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
@@ -95,11 +92,6 @@ class Game {
       }
     };
 
-    this.keyboard_mode = "QWERTY";
-
-    this.paused = false;
-    this.pause_time = 0;
-
     this.freefalling = [];
     this.shakers = [];
 
@@ -152,10 +144,12 @@ class Game {
 
     this.loadLocalHighScores();
 
-    this.initializeFlows();
+    // this.initializeFlows();
 
-    this.initializeScreens();
-    this.initializeAnimations();
+    this.preloadAnimations(() => {
+      self.initializeScreens();
+    });
+    
 
     // this.current_screen = "cutscene";
 
@@ -272,58 +266,59 @@ class Game {
     }
   }
 
-  initializeFlows() {
-    this.flow = {};
-    this.flow_marker = -1;
 
-    // game type is story
-    this.flow[0] = {};
-    this.flow[0]["EASY"] = [
-      "cut:c1", "wr:1:an", "wr:2:an", "cut:c2", "bc:3:zh", "bc:4:zh",
-      "cut:c3", "lc:5:iv", "lc:6:iv", "cut:c4", "wr:7:ro", "wr:8:ro",
-      "cut:c5", "bc:9:fe", "bc:10:fe", "cut:c6", "lc:11:fe", "lc:12:fe",
-      "cut:c7", "wr:13:pu", "wr:14:pu", "cut:c8"
-    ];
-    this.flow[0]["MEDIUM"] = [
-      "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-      "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-      "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-      "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-    ];
-    this.flow[0]["HARD"] = [
-      "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-      "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-      "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-      "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-    ];
-    this.flow[0]["BEACON"] = [
-      "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-      "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-      "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-      "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-    ];
+  // initializeFlows() {
+  //   this.flow = {};
+  //   this.flow_marker = -1;
 
-    this.flow[2] = {};
-    this.flow[2]["EASY"] = [
-      "cut:t1", "wr:1", "cut:t2", "bc:1:an", "cut:t3", "lc:1:an", "cut:t4"
-    ];
-  }
+  //   // game type is story
+  //   this.flow[0] = {};
+  //   this.flow[0]["EASY"] = [
+  //     "cut:c1", "wr:1:an", "wr:2:an", "cut:c2", "bc:3:zh", "bc:4:zh",
+  //     "cut:c3", "lc:5:iv", "lc:6:iv", "cut:c4", "wr:7:ro", "wr:8:ro",
+  //     "cut:c5", "bc:9:fe", "bc:10:fe", "cut:c6", "lc:11:fe", "lc:12:fe",
+  //     "cut:c7", "wr:13:pu", "wr:14:pu", "cut:c8"
+  //   ];
+  //   this.flow[0]["MEDIUM"] = [
+  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
+  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
+  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
+  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
+  //   ];
+  //   this.flow[0]["HARD"] = [
+  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
+  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
+  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
+  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
+  //   ];
+  //   this.flow[0]["BEACON"] = [
+  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
+  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
+  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
+  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
+  //   ];
+
+  //   this.flow[2] = {};
+  //   this.flow[2]["EASY"] = [
+  //     "cut:t1", "wr:1", "cut:t2", "bc:1:an", "cut:t3", "lc:1:an", "cut:t4"
+  //   ];
+  // }
 
 
-  returnToLastCutscene() {
-    if (this.last_cutscene != null && this.last_flow_marker != null) {
-      console.log("switching to cutscene");
-      this.flow_marker = this.last_flow_marker;
-      //fadeMusic();
-      this.initializeCutscene(this.last_cutscene);
-      if (this.current_screen != "cutscene") {
-        this.switchScreens(this.current_screen, "cutscene");
-      }
-    } else {
-      this.resetGame();
-      this.nextFlow();
-    }
-  }
+  // returnToLastCutscene() {
+  //   if (this.last_cutscene != null && this.last_flow_marker != null) {
+  //     console.log("switching to cutscene");
+  //     this.flow_marker = this.last_flow_marker;
+  //     //fadeMusic();
+  //     this.initializeCutscene(this.last_cutscene);
+  //     if (this.current_screen != "cutscene") {
+  //       this.switchScreens(this.current_screen, "cutscene");
+  //     }
+  //   } else {
+  //     this.resetGame();
+  //     this.nextFlow();
+  //   }
+  // }
 
 
   nextFlow() {
@@ -345,17 +340,17 @@ class Game {
       if (this.level <= 1) {
         type = "1p_cpe";
       } else {
-        type = "1p_lobby";
+        type = "lobby";
       }
     } else if (this.game_type_selection == 5) {
       type = "1p_launch_code";
     }
 
     if (this.current_screen != type) {
-      this.initializeScreen(type);
+      this.createScreen(type);
       this.fadeScreens(this.current_screen, type, true, 800);
     } else {
-      this.initializeScreen(type);
+      this.createScreen(type);
     }
   }
 
@@ -372,13 +367,27 @@ class Game {
   }
 
 
-  initializeScreen(screen_name, reset = false) {
+  resetGame() {
+    this.level = 1;
+    this.score = 0;
+    this.continues = 1;
+
+    this.flow_marker = -1;
+
+    this.player_bombs = 0;
+    this.enemy_bombs = 0;
+  }
+
+
+  createScreen(screen_name, reset = false) {
     if (screen_name == "intro") {
       this.initializeIntro();
     } else if (screen_name == "title") {
-      this.initializeTitle();
-    } else if (screen_name == "1p_lobby") {
-      this.initialize1pLobby();
+      // this.initializeTitle();
+      this.screens["title"] = new Title();
+    } else if (screen_name == "lobby") {
+      // this.initialize1pLobby();
+      this.screens["lobby"] = new Lobby();
     } else if (screen_name == "high_score") {
       this.initializeHighScore();
     } else if (screen_name == "multi_set_name") {
@@ -405,10 +414,15 @@ class Game {
     } else if (screen_name == "cutscene") {
       this.initializeCutscene("t4");
     }
+
+    this.screens[screen_name].position.x = 0;
+    pixi.stage.addChild(this.screens[screen_name]);
+    pixi.stage.addChild(this.black);
+    pixi.stage.addChild(this.monitor_overlay);
   }
 
 
-  initializeAnimations() {
+  preloadAnimations(and_then) {
     var self = this;
     PIXI.Loader.shared
       .add("Art/alpha_zoo_logo_v2.png")
@@ -481,7 +495,7 @@ class Game {
       .add("Art/CPE/Levels/cpe_level_1_filled.png")
       .add("Art/CPE/Levels/cpe_level_1_floating.png")
       .load(function() {
-        self.initializeScreen(first_screen, true);
+        and_then();
 
         PIXI.Loader.shared
           .add("Art/Runner/grey_runner_combat_fall.json")
@@ -660,100 +674,77 @@ class Game {
   }
 
 
-  resetGame() {
-    this.level = 1;
-    this.score = 0;
-    this.continues = 1;
+  handleMouseMove(ev) {
+    if (this.screens != null
+      && this.current_screen != null
+      && this.screens[this.current_screen].mouseMove != null) {
+      this.screens[this.current_screen].mouseMove(ev);
+    }
+  }
 
-    this.flow_marker = -1;
 
-    this.player_bombs = 0;
-    this.enemy_bombs = 0;
+  handleMouseDown(ev) {
+    if (this.screens != null
+      && this.current_screen != null
+      && this.screens[this.current_screen].mouseDown != null) {
+      this.screens[this.current_screen].mouseDown(ev);
+    }
+  }
+
+
+  handleKeyUp(ev) {
+    ev.preventDefault();
+
+    this.keymap[ev.key] = null;
+
+    if (this.screens != null
+      && this.current_screen != null
+      && this.screens[this.current_screen].keyUp != null) {
+      this.screens[this.current_screen].keyUp(ev);
+    }
+  }
+
+
+  handleKeyDown(ev) {
+    if (ev.key === "Tab") {
+      ev.preventDefault();
+    }
+
+    this.keymap[ev.key] = true;
+
+    if (this.screens != null
+      && this.current_screen != null
+      && this.screens[this.current_screen].keyDown != null) {
+      this.screens[this.current_screen].keyDown(ev);
+    }
   }
 
 
   update(diff) {
-    if (this.current_screen == "1p_word_rockets") {
-      this.singlePlayerGameUpdate(diff);
-    } else if (this.current_screen == "1p_base_capture") {
-      this.singlePlayerBaseCaptureUpdate(diff);
-    } else if (this.current_screen == "1p_launch_code") {
-      this.singlePlayerLaunchCodeUpdate(diff);
-    } else if(this.current_screen == "1p_lobby") {
-      this.singlePlayerLobbyUpdate(diff);
-    } else if(this.current_screen == "math_game") {
-      this.mathGameUpdate(diff);
-    } else if(this.current_screen == "1p_cpe") {
-      this.CpeUpdate(diff);
-    } else if(this.current_screen == "cpe_character_tester") {
-      this.CpeTesterUpdate(diff);
-    } else if (this.current_screen == "cutscene") {
-      this.cutsceneUpdate(diff);
-    } else if (this.current_screen == "intro") {
-      this.introUpdate(diff);
-    } else if (this.current_screen == "title") {
-      this.titleUpdate(diff);
+    if (this.screens != null && this.current_screen != null) {
+      this.screens[this.current_screen].update(diff);
     }
-  }
-
-
-  pause() {
-    this.paused = true;
-    this.pause_moment = Date.now();
-    this.paused_tweens = [];
-    let tweens = TWEEN.getAll();
-    for (var i = 0; i < tweens.length; i++) {
-      var tween = tweens[i];
-      tween.pause();
-      this.paused_tweens.push(tween);
-    }
-    if (current_music != null) {
-      current_music.pause();
-    }
-    if (sound_data["countdown"].paused == false) {
-      sound_data["countdown"].hold_up = true;
-      sound_data["countdown"].pause();
-    }
-    if (this.announcement != null) {
-      this.prev_announcement_text = this.announcement.text;
-      this.announcement.text = "PAUSED";
-      this.escape_to_quit.visible = true;
-    }
-    pauseAllDelays();
-
-  }
-
-
-  resume() {
-    this.paused = false;
-    this.pause_time += Date.now() - this.pause_moment;
-    for (var i = 0; i < this.paused_tweens.length; i++) {
-      var tween = this.paused_tweens[i];
-      tween.resume();
-    }
-    this.paused_tweens = [];
-    if (current_music != null) {
-      current_music.play();
-    }
-    if (sound_data["countdown"] != null && sound_data["countdown"].hold_up == true) {
-      sound_data["countdown"].hold_up = null;
-      sound_data["countdown"].play();
-    }
-    if (this.announcement != null) {
-      this.announcement.text = this.prev_announcement_text;
-      this.escape_to_quit.visible = false;
-    }
-    resumeAllDelays();
-  }
-
-
-  markTime() {
-    return Date.now() - this.pause_time;
-  }
-
-
-  timeSince(mark) {
-    return this.markTime() - mark;
+    // if (this.current_screen == "1p_word_rockets") {
+    //   this.singlePlayerGameUpdate(diff);
+    // } else if (this.current_screen == "1p_base_capture") {
+    //   this.singlePlayerBaseCaptureUpdate(diff);
+    // } else if (this.current_screen == "1p_launch_code") {
+    //   this.singlePlayerLaunchCodeUpdate(diff);
+    // } else if(this.current_screen == "1p_lobby") {
+    //   this.singlePlayerLobbyUpdate(diff);
+    // } else if(this.current_screen == "math_game") {
+    //   this.mathGameUpdate(diff);
+    // } else if(this.current_screen == "1p_cpe") {
+    //   this.CpeUpdate(diff);
+    // } else if(this.current_screen == "cpe_character_tester") {
+    //   this.CpeTesterUpdate(diff);
+    // } else if (this.current_screen == "cutscene") {
+    //   this.cutsceneUpdate(diff);
+    // } else if (this.current_screen == "intro") {
+    //   this.introUpdate(diff);
+    // } else if (this.current_screen == "title") {
+    //   this.titleUpdate(diff);
+    // }
   }
 
 
