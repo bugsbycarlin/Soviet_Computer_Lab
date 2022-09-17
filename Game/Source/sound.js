@@ -84,7 +84,7 @@ for (let i = 0; i < sound_files.length; i++) {
 
 
 soundEffect = function(effect_name, volume=sound_volume) {
-  if (volume > 0) {
+  if (use_sound && volume > 0) {
     var sound_effect = sound_data[effect_name];
     if (sound_effect != null) {
       sound_effect.volume(volume);
@@ -100,6 +100,13 @@ stopSoundEffect = function(effect_name) {
     if (sound_effect != null) {
       sound_effect.stop();
     }
+  }
+}
+
+
+stopAllSound = function() {
+  for (const [key, value] of Object.entries(sound_data)) {
+    sound_data[key].stop();
   }
 }
 

@@ -92,8 +92,6 @@ Game.prototype.oldhandleKeyDown = function(ev) {
     if (ev.key === "Escape") {
       this.endCutscene();
     }
-  } else if (this.current_screen === "title") {
-    this.titleKeyDown(ev);
   } else if (this.current_screen === "multi_lobby") {
     this.multiLobbyKeyDown(ev);
   } else if (this.current_screen === "multi_join_game") {
@@ -102,33 +100,10 @@ Game.prototype.oldhandleKeyDown = function(ev) {
     this.multiSetNameKeyDown(ev);
   } else if (this.current_screen === "math_game") {
     this.mathGameKeyDown(ev);
-  } else if (this.current_screen === "1p_cpe") {
-    this.cpeKeyDown(ev);
-  } else if (this.current_screen === "cpe_character_tester") {
-    this.cpeTesterKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()
     }
-  } else if (this.current_screen === "1p_lobby") {
-    this.lobbyKeyDown(ev);
-    // if (ev.key === "ArrowUp") {
-    //   soundEffect("switch_option");
-    //   this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
-    //   this.difficulty_choice = (this.difficulty_choice + 1) % 4;
-    //   this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
-    //   this.option_info.setPartial(this.option_info_values[this.difficulty_choice].toUpperCase());
-    //   this.updateHighScoreDisplay();
-    // } else if (ev.key === "ArrowDown") {
-    //   soundEffect("switch_option");
-    //   this.option_markers[this.difficulty_choice].tint = 0xFFFFFF;
-    //   this.difficulty_choice = (this.difficulty_choice + 3) % 4;
-    //   this.option_markers[this.difficulty_choice].tint = 0x75d3fe;
-    //   this.option_info.setPartial(this.option_info_values[this.difficulty_choice].toUpperCase());
-    //   this.updateHighScoreDisplay();
-    // } else if (ev.key === "Enter") {
-    //   this.lobby_go_button._events.pointertap.fn();
-    // } 
   } else if (this.current_screen === "1p_lobby_x") {
     if (this.lobby_mode === "difficulty") {
       if (ev.key === "ArrowRight") {

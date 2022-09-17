@@ -9,7 +9,7 @@ var log_performance = true;
 // var first_screen = "1p_launch_code";
 // var first_screen = "intro";
 // var first_screen = "1p_word_rockets"
-// var first_screen = "1p_cpe";
+// var first_screen = "centrally_planned_economy";
 // var first_screen = "math_game";
 var first_screen = "title";
 // var first_screen = "cutscene";
@@ -338,7 +338,7 @@ class Game {
       type = "math_game";
     } else if (this.game_type_selection == 4) {
       if (this.level <= 1) {
-        type = "1p_cpe";
+        type = "centrally_planned_economy";
       } else {
         type = "lobby";
       }
@@ -389,17 +389,19 @@ class Game {
       // this.initialize1pLobby();
       this.screens["lobby"] = new Lobby();
     } else if (screen_name == "high_score") {
-      this.initializeHighScore();
+      // this.initializeHighScore();
+      this.screens["high_score"] = new HighScore();
     } else if (screen_name == "multi_set_name") {
       this.initializeMultiSetName();
     } else if (screen_name == "math_game") {
       this.initializeMathGame();
-    } else if (screen_name == "1p_cpe") {
-      this.initialize1pCpe();
+    } else if (screen_name == "centrally_planned_economy") {
+      this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
     } else if (screen_name == "cpe_character_tester") {
       this.initializeCpeTester();
     } else if (screen_name == "game_over") {
-      this.initializeGameOver();
+      // this.initializeGameOver();
+      this.screens["game_over"] = new GameOver();
     } else if (screen_name == "credits") {
       this.initializeCredits();
     } else if (screen_name == "1p_word_rockets") {
@@ -734,7 +736,7 @@ class Game {
     //   this.singlePlayerLobbyUpdate(diff);
     // } else if(this.current_screen == "math_game") {
     //   this.mathGameUpdate(diff);
-    // } else if(this.current_screen == "1p_cpe") {
+    // } else if(this.current_screen == "centrally_planned_economy") {
     //   this.CpeUpdate(diff);
     // } else if(this.current_screen == "cpe_character_tester") {
     //   this.CpeTesterUpdate(diff);

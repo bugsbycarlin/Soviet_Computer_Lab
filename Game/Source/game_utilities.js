@@ -1,9 +1,70 @@
 
 //
 //
-// Game UI tools
+// Game utilities
 //
 //
+
+
+freefalling = [];
+Game.prototype.freeeeeFreeeeeFalling = function(fractional) {
+  for (let i = 0; i < freefalling.length; i++) {
+    let item = freefalling[i];
+    item.position.x += item.vx * fractional;
+    item.position.y += item.vy * fractional;
+    if (item.type != "ember") {
+      if (item.personal_gravity == null) {
+        item.vy += this.gravity * fractional;
+      } else {
+        item.vy += item.personal_gravity * fractional;
+      }
+    } else {
+      item.alpha *= 0.97;
+      item.vy += this.gentle_drop * fractional;
+      if (item.vy > this.gentle_limit) item.vy = this.gentle_limit;
+    }
+
+    // TODO: this needs to be 200 for the player areas and 960 for the screen in total.
+    if (item.position.y > 960 || item.alpha < 0.04) {
+      if (item.parent != null) {
+        item.parent.removeChild(item);
+      }
+      item.status = "dead";
+    }
+  }
+
+  let new_freefalling = [];
+  for (let i = 0; i < freefalling.length; i++) {
+    let item = freefalling[i];
+    if (item.status != "dead") {
+      new_freefalling.push(item);
+    }
+  }
+  freefalling = new_freefalling;
+}
+
+
+shakers = [];
+Game.prototype.shakeDamage = function() {
+  for (let item of shakers) {
+    if (item != null && item.shake != null) {
+      if (item.permanent_x == null) item.permanent_x = item.position.x;
+      if (item.permanent_y == null) item.permanent_y = item.position.y;
+      item.position.set(item.permanent_x - 3 + Math.random() * 6, item.permanent_y - 3 + Math.random() * 6)
+      if (timeSince(item.shake) >= 150) {
+        item.shake = null;
+        item.position.set(item.permanent_x, item.permanent_y)
+        item.permanent_x = null;
+        item.permanent_y = null;
+      }
+    }
+  }
+}
+
+
+
+
+
 
 Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, target_base, player) {
   var self = this;
@@ -449,399 +510,99 @@ Game.prototype.updateEnemyScreenTexture = function() {
 //
 //
 
-Game.prototype.initializeScreens = function() {
-  var self = this;
-  this.screens = [];
-
-  // this.makeScreen("intro");
-  // this.makeScreen("title");
-  // this.makeScreen("1p_lobby");
-  // this.makeScreen("1p_word_rockets");
-  // this.makeScreen("1p_base_capture");
-  // this.makeScreen("1p_launch_code");
-  // this.makeScreen("math_game");
-  // this.makeScreen("1p_cpe");
-  // this.makeScreen("cpe_character_tester");
-  // this.makeScreen("multi_lobby");
-  // this.makeScreen("multi_set_name");
-  // this.makeScreen("multi_join_game");
-  // this.makeScreen("cutscene");
-  // this.makeScreen("high_score");
-  // this.makeScreen("game_over");
-  // this.makeScreen("credits");
-
-  this.black = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  this.black.width = 1664;
-  this.black.height = 960;
-  this.black.tint = 0x000000;
-
-  // this.alertMask = new PIXI.Container();
-  // pixi.stage.addChild(this.alertMask);
-  // this.alertBox = new PIXI.Container();
-  // pixi.stage.addChild(this.alertBox);
-  // this.initializeAlertBox();
-
-  this.monitor_overlay = new PIXI.Container();
-  this.monitor_overlay.graphic = new PIXI.Sprite(PIXI.Texture.from("Art/pixelated_computer_overlay_1664_960.png"));
-  this.monitor_overlay.addChild(this.monitor_overlay.graphic);
-  pixi.stage.addChild(this.monitor_overlay);
-  this.monitor_overlay.visible = false;
-  this.monitor_overlay.status = "visible";
-  this.monitor_overlay.restore2 = function() {
-    if (this.status != "visible") {
-      this.addChild(this.graphic);
-      this.visible = true;
-      this.status = "visible";
-    }
-  }
-  this.monitor_overlay.restore = function() {
-    if (this.status != "visible") {
-      
-      this.visible = true;
-      this.status = "visible";
-
-      let chunk_size = this.restore_voxels.length / 30;
-      let overlay_self = this;
-
-      var tween_1 = new TWEEN.Tween(this)
-      .to({funk: 0})
-      .duration(1000)
-      .easing(TWEEN.Easing.Cubic.InOut)
-      .onUpdate(function() {
-        for (let i = 0; i < chunk_size; i++) {
-          let v = overlay_self.restore_voxels.pop();
-          if (v != undefined) overlay_self.addChild(v);
-        }
-      })
-      .onComplete(function() {
-        while(overlay_self.children[0]) { 
-          overlay_self.removeChild(overlay_self.children[0]);
-        }
-        overlay_self.addChild(overlay_self.graphic);
-      })
-      .start();
-    }
-  }
-  this.monitor_overlay.dissolve = function() {
-    if (this.status == "visible") {
-      this.status = "invisible";
-      let image = this.graphic;
-      let max_width = this.graphic.width;
-      let max_height = this.graphic.height;
-      let voxel_size = 4;
-
-      this.voxels = [];
-      this.restore_voxels = [];
-
-      // console.log(PIXI.extract.webGL.pixels(image));
-      let pixels = pixi.renderer.extract.pixels(image);
-      for (var i = 0; i < pixels.length; i += 4) {
-          let alpha = pixels[i + 3];
-          let row = (i/4 - (i/4 % max_width)) / max_width;
-          let col = i/4 % max_width;
-          if (alpha > 0 && row % 4 == 0 && col % 4 == 0) {
-              let voxel = PIXI.Sprite.from(PIXI.Texture.WHITE);
-              voxel.width = voxel_size;
-              voxel.height = voxel_size;
-              
-              voxel.tint = PIXI.utils.rgb2hex([pixels[i] / 255, pixels[i + 1] / 255, pixels[i + 2] / 255]);
-              voxel.alpha = alpha / 255;
-              this.addChild(voxel);
-              voxel.orig_x = col;
-              voxel.orig_y = row;
-              voxel.position.set(voxel.orig_x, voxel.orig_y);
-              this.voxels.push(voxel);
-            
-          }
-      }
-
-      this.removeChild(this.graphic);
-      let chunk_size = this.voxels.length / 30;
-      shuffleArray(this.voxels);
-      let overlay_self = this;
-
-      var tween_1 = new TWEEN.Tween(this)
-      .to({funk: 0})
-      .duration(1000)
-      .easing(TWEEN.Easing.Cubic.InOut)
-      .onUpdate(function() {
-        for (let i = 0; i < chunk_size; i++) {
-          let v = overlay_self.voxels.pop();
-          overlay_self.restore_voxels.push(v);
-          overlay_self.removeChild(v);
-        }
-      })
-      .onComplete(function() {
-        overlay_self.visible = false;
-        while(overlay_self.children[0]) { 
-          overlay_self.removeChild(overlay_self.children[0]);
-        }
-        // overlay_self.addChild(overlay_self.graphic);
-      })
-      .start();
-    }
-  }
-
-  this.monitor_overlay.visible = true;
-  this.black.visible = false;
-
-  this.createScreen(first_screen, true);
-  this.current_screen = first_screen;
-}
 
 
-Game.prototype.makeScreen = function(name) {
-  this.screens[name] = new PIXI.Container();
-  this.screens[name].name = name;
-  this.screens[name].position.x = this.width;
-  pixi.stage.addChild(this.screens[name]);
-}
+
+// Game.prototype.initializeAlertBox = function() {
+//   this.alertBox.position.set(this.width / 2, this.height / 2);
+//   this.alertBox.visible = false;
+
+//   this.alertMask.position.set(this.width / 2, this.height / 2);
+//   this.alertMask.visible = false;
+//   this.alertMask.interactive = true;
+//   this.alertMask.buttonMode = true;
+//   this.alertMask.on("pointertap", function() {
+//   });
 
 
-Game.prototype.clearScreen = function(screen) {
-  while(screen.children[0]) {
-    let x = screen.removeChild(screen.children[0]);
-    x.destroy();
-  }
-}
+//   var mask = PIXI.Sprite.from(PIXI.Texture.WHITE);
+//   mask.width = this.width;
+//   mask.height = this.height;
+//   mask.anchor.set(0.5, 0.5);
+//   mask.alpha = 0.2;
+//   mask.tint = 0x000000;
+//   this.alertMask.addChild(mask);
+
+//   var outline = PIXI.Sprite.from(PIXI.Texture.WHITE);
+//   outline.width = 850;
+//   outline.height = 230;
+//   outline.anchor.set(0.5, 0.5);
+//   outline.position.set(-1, -1);
+//   outline.tint = 0xDDDDDD;
+//   this.alertBox.addChild(outline);
+//   this.alertBox.outline = outline;
+
+//   var backingGrey = PIXI.Sprite.from(PIXI.Texture.WHITE);
+//   backingGrey.width = 850;
+//   backingGrey.height = 230;
+//   backingGrey.anchor.set(0.5, 0.5);
+//   backingGrey.position.set(4, 4);
+//   backingGrey.tint = PIXI.utils.rgb2hex([0.8, 0.8, 0.8]);
+//   this.alertBox.addChild(backingGrey);
+//   this.alertBox.backingGrey = backingGrey;
+
+//   var backingWhite = PIXI.Sprite.from(PIXI.Texture.WHITE);
+//   backingWhite.width = 850;
+//   backingWhite.height = 230;
+//   backingWhite.anchor.set(0.5, 0.5);
+//   backingWhite.position.set(0,0);
+//   backingWhite.tint = 0xFFFFFF;
+//   this.alertBox.addChild(backingWhite);
+//   this.alertBox.backingWhite = backingWhite;
+
+//   this.alertBox.alertText = new PIXI.Text("EH. OKAY.", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0x000000, letterSpacing: 6, align: "center"});
+//   this.alertBox.alertText.anchor.set(0.5,0.5);
+//   this.alertBox.alertText.position.set(0, 0);
+//   this.alertBox.addChild(this.alertBox.alertText);
+
+//   this.alertBox.interactive = true;
+//   this.alertBox.buttonMode = true;
+// }
 
 
-Game.prototype.switchScreens = function(old_screen, new_screen) {
-  var self = this;
 
-  var direction = -1;
-  if (new_screen == "title") direction = 1;
-  this.screens[new_screen].position.x = direction * -1 * this.width;
-  for (var i = 0; i < this.screens.length; i++) {
-    if (this.screens[i] == new_screen || this.screens[i] == old_screen) {
-      this.screens[i].visible = true;
-    } else {
-      this.screens[i].visible = false;
-      this.screens[i].clear();
-    }
-  }
-  var tween_1 = new TWEEN.Tween(this.screens[old_screen].position)
-    .to({x: direction * (this.width + 200)})
-    .duration(1000)
-    .easing(TWEEN.Easing.Cubic.InOut)
-    .onComplete(function() {self.clearScreen(self.screens[old_screen]);})
-    .start();
-  var tween_2 = new TWEEN.Tween(this.screens[new_screen].position)
-    .to({x: 0})
-    .duration(1000)
-    .easing(TWEEN.Easing.Cubic.InOut)
-    .start();
-  this.current_screen = new_screen;
-}
+// Game.prototype.showAlert = function(text, action) {
+//   var self = this;
+//   pixi.stage.addChild(this.alertMask);
+//   pixi.stage.addChild(this.alertBox);
+//   this.alert_last_screen = this.current_screen;
+//   this.current_screen = "alert";
+//   this.alertBox.alertText.text = text;
 
+//   let measure = new PIXI.TextMetrics.measureText(text, this.alertBox.alertText.style);
+//   this.alertBox.backingWhite.width = measure.width + 80;
+//   this.alertBox.backingGrey.width = measure.width + 80;
+//   this.alertBox.outline.width = measure.width + 80;
+//   this.alertBox.backingWhite.height = measure.height + 80;
+//   this.alertBox.backingGrey.height = measure.height + 80;
+//   this.alertBox.outline.height = measure.height + 80;
 
-Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = false, fade_time = 1000) {
-  var self = this;
-  console.log("switching from " + old_screen + " to " + new_screen);
-  if (this.screens[old_screen] != null) pixi.stage.removeChild(this.screens[old_screen]);
-  if (this.screens[new_screen] != null) pixi.stage.removeChild(this.screens[new_screen]);
-  pixi.stage.addChild(this.screens[new_screen]);
-  if (double_fade) {  
-    pixi.stage.addChild(this.black);
-    this.black.alpha = 1;
-    this.black.visible = true;
-  }
-  pixi.stage.addChild(this.screens[old_screen]);
-  this.screens[old_screen].position.x = 0;
-  this.screens[new_screen].position.x = 0;
-  for (var i = 0; i < this.screens.length; i++) {
-    if (this.screens[i] == new_screen || this.screens[i] == old_screen) {
-      this.screens[i].visible = true;
-    } else {
-      this.screens[i].visible = false;
-      this.screens[i].clear();
-    }
-  }
-  pixi.stage.addChild(this.monitor_overlay);
-
-  this.screens[old_screen].alpha = 1
-  this.screens[new_screen].alpha = 1
-
-  var tween = new TWEEN.Tween(this.screens[old_screen])
-    .to({alpha: 0})
-    .duration(fade_time)
-    // .easing(TWEEN.Easing.Linear)
-    .onComplete(function() {
-      if (!double_fade) {
-        self.clearScreen(self.screens[old_screen]);
-      } else {
-        var tween2 = new TWEEN.Tween(self.black)
-        .to({alpha: 0})
-        .duration(fade_time)
-        .onComplete(function() {
-          self.screens[old_screen].clear();
-          self.current_screen = new_screen;
-          pixi.stage.removeChild(self.black);
-        })
-        .start();
-      }
-    })
-    .start();
-  
-}
-
-
-Game.prototype.fadeFromBlack = function(fade_time=1500) {
-  let self = this;
-  pixi.stage.addChild(this.black);
-  this.black.alpha = 1;
-
-  var tween = new TWEEN.Tween(self.black)
-    .to({alpha: 0})
-    .duration(fade_time)
-    .onComplete(function() {
-      pixi.stage.removeChild(self.black);
-    })
-    .start();
-}
-
-
-Game.prototype.popScreens = function(old_screen, new_screen) {
-  var self = this;
-  console.log("switching from " + old_screen + " to " + new_screen);
-  pixi.stage.removeChild(this.screens[old_screen]);
-  pixi.stage.removeChild(this.screens[new_screen]);
-  pixi.stage.addChild(this.screens[old_screen]);
-  pixi.stage.addChild(this.screens[new_screen]);
-  pixi.stage.addChild(this.monitor_overlay);
-  this.screens[old_screen].position.x = 0;
-  this.screens[new_screen].position.x = 0;
-  for (var i = 0; i < this.screens.length; i++) {
-    if (this.screens[i] == new_screen) {
-      this.screens[i].visible = true;
-    } else {
-      this.screens[i].visible = false;
-      this.clearScreen(this.screens[i]);
-    }
-  }
-  this.clearScreen(this.screens[old_screen]);
-  this.current_screen = new_screen;
-}
-
-
-Game.prototype.initializeAlertBox = function() {
-  this.alertBox.position.set(this.width / 2, this.height / 2);
-  this.alertBox.visible = false;
-
-  this.alertMask.position.set(this.width / 2, this.height / 2);
-  this.alertMask.visible = false;
-  this.alertMask.interactive = true;
-  this.alertMask.buttonMode = true;
-  this.alertMask.on("pointertap", function() {
-  });
-
-
-  var mask = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  mask.width = this.width;
-  mask.height = this.height;
-  mask.anchor.set(0.5, 0.5);
-  mask.alpha = 0.2;
-  mask.tint = 0x000000;
-  this.alertMask.addChild(mask);
-
-  var outline = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  outline.width = 850;
-  outline.height = 230;
-  outline.anchor.set(0.5, 0.5);
-  outline.position.set(-1, -1);
-  outline.tint = 0xDDDDDD;
-  this.alertBox.addChild(outline);
-  this.alertBox.outline = outline;
-
-  var backingGrey = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  backingGrey.width = 850;
-  backingGrey.height = 230;
-  backingGrey.anchor.set(0.5, 0.5);
-  backingGrey.position.set(4, 4);
-  backingGrey.tint = PIXI.utils.rgb2hex([0.8, 0.8, 0.8]);
-  this.alertBox.addChild(backingGrey);
-  this.alertBox.backingGrey = backingGrey;
-
-  var backingWhite = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  backingWhite.width = 850;
-  backingWhite.height = 230;
-  backingWhite.anchor.set(0.5, 0.5);
-  backingWhite.position.set(0,0);
-  backingWhite.tint = 0xFFFFFF;
-  this.alertBox.addChild(backingWhite);
-  this.alertBox.backingWhite = backingWhite;
-
-  this.alertBox.alertText = new PIXI.Text("EH. OKAY.", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0x000000, letterSpacing: 6, align: "center"});
-  this.alertBox.alertText.anchor.set(0.5,0.5);
-  this.alertBox.alertText.position.set(0, 0);
-  this.alertBox.addChild(this.alertBox.alertText);
-
-  this.alertBox.interactive = true;
-  this.alertBox.buttonMode = true;
-}
-
-
-Game.prototype.gameOverScreen = function(delay_time, force_exit = false) {
-  let self = this;
-
-  delay(function() {
-    if (!force_exit && self.game_type_selection == 0 
-      && (self.difficulty_level == "EASY" || self.difficulty_level == "MEDIUM"
-          || (self.difficulty_level == "HARD" && self.continues > 0))) {
-      if (self.difficulty_level == "HARD") {
-        self.continues -= 1;
-      }
-      self.initializeGameOver();
-      self.fadeScreens(self.current_screen, "game_over", true, 800);
-    } else {
-      let low_high = self.local_high_scores[self.getModeName()][self.difficulty_level.toLowerCase()][9];
-      if (low_high == null || low_high.score < self.score) {
-        self.initializeHighScore(self.score);
-        self.fadeScreens(self.current_screen, "high_score", true, 800);
-      } else {
-        self.initialize1pLobby();
-        self.fadeScreens(self.current_screen, "1p_lobby", true, 800);
-      }
-    }
-
-    
-  }, delay_time);
-
-}
-
-
-Game.prototype.showAlert = function(text, action) {
-  var self = this;
-  pixi.stage.addChild(this.alertMask);
-  pixi.stage.addChild(this.alertBox);
-  this.alert_last_screen = this.current_screen;
-  this.current_screen = "alert";
-  this.alertBox.alertText.text = text;
-
-  let measure = new PIXI.TextMetrics.measureText(text, this.alertBox.alertText.style);
-  this.alertBox.backingWhite.width = measure.width + 80;
-  this.alertBox.backingGrey.width = measure.width + 80;
-  this.alertBox.outline.width = measure.width + 80;
-  this.alertBox.backingWhite.height = measure.height + 80;
-  this.alertBox.backingGrey.height = measure.height + 80;
-  this.alertBox.outline.height = measure.height + 80;
-
-  this.alertBox.removeAllListeners();
-  this.alertBox.on("pointertap", function() {
-    action();
-    self.alertBox.visible = false
-    self.alertMask.visible = false
-    self.current_screen = self.alert_last_screen
-  });
-  this.alertBox.visible = true;
-  this.alertMask.visible = true;
-  new TWEEN.Tween(this.alertBox)
-    .to({rotation: Math.PI / 60.0})
-    .duration(70)
-    .yoyo(true)
-    .repeat(3)
-    .start()
-}
+//   this.alertBox.removeAllListeners();
+//   this.alertBox.on("pointertap", function() {
+//     action();
+//     self.alertBox.visible = false
+//     self.alertMask.visible = false
+//     self.current_screen = self.alert_last_screen
+//   });
+//   this.alertBox.visible = true;
+//   this.alertMask.visible = true;
+//   new TWEEN.Tween(this.alertBox)
+//     .to({rotation: Math.PI / 60.0})
+//     .duration(70)
+//     .yoyo(true)
+//     .repeat(3)
+//     .start()
+// }
 
 
 Game.prototype.comicBubble = function(parent, text, x, y, size=36, font_family="Bangers") {

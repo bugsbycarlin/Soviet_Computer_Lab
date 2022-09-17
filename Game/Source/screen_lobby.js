@@ -123,13 +123,12 @@ class Lobby extends PIXI.Container {
 
 
   switchToCentrallyPlannedEconomy() {
-    let self = this;
-    this.game_type_selection = 4;
+    game.game_type_selection = 4;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
     delay(function() {
-      self.initialize1pCpe();
-      self.fadeScreens("lobby", "1p_cpe", true, 800);
+      game.createScreen("centrally_planned_economy");
+      game.fadeScreens("lobby", "centrally_planned_economy", true, 800);
     }, 900);
   }
 

@@ -506,67 +506,6 @@ Game.prototype.updateWPM = function() {
 }
 
 
-Game.prototype.shakeDamage = function() {
-  var self = this;
-  var screen = this.screens["1p_word_rockets"];
-
-  // for (let item of [screen, this.player_area, this.enemy_area]) {
-  for (let item of this.shakers) {
-    if (item != null && item.shake != null) {
-      if (item.permanent_x == null) item.permanent_x = item.position.x;
-      if (item.permanent_y == null) item.permanent_y = item.position.y;
-      item.position.set(item.permanent_x - 3 + Math.random() * 6, item.permanent_y - 3 + Math.random() * 6)
-      if (this.timeSince(item.shake) >= 150) {
-        item.shake = null;
-        item.position.set(item.permanent_x, item.permanent_y)
-        item.permanent_x = null;
-        item.permanent_y = null;
-      }
-    }
-  }
-}
-
-
-Game.prototype.freeeeeFreeeeeFalling = function(fractional) {
-  var self = this;
-  var screen = this.screens[this.current_screen];
-
-  for (let i = 0; i < this.freefalling.length; i++) {
-    let item = this.freefalling[i];
-    item.position.x += item.vx * fractional;
-    item.position.y += item.vy * fractional;
-    if (item.type != "ember") {
-      if (item.personal_gravity == null) {
-        item.vy += this.gravity * fractional;
-      } else {
-        item.vy += item.personal_gravity * fractional;
-      }
-    } else {
-      item.alpha *= 0.97;
-      item.vy += this.gentle_drop * fractional;
-      if (item.vy > this.gentle_limit) item.vy = this.gentle_limit;
-    }
-
-    // TODO: this needs to be 200 for the player areas and 960 for the screen in total.
-    if (item.position.y > 960 || item.alpha < 0.04) {
-      if (item.parent != null) {
-        item.parent.removeChild(item);
-      }
-      item.status = "dead";
-    }
-  }
-
-  let new_freefalling = [];
-  for (let i = 0; i < this.freefalling.length; i++) {
-    let item = this.freefalling[i];
-    if (item.status != "dead") {
-      new_freefalling.push(item);
-    }
-  }
-  this.freefalling = new_freefalling;
-}
-
-
 Game.prototype.enemyAction = function() {
   // guard
   if (this.game_phase == "tutorial" && this.tutorial_number < 8) {

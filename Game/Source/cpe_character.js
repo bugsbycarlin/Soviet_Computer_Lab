@@ -101,7 +101,6 @@ Game.prototype.makeCpeCharacter = function(character_name) {
     if (character.state == "standing") character.setAction("stand");
 
     if (character.state == "punch") {
-      console.log("this happened");
       character.setAction("punch_2");
     } else if (character.state == "traffic") {
       if (character.arrow != null) {
@@ -401,11 +400,11 @@ Game.prototype.makeCpeCharacter = function(character_name) {
           }
         } else if (x_int in distraction_area && distraction_area[x_int][y_int] != null
           && (character.last_distraction_time == null 
-            || game.timeSince(character.last_distraction_time) > 3000)) {
+            || timeSince(character.last_distraction_time) > 3000)) {
           character.x = character.last_x;
           character.y = character.last_y;
-          character.last_distraction_time = game.markTime();
-          // character.shake = game.markTime();
+          character.last_distraction_time = markTime();
+          // character.shake = markTime();
           soundEffect("huh");
           character.setState("random_walk");
         }
