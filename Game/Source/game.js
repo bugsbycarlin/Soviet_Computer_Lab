@@ -379,51 +379,6 @@ class Game {
   }
 
 
-  createScreen(screen_name, reset = false) {
-    if (screen_name == "intro") {
-      this.initializeIntro();
-    } else if (screen_name == "title") {
-      // this.initializeTitle();
-      this.screens["title"] = new Title();
-    } else if (screen_name == "lobby") {
-      // this.initialize1pLobby();
-      this.screens["lobby"] = new Lobby();
-    } else if (screen_name == "high_score") {
-      // this.initializeHighScore();
-      this.screens["high_score"] = new HighScore();
-    } else if (screen_name == "multi_set_name") {
-      this.initializeMultiSetName();
-    } else if (screen_name == "math_game") {
-      this.initializeMathGame();
-    } else if (screen_name == "centrally_planned_economy") {
-      this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
-    } else if (screen_name == "cpe_character_tester") {
-      this.initializeCpeTester();
-    } else if (screen_name == "game_over") {
-      // this.initializeGameOver();
-      this.screens["game_over"] = new GameOver();
-    } else if (screen_name == "credits") {
-      this.initializeCredits();
-    } else if (screen_name == "1p_word_rockets") {
-      if (reset) this.resetGame();
-      this.initialize1pWordRockets();
-    } else if (screen_name == "1p_base_capture") {
-      if (reset) this.resetGame();
-      this.initialize1pBaseCapture();
-    } else if (screen_name == "1p_launch_code") {
-      if (reset) this.resetGame();
-      this.initialize1pLaunchCode();
-    } else if (screen_name == "cutscene") {
-      this.initializeCutscene("t4");
-    }
-
-    this.screens[screen_name].position.x = 0;
-    pixi.stage.addChild(this.screens[screen_name]);
-    pixi.stage.addChild(this.black);
-    pixi.stage.addChild(this.monitor_overlay);
-  }
-
-
   preloadAnimations(and_then) {
     var self = this;
     PIXI.Loader.shared

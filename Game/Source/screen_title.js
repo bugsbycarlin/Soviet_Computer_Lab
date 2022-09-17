@@ -1,3 +1,10 @@
+//
+// This file contains the Title screen.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
+
 
 class Title extends PIXI.Container {
   constructor() {

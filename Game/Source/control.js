@@ -4,13 +4,6 @@
 
 
 
-Game.prototype.oldhandleKeyUp = function(ev) {
-  ev.preventDefault();
-
-  this.keymap[ev.key] = null;
-}
-
-
 Game.prototype.oldhandleKeyDown = function(ev) {
   if (ev.key === "Tab") {
     ev.preventDefault();
@@ -50,38 +43,6 @@ Game.prototype.oldhandleKeyDown = function(ev) {
 
   } else if (this.current_screen === "credits") {
     this.creditsKeyDown(ev);
-  } else if (this.current_screen === "high_score") {
-    let key = ev.key;
-    if (key === "Shift") {
-      if (ev.code === "ShiftLeft") key = "LShift";
-      if (ev.code === "ShiftRight") key = "RShift";
-    }
-
-    if (this.high_score_state === "entry") {
-      for (i in lower_array) {
-        if (ev.key === lower_array[i] || ev.key === letter_array[i]) {
-          this.highScoreKey(letter_array[i]);
-        }
-      }
-
-      if (ev.key === "Backspace" || ev.key === "Delete") {
-        this.highScoreDelete();
-      }
-
-      if (ev.key === "Enter") {
-        this.highScoreEnter();
-      }
-    }
-  } else if (this.current_screen === "game_over") {
-    let key = ev.key;
-
-    if (ev.key === "Escape") {
-      this.gameOverEscape();
-    }
-
-    if (ev.key === "Enter") {
-      this.gameOverEnter();
-    }
   } else if (this.current_screen === "cutscene") {
     if (this.cutscene_mode == "interactive") {
       if (ev.key === "Enter" || ev.key === " ") {

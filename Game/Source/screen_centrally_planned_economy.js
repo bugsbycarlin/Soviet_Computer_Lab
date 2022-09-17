@@ -1,4 +1,3 @@
-
 //
 // This file contains the Centrally Planned Economy game.
 //
@@ -231,11 +230,12 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     this.quit_glyph.interactive = true;
     this.quit_glyph.alpha = 0.75;
     this.quit_glyph.on("pointertap", () => {
-      if (this.paused) this.resume();
-      this.state = "none";
-      game.createScreen("lobby");
-      game.fadeScreens("centrally_planned_economy", "lobby", true, 800);
-      console.log("here this happened");
+      // if (this.paused) this.resume();
+      // this.state = "none";
+      // game.createScreen("lobby");
+      // game.fadeScreens("centrally_planned_economy", "lobby", true, 800);
+      this.state = "game_over";
+      game.gameOver(2500, this.score);
     });
     layers["display"].addChild(this.quit_glyph);
 
@@ -585,7 +585,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       }
       soundEffect("descending_plinks");
       this.state = "game_over";
-      game.gameOverScreen(2500, this.score);
+      game.gameOver(2500, this.score);
     }
   }
 
@@ -614,7 +614,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         }
       }
 
-      if (min_char != null) {
+      if (min_char != null && this.job_selection != null) {
 
         // If the job selection is traffic in particular, take a moment to look
         // for a nearby traffic director, and switch the target of the click to
@@ -1295,7 +1295,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         }
         soundEffect("descending_plinks");
         this.state = "game_over";
-        game.gameOverScreen(2500, this.score);
+        game.gameOver(2500, this.score);
       }
 
       if (this.num_arrived >= this.num_required && this.state != "victory") {

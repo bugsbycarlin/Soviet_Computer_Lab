@@ -11,6 +11,45 @@
 //
 
 
+Game.prototype.createScreen = function(screen_name, extra_param = null, reset = false) {
+  if (screen_name == "intro") {
+    this.initializeIntro();
+  } else if (screen_name == "title") {
+    this.screens["title"] = new Title();
+  } else if (screen_name == "lobby") {
+    this.screens["lobby"] = new Lobby();
+  } else if (screen_name == "high_score") {
+    this.screens["high_score"] = new HighScore(extra_param);
+  } else if (screen_name == "multi_set_name") {
+    this.initializeMultiSetName();
+  } else if (screen_name == "math_game") {
+    this.initializeMathGame();
+  } else if (screen_name == "centrally_planned_economy") {
+    this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
+  } else if (screen_name == "cpe_character_tester") {
+    this.initializeCpeTester();
+  } else if (screen_name == "credits") {
+    this.initializeCredits();
+  } else if (screen_name == "1p_word_rockets") {
+    if (reset) this.resetGame();
+    this.initialize1pWordRockets();
+  } else if (screen_name == "1p_base_capture") {
+    if (reset) this.resetGame();
+    this.initialize1pBaseCapture();
+  } else if (screen_name == "1p_launch_code") {
+    if (reset) this.resetGame();
+    this.initialize1pLaunchCode();
+  } else if (screen_name == "cutscene") {
+    this.initializeCutscene("t4");
+  }
+
+  this.screens[screen_name].position.x = 0;
+  pixi.stage.addChild(this.screens[screen_name]);
+  pixi.stage.addChild(this.black);
+  pixi.stage.addChild(this.monitor_overlay);
+}
+
+
 // Set up effects screens, then create and start with the first screen (defined in game.js).
 Game.prototype.initializeScreens = function() {
   this.screens = [];
@@ -259,28 +298,16 @@ Game.prototype.popScreens = function(old_screen, new_screen) {
 }
 
 
-// Go to the game over screen or the high score screen.
-Game.prototype.gameOverScreen = function(delay_time, score, force_exit = false) {
+// Go to the lobby or the high score screen.
+Game.prototype.gameOver = function(delay_time, score) {
   delay(() => {
-    if (!force_exit && this.game_type_selection == 0 
-      && (this.difficulty_level == "EASY" || this.difficulty_level == "MEDIUM"
-          || (this.difficulty_level == "HARD" && this.continues > 0))) {
-      if (this.difficulty_level == "HARD") {
-        this.continues -= 1;
-      }
-      this.initializeGameOver();
-      this.createScreen("game_over");
-      this.fadeScreens(this.current_screen, "game_over", true, 800);
+    let low_high = this.local_high_scores[this.getModeName()][this.difficulty_level.toLowerCase()][9];
+    if (low_high == null || low_high.score < score) {
+      this.createScreen("high_score", score);
+      this.fadeScreens(this.current_screen, "high_score", true, 800);
     } else {
-      let low_high = this.local_high_scores[this.getModeName()][this.difficulty_level.toLowerCase()][9];
-      if (low_high == null || low_high.score < score) {
-        this.createScreen("high_score");
-        this.screens["high_score"].score = score;
-        this.fadeScreens(this.current_screen, "high_score", true, 800);
-      } else {
-        this.createScreen("lobby");
-        this.fadeScreens(this.current_screen, "lobby", true, 800);
-      }
+      this.createScreen("lobby");
+      this.fadeScreens(this.current_screen, "lobby", true, 800);
     }
   }, delay_time);
 }
