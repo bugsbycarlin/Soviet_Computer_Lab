@@ -6,22 +6,25 @@
 //
 
 
-freefalling = [];
-Game.prototype.freeeeeFreeeeeFalling = function(fractional) {
+let freefalling = [];
+let gravity = 3.8;
+let gentle_drop = 0.05;
+let gentle_limit = 6;
+freeeeeFreeeeeFalling = function(fractional) {
   for (let i = 0; i < freefalling.length; i++) {
     let item = freefalling[i];
     item.position.x += item.vx * fractional;
     item.position.y += item.vy * fractional;
     if (item.type != "ember") {
       if (item.personal_gravity == null) {
-        item.vy += this.gravity * fractional;
+        item.vy += gravity * fractional;
       } else {
         item.vy += item.personal_gravity * fractional;
       }
     } else {
       item.alpha *= 0.97;
-      item.vy += this.gentle_drop * fractional;
-      if (item.vy > this.gentle_limit) item.vy = this.gentle_limit;
+      item.vy += gentle_drop * fractional;
+      if (item.vy > gentle_limit) item.vy = gentle_limit;
     }
 
     // TODO: this needs to be 200 for the player areas and 960 for the screen in total.
@@ -44,8 +47,8 @@ Game.prototype.freeeeeFreeeeeFalling = function(fractional) {
 }
 
 
-shakers = [];
-Game.prototype.shakeDamage = function() {
+let shakers = [];
+shakeDamage = function() {
   for (let item of shakers) {
     if (item != null && item.shake != null) {
       if (item.permanent_x == null) item.permanent_x = item.position.x;
@@ -62,6 +65,14 @@ Game.prototype.shakeDamage = function() {
 }
 
 
+function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0) {
+  let new_sprite = new PIXI.Sprite(PIXI.Texture.from(path));
+  new_sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  new_sprite.position.set(x, y);
+  new_sprite.anchor.set(anchor_x, anchor_y);
+  parent.addChild(new_sprite);
+  return new_sprite;
+}
 
 
 

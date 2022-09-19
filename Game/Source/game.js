@@ -5,12 +5,12 @@ var multiplayer_picture_number = null;
 var use_scores = false;
 var log_performance = true;
 
-// var first_screen = "1p_base_capture";
-// var first_screen = "1p_launch_code";
+// var first_screen = "word_base";
+// var first_screen = "first_strike";
 // var first_screen = "intro";
-// var first_screen = "1p_word_rockets"
+// var first_screen = "word_rockets"
 // var first_screen = "centrally_planned_economy";
-// var first_screen = "math_game";
+// var first_screen = "party_math";
 var first_screen = "title";
 // var first_screen = "cutscene";
 
@@ -331,11 +331,11 @@ class Game {
     let type = "";
 
     if (this.game_type_selection == 1) {
-      type = "1p_word_rockets";
+      type = "word_rockets";
     } else if (this.game_type_selection == 2) {
-      type = "1p_base_capture";
+      type = "word_base";
     } else if (this.game_type_selection == 3) {
-      type = "math_game";
+      type = "party_math";
     } else if (this.game_type_selection == 4) {
       if (this.level <= 1) {
         type = "centrally_planned_economy";
@@ -343,7 +343,7 @@ class Game {
         type = "lobby";
       }
     } else if (this.game_type_selection == 5) {
-      type = "1p_launch_code";
+      type = "first_strike";
     }
 
     if (this.current_screen != type) {
@@ -390,32 +390,32 @@ class Game {
       .add("Art/fireworks_blue.json")
       .add("Art/fireworks_orange.json")
       .add("Art/pop.json")
-      .add("Art/Math_Game/Characters/grigory.json")
-      .add("Art/Math_Game/Characters/carrying_1.json")
-      .add("Art/Math_Game/Characters/carrying_2.json")
-      .add("Art/Math_Game/Characters/carrying_3.json")
-      .add("Art/Math_Game/Characters/carrying_4.json")
-      .add("Art/Math_Game/Characters/carrying_5.json")
-      .add("Art/Math_Game/Characters/carrying_6.json")
-      .add("Art/Math_Game/Characters/carrying_7.json")
-      .add("Art/Math_Game/Characters/carrying_8.json")
-      .add("Art/Math_Game/Characters/child_1.json")
-      .add("Art/Math_Game/Characters/child_2.json")
-      .add("Art/Math_Game/Characters/child_3.json")
-      .add("Art/Math_Game/Characters/child_4.json")
-      .add("Art/Math_Game/Characters/child_5.json")
-      .add("Art/Math_Game/Characters/child_6.json")
-      .add("Art/Math_Game/Characters/child_7.json")
-      .add("Art/Math_Game/Characters/child_8.json")
-      .add("Art/Math_Game/Characters/elder_1.json")
-      .add("Art/Math_Game/Characters/elder_2.json")
-      .add("Art/Math_Game/Characters/elder_3.json")
-      .add("Art/Math_Game/Characters/elder_4.json")
-      .add("Art/Math_Game/Characters/townie_1.json")
-      .add("Art/Math_Game/Characters/townie_2.json")
-      .add("Art/Math_Game/Characters/townie_3.json")
-      .add("Art/Math_Game/Characters/grifter.json")
-      .add("Art/Math_Game/Characters/executioner.json")
+      .add("Art/Party_Math/Characters/grigory.json")
+      .add("Art/Party_Math/Characters/carrying_1.json")
+      .add("Art/Party_Math/Characters/carrying_2.json")
+      .add("Art/Party_Math/Characters/carrying_3.json")
+      .add("Art/Party_Math/Characters/carrying_4.json")
+      .add("Art/Party_Math/Characters/carrying_5.json")
+      .add("Art/Party_Math/Characters/carrying_6.json")
+      .add("Art/Party_Math/Characters/carrying_7.json")
+      .add("Art/Party_Math/Characters/carrying_8.json")
+      .add("Art/Party_Math/Characters/child_1.json")
+      .add("Art/Party_Math/Characters/child_2.json")
+      .add("Art/Party_Math/Characters/child_3.json")
+      .add("Art/Party_Math/Characters/child_4.json")
+      .add("Art/Party_Math/Characters/child_5.json")
+      .add("Art/Party_Math/Characters/child_6.json")
+      .add("Art/Party_Math/Characters/child_7.json")
+      .add("Art/Party_Math/Characters/child_8.json")
+      .add("Art/Party_Math/Characters/elder_1.json")
+      .add("Art/Party_Math/Characters/elder_2.json")
+      .add("Art/Party_Math/Characters/elder_3.json")
+      .add("Art/Party_Math/Characters/elder_4.json")
+      .add("Art/Party_Math/Characters/townie_1.json")
+      .add("Art/Party_Math/Characters/townie_2.json")
+      .add("Art/Party_Math/Characters/townie_3.json")
+      .add("Art/Party_Math/Characters/grifter.json")
+      .add("Art/Party_Math/Characters/executioner.json")
       .add("Art/CPE/Characters/walker.json")
       .add("Art/CPE/Characters/runner.json")
       .add("Art/CPE/Characters/construction.json")
@@ -681,27 +681,6 @@ class Game {
     if (this.screens != null && this.current_screen != null) {
       this.screens[this.current_screen].update(diff);
     }
-    // if (this.current_screen == "1p_word_rockets") {
-    //   this.singlePlayerGameUpdate(diff);
-    // } else if (this.current_screen == "1p_base_capture") {
-    //   this.singlePlayerBaseCaptureUpdate(diff);
-    // } else if (this.current_screen == "1p_launch_code") {
-    //   this.singlePlayerLaunchCodeUpdate(diff);
-    // } else if(this.current_screen == "1p_lobby") {
-    //   this.singlePlayerLobbyUpdate(diff);
-    // } else if(this.current_screen == "math_game") {
-    //   this.mathGameUpdate(diff);
-    // } else if(this.current_screen == "centrally_planned_economy") {
-    //   this.CpeUpdate(diff);
-    // } else if(this.current_screen == "cpe_character_tester") {
-    //   this.CpeTesterUpdate(diff);
-    // } else if (this.current_screen == "cutscene") {
-    //   this.cutsceneUpdate(diff);
-    // } else if (this.current_screen == "intro") {
-    //   this.introUpdate(diff);
-    // } else if (this.current_screen == "title") {
-    //   this.titleUpdate(diff);
-    // }
   }
 
 

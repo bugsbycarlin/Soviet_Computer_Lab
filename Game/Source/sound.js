@@ -112,7 +112,7 @@ stopAllSound = function() {
 
 
 setMusic = function(music_name, loop = true) {
-  if (music_volume > 0) {
+  if (use_music && music_volume > 0) {
     if (current_music != null && current_music.name == music_name) {
       return;
     }

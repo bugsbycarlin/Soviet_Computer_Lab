@@ -59,8 +59,6 @@ Game.prototype.oldhandleKeyDown = function(ev) {
     this.multiJoinGameKeyDown(ev);
   } else if (this.current_screen === "multi_set_name") {
     this.multiSetNameKeyDown(ev);
-  } else if (this.current_screen === "math_game") {
-    this.mathGameKeyDown(ev);
   } else if (this.current_screen === "alert") {
     if (ev.key === "Enter" || ev.key === "Escape") {
       this.alertBox._events.pointertap.fn()

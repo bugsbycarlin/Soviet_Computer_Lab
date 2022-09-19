@@ -22,8 +22,8 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
     this.screens["high_score"] = new HighScore(extra_param);
   } else if (screen_name == "multi_set_name") {
     this.initializeMultiSetName();
-  } else if (screen_name == "math_game") {
-    this.initializeMathGame();
+  } else if (screen_name == "party_math") {
+    this.screens["party_math"] = new PartyMath();
   } else if (screen_name == "centrally_planned_economy") {
     this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
   } else if (screen_name == "cpe_character_tester") {
@@ -43,6 +43,7 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
     this.initializeCutscene("t4");
   }
 
+  console.log(screen_name);
   this.screens[screen_name].position.x = 0;
   pixi.stage.addChild(this.screens[screen_name]);
   pixi.stage.addChild(this.black);

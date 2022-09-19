@@ -1,4 +1,3 @@
-
 //
 // The character class makes characters for Centrally Planned Economy.
 //
@@ -17,6 +16,8 @@
 // down while having faster animation, and I don't 
 // care that much about slippage, sooooo,
 // Make it 24000.
+//
+
 var frame_time = 100;
 var default_walk_speed = (24000/360)/frame_time;
 

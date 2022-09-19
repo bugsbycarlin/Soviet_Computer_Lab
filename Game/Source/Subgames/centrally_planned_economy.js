@@ -1,5 +1,5 @@
 //
-// This file contains the Centrally Planned Economy game.
+// This file contains the Centrally Planned Economy subgame.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
@@ -215,10 +215,12 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     this.reset_glyph.interactive = true;
     this.reset_glyph.alpha = 0.75;
     this.reset_glyph.on("pointertap", () => {
-      this.clear();
-      this.initialize();
-      game.fadeFromBlack();
-      //game.fadeScreens("centrally_planned_economy", "centrally_planned_economy", true, 800);
+      if (this.state == "pre_game" || this.state == "countdown" || this.state == "active") {
+        this.clear();
+        this.initialize();
+        game.fadeFromBlack();
+        //game.fadeScreens("centrally_planned_economy", "centrally_planned_economy", true, 800);
+      }
     });
     layers["display"].addChild(this.reset_glyph);
 
@@ -230,12 +232,10 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     this.quit_glyph.interactive = true;
     this.quit_glyph.alpha = 0.75;
     this.quit_glyph.on("pointertap", () => {
-      // if (this.paused) this.resume();
-      // this.state = "none";
-      // game.createScreen("lobby");
-      // game.fadeScreens("centrally_planned_economy", "lobby", true, 800);
-      this.state = "game_over";
-      game.gameOver(2500, this.score);
+      if (this.state != "game_over") {
+        this.state = "game_over";
+        game.gameOver(2500, this.score);
+      }
     });
     layers["display"].addChild(this.quit_glyph);
 
@@ -1322,8 +1322,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
   update(diff) {
     let fractional = diff / (1000/30.0);
 
-    game.shakeDamage();
-    game.freeeeeFreeeeeFalling(fractional);
+    shakeDamage();
+    freeeeeFreeeeeFalling(fractional);
 
     this.countDownAndStart();
 

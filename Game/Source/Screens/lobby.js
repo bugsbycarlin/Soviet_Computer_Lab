@@ -111,20 +111,19 @@ class Lobby extends PIXI.Container {
 
 
   switchToPartyMath() {
-    let self = this;
-    this.game_type_selection = 3;
     this.state = "leaving";
+    game.game_type_selection = 3;
     game.monitor_overlay.dissolve();
     delay(function() {
-      self.initializeMathGame();
-      self.fadeScreens("lobby", "math_game", true, 800);
+      game.createScreen("party_math");
+      game.fadeScreens("lobby", "party_math", true, 800);
     }, 1000);
   }
 
 
   switchToCentrallyPlannedEconomy() {
-    game.game_type_selection = 4;
     this.state = "leaving";
+    game.game_type_selection = 4;
     game.monitor_overlay.dissolve();
     delay(function() {
       game.createScreen("centrally_planned_economy");

@@ -1,7 +1,5 @@
-
 //
-// The character class makes characters and has methods
-// for making them move around. Actual input/control is handled elsewhere.
+// The character class makes characters for Party Math.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
@@ -30,7 +28,7 @@ Game.prototype.makeCharacter = function(character_name) {
   // character.red_circle.position.set(0,0);
   // character.red_circle.visible = false;
   // character.addChild(character.red_circle);
-  let sheet = PIXI.Loader.shared.resources["Art/Math_Game/Characters/" + character_name + ".json"].spritesheet;
+  let sheet = PIXI.Loader.shared.resources["Art/Party_Math/Characters/" + character_name + ".json"].spritesheet;
   character.character_sprite = {};
   for(let i = 0; i < character.sprite_count; i++) {
     character.character_sprite[sprites[i]] = new PIXI.AnimatedSprite(sheet.animations[sprites[i]]);
@@ -155,7 +153,6 @@ Game.prototype.makeCharacter = function(character_name) {
       if (character.step_value < work_frames.length) {
         character.character_sprite["work"].gotoAndStop(work_frames[character.step_value]);
         character.last_image_time = Date.now();
-        console.log("Work stopping on frame " + work_frames[character.step_value])
       } else {
         character.state = "stopped";
         character.updateDirection();
@@ -193,7 +190,6 @@ Game.prototype.makeCharacter = function(character_name) {
       character.step_value = (character.step_value + 1) % victory_frames.length;
       character.character_sprite["victory"].gotoAndStop(victory_frames[character.step_value]);
       character.last_image_time = Date.now();
-      console.log("Victory frame " + victory_frames[character.step_value])
     }
   } 
 
