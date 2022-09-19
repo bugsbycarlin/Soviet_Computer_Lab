@@ -130,86 +130,30 @@ class PartyMath extends PIXI.Container {
     this.effect_layer.scale.set(2, 2);
     this.addChild(this.effect_layer);
 
-    // let background = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/background.png"));
-    // background.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    // background.position.set(0,0);
-    // this.background_layer.addChild(background);
     makeSprite("Art/Party_Math/background.png", this.background_layer, 0, 0);
+    makeSprite("Art/Party_Math/board.png", this.background_layer, 0, 0);
 
-    let board = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/board.png"));
-    board.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    board.position.set(0,0);
-    this.background_layer.addChild(board);
-
-    let rule_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/rule_text_backing.png"));
-    rule_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    rule_text_backing.position.set(369,32);
-    rule_text_backing.anchor.set(0.5, 0.5);
-    this.background_layer.addChild(rule_text_backing);
-
-    let level_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/level_text_backing.png"));
-    level_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    level_text_backing.position.set(734,107);
-    level_text_backing.anchor.set(0.5, 0.5);
-    this.background_layer.addChild(level_text_backing);
-
-    // let score_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/level_text_backing.png"));
-    // score_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    // score_text_backing.position.set(734,201);
-    // score_text_backing.anchor.set(0.5, 0.5);
-    // this.background_layer.addChild(score_text_backing);
+    let rule_text_backing = makeSprite("Art/Party_Math/rule_text_backing.png", this.background_layer, 369, 32, 0.5, 0.5);
+    let level_text_backing = makeSprite("Art/Party_Math/level_text_backing.png", this.background_layer, 734, 107, 0.5, 0.5);
     let score_text_backing = makeSprite("Art/Party_Math/level_text_backing.png", this.background_layer, 734, 201, 0.5, 0.5);
 
-    this.rule_label = new PIXI.Text("Work begins in", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.rule_label.anchor.set(0.5,0.5);
-    this.rule_label.position.set(rule_text_backing.x, rule_text_backing.y+2);
-    this.rule_label.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.rule_label);
+    let font = {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"};
+    let font_16 = {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "center"}
 
-    this.level_label = new PIXI.Text("LEVEL", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.level_label.anchor.set(0.5,0.5);
-    this.level_label.position.set(level_text_backing.x, level_text_backing.y-11);
-    this.level_label.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.level_label);
+    this.rule_label = makeText("Work begins in", font, this.foreground_layer, rule_text_backing.x, rule_text_backing.y+2, 0.5, 0.5);
+    this.level_label = makeText("LEVEL", font, this.foreground_layer, level_text_backing.x, level_text_backing.y-11, 0.5, 0.5);
+    this.level_text = makeText(this.level, font, this.foreground_layer, level_text_backing.x, level_text_backing.y+14, 0.5, 0.5);
+    this.score_label = makeText("SCORE", font, this.foreground_layer, score_text_backing.x, score_text_backing.y-11, 0.5, 0.5);
+    this.score_text = makeText(this.display_score, font, this.foreground_layer, score_text_backing.x, score_text_backing.y+14, 0.5, 0.5);
 
-    this.level_text = new PIXI.Text(this.level, {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.level_text.anchor.set(0.5,0.5);
-    this.level_text.position.set(level_text_backing.x, level_text_backing.y+14);
-    this.level_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.level_text);
+    this.stalin_text = makeText("", font_16, this.foreground_layer, 110, 450, 0, 0.5);
 
-    this.score_label = new PIXI.Text("SCORE", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.score_label.anchor.set(0.5,0.5);
-    this.score_label.position.set(score_text_backing.x, score_text_backing.y-11);
-    this.score_label.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.score_label);
-
-    this.score_text = new PIXI.Text(this.display_score, {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.score_text.anchor.set(0.5,0.5);
-    this.score_text.position.set(score_text_backing.x, score_text_backing.y+14);
-    this.score_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.score_text);
-
-    this.stalin_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.stalin_text.anchor.set(0,0.5);
-    this.stalin_text.position.set(110, 450);
-    this.stalin_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.foreground_layer.addChild(this.stalin_text);
-    
-    this.stalin_icon = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/stalin_icon.png"));
-    this.stalin_icon.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.stalin_icon.position.set(673,301);
-    this.background_layer.addChild(this.stalin_icon);
-
+    this.stalin_icon = makeSprite("Art/Party_Math/stalin_icon.png", this.background_layer, 673, 301);
     this.stalin_icon.visible = false;
 
     this.life_stars = [];
     for (let i = 0; i < this.hearts; i++) {
-      let star = new PIXI.Sprite(PIXI.Texture.from("Art/Party_Math/star_4.png"));
-      star.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-      star.position.set(734 - 26 * (this.hearts - 1)/2 + 26 * i, 32);
-      star.anchor.set(0.5, 0.5);
-      this.background_layer.addChild(star);
+      let star = makeSprite("Art/Party_Math/star_4.png", this.background_layer, 734 - 26 * (this.hearts - 1)/2 + 26 * i, 32, 0.5, 0.5);
       this.life_stars.push(star);
     }
 
@@ -217,12 +161,7 @@ class PartyMath extends PIXI.Container {
     for (let x = 0; x < 6; x++) {
       this.cells[x] = [];
       for (let y = 0; y < 5; y++) {
-        this.cells[x][y] = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 18, fill: dark_color, letterSpacing: 2, align: "center"});
-        this.cells[x][y].anchor.set(0.5,0.5);
-        this.cells[x][y].position.set(
-          cell_offset_x + x * cell_width, cell_offset_y + y * cell_height);
-        this.cells[x][y].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-        this.foreground_layer.addChild(this.cells[x][y]);
+        this.cells[x][y] = makeText("", font, this.foreground_layer, cell_offset_x + x * cell_width, cell_offset_y + y * cell_height, 0.5, 0.5);
       }
     }
 
@@ -237,7 +176,6 @@ class PartyMath extends PIXI.Container {
     );
     this.character_layer.addChild(this.grigory);
     shakers.push(this.grigory);
-
 
     this.subversives = [];
     this.last_subversive_add = markTime();

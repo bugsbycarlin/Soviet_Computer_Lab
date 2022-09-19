@@ -75,6 +75,14 @@ function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0) {
 }
 
 
+function makeText(text, font, parent, x, y, anchor_x=0, anchor_y=0) {
+  let new_text = new PIXI.Text(text, font);
+  new_text.anchor.set(anchor_x, anchor_y);
+  new_text.position.set(x, y);
+  new_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  parent.addChild(new_text);
+  return new_text;
+}
 
 
 Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, target_base, player) {
