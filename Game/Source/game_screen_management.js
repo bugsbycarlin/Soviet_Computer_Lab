@@ -13,7 +13,7 @@
 
 Game.prototype.createScreen = function(screen_name, extra_param = null, reset = false) {
   if (screen_name == "intro") {
-    this.initializeIntro();
+    this.screens["intro"] = new Intro;
   } else if (screen_name == "title") {
     this.screens["title"] = new Title();
   } else if (screen_name == "lobby") {
@@ -62,7 +62,6 @@ Game.prototype.initializeScreens = function() {
   this.black.visible = false;
 
   this.initializeMonitorOverlay();
-  this.monitor_overlay.visible = true;
 
   // this.alertMask = new PIXI.Container();
   // pixi.stage.addChild(this.alertMask);
@@ -82,11 +81,12 @@ Game.prototype.initializeMonitorOverlay = function() {
   this.monitor_overlay = new PIXI.Container();
   this.monitor_overlay.graphic = new PIXI.Sprite(PIXI.Texture.from("Art/pixelated_computer_overlay_1664_960.png"));
   this.monitor_overlay.addChild(this.monitor_overlay.graphic);
-  this.monitor_overlay.visible = false;
   this.monitor_overlay.status = "visible";
 
-  this.monitor_overlay.simple_restore = function() {
+  this.monitor_overlay.simpleRestore = function() {
+    console.log("simple restore called");
     if (this.status != "visible") {
+      console.log("simple restore enacted");
       this.addChild(this.graphic);
       this.visible = true;
       this.status = "visible";
@@ -94,12 +94,14 @@ Game.prototype.initializeMonitorOverlay = function() {
   }
 
   this.monitor_overlay.restore = function() {
+    console.log("restore called");
     if (this.status != "visible") {
-      
+      console.log("restore enacted");
       this.visible = true;
       this.status = "visible";
 
       let chunk_size = this.restore_voxels.length / 30;
+      console.log(chunk_size);
 
       var tween_1 = new TWEEN.Tween(this)
       .to({funk: 0})
@@ -112,6 +114,7 @@ Game.prototype.initializeMonitorOverlay = function() {
         }
       })
       .onComplete(() => {
+        console.log("restore complete");
         while(this.children[0]) { 
           this.removeChild(this.children[0]);
         }
@@ -122,7 +125,9 @@ Game.prototype.initializeMonitorOverlay = function() {
   }
 
   this.monitor_overlay.dissolve = function() {
+    console.log("dissolve called");
     if (this.status == "visible") {
+      console.log("dissolve enacted");
       this.status = "invisible";
       let image = this.graphic;
       let max_width = this.graphic.width;
@@ -169,6 +174,7 @@ Game.prototype.initializeMonitorOverlay = function() {
         }
       })
       .onComplete(() => {
+        console.log("dissolve complete");
         this.visible = false;
         while(this.children[0]) { 
           this.removeChild(this.children[0]);
@@ -195,6 +201,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
       this.screens[i].clear();
     }
   }
+  pixi.stage.addChild(this.monitor_overlay);
   var tween_1 = new TWEEN.Tween(this.screens[old_screen].position)
     .to({x: direction * (this.width + 200)})
     .duration(1000)

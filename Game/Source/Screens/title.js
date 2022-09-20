@@ -28,26 +28,12 @@ class Title extends PIXI.Container {
 
     this.state = "active";
 
-    this.soviet_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-      dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-    this.soviet_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.soviet_text.anchor.set(0.0,0.5);
-    this.soviet_text.position.set(574, 264);
-    this.addChild(this.soviet_text);
+    let font = {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
+      dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4};
 
-    this.computer_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-      dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-    this.computer_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.computer_text.anchor.set(0.0,0.5);
-    this.computer_text.position.set(473, 394);
-    this.addChild(this.computer_text);
-
-    this.lab_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-      dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4});
-    this.lab_text.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.lab_text.anchor.set(0.0,0.5);
-    this.lab_text.position.set(690, 524);
-    this.addChild(this.lab_text);
+    this.soviet_text = makeText("", font, this, 574, 264, 0, 0.5);
+    this.computer_text = makeText("", font, this, 473, 394, 0, 0.5);
+    this.lab_text = makeText("", font, this, 690, 524, 0, 0.5);
 
     this.choices = new NestedOptionsList({
         "SINGLE": () => {
@@ -90,9 +76,8 @@ class Title extends PIXI.Container {
         },
       }, 
       (text) => {
-        let entry_button = new PIXI.Text(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
-        entry_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
-        entry_button.anchor.set(0.5,0.5);
+        let entry_button = makeText(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"},
+          null, 0, 0, 0.5, 0.5);
         entry_button.interactive = true;
         entry_button.buttonMode = true;
         return entry_button;
@@ -193,27 +178,4 @@ class Title extends PIXI.Container {
     }
   }
 }
-
-// Game.prototype.updateSettingsMenu = function() {
-//   let self = this;
-//   u_m = use_music ? "MUSIC: YES" : "MUSIC: NO";
-//   u_s = use_sound ? "SOUND: YES" : "SOUND: NO";
-//   this.title_choices.choice_list["SETTINGS"] = {};
-//   this.title_choices.choice_list["SETTINGS"][u_m] = function() {
-//     use_music = !use_music;
-//     if (use_music == false) {
-//       stopMusic();
-//     } else {
-//       // setMusic("title_song");
-//     }
-//     localStorage.setItem("soviet_computer_lab_use_music", use_music);
-//     self.updateSettingsMenu();
-//   };
-//   this.title_choices.choice_list["SETTINGS"][u_s] = function() {
-//     use_sound = !use_sound;
-//     localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
-//     self.updateSettingsMenu();
-//   };
-//   this.title_choices.renderList();
-// }
 

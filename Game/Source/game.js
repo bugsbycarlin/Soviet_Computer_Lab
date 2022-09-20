@@ -7,11 +7,11 @@ var log_performance = true;
 
 // var first_screen = "word_base";
 // var first_screen = "first_strike";
-// var first_screen = "intro";
+var first_screen = "intro";
 // var first_screen = "word_rockets"
 // var first_screen = "centrally_planned_economy";
 // var first_screen = "party_math";
-var first_screen = "title";
+// var first_screen = "title";
 // var first_screen = "cutscene";
 
 var performance_result = null;

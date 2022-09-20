@@ -81,13 +81,9 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     this.addChild(layers["display"]);
 
     for (const item of ["open", "filled", "distraction", "death", "floating"]) {
-      terrain[item] = new PIXI.Sprite(
-        PIXI.Texture.from("Art/CPE/Levels/cpe_level_" 
-        + this.level + "_"
-        + item + ".png"));
-      terrain[item].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-      terrain[item].position.set(0,0);
-      layers[item].addChild(terrain[item])
+      terrain[item] = makeSprite(
+        "Art/CPE/Levels/cpe_level_" + this.level + "_" + item + ".png",
+        layers[item], 0, 0);
     }
 
     this.level_width = terrain["open"].width;
@@ -110,64 +106,38 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     this.makeDeathArea();
     this.makeDistractionArea();
 
-    this.countdown_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/countdown_text_backing.png"));
-    this.countdown_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.countdown_text_backing.position.set(this.config.start[0] + 40, this.config.start[1] - 67);
-    this.countdown_text_backing.anchor.set(0.5, 0);
+    let font_16 = {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"};
+    let font_bright_16 = {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xFFFFFF, letterSpacing: 2, align: "center",
+      dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2};
+
+    this.countdown_text_backing = makeSprite("Art/CPE/UI/countdown_text_backing.png", layers["floating"], this.config.start[0] + 40, this.config.start[1] - 67, 0.5, 0);
     this.countdown_text_backing.scale.set(0.75, 0.75);
-    layers["floating"].addChild(this.countdown_text_backing);
 
-    this.countdown_text = new PIXI.Text("Workers\nin " + Math.ceil(this.config.countdown / 1000), {fontFamily: "Press Start 2P", fontSize: 8, fill: dark_color, letterSpacing: 2, align: "center"});
-    this.countdown_text.anchor.set(0.5,0);
-    this.countdown_text.position.set(this.config.start[0] + 20, this.config.start[1] - 60);
-    this.countdown_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    layers["floating"].addChild(this.countdown_text);
+    this.countdown_text = makeText("Workers\nin " + Math.ceil(this.config.countdown / 1000), {fontFamily: "Press Start 2P", fontSize: 8, fill: dark_color, letterSpacing: 2, align: "center"},
+      layers["floating"], this.config.start[0] + 20, this.config.start[1] - 60, 0.5, 0);
 
-    this.info_text_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/info_text_backing.png"));
-    this.info_text_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.info_text_backing.position.set(11, 13);
+    this.info_text_backing = makeSprite("Art/CPE/UI/info_text_backing.png", layers["floating"], 11, 13);
     this.info_text_backing.scale.set(0.75, 0.75);
-    layers["display"].addChild(this.info_text_backing);
 
-    this.info_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xffffff, letterSpacing: 2, align: "left"});
-    this.info_text.anchor.set(0,0);
-    this.info_text.position.set(20, 20);
+    this.info_text = makeText("", font_16, layers["display"], 20, 20, 0, 0);
     this.info_text.tint = dark_color;
-    this.info_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    layers["display"].addChild(this.info_text);
 
     const glyph_gap = 54;
 
-    this.time_clocks_backing = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/time_clocks_backing.png"));
-    this.time_clocks_backing.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.time_clocks_backing.position.set(6, game.height/2 - glyph_gap);
-    this.time_clocks_backing.anchor.set(0, 0);
+    this.time_clocks_backing = makeSprite("Art/CPE/UI/time_clocks_backing.png", layers["display"], 6, game.height/2 - glyph_gap);
     this.time_clocks_backing.scale.set(0.75, 0.75);
     this.time_clocks_backing.alpha = 0.75;
-    layers["display"].addChild(this.time_clocks_backing);
 
-    this.time_clocks_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 16, fill: dark_color, letterSpacing: 2, align: "left"});
-    this.time_clocks_text.anchor.set(0,0);
-    this.time_clocks_text.position.set(44, game.height/2 - glyph_gap + 16);
-    this.time_clocks_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    layers["display"].addChild(this.time_clocks_text);
-    this.time_clocks_text.text = countDownString(this.config.clock/1000);
-
-    this.victory_text = new PIXI.Text("SUCCESS! PRESS ENTER TO MOVE ON.", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xFFFFFF, letterSpacing: 2, align: "center",
-      dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2});
-    this.victory_text.anchor.set(0.5,0.5);
+    this.time_clocks_text = makeText(countDownString(this.config.clock/1000), font_16, layers["display"], 44, game.height/2 - glyph_gap + 16);
+    
+    this.victory_text = makeText("SUCCESS! PRESS ENTER TO MOVE ON.", font_bright_16, layers["display"], game.width/4, game.height/12, 0.5, 0.5);
     this.victory_text.tint = 0x71d07d;
-    this.victory_text.position.set(game.width/4, game.height/12);
-    this.victory_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    layers["display"].addChild(this.victory_text);
     this.victory_text.visible = false;
 
-    this.failure_text = new PIXI.Text("YOU FAILED. PRESS RESET TO TRY AGAIN\n OR ENTER TO MOVE ON.", {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xdb5858, letterSpacing: 2, align: "center",
-      dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2});
-    this.failure_text.anchor.set(0.5,0.5);
-    this.failure_text.position.set(game.width/4, game.height/12);
-    this.failure_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    layers["display"].addChild(this.failure_text);
+    this.failure_text = makeText("YOU FAILED. PRESS RESET TO TRY AGAIN\n OR ENTER TO MOVE ON.",
+      {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xdb5858, letterSpacing: 2, align: "center",
+      dropShadow: true, dropShadowColor: 0x000000, dropShadowDistance: 2},
+      layers["display"], game.width/4, game.height/12, 0.5, 0.5);
     this.failure_text.visible = false;
 
     let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/time_clocks.json"].spritesheet;
@@ -206,11 +176,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       }
     })
 
-
-    this.reset_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/reset_glyph.png"));
-    this.reset_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.reset_glyph.position.set(76 + 2 * glyph_gap, game.height/2 - glyph_gap);
-    this.reset_glyph.anchor.set(0, 0);
+    this.reset_glyph = makeSprite("Art/CPE/UI/reset_glyph.png", layers["display"], 76 + 2 * glyph_gap, game.height/2 - glyph_gap)
     this.reset_glyph.scale.set(0.75, 0.75);
     this.reset_glyph.interactive = true;
     this.reset_glyph.alpha = 0.75;
@@ -222,12 +188,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         //game.fadeScreens("centrally_planned_economy", "centrally_planned_economy", true, 800);
       }
     });
-    layers["display"].addChild(this.reset_glyph);
 
-    this.quit_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/quit_glyph.png"));
-    this.quit_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.quit_glyph.position.set(76 + 3 * glyph_gap, game.height/2 - glyph_gap);
-    this.quit_glyph.anchor.set(0, 0);
+    this.quit_glyph = makeSprite("Art/CPE/UI/quit_glyph.png", layers["display"], 76 + 3 * glyph_gap, game.height/2 - glyph_gap);
     this.quit_glyph.scale.set(0.75, 0.75);
     this.quit_glyph.interactive = true;
     this.quit_glyph.alpha = 0.75;
@@ -237,12 +199,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         game.gameOver(2500, this.score);
       }
     });
-    layers["display"].addChild(this.quit_glyph);
 
-    this.runner_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/runner_glyph.png"));
-    this.runner_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.runner_glyph.position.set(game.width/2 - 4 * glyph_gap, game.height/2 - glyph_gap);
-    this.runner_glyph.anchor.set(0, 0);
+    this.runner_glyph = makeSprite("Art/CPE/UI/runner_glyph.png", layers["display"], game.width/2 - 4 * glyph_gap, game.height/2 - glyph_gap);
     this.runner_glyph.scale.set(0.75, 0.75);
     this.runner_glyph.interactive = true;
     this.runner_glyph.alpha = 0.75;
@@ -252,12 +210,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       this.glyph_cursor.position.set(this.runner_glyph.x, this.runner_glyph.y);
       this.job_selection = "runner";
     });
-    layers["display"].addChild(this.runner_glyph);
 
-    this.traffic_right_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/traffic_right_glyph.png"));
-    this.traffic_right_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.traffic_right_glyph.position.set(game.width/2 - 3 * glyph_gap, game.height/2 - glyph_gap);
-    this.traffic_right_glyph.anchor.set(0, 0);
+    this.traffic_right_glyph = makeSprite("Art/CPE/UI/traffic_right_glyph.png", layers["display"], game.width/2 - 3 * glyph_gap, game.height/2 - glyph_gap);
     this.traffic_right_glyph.scale.set(0.75, 0.75);
     this.traffic_right_glyph.interactive = true;
     this.traffic_right_glyph.alpha = 0.75;
@@ -267,12 +221,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       this.glyph_cursor.position.set(this.traffic_right_glyph.x, this.traffic_right_glyph.y);
       this.job_selection = "traffic";
     });
-    layers["display"].addChild(this.traffic_right_glyph);
 
-    this.policeman_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/policeman_glyph.png"));
-    this.policeman_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.policeman_glyph.position.set(game.width/2 - 2 * glyph_gap, game.height/2 - glyph_gap);
-    this.policeman_glyph.anchor.set(0, 0);
+    this.policeman_glyph = makeSprite("Art/CPE/UI/policeman_glyph.png", layers["display"], game.width/2 - 2 * glyph_gap, game.height/2 - glyph_gap);
     this.policeman_glyph.scale.set(0.75, 0.75);
     this.policeman_glyph.interactive = true;
     this.policeman_glyph.alpha = 0.75;
@@ -282,12 +232,8 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       this.glyph_cursor.position.set(this.policeman_glyph.x, this.policeman_glyph.y);
       this.job_selection = "policeman";
     });
-    layers["display"].addChild(this.policeman_glyph);
 
-    this.construction_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/construction_glyph.png"));
-    this.construction_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.construction_glyph.position.set(game.width/2 - glyph_gap, game.height/2 - glyph_gap);
-    this.construction_glyph.anchor.set(0, 0);
+    this.construction_glyph = makeSprite("Art/CPE/UI/construction_glyph.png", layers["display"], game.width/2 - glyph_gap, game.height/2 - glyph_gap);
     this.construction_glyph.scale.set(0.75, 0.75);
     this.construction_glyph.interactive = true;
     this.construction_glyph.alpha = 0.75;
@@ -297,14 +243,9 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       this.glyph_cursor.position.set(this.construction_glyph.x, this.construction_glyph.y);
       this.job_selection = "construction";
     });
-    layers["display"].addChild(this.construction_glyph);
 
-    this.glyph_cursor = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/glyph_cursor.png"));
-    this.glyph_cursor.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    this.glyph_cursor.position.set(game.width/2 - 4 * glyph_gap, game.height/2 - glyph_gap);
-    this.glyph_cursor.anchor.set(0, 0);
+    this.glyph_cursor = makeSprite("Art/CPE/UI/glyph_cursor.png", layers["display"], game.width/2 - 4 * glyph_gap, game.height/2 - glyph_gap);
     this.glyph_cursor.scale.set(0.75, 0.75);
-    layers["display"].addChild(this.glyph_cursor);
     this.glyph_cursor.visible = false;
 
     this.job_selection = null;
@@ -350,14 +291,9 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         let p2 = (this.level_width * (j+1) + i) * 4;
         let p3 = (this.level_width * (j+1) + i+1) * 4;
         if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
-          let voxel = PIXI.Sprite.from(PIXI.Texture.WHITE);
-          voxel.width = 2;
-          voxel.height = 2;
-          voxel.tint = 0xFF0000;
-          voxel.position.set(i, j);
+          let voxel = makeBlank(layers["filled"], i, j, 2, 2, 0xFF0000);
           voxel.alpha = 0.4;
           this.voxels[i][j] = voxel;
-          layers["filled"].addChild(voxel);
         }
       }
     }

@@ -23,11 +23,7 @@ class HighScore extends PIXI.Container {
 
 
   initialize() {
-    let background = PIXI.Sprite.from(PIXI.Texture.WHITE);
-    background.width = game.width;
-    background.height = game.height;
-    background.tint = 0x000000;
-    this.addChild(background);
+    makeBlank(this, 0, 0, game.width, game.height, 0x000000);
 
     this.state = "entry";
 
@@ -56,33 +52,22 @@ class HighScore extends PIXI.Container {
       }
     });
 
-    let score_label = new PIXI.Text("YOU GOT A HIGH SCORE!", {fontFamily: "Press Start 2P", fontSize: 48, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
-    score_label.anchor.set(0.5,0.5);
-    score_label.position.set(game.width / 2, 100);
-    this.addChild(score_label);
+    makeText("YOU GOT A HIGH SCORE!", {fontFamily: "Press Start 2P", fontSize: 48, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
+      this, game.width / 2, 100, 0.5, 0.5);
+    makeText(this.new_high_score + " POINTS", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
+      this, game.width / 2, 300, 0.5, 0.5);
 
-    let score_text = new PIXI.Text(this.new_high_score + " POINTS", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
-    score_text.anchor.set(0.5,0.5);
-    score_text.position.set(game.width / 2, 300);
-    this.addChild(score_text);
 
     this.name = [];
     this.name_cursor = 0;
 
     for (var i = 0; i < 6; i++) {
-      var cursor = PIXI.Sprite.from(PIXI.Texture.WHITE);
-      cursor.width = 70 - 3;
-      cursor.height = 2;
-      cursor.anchor.set(0, 0.5);
-      cursor.position.set(game.width / 2 + 70 * (i - 3), game.height * 8/16);
+      let cursor = makeBlank(this, game.width / 2 + 70 * (i - 3), game.height * 8/16, 67, 2, 0, 0.5);
       cursor.tint = 0x3cb0f3;
       cursor.alpha = (12 - i) / (12 + 4);
-      this.addChild(cursor);
 
-      let letter = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 60, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
-      letter.anchor.set(0.5, 0.5);
-      letter.position.set(game.width / 2 + 70 * (i - 3) + 35, game.height * 8/16 - 40);
-      this.addChild(letter);
+      let letter = makeText("", {fontFamily: "Press Start 2P", fontSize: 60, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
+        this, game.width / 2 + 70 * (i - 3) + 35, game.height * 8/16 - 40, 0.5, 0.5);
       this.name.push(letter);
     }
   }

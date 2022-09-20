@@ -70,7 +70,7 @@ function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0) {
   new_sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   new_sprite.position.set(x, y);
   new_sprite.anchor.set(anchor_x, anchor_y);
-  parent.addChild(new_sprite);
+  if (parent != null) parent.addChild(new_sprite);
   return new_sprite;
 }
 
@@ -80,9 +80,22 @@ function makeText(text, font, parent, x, y, anchor_x=0, anchor_y=0) {
   new_text.anchor.set(anchor_x, anchor_y);
   new_text.position.set(x, y);
   new_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  parent.addChild(new_text);
+  if (parent != null) parent.addChild(new_text);
   return new_text;
 }
+
+
+function makeBlankSprite(parent, x, y, width, height, color=0xFFFFFF) {
+  let blank = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  blank.x = x;
+  blank.y = y;
+  blank.width = width;
+  blank.height = height;
+  blank.tint = color;
+  if (parent != null) parent.addChild(blank);
+  return blank;
+}
+function makeBlank(parent, width, height, color=0xFFFFFF) {return makeBlankSprite(parent,width,height,color);}
 
 
 Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, target_base, player) {
