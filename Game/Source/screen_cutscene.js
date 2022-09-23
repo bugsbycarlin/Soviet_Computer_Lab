@@ -323,6 +323,19 @@ Game.prototype.initializeCutscene = function(name = "intro") {
 }
 
 
+Game.prototype.cutsceneKeydown = function(ev) {
+  if (this.cutscene_mode == "interactive") {
+      if (ev.key === "Enter" || ev.key === " ") {
+        this.gotoCutscenePage(this.cutscene_pagenum + 1);
+      }
+    }
+
+    if (ev.key === "Escape") {
+      this.endCutscene();
+    }
+}
+
+
 Game.prototype.gotoCutscenePage = function(page_num) {
   var self = this;
   if (this.cutscene_state != "ready") {

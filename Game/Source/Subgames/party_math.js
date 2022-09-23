@@ -610,7 +610,7 @@ class PartyMath extends PIXI.Container {
         if (this.subversives[i].state == "stopped" 
           && this.subversives[i].cell_x == this.grigory.cell_x
           && this.subversives[i].cell_y == this.grigory.cell_y) {
-          game.makePop(this.effect_layer, 
+          makePop(this.effect_layer, 
             this.subversives[i].x,
             this.subversives[i].y, 0.5, 0.5
           );
@@ -640,7 +640,7 @@ class PartyMath extends PIXI.Container {
     this.grigory.ouch_time = markTime();
     this.grigory.shake = markTime();
     this.life_stars[this.hearts - 1].visible = false;
-    game.makePop(this.effect_layer, 
+    makePop(this.effect_layer, 
       this.life_stars[this.hearts - 1].x,
       this.life_stars[this.hearts - 1].y, 0.4, 0.4
     );

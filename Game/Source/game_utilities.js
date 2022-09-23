@@ -65,12 +65,15 @@ shakeDamage = function() {
 }
 
 
-function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0) {
+function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0, pixel_hard_scale=true) {
   let new_sprite = new PIXI.Sprite(PIXI.Texture.from(path));
-  new_sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  if (pixel_hard_scale) new_sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
   new_sprite.position.set(x, y);
   new_sprite.anchor.set(anchor_x, anchor_y);
-  if (parent != null) parent.addChild(new_sprite);
+  if (parent != null) {
+    parent.addChild(new_sprite);
+    new_sprite.parent = parent;
+  }
   return new_sprite;
 }
 
@@ -80,26 +83,30 @@ function makeText(text, font, parent, x, y, anchor_x=0, anchor_y=0) {
   new_text.anchor.set(anchor_x, anchor_y);
   new_text.position.set(x, y);
   new_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  if (parent != null) parent.addChild(new_text);
+  if (parent != null) {
+    parent.addChild(new_text);
+    new_text.parent = parent;
+  }
   return new_text;
 }
 
 
-function makeBlankSprite(parent, x, y, width, height, color=0xFFFFFF) {
+function makeBlank(parent, width, height, x, y, color=0xFFFFFF) {
   let blank = PIXI.Sprite.from(PIXI.Texture.WHITE);
   blank.x = x;
   blank.y = y;
   blank.width = width;
   blank.height = height;
   blank.tint = color;
-  if (parent != null) parent.addChild(blank);
+  if (parent != null) {
+    parent.addChild(blank);
+    blank.parent = parent;
+  }
   return blank;
 }
-function makeBlank(parent, width, height, color=0xFFFFFF) {return makeBlankSprite(parent,width,height,color);}
 
 
-Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, target_base, player) {
-  var self = this;
+function makeRocketTile2(parent, letter, score_value, base, target_base, player) {
   let rocket_tile = new PIXI.Container();
   parent.addChild(rocket_tile);
 
@@ -108,7 +115,7 @@ Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, tar
   rocket_tile.rotation = Math.atan2(target_base.y - base.y, target_base.x - base.x) + Math.PI / 2;
   rocket_tile.position.set(base.x + 16 * Math.cos(rocket_tile.rotation - Math.PI / 2), base.y + 16 * Math.sin(rocket_tile.rotation - Math.PI / 2));
 
-  let fire_sprite = this.makeFire(rocket_tile, 0, 34, 0.32, 0.24);
+  let fire_sprite = makeFire(rocket_tile, 0, 34, 0.32, 0.24);
   fire_sprite.original_x = fire_sprite.x;
   fire_sprite.original_y = fire_sprite.y;
   fire_sprite.visible = false;
@@ -119,12 +126,12 @@ Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, tar
   rocket_proper.anchor.set(0.5, 0.5);
   rocket_tile.addChild(rocket_proper);
 
-  var tile = this.makePixelatedLetterTile(rocket_tile, letter, "white");
+  var tile = makePixelatedLetterTile(rocket_tile, letter, "white");
   tile.tint = 0x38351e;
   tile.scale.set(1.1,1);
 
   rocket_tile.fire_sprite = fire_sprite;
-  rocket_tile.start_time = this.markTime() - Math.floor(Math.random() * 300);
+  rocket_tile.start_time = markTime() - Math.floor(Math.random() * 300);
   rocket_tile.parent = parent;
   rocket_tile.value_text = tile.value_text;
 
@@ -139,7 +146,7 @@ Game.prototype.makeRocketTile2 = function(parent, letter, score_value, base, tar
 }
 
 
-Game.prototype.makeFire = function(parent, x, y, xScale, yScale) {
+function makeFire(parent, x, y, xScale, yScale) {
   var sheet = PIXI.Loader.shared.resources["Art/fire.json"].spritesheet;
   let fire_sprite = new PIXI.AnimatedSprite(sheet.animations["fire"]);
   fire_sprite.anchor.set(0.5,0.5);
@@ -153,7 +160,7 @@ Game.prototype.makeFire = function(parent, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makeParachute = function(parent, x, y, xScale, yScale) {
+function makeParachute(parent, x, y, xScale, yScale) {
   let parachute_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/parachute.png"));
   parachute_sprite.anchor.set(0.5, 0.5);
   parachute_sprite.scale.set(xScale, yScale);
@@ -163,7 +170,7 @@ Game.prototype.makeParachute = function(parent, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makeBomb = function(parent, x, y, xScale, yScale) {
+function makeBomb(parent, x, y, xScale, yScale) {
   let bomb_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/bomb.png"));
   bomb_sprite.anchor.set(0.5, 0.5);
   bomb_sprite.scale.set(xScale, yScale);
@@ -174,7 +181,7 @@ Game.prototype.makeBomb = function(parent, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makeExplosion = function(parent, x, y, xScale, yScale, action) {
+function makeExplosion(parent, x, y, xScale, yScale, action) {
   let sheet = PIXI.Loader.shared.resources["Art/explosion.json"].spritesheet;
   let explosion_sprite = new PIXI.AnimatedSprite(sheet.animations["explosion"]);
   explosion_sprite.anchor.set(0.5,0.5);
@@ -191,34 +198,7 @@ Game.prototype.makeExplosion = function(parent, x, y, xScale, yScale, action) {
 }
 
 
-Game.prototype.addOpponentPicture = function(screen) {
-  if(this.opponent_name != null) {
-    let name = "";
-    if (this.opponent_name == "zh") {
-      name = "zhukov";
-    } else if (this.opponent_name == "an") {
-      name = "andy";
-    } else if (this.opponent_name == "iv") {
-      name = "ivan";
-    } else if (this.opponent_name == "ro") {
-      name = "rogov";
-    } else if (this.opponent_name == "fe") {
-      name = "fedor";
-    } else if (this.opponent_name == "pu") {
-      name = "putin";
-    }
-    this.opponent_image = new PIXI.Sprite(PIXI.Texture.from("Art/Opponents/" + name + ".png"));
-    this.opponent_image.anchor.set(0.5, 0.5);
-    this.opponent_image.position.set(1100, 304);
-    this.opponent_image.alpha = 0.7;
-  } else {
-    this.opponent_image = new PIXI.Container();
-  }
-  screen.addChild(this.opponent_image);
-}
-
-
-Game.prototype.makeElectric = function(parent, x, y, xScale, yScale) {
+function makeElectric(parent, x, y, xScale, yScale) {
   let sheet = PIXI.Loader.shared.resources["Art/electric.json"].spritesheet;
   let electric_sprite = new PIXI.AnimatedSprite(sheet.animations["electric"]);
   electric_sprite.anchor.set(0.5,0.5);
@@ -235,7 +215,7 @@ Game.prototype.makeElectric = function(parent, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makeSmoke = function(parent, x, y, xScale, yScale) {
+function makeSmoke(parent, x, y, xScale, yScale) {
   let sheet = PIXI.Loader.shared.resources["Art/smoke.json"].spritesheet;
   let smoke_sprite = new PIXI.AnimatedSprite(sheet.animations["smoke"]);
   smoke_sprite.anchor.set(0.5,0.5);
@@ -259,8 +239,7 @@ Game.prototype.makeSmoke = function(parent, x, y, xScale, yScale) {
 }
 
 
-
-Game.prototype.makeFireworks = function(parent, color, x, y, xScale, yScale) {
+function makeFireworks(parent, color, x, y, xScale, yScale) {
   let sheet = PIXI.Loader.shared.resources["Art/fireworks_" + color + ".json"].spritesheet;
   let fireworks_sprite = new PIXI.AnimatedSprite(sheet.animations["fireworks"]);
   fireworks_sprite.anchor.set(0.5,0.5);
@@ -280,7 +259,7 @@ Game.prototype.makeFireworks = function(parent, color, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makePop = function(parent, x, y, xScale, yScale) {
+function makePop(parent, x, y, xScale, yScale) {
   let sheet = PIXI.Loader.shared.resources["Art/pop.json"].spritesheet;
   let pop_sprite = new PIXI.AnimatedSprite(sheet.animations["pop"]);
   pop_sprite.anchor.set(0.5,0.5);
@@ -304,16 +283,12 @@ Game.prototype.makePop = function(parent, x, y, xScale, yScale) {
 }
 
 
-Game.prototype.makePixelatedLetterTile = function(parent, text, color) {
-  var tile = new PIXI.Sprite(PIXI.Texture.from("Art/PixelatedKeys/pixelated_" + color + "_" + text + ".png"));
-  parent.addChild(tile);
-  tile.anchor.set(0.5,0.5);
-  tile.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  return tile;
+function makePixelatedLetterTile(parent, text, color) {
+  return makeSprite("Art/PixelatedKeys/pixelated_" + color + "_" + text + ".png", parent, 0, 0, 0.5, 0.5);
 }
 
 
-Game.prototype.makeLetterBuilding = function(parent, x, y, letter, team) {
+function makeLetterBuilding(parent, x, y, letter, team) {
   let letter_building = new PIXI.Container();
   parent.addChild(letter_building);
   letter_building.position.set(x, y);
@@ -322,13 +297,9 @@ Game.prototype.makeLetterBuilding = function(parent, x, y, letter, team) {
 
   let team_name = "american";
   if (team == 1 || team == 3) team_name = "soviet";
-  let building_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/" + team_name + "_building_draft_2.png"));
-  building_sprite.anchor.set(0.5, 0.5);
-  building_sprite.position.set(0, 0);
-  letter_building.addChild(building_sprite);
-  
+  let building_sprite = makeSprite("Art/" + team_name + "_building_draft_2.png", letter_building, 0, 0, 0.5, 0.5);  
 
-  let letter_image = this.makePixelatedLetterTile(letter_building, letter, "white");
+  let letter_image = makePixelatedLetterTile(letter_building, letter, "white");
   letter_image.anchor.set(0.5, 0.5);
   letter_image.position.set(0, -6);
   if (team == 1 || team == 3) { 
@@ -339,7 +310,7 @@ Game.prototype.makeLetterBuilding = function(parent, x, y, letter, team) {
 }
 
 
-Game.prototype.makeRocketWithScaffolding = function(parent, x, y) {
+function makeRocketWithScaffolding(parent, x, y) {
   let container = new PIXI.Container();
   parent.addChild(container);
   container.position.set(x, y);
@@ -357,6 +328,85 @@ Game.prototype.makeRocketWithScaffolding = function(parent, x, y) {
 }
 
 
+function comicBubble(parent, text, x, y, size=36, font_family="Bangers") {
+  let comic_container = new PIXI.Container();
+  comic_container.position.set(x, y);
+  parent.addChild(comic_container);
+
+  let comic_text = new PIXI.Text(" " + text + " ", {fontFamily: font_family, fontSize: size, fill: 0x000000, letterSpacing: 6, align: "center"});
+  comic_text.anchor.set(0.5,0.53);
+
+  let black_fill = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  black_fill.width = comic_text.width + 16;
+  black_fill.height = comic_text.height + 16;
+  black_fill.anchor.set(0.5, 0.5);
+  black_fill.tint = 0x000000;
+  
+  let white_fill = PIXI.Sprite.from(PIXI.Texture.WHITE);
+  white_fill.width = comic_text.width + 10;
+  white_fill.height = comic_text.height + 10;
+  white_fill.anchor.set(0.5, 0.5);
+  white_fill.tint = 0xFFFFFF;
+
+  comic_container.addChild(black_fill); 
+  comic_container.addChild(white_fill);
+  comic_container.addChild(comic_text);
+
+  comic_container.is_comic_bubble = true;
+
+  comic_container.cacheAsBitmap = true;
+
+  return comic_container;
+}
+
+
+Game.prototype.addOpponentPicture = function(parent, opponent_name, x, y) {
+  let opponent_image = null;
+  if(opponent_name != null) {
+    let name = "";
+    if (opponent_name == "zh") {
+      name = "zhukov";
+    } else if (opponent_name == "an") {
+      name = "andy";
+    } else if (opponent_name == "iv") {
+      name = "ivan";
+    } else if (opponent_name == "ro") {
+      name = "rogov";
+    } else if (opponent_name == "fe") {
+      name = "fedor";
+    } else if (opponent_name == "pu") {
+      name = "putin";
+    }
+    opponent_image = makeSprite("Art/Opponents/" + name + ".png", parent, x, y, 0.5, 0.5);
+    opponent_image.alpha = 0.7;
+  } else {
+    opponent_image = new PIXI.Container();
+    parent.addChild(opponent_image);
+  }
+  return opponent_image;
+}
+
+
+// THIS IS NOT DEFUNCT, I WILL USE IT
+swearing = function(parent, x, y) {
+  let word = "";
+  for (let i = 0; i < 5; i++) {
+    let num = Math.floor(Math.random() * 5);
+    word += "#$%&*".slice(num, num+1);
+  }
+  word += "!";
+  let bub = comicBubble(parent, word, x - 150 + 300 * Math.random(), y - 50 + 100 * Math.random(), 24);
+  delay(() => {
+    parent.removeChild(bub);
+  }, 500 + Math.random(500));
+  if (shakers != null) shakers.push(bub);
+  bub.shake = markTime();
+  // shake parent? allow extra param to shake as well? yeah.
+}
+
+
+
+
 //
 //
 // Keyboard UI tools
@@ -364,9 +414,7 @@ Game.prototype.makeRocketWithScaffolding = function(parent, x, y) {
 //
 
 
-Game.prototype.makeKeyboard = function(options) {
-  let self = this;
-
+makeKeyboard = function(options) {
   let parent = options.parent;
   let x = options.x == null ? 0 : options.x;
   let y = options.y == null ? 0 : options.y;
@@ -420,11 +468,11 @@ Game.prototype.makeKeyboard = function(options) {
 
       if (defense.includes(letter)) filename = "blue_" + filename;
 
-      let button = this.makeKey(
+      let button = makeKey(
         keyboard,
-        k_x + size * 40, k_y, filename, size, function() { 
+        k_x + size * 40, k_y, filename, size, () => { 
           if (player == 1) {
-            self.pressKey(keyboard, letter);
+            pressKey(keyboard, letter);
             action(letter);
           }
         },
@@ -463,7 +511,7 @@ Game.prototype.makeKeyboard = function(options) {
 }
 
 
-Game.prototype.pressKey = function(palette, key) {
+pressKey = function(palette, key) {
   if (key in palette.keys) {
     let keyboard_key = palette.keys[key];
     let click_sound = "keyboard_click_" + ((key.charCodeAt(0) % 5)+1).toString();
@@ -484,14 +532,10 @@ Game.prototype.pressKey = function(palette, key) {
 }
 
 
-Game.prototype.makeKey = function(parent, x, y, filename, size, action) {
-  var self = this;
+makeKey = function(parent, x, y, filename, size, action) {
   var key_button = new PIXI.Container();
-  var key_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/Keyboard/" + filename + ".png"));
-  key_sprite.anchor.set(0.5, 0.5);
-  key_button.position.set(x, y);
   parent.addChild(key_button);
-  key_button.addChild(key_sprite);
+  var key_sprite = makeSprite("Art/Keyboard/" + filename + ".png", key_button, x, y, 0.5, 0.5, false);
 
   key_button.playable = true;
   key_button.interactive = true;
@@ -502,8 +546,7 @@ Game.prototype.makeKey = function(parent, x, y, filename, size, action) {
 
   key_button.disable = function() {
     this.interactive = false;
-    this.disable_time = self.markTime();
-    console.log(this.disable_time);
+    this.disable_time = markTime();
   }
 
   key_button.enable = function() {
@@ -514,55 +557,34 @@ Game.prototype.makeKey = function(parent, x, y, filename, size, action) {
 }
 
 
-Game.prototype.swearing = function() {
-  var self = this;
-  var screen = this.screens[this.current_screen];
-
-  if (this.opponent_image == null) return;
-
-  let word = "";
-  for (let i = 0; i < 5; i++) {
-    let num = Math.floor(Math.random() * 5);
-    word += "#$%&*".slice(num, num+1);
-  }
-  word += "!";
-  let bub = this.comicBubble(screen, word, 1100 - 150 + 300 * Math.random(), 100 - 50 + 100 * Math.random(), 24);
-  delay(function() {
-    screen.removeChild(bub);
-  }, 500 + Math.random(500));
-  if (this.shakers != null) this.shakers.push(bub);
-  bub.shake = this.markTime();
-  this.opponent_image.shake = this.markTime();
-}
-
-
-Game.prototype.updateEnemyScreenTexture = function() {
-  var self = this;
-  var screen = this.screens[this.current_screen];
-
-  let texture = PIXI.RenderTexture.create({width: 800, height: 600});
-
-  this.renderer.render(this.player_area, texture);
-
-  if (this.enemy_area.sprite == null) {
-    let sprite = PIXI.Sprite.from(texture);
-    sprite.position.set(-240,-520);
-    sprite.anchor.set(0, 0);
-    this.enemy_area.removeChild[0];
-    this.enemy_area.addChild(sprite);
-    this.enemy_area.sprite = sprite;
-  } else {
-    this.enemy_area.sprite.texture = texture;
-  }
-}
 
 
 //
 //
-// Meta UI tools
+// Defunct tools, for now
 //
 //
 
+
+// Game.prototype.updateEnemyScreenTexture = function() {
+//   var self = this;
+//   var screen = this.screens[this.current_screen];
+
+//   let texture = PIXI.RenderTexture.create({width: 800, height: 600});
+
+//   this.renderer.render(this.player_area, texture);
+
+//   if (this.enemy_area.sprite == null) {
+//     let sprite = PIXI.Sprite.from(texture);
+//     sprite.position.set(-240,-520);
+//     sprite.anchor.set(0, 0);
+//     this.enemy_area.removeChild[0];
+//     this.enemy_area.addChild(sprite);
+//     this.enemy_area.sprite = sprite;
+//   } else {
+//     this.enemy_area.sprite.texture = texture;
+//   }
+// }
 
 
 
@@ -656,38 +678,6 @@ Game.prototype.updateEnemyScreenTexture = function() {
 //     .repeat(3)
 //     .start()
 // }
-
-
-Game.prototype.comicBubble = function(parent, text, x, y, size=36, font_family="Bangers") {
-  let comic_container = new PIXI.Container();
-  comic_container.position.set(x, y);
-  parent.addChild(comic_container);
-
-  let comic_text = new PIXI.Text(" " + text + " ", {fontFamily: font_family, fontSize: size, fill: 0x000000, letterSpacing: 6, align: "center"});
-  comic_text.anchor.set(0.5,0.53);
-
-  let black_fill = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  black_fill.width = comic_text.width + 16;
-  black_fill.height = comic_text.height + 16;
-  black_fill.anchor.set(0.5, 0.5);
-  black_fill.tint = 0x000000;
-  
-  let white_fill = PIXI.Sprite.from(PIXI.Texture.WHITE);
-  white_fill.width = comic_text.width + 10;
-  white_fill.height = comic_text.height + 10;
-  white_fill.anchor.set(0.5, 0.5);
-  white_fill.tint = 0xFFFFFF;
-
-  comic_container.addChild(black_fill); 
-  comic_container.addChild(white_fill);
-  comic_container.addChild(comic_text);
-
-  comic_container.is_comic_bubble = true;
-
-  comic_container.cacheAsBitmap = true;
-
-  return comic_container;
-}
 
 
 

@@ -291,7 +291,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         let p2 = (this.level_width * (j+1) + i) * 4;
         let p3 = (this.level_width * (j+1) + i+1) * 4;
         if(pixels[p0 + 3] > 40 || pixels[p1 + 3] > 40 || pixels[p2 + 3] > 40 || pixels[p3 + 3] > 40) {
-          let voxel = makeBlank(layers["filled"], i, j, 2, 2, 0xFF0000);
+          let voxel = makeBlank(layers["filled"], 2, 2, i, j, 0xFF0000);
           voxel.alpha = 0.4;
           this.voxels[i][j] = voxel;
         }
@@ -593,7 +593,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         } else if (this.job_selection.includes("traffic")
           && min_char.character_name == this.job_selection) {
           soundEffect("move");
-          game.makeSmoke(layers["open"], min_char.x, min_char.y, 0.25, 0.25);
+          makeSmoke(layers["open"], min_char.x, min_char.y, 0.25, 0.25);
           let direction = min_char.getDirection();
           if (direction == "right") {
             min_char.setState("traffic", "down");
@@ -764,7 +764,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
 
     soundEffect("move");
     soundEffect("hyah_2");
-    game.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+    makeSmoke(layers["open"], x, y, 0.25, 0.25);
 
     this.deleteCharacter(character);
 
@@ -793,7 +793,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
 
     soundEffect("move");
     soundEffect("hey");
-    game.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+    makeSmoke(layers["open"], x, y, 0.25, 0.25);
 
     this.deleteCharacter(character);
 
@@ -824,7 +824,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
 
     soundEffect("move");
     soundEffect("listen");
-    game.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+    makeSmoke(layers["open"], x, y, 0.25, 0.25);
 
     this.deleteCharacter(character);
 
@@ -856,7 +856,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
 
     soundEffect("move");
     soundEffect("academic_mumble_" + dice(4));
-    game.makeSmoke(layers["open"], x, y, 0.25, 0.25);
+    makeSmoke(layers["open"], x, y, 0.25, 0.25);
 
     this.deleteCharacter(character);
 
@@ -1243,11 +1243,11 @@ class CentrallyPlannedEconomy extends PIXI.Container {
         this.time_clocks_graphic.gotoAndStop(0);
 
         soundEffect("fireworks")
-        let num_fireworks = 4 + dice(4);
+        let num_fireworks = 6 + dice(6);
           for (let i = 0; i < num_fireworks; i++) {
             delay(() => {
               let color = pick(["blue", "orange"]);
-              game.makeFireworks(this.layers["display"], color, game.width/8 + dice(game.width/4), game.height/8 + dice(game.height/4), 0.5, 0.5); 
+              makeFireworks(this.layers["display"], color, game.width/8 + dice(game.width/4), game.height/8 + dice(game.height/4), 1, 1); 
             }, 300 * i + dice(150))
           }
       }

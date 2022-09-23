@@ -15,8 +15,6 @@ class Lobby extends PIXI.Container {
 
 
   initialize() {
-    let self = this;
-
     this.sections = {};
 
     this.initializeSectionGameType();
@@ -31,8 +29,6 @@ class Lobby extends PIXI.Container {
 
 
   initializeSectionGameType() {
-    let self = this;
-
     this.sections.game_type = new PIXI.Container();
     
     let section = this.sections.game_type;
@@ -44,27 +40,27 @@ class Lobby extends PIXI.Container {
     section.addChild(choose_game_type);
 
     this.game_type_choices = new NestedOptionsList({
-        "Keyboard Kommandir": function(){
-          self.switchToKeyboardKomandir();
+        "Kuzka's Mother": () => {
+          this.giveEmKuzkasMother();
         },
-        "Word Base": function(){
-          self.switchToWordBase();
+        "Word Base": () => {
+          this.switchToWordBase();
         },
-        "Party Math": function(){
-          self.switchToPartyMath();
+        "Party Math": () => {
+          this.switchToPartyMath();
         },
-        "Centrally Planned Economy": function(){
-          self.switchToCentrallyPlannedEconomy();
+        "Centrally Planned Economy": () => {
+          this.switchToCentrallyPlannedEconomy();
         },
-        "First Strike": function(){
-          self.switchToFirstStrike();
+        "First Strike": () => {
+          this.switchToFirstStrike();
         },
-        "Siberian Trail": function(){
+        "Siberian Trail": () => {
         },
-        "Where in the World is Leon Trotsky?": function(){
+        "Where in the World is Leon Trotsky?": () => {
         },
       }, 
-      function(text) {
+      (text) => {
         let entry_button = new PIXI.Text(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
         entry_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
         entry_button.anchor.set(0,0);
@@ -72,7 +68,7 @@ class Lobby extends PIXI.Container {
         entry_button.buttonMode = true;
         return entry_button;
       },
-      function() { self.returnToTitle() }, 40, 0xFFFFFF, 0x67d8ef
+      () => { this.returnToTitle() }, 40, 0xFFFFFF, 0x67d8ef
     );
     this.game_type_choices.position.set(300, 280);
     this.addChild(this.game_type_choices);
@@ -86,26 +82,24 @@ class Lobby extends PIXI.Container {
   }
 
 
-  switchToKeyboardKomandir() {
-    let self = this;
-    this.game_type_selection = 1;
+  giveEmKuzkasMother() {
+    game.game_type_selection = 1;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
-    delay(function() {
-      self.initialize1pWordRockets();
-      self.fadeScreens("lobby", "1p_word_rockets", true, 800);
+    delay(() => {
+      game.createScreen("kuzkas_mother");
+      game.fadeScreens("lobby", "kuzkas_mother", true, 800);
     }, 900);
   }
 
 
   switchToWordBase() {
-    let self = this;
-    this.game_type_selection = 2;
+    game.game_type_selection = 2;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
-    delay(function() {
-      self.initialize1pBaseCapture();
-      self.fadeScreens("lobby", "1p_base_capture", true);
+    delay(() => {
+      game.createScreen("word_base");
+      game.fadeScreens("lobby", "word_base", true);
     }, 1000);
   }
 
@@ -114,7 +108,7 @@ class Lobby extends PIXI.Container {
     this.state = "leaving";
     game.game_type_selection = 3;
     game.monitor_overlay.dissolve();
-    delay(function() {
+    delay(() => {
       game.createScreen("party_math");
       game.fadeScreens("lobby", "party_math", true, 800);
     }, 1000);
@@ -133,13 +127,12 @@ class Lobby extends PIXI.Container {
 
 
   switchToFirstStrike() {
-    let self = this;
     this.game_type_selection = 5;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
-    delay(function() {
-      self.initialize1pLaunchCode();
-      self.fadeScreens("lobby", "1p_launch_code", true);
+    delay(() => {
+      game.createScreen("first_strike");
+      game.fadeScreens("lobby", "first_strike", true);
     }, 1000);
   }
 
@@ -165,6 +158,5 @@ class Lobby extends PIXI.Container {
 
 
   update(diff) {
-    var self = this;
   }
 }

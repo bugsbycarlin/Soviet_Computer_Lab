@@ -17,11 +17,6 @@ pause = function(extra_method = null) {
   if (current_music != null) {
     current_music.pause();
   }
-  // TO DO: pausable sounds.
-  // if (sound_data["countdown"].paused == false) {
-  //   sound_data["countdown"].hold_up = true;
-  //   sound_data["countdown"].pause();
-  // }
   pauseAllDelays();
 }
 
@@ -37,11 +32,6 @@ resume = function() {
   if (current_music != null) {
     current_music.play();
   }
-  // TO DO: pausable sounds
-  // if (sound_data["countdown"] != null && sound_data["countdown"].hold_up == true) {
-  //   sound_data["countdown"].hold_up = null;
-  //   sound_data["countdown"].play();
-  // }
   resumeAllDelays();
 }
 

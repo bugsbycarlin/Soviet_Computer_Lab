@@ -111,6 +111,22 @@ stopAllSound = function() {
 }
 
 
+pauseSoundEffect = function(effect_name) {
+  if (sound_data[effect_name].playing() == true) {
+    sound_data[effect_name].hold_up = true;
+    sound_data[effect_name].pause();
+  }
+}
+
+
+resumeSoundEffect = function(effect_name) {
+  if (sound_data[effect_name] != null && sound_data[effect_name].hold_up == true) {
+    sound_data[effect_name].hold_up = null;
+    sound_data[effect_name].play();
+  }
+}
+
+
 setMusic = function(music_name, loop = true) {
   if (use_music && music_volume > 0) {
     if (current_music != null && current_music.name == music_name) {

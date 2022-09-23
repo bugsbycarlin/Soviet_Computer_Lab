@@ -23,13 +23,13 @@ class HighScore extends PIXI.Container {
 
 
   initialize() {
-    makeBlank(this, 0, 0, game.width, game.height, 0x000000);
+    makeBlank(this, game.width, game.height, 0, 0, 0x000000);
 
     this.state = "entry";
 
     game.monitor_overlay.restore();
 
-    this.high_score_palette = game.makeKeyboard({
+    this.high_score_palette = makeKeyboard({
       player: 1,
       parent: this, x: game.width / 2, y: game.height * 5/6 - 40,
       defense: null, 
@@ -62,7 +62,8 @@ class HighScore extends PIXI.Container {
     this.name_cursor = 0;
 
     for (var i = 0; i < 6; i++) {
-      let cursor = makeBlank(this, game.width / 2 + 70 * (i - 3), game.height * 8/16, 67, 2, 0, 0.5);
+      let cursor = makeBlank(this, 67, 2, game.width / 2 + 70 * (i - 3), game.height * 8/16);
+      cursor.anchor.set(0, 0.5);
       cursor.tint = 0x3cb0f3;
       cursor.alpha = (12 - i) / (12 + 4);
 

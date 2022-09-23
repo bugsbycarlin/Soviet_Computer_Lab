@@ -20,27 +20,22 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
     this.screens["lobby"] = new Lobby();
   } else if (screen_name == "high_score") {
     this.screens["high_score"] = new HighScore(extra_param);
-  } else if (screen_name == "multi_set_name") {
-    this.initializeMultiSetName();
+  } else if (screen_name == "kuzkas_mother") {
+    this.screens["kuzkas_mother"] = new KuzkasMother();
   } else if (screen_name == "party_math") {
     this.screens["party_math"] = new PartyMath();
   } else if (screen_name == "centrally_planned_economy") {
     this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
-  } else if (screen_name == "cpe_character_tester") {
-    this.initializeCpeTester();
-  } else if (screen_name == "credits") {
-    this.initializeCredits();
-  } else if (screen_name == "1p_word_rockets") {
-    if (reset) this.resetGame();
-    this.initialize1pWordRockets();
-  } else if (screen_name == "1p_base_capture") {
-    if (reset) this.resetGame();
-    this.initialize1pBaseCapture();
-  } else if (screen_name == "1p_launch_code") {
-    if (reset) this.resetGame();
-    this.initialize1pLaunchCode();
+  } else if (screen_name == "word_base") {
+    this.screens["word_base"] = new WordBase();
+  } else if (screen_name == "first_strike") {
+    this.screens["first_strike"] = new FirstStrike();
+  } else if (screen_name == "multi_set_name") {
+    this.initializeMultiSetName();
   } else if (screen_name == "cutscene") {
     this.initializeCutscene("t4");
+  } else if (screen_name == "credits") {
+    this.initializeCredits();
   }
 
   console.log(screen_name);
@@ -269,6 +264,17 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
 }
 
 
+Game.prototype.fadeToBlack = function(fade_time=1500) {
+  pixi.stage.addChild(this.black);
+  this.black.alpha = 0.01;
+
+  var tween = new TWEEN.Tween(this.black)
+    .to({alpha: 1})
+    .duration(fade_time)
+    .start();
+}
+
+
 // Fade in from the black screen.
 Game.prototype.fadeFromBlack = function(fade_time=1500) {
   pixi.stage.addChild(this.black);
@@ -290,6 +296,7 @@ Game.prototype.popScreens = function(old_screen, new_screen) {
   pixi.stage.removeChild(this.screens[new_screen]);
   pixi.stage.addChild(this.screens[old_screen]);
   pixi.stage.addChild(this.screens[new_screen]);
+  pixi.stage.addChild(this.black);
   pixi.stage.addChild(this.monitor_overlay);
   this.screens[old_screen].position.x = 0;
   this.screens[new_screen].position.x = 0;

@@ -95,6 +95,17 @@ function countDownString(seconds) {
 }
 
 
+// An easing function I need sometimes.
+// https://easings.net/#easeOutBack
+function easeOutBack(x) {
+  const c1 = 1.70158;
+  const c3 = c1 + 1;
+
+  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+}
+
+
+
 // Assuming no duplicates in a list,
 // find the value and return the next value,
 // wrapping around if necessary.

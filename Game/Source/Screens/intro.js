@@ -21,7 +21,7 @@ class Intro extends PIXI.Container {
   }
 
   initialize() {
-    makeBlank(this, 0, 0, game.width, game.height, 0x000000);
+    makeBlank(this, game.width, game.height, 0, 0, 0x000000);
 
     this.state = null;
 
