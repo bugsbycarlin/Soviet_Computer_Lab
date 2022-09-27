@@ -127,7 +127,7 @@ class Lobby extends PIXI.Container {
 
 
   switchToFirstStrike() {
-    this.game_type_selection = 5;
+    game.game_type_selection = 5;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
     delay(() => {

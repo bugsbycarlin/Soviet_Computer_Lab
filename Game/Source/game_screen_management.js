@@ -328,7 +328,12 @@ Game.prototype.gameOver = function(delay_time, score) {
 }
 
 
-
+clearScreen = function(screen) {
+  while(screen.children[0]) {
+    let x = screen.removeChild(screen.children[0]);
+    x.destroy();
+  }
+}
 
 // Game.prototype.makeScreen = function(name) {
 //   this.screens[name] = new PIXI.Container();
@@ -338,10 +343,5 @@ Game.prototype.gameOver = function(delay_time, score) {
 // }
 
 
-// Game.prototype.clearScreen = function(screen) {
-//   while(screen.children[0]) {
-//     let x = screen.removeChild(screen.children[0]);
-//     x.destroy();
-//   }
-// }
+
 

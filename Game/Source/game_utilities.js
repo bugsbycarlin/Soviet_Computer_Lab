@@ -91,12 +91,13 @@ function makeText(text, font, parent, x, y, anchor_x=0, anchor_y=0) {
 }
 
 
-function makeBlank(parent, width, height, x, y, color=0xFFFFFF) {
+function makeBlank(parent, width, height, x, y, color=0xFFFFFF, anchor_x=0, anchor_y=0) {
   let blank = PIXI.Sprite.from(PIXI.Texture.WHITE);
   blank.x = x;
   blank.y = y;
   blank.width = width;
   blank.height = height;
+  blank.anchor.set(anchor_x, anchor_y);
   blank.tint = color;
   if (parent != null) {
     parent.addChild(blank);

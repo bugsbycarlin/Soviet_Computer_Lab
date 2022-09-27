@@ -120,6 +120,10 @@ class KuzkasMother extends PIXI.Container {
     freefalling = [];
     shakers = [];
 
+    this.level = game.level != null ? game.level : 1;
+    this.score = game.score != null ? game.score : 0;
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
+
     this.played_words = {};
     this.num_players = 2;
     this.player_number = 0;
@@ -156,9 +160,6 @@ class KuzkasMother extends PIXI.Container {
 
 
   resetBoard() {
-    this.level = game.level != null ? game.level : 0;
-    this.score = game.score != null ? game.score : 0;
-
     this.game_board = new PIXI.Container();
     this.addChild(this.game_board);
     this.game_board.scale.set(2, 2);
@@ -202,8 +203,6 @@ class KuzkasMother extends PIXI.Container {
     this.announcement = makeText("", font_4, this.hud, 832 / 2, 480 / 2, 0.5, 0.5);
     this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_5, this.hud, 832 / 2, 480 / 2, 0.5, 0.5);
     this.escape_to_quit.visible = false;
-
-    this.difficulty_level = "HARD";
 
     // NO MULTI
     this.setEnemyDifficulty(this.level, this.difficulty_level);
@@ -456,7 +455,7 @@ class KuzkasMother extends PIXI.Container {
     for (let i = 0; i < rerolls; i++) {
       let word_size = this.enemy_short_word + Math.floor(Math.random() * (1 + this.enemy_long_word - this.enemy_short_word));
       let word_list = game.enemy_words[word_size];
-      let candidate_word = word_list[Math.floor(Math.random() * word_list.length)];
+      let candidate_word = pick(word_list);
 
       // let legal_keys = true;
       // for (let j = 0; j < candidate_word.length; j++) {
@@ -654,7 +653,7 @@ class KuzkasMother extends PIXI.Container {
       
         if (Math.random() * 100 > 60) {
           // drop an ember
-          let ember = makeBlank(rocket.parent, 4, 4, rocket.x - 5 + 10 * Math.random(), rocket.y - 5 + 10 * Math.random(), fire_colors[Math.floor(Math.random()*fire_colors.length)])
+          let ember = makeBlank(rocket.parent, 4, 4, rocket.x - 5 + 10 * Math.random(), rocket.y - 5 + 10 * Math.random(), pick(fire_colors))
           ember.vx = -5 * Math.cos(rocket.rotation - Math.PI / 2) - 1 + 2 * Math.random();
           ember.vy = -5 * Math.sin(rocket.rotation - Math.PI / 2) - 1 + 2 * Math.random();
           ember.type = "ember";

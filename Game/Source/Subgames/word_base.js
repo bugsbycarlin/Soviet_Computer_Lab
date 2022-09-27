@@ -84,7 +84,6 @@ class WordBase extends PIXI.Container {
     this.tile_score[1] = 0;
 
     this.resetBoard();
-
     
     delay(() => {
       paused = false;
@@ -633,7 +632,7 @@ class WordBase extends PIXI.Container {
     cursor.y_tile = y;
 
     if (direction == -1) {
-      direction = ["up", "down", "left", "right"][Math.floor(Math.random() * 4)];
+      direction = pick(["up", "down", "left", "right"]);
     }
     if (direction == "up") {
       cursor.angle = -90;
@@ -1029,13 +1028,13 @@ class WordBase extends PIXI.Container {
         let move_set = [];
         move_set.push(this.cursor[1].favor[0]);
         move_set.push(this.cursor[1].favor[1]);
-        let direction = move_set[Math.floor(Math.random() * move_set.length)];
+        let direction = pick(move_set);
         this.moveCursor(direction, 1);
 
         // We're at the beginning of the game. Make a big word right away.
         let word_size = this.enemy_start_len + Math.floor(Math.random() * (this.enemy_start_len + 2));
         let word_list = game.enemy_words[word_size];
-        word = word_list[Math.floor(Math.random() * word_list.length)];
+        word = pick(word_list);
 
         tiles = this.wordList(word, this.cursor[1].x_tile, this.cursor[1].y_tile, this.cursor[1].angle);
 
@@ -1053,7 +1052,7 @@ class WordBase extends PIXI.Container {
           this.moveCursor(direction, 1);
         } else if (dice <= 0.75) {
           // Jump to another occupied board tile
-          let spot = this.played_squares[Math.floor(Math.random() * this.played_squares.length)];
+          let spot = pick(this.played_squares);
           this.jumpCursor(1, spot[0], spot[1]);
         } else {
           let move_set = [];
@@ -1063,7 +1062,7 @@ class WordBase extends PIXI.Container {
           if (this.cursor[1].y_tile < 12) move_set.push("down");
           move_set.push(this.cursor[1].favor[0]);
           move_set.push(this.cursor[1].favor[1]);
-          let direction = move_set[Math.floor(Math.random() * move_set.length)];
+          let direction = pick(move_set);
           this.moveCursor(direction, 1);
         }
 
@@ -1164,7 +1163,7 @@ class WordBase extends PIXI.Container {
           // Not every pair has words in it! This was an actual bug I thankfully triggered pretty quickly.
           if (d.length > 0) {
             for (let z = 0; z < 20; z++) {
-              let w = d[Math.floor(Math.random() * d.length)];
+              let w = pick(d);
               if (w.length == desired_length) {
                 candidate_word = w;
                 break;
@@ -1204,7 +1203,7 @@ class WordBase extends PIXI.Container {
           }
 
           for (let z = 0; z < tries; z++) {
-            let w = d[Math.floor(Math.random() * d.length)];
+            let w = pick(d);
             if (w.length < forward_room + 1) {
               if (angle == 0 || angle == 90) word = w.slice(1);
               if (angle == 180 || angle == -90) word = w.slice(0,-1);
@@ -1352,7 +1351,7 @@ class WordBase extends PIXI.Container {
           let initial_velocity = -1 + Math.floor(Math.random() * 2);
           let initial_x_position = -16 + Math.floor(Math.random() * 32);
           
-          ember.tint = fire_colors[Math.floor(Math.random()*fire_colors.length)];
+          ember.tint = pick(fire_colors);
           ember.width = 4;
           ember.height = 4;
           ember.vx = initial_velocity * Math.cos(angle + Math.PI);
@@ -1391,7 +1390,7 @@ class WordBase extends PIXI.Container {
             //   letter.playable = false;
               this.shake = markTime();
               soundEffect("explosion_3");
-              if (rocket.player == 0 && this.state != "gameover") swearing();
+              if (rocket.player == 0 && this.state != "gameover") swearing(this, 400, 400);
 
               let electric = makeElectric(this, temp_palette.x, temp_palette.y, 1.5, 1.5);
 

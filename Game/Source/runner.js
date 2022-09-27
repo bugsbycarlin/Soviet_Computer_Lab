@@ -74,9 +74,7 @@ punch_positions = {
 }
 
 
-Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) {
-  var self = this;
-
+FirstStrike.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) {
   let runner = new PIXI.Container();
   runner.position.set(x, y);
   runner.scale.set(scale, scale);
@@ -91,7 +89,7 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
   runner.speed = speed;
   runner.ground_speed = 0;
   runner.get_up = get_up;
-  runner.last_choice = this.markTime();
+  runner.last_choice = markTime();
   runner.color = color;
 
   runner.sound = false;
@@ -122,12 +120,9 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
 
   // Add zappy bits to damage sprite
   for (var i = 0; i < 4; i++) {
-    let zap_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/zappy.png"));
-    zap_sprite.anchor.set(0.5, 0.5);
-    zap_sprite.scale.set(1, 1);
-    zap_sprite.angle = 90 * i - 45 + Math.floor(Math.random() * 90);
-    zap_sprite.position.set(15 * Math.cos(zap_sprite.angle * Math.PI / 180), -55 + 30 * Math.sin(zap_sprite.angle * Math.PI / 180));
-    damage_sprite.addChild(zap_sprite);
+    let angle = 90 * i - 45 + Math.floor(Math.random() * 90);
+    let zap_sprite = makeSprite("Art/zappy.png", damage_sprite, 15 * Math.cos(angle * Math.PI / 180), -55 + 30 * Math.sin(angle * Math.PI / 180), 0.5, 0.5);
+    zap_sprite.angle = angle;
   }
 
 
@@ -262,9 +257,9 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
             && Math.abs(runner.lx - runner.punch_target.lx) <= punch_positions[t2] + 40
             && (runner.punch_target.lx - runner.lx) * runner.punch_target.scale.x < 0) {
             if (runner.punch_target.color == "blue") {
-              game.player_area.shake = game.markTime();
+              game.player_area.shake = markTime();
             } else {
-              game.swearing();
+              swearing(this, 400, 400);
             }
             runner.knockout();
           }
@@ -272,9 +267,9 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
 
         if (runner.sound) soundEffect("slap_" + Math.ceil(Math.random() * 4));
         if (runner.punch_target.color == "blue") {
-          game.player_area.shake = game.markTime();
+          game.player_area.shake = markTime();
         } else {
-          game.swearing();
+          swearing(this, 400, 400);
         }
         runner.punch_target.knockout();
       }
@@ -329,7 +324,7 @@ Game.prototype.makeRunner = function(parent, color, scale, x, y, speed, get_up) 
   runner.sprites[runner.current_state].animationSpeed = runner_animation_speeds[runner.current_state]; 
   runner.sprites[runner.current_state].play();
 
-  runner.last_speed_change = this.markTime();
+  runner.last_speed_change = markTime();
   runner.changeSpeed();
 
   return runner;

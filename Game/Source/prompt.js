@@ -1,8 +1,6 @@
 
 
-Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished_callback = false) {
-  var self = this;
-
+FirstStrike.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished_callback = false) {
   let prompt = new PIXI.Container();
   prompt.position.set(x, y);
   parent.addChild(prompt);
@@ -32,40 +30,17 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
   prompt.fixed = fixed;
   prompt.finished_callback = finished_callback;
 
-  prompt.prior_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x058025, letterSpacing: 0, align: "left"});
-  prompt.prior_text.anchor.set(0, 0.5);
-  prompt.prior_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  prompt.addChild(prompt.prior_text);
+  prompt.prior_text = makeText("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x058025, letterSpacing: 0, align: "left"}, prompt, 0, 0, 0, 0.5);
+  prompt.typing_text = makeText("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x3cb0f3, letterSpacing: 0, align: "left"}, prompt, 0, 0, 0, 0.5);
 
-  prompt.typing_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x3cb0f3, letterSpacing: 0, align: "left"});
-  prompt.typing_text.anchor.set(0, 0.5);
-  prompt.typing_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  prompt.addChild(prompt.typing_text);
-
-  prompt.strikethrough = new PIXI.Sprite.from(PIXI.Texture.WHITE);
-  prompt.strikethrough.tint = 0x3cb0f3;
-  prompt.strikethrough.width = 100;
-  prompt.strikethrough.height = 2;
-  prompt.strikethrough.anchor.set(0, 0.5)
+  prompt.strikethrough = makeBlank(prompt, 100, 2, 0, 0, 0x3cb0f3, 0, 0.5);
   prompt.strikethrough.visible = false;
-  prompt.addChild(prompt.strikethrough);
 
-  prompt.prior_strikethrough = new PIXI.Sprite.from(PIXI.Texture.WHITE);
-  prompt.prior_strikethrough.tint = 0x058025;
-  prompt.prior_strikethrough.width = 100;
-  prompt.prior_strikethrough.height = 2;
-  prompt.prior_strikethrough.anchor.set(0, 0.5)
+  prompt.prior_strikethrough = makeBlank(prompt, 100, 2, 0, 0, 0x058025, 0, 0.5);
   prompt.prior_strikethrough.visible = false;
-  prompt.addChild(prompt.prior_strikethrough);
 
   //wordWrap: true, wordWrapWidth: 650
-  prompt.remaining_text = new PIXI.Text("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x3ff74f, letterSpacing: 0, align: "left"});
-  prompt.remaining_text.anchor.set(0, 0.5);
-  prompt.remaining_text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  prompt.addChild(prompt.remaining_text);
-  if (prompt.fixed == true) {
-    prompt.remaining_text.style.fill = 0x3ff74f;
-  }
+  prompt.remaining_text = makeText("", {fontFamily: "Press Start 2P", fontSize: 14, fill: 0x3ff74f, letterSpacing: 0, align: "left"}, prompt, 0, 0, 0, 0.5);
 
   prompt.setText(text);
 
@@ -128,7 +103,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
           prompt.carat = 0;
           prompt.prior_text.text = "";
           //////
-          prompt.shake = self.markTime();
+          prompt.shake = markTime();
           prompt.remaining_text.style.fill = 0xdb5858;
           soundEffect("negative");
         }
@@ -139,7 +114,7 @@ Game.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished
           prompt.word_number = 0;
           prompt.carat = 0;
           prompt.prior_text.text = "";
-          prompt.shake = self.markTime();
+          prompt.shake = markTime();
           prompt.remaining_text.style.fill = 0xdb5858;
           soundEffect("negative");
         } else {
