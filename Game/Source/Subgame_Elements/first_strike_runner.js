@@ -97,31 +97,20 @@ FirstStrike.prototype.makeRunner = function(parent, color, scale, x, y, speed, g
   // Add main sprites
   runner.sprites = {};
   runner.states.forEach((state) => {
-    let sheet = PIXI.Loader.shared.resources["Art/Runner/" + color + "_runner_" + state + ".json"].spritesheet;
-    let sprite = new PIXI.AnimatedSprite(sheet.animations[state]);
-    // this anchor is set to the feet
-    sprite.anchor.set(0.5,0.71);
-    sprite.visible = false;
-    sprite.scaleMode = PIXI.SCALE_MODES.NEAREST;
-
-    runner.sprites[state] = sprite;
-    runner.addChild(sprite);
+    // the anchor 0.5, 0.71 is set to the feet
+    runner.sprites[state] = makeAnimatedSprite("Art/Runner/" + color + "_runner_" + state + ".json", state, runner, 0, 0, 0.5, 0.71);
+    runner.sprites[state].visible = false;
   });
 
   // Add damage sprite
   runner.states.push("damage");
-  let sheet = PIXI.Loader.shared.resources["Art/Runner/" + color + "_runner_combat_rise.json"].spritesheet;
-  let damage_sprite = new PIXI.AnimatedSprite(sheet.animations["damage"]);
-  damage_sprite.anchor.set(0.5,0.71);
-  damage_sprite.visible = false;
-  damage_sprite.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  runner.sprites["damage"] = damage_sprite;
-  runner.addChild(damage_sprite);
+  runner.sprites["damage"] = makeAnimatedSprite("Art/Runner/" + color + "_runner_combat_rise.json", "damage", runner, 0, 0, 0.5, 0.71);
+  runner.sprites["damage"].visible = false;
 
   // Add zappy bits to damage sprite
   for (var i = 0; i < 4; i++) {
     let angle = 90 * i - 45 + Math.floor(Math.random() * 90);
-    let zap_sprite = makeSprite("Art/zappy.png", damage_sprite, 15 * Math.cos(angle * Math.PI / 180), -55 + 30 * Math.sin(angle * Math.PI / 180), 0.5, 0.5);
+    let zap_sprite = makeSprite("Art/zappy.png", runner.sprites["damage"], 15 * Math.cos(angle * Math.PI / 180), -55 + 30 * Math.sin(angle * Math.PI / 180), 0.5, 0.5);
     zap_sprite.angle = angle;
   }
 
@@ -257,7 +246,7 @@ FirstStrike.prototype.makeRunner = function(parent, color, scale, x, y, speed, g
             && Math.abs(runner.lx - runner.punch_target.lx) <= punch_positions[t2] + 40
             && (runner.punch_target.lx - runner.lx) * runner.punch_target.scale.x < 0) {
             if (runner.punch_target.color == "blue") {
-              game.player_area.shake = markTime();
+              this.player_area.shake = markTime();
             } else {
               swearing(this, 400, 400);
             }
@@ -267,7 +256,7 @@ FirstStrike.prototype.makeRunner = function(parent, color, scale, x, y, speed, g
 
         if (runner.sound) soundEffect("slap_" + Math.ceil(Math.random() * 4));
         if (runner.punch_target.color == "blue") {
-          game.player_area.shake = markTime();
+          this.player_area.shake = markTime();
         } else {
           swearing(this, 400, 400);
         }

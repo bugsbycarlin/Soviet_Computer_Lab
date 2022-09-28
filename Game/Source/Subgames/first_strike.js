@@ -481,10 +481,6 @@ class FirstStrike extends Screen {
 
 
   terminal(chunk, runner, player_number) {
-    if (player_number == 1 && this.state == "tutorial") {
-      return;
-    }
-
     runner.setState("terminal");
     runner.last_speed = 0;
     runner.speed = 0;
@@ -555,7 +551,7 @@ class FirstStrike extends Screen {
     this.launch_code_typing = new_typing;
 
     let prompt = null;
-    if (this.state == "active" || this.state == "tutorial") {
+    if (this.state == "active") {
       prompt = this.run_prompt;
     } else {
       prompt = this.code_prompt;
@@ -571,7 +567,7 @@ class FirstStrike extends Screen {
     this.launch_code_typing = "";
 
     let prompt = null;
-    if (this.state == "active" || this.state == "tutorial") {
+    if (this.state == "active") {
       prompt = this.run_prompt;
     } else {
       prompt = this.code_prompt;
@@ -585,7 +581,7 @@ class FirstStrike extends Screen {
       //this.run_label.position.y = this.run_label.fixed_y + 2;
       //this.run_label.press_count = 6;
       prompt.advance();
-      if (this.state == "active" || this.state == "tutorial") {
+      if (this.state == "active") {
         this.word_count += 1;
         if (complete) {
           this.correct_word_count += 1;
@@ -600,12 +596,6 @@ class FirstStrike extends Screen {
             this.type_to_run.vx = -10 + 20 * Math.random();
             this.type_to_run.vy = -5 - 10 * Math.random();
             freefalling.push(this.type_to_run);
-          }
-
-          console.log("Out here");
-          if (this.state == "tutorial" && this.tutorial_number == 2) {
-            console.log("In here");
-            this.lc_tutorial3();
           }
         } else {
           this.runner[0].speed -= 1.5;
@@ -645,10 +635,6 @@ class FirstStrike extends Screen {
       this.double_tap_to_act.vy = -5 - 10 * Math.random();
       freefalling.push(this.double_tap_to_act);
     }
-
-    if (this.state == "tutorial" && this.tutorial_number == 4) {
-      this.lc_tutorial5();
-    }
   }
 
 
@@ -656,7 +642,7 @@ class FirstStrike extends Screen {
     let player = 0;
     let key = ev.key;
 
-    if (!paused && (this.state == "active" || this.state == "tutorial")
+    if (!paused && (this.state == "active")
       && this.runner[0].current_state != "combat_fall"
       && this.runner[0].current_state != "combat_rise") {
 
@@ -793,7 +779,7 @@ class FirstStrike extends Screen {
       // this.announcement.text = Math.ceil(time_remaining).toString();
       if (time_remaining <= 0) {
         
-        if (this.state != "tutorial") this.state = "active";
+        this.state = "active";
         this.last_play = markTime();
 
         this.announcement.style.fill = 0xFFFFFF;
@@ -816,7 +802,7 @@ class FirstStrike extends Screen {
       }
     }
 
-    if (timeSince(this.start_time) > 4000 && (this.state == "active" || this.state == "tutorial" || this.state == "terminal")) {
+    if (timeSince(this.start_time) > 4000 && (this.state == "active" || this.state == "terminal")) {
       let percent = Math.floor(100 * this.runner[0].lx / this.final_lx);
       this.announcement.text = percent + "%";
 

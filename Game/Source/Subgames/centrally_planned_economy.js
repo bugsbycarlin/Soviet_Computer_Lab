@@ -382,7 +382,7 @@ class CentrallyPlannedEconomy extends Screen {
     for (let i = 0; i < this.config.characters.length; i++) {
       let [name, behavior, x, y] = this.config.characters[i];
 
-      let character = game.makeCpeCharacter(name);
+      let character = this.makeCharacter(name);
       character.position.set(x, y);
       character.player_owned = false;
       layers["character"].addChild(character);
@@ -428,18 +428,18 @@ class CentrallyPlannedEconomy extends Screen {
 
     this.doors = {};
 
-    let start_door = game.makeCpeDoor(this.config.start_door[0], this.config.start_door[1], this.config.start_door[2]);
+    let start_door = this.makeDoor(this.config.start_door[0], this.config.start_door[1], this.config.start_door[2]);
     layers.filled.addChild(start_door);
     this.doors.start = start_door;
 
-    let end_door = game.makeCpeDoor(this.config.end_door[0],this.config.end_door[1], this.config.end_door[2]);
+    let end_door = this.makeDoor(this.config.end_door[0],this.config.end_door[1], this.config.end_door[2]);
     layers.filled.addChild(end_door);
     this.doors.end = end_door;
 
     this.doors.death = [];
     for (let i = 0; i < this.config.death_doors.length; i++) {
       let [number, x, y] = this.config.death_doors[i];
-      let death_door = game.makeCpeDoor(number, x, y);
+      let death_door = this.makeDoor(number, x, y);
       layers.filled.addChild(death_door);
       this.doors.death.push(death_door);
     }
@@ -665,7 +665,7 @@ class CentrallyPlannedEconomy extends Screen {
     if (force || (this.state == "active" 
       && timeSince(this.walker_last_spawn) > this.walker_spawn_delay
       && this.num_awake < this.num_to_wake)) {
-      let walker = game.makeCpeCharacter("walker");
+      let walker = this.makeCharacter("walker");
       walker.position.set(
         this.config.start[0], this.config.start[1] - 16
       );
@@ -693,7 +693,7 @@ class CentrallyPlannedEconomy extends Screen {
     let x = character.x;
     let y = character.y;
 
-    let walker = game.makeCpeCharacter("walker");
+    let walker = this.makeCharacter("walker");
     walker.x = character.x;
     walker.y = character.y;
     walker.vx = character.vx;
@@ -722,7 +722,7 @@ class CentrallyPlannedEconomy extends Screen {
     let x = character.x;
     let y = character.y;
 
-    let runner = game.makeCpeCharacter("runner");
+    let runner = this.makeCharacter("runner");
     runner.x = character.x;
     runner.y = character.y;
     runner.vx = character.vx;
@@ -753,7 +753,7 @@ class CentrallyPlannedEconomy extends Screen {
     let x = character.x;
     let y = character.y;
 
-    let traffic = game.makeCpeCharacter("traffic");
+    let traffic = this.makeCharacter("traffic");
     traffic.x = character.x;
     traffic.y = character.y;
     traffic.vx = character.vx;
@@ -782,7 +782,7 @@ class CentrallyPlannedEconomy extends Screen {
     let x = character.x;
     let y = character.y;
 
-    let policeman = game.makeCpeCharacter("policeman");
+    let policeman = this.makeCharacter("policeman");
     policeman.x = character.x;
     policeman.y = character.y;
     policeman.vx = character.vx;
@@ -813,7 +813,7 @@ class CentrallyPlannedEconomy extends Screen {
     let x = character.x;
     let y = character.y;
 
-    let academic = game.makeCpeCharacter("academic");
+    let academic = this.makeCharacter("academic");
     academic.x = character.x;
     academic.y = character.y;
     academic.vx = character.vx;

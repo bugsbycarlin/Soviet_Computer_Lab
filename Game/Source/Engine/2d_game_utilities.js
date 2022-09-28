@@ -328,7 +328,7 @@ function comicBubble(parent, text, x, y, size=36, font_family="Bangers") {
 }
 
 
-Game.prototype.addOpponentPicture = function(parent, opponent_name, x, y) {
+function addOpponentPicture(parent, opponent_name, x, y) {
   let opponent_image = null;
   if(opponent_name != null) {
     let name = "";

@@ -6,7 +6,7 @@
 // Written by Matthew Carlin
 //
 
-Game.prototype.makeCpeDoor = function(number, x, y) {
+CentrallyPlannedEconomy.prototype.makeDoor = function(number, x, y) {
   let door = new PIXI.Container();
   door.position.set(0,0);
 
@@ -14,15 +14,14 @@ Game.prototype.makeCpeDoor = function(number, x, y) {
   door.number = number;
 
   PIXI.utils.clearTextureCache();
-  let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/door_" + number + ".json"].spritesheet;
   door.animations = {};
+
+  let path = "Art/CPE/Animations/door_" + number + ".json";
+  let sheet = PIXI.Loader.shared.resources[path].spritesheet;
   for(const key in sheet.animations) {
-    door.animations[key] = new PIXI.AnimatedSprite(sheet.animations[key]);
-    door.animations[key].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    door.animations[key].position.set(0, 0);
+    door.animations[key] = makeAnimatedSprite(path, key, door, 0, 0);
     door.animations[key].loop = false;
     door.animations[key].animationSpeed = 0.14;
-    door.addChild(door.animations[key]);
     door.animations[key].visible = false;
   }
 
@@ -42,9 +41,6 @@ Game.prototype.makeCpeDoor = function(number, x, y) {
     door.trigger_x = door.x + 8;
     door.trigger_y = door.y + 28;
   }
-
-  console.log("Door " + door.trigger_x + "," + door.trigger_y)
-
 
   door.open = function() {
     door.animations["open"].visible = true;

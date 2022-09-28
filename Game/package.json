@@ -2,7 +2,7 @@
   "name": "sovietcomputerlab",
   "version": "0.8.0",
   "description": "game",
-  "main": "Source/main.js",
+  "main": "Source/Electron_Wrapper/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
@@ -20,7 +20,7 @@
     "appId": "com.electron.sovietcomputerlab",
     "productName": "Soviet Computer Lab",
     "copyright": "Copyright 2021 AlphaZoo LLC",
-    "afterSign": "Source/notarize.js",
+    "afterSign": "Source/Electron_Wrapper/notarize.js",
     "directories": {
       "output": "../Release/Cold War Keyboards/"
     },

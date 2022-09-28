@@ -18,10 +18,10 @@
 // Make it 24000.
 //
 
-var frame_time = 100;
-var default_walk_speed = (24000/360)/frame_time;
+var cpe_character_frame_time = 100;
+var cpe_character_default_walk_speed = (24000/360)/cpe_character_frame_time;
 
-Game.prototype.makeCpeCharacter = function(character_name) {
+CentrallyPlannedEconomy.prototype.makeCharacter = function(character_name) {
   let character = new PIXI.Container();
   character.position.set(0,0);
 
@@ -31,14 +31,11 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   character.player_owned = true;
 
   PIXI.utils.clearTextureCache();
-  let sheet = PIXI.Loader.shared.resources["Art/CPE/Characters/" + character_name + ".json"].spritesheet;
   character.poses = {};
+  let path = "Art/CPE/Characters/" + character_name + ".json";
+  let sheet = PIXI.Loader.shared.resources[path].spritesheet;
   for(const key in sheet.animations) {
-    character.poses[key] = new PIXI.AnimatedSprite(sheet.animations[key]);
-    character.poses[key].texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    character.poses[key].anchor.set(0.5,0.82);
-    character.poses[key].position.set(0, 0);
-    character.addChild(character.poses[key]);
+    character.poses[key] = makeAnimatedSprite(path, key, character, 0, 0, 0.5, 0.82);
     character.poses[key].visible = false;
   }
 
@@ -50,19 +47,16 @@ Game.prototype.makeCpeCharacter = function(character_name) {
   if (character.character_name == "academic") {
     character.clickable = false;
 
-    let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
-    let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
-    animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    animation.position.set(character.x - 8, character.y - 30);
+    let animation = makeAnimatedSprite("Art/CPE/UI/dot_dot_dot.json", "dot_dot_dot", null, character.x - 8, character.y - 30, 0, 0);
     animation.animationSpeed = 0.035;
     animation.play();
     animation.visible = false;
     character.dot_dot_dot_animation = animation;
   }
 
-  character.frame_time = frame_time;
+  character.frame_time = cpe_character_frame_time;
   character.last_image_time = null;
-  character.walk_speed = default_walk_speed;
+  character.walk_speed = cpe_character_default_walk_speed;
 
   if (character.character_name == "runner") {
     character.frame_time /= 2;
@@ -107,9 +101,7 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       if (character.arrow != null) {
         character.removeChild(character.arrow);
       }
-      character.arrow = new PIXI.Sprite(PIXI.Texture.from("Art/CPE/UI/arrow.png"));
-      character.arrow.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-      character.arrow.anchor.set(0.5, 0.5)
+      character.arrow = makeSprite("Art/CPE/UI/arrow.png", character, 0, 0, 0.5, 0.5);
       if (direction == "right") {
         character.vx = 1;
         character.vy = 0;
@@ -133,7 +125,6 @@ Game.prototype.makeCpeCharacter = function(character_name) {
       }
       character.arrow.px = character.arrow.x;
       character.arrow.py = character.arrow.y;
-      character.addChild(character.arrow);
       character.setAction("point");
     } else if (character.state == "directed_walk") {
       if (direction == "right") {

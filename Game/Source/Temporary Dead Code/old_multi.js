@@ -1,76 +1,6 @@
 
-// PERFORMANCE TRACKING
-
-if (performance.measureUserAgentSpecificMemory != null) {
-  performance.measureUserAgentSpecificMemory().then(function(result){performance_result = result});
-}
-
-if (performance_result != null) {
-  console.log("Mem total: " + (performance_result.bytes / 1000000).toFixed(2) + "mb");
-  var breakdown = "";
-  for (var i = 0; i < performance_result.breakdown.length; i++) {
-    if (performance_result.breakdown[i].types.length > 0) {
-      breakdown += performance_result.breakdown[i].types[0] + ":" + (performance_result.breakdown[i].bytes / 1000000).toFixed(2) + ",";
-    } else if (performance_result.breakdown[i].bytes > 10) {
-      breakdown += "N/A:" + (performance_result.breakdown[i].bytes / 1000000).toFixed(2) + ",";
-    }
-  }
-  console.log(breakdown);
-}
-
-
 
 // GAME
-
-  initializeScenes() {
-    var self = this;
-    this.scenes = [];
-    this.scenes["title"] = new PIXI.Container();
-    this.scenes["setup_create"] = new PIXI.Container();
-    this.scenes["setup_create"].position.x = this.width;
-    this.scenes["setup_join"] = new PIXI.Container();
-    this.scenes["setup_join"].position.x = this.width;
-    this.scenes["setup_watch"] = new PIXI.Container();
-    this.scenes["setup_watch"].position.x = this.width;
-    this.scenes["lobby"] = new PIXI.Container();
-    this.scenes["lobby"].position.x = this.width;
-    this.scenes["volley"] = new PIXI.Container();
-    this.scenes["volley"].position.x = 2 * this.width;
-    pixi.stage.addChild(this.scenes["title"]);
-    pixi.stage.addChild(this.scenes["setup_create"]);
-    pixi.stage.addChild(this.scenes["setup_join"]);
-    pixi.stage.addChild(this.scenes["setup_watch"]);
-    pixi.stage.addChild(this.scenes["lobby"]);
-    pixi.stage.addChild(this.scenes["volley"]);
-
-
-    this.scenes["solo"] = new PIXI.Container();
-    this.scenes["solo"].position.x = this.width;
-    pixi.stage.addChild(this.scenes["solo"]);
-
-
-    this.alertMask = new PIXI.Container();
-    pixi.stage.addChild(this.alertMask);
-    this.alertBox = new PIXI.Container();
-    pixi.stage.addChild(this.alertBox);
-
-    this.conclusionMask = new PIXI.Container();
-    pixi.stage.addChild(this.conclusionMask);
-
-    if (!PIXI.Loader.shared.resources["Art/fire.json"]) {
-      PIXI.Loader.shared.add("Art/fire.json").load(function() {
-        self.initializeTitleScreen();
-
-        if (!PIXI.Loader.shared.resources["Art/explosion.json"]) {
-          PIXI.Loader.shared.add("Art/explosion.json").load(function() {
-          });
-        }
-      });
-    }
-    
-    this.initializeAlertBox();
-  }
-
 
 
 
@@ -234,27 +164,6 @@ if (performance_result != null) {
 
 
 
-// old game logic and update code
-
-
-const exhortations = [
-  "Wow!",
-  "Zowie!",
-  "Jeezy Creezy.",
-  "Wowsers!",
-  "Jeepers!",
-  "Dangles!",
-  "Dang!",
-  "Win-go, man!",
-  "Zappa zappa.",
-  "Zam!",
-  "Blam!",
-  "Shazaam!",
-  "Keep going!",
-  "Go go go!",
-  "Wheeeee!",
-  "Yay!",
-];
 
 Game.prototype.updateFromMulti = function(snapshot) {
   // I don't know why this happens, but I need to cancel it.
@@ -912,7 +821,7 @@ Game.prototype.hideHint = function() {
 
 
 
-// old MULTIPLAYER
+// old MULTIPLAYER class
 
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -1310,135 +1219,6 @@ Game.prototype.changeCharacterArrow = function(scene, player, direction, x, y) {
 }
 
 
-// Game.prototype.initializeTitleScreen = function() {
-//   // Make the title screen layout
-  
-//   var self = this;
-
-//   // Sign in button
-//   // this.sign_in_button = this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width - 90, this.height - 50,
-//   //   "SIGN IN", 24, 6, 0xFFFFFF,
-//   //   120, 40, 0x3cb0f3,
-//   //   function() {
-//   //     self.multiplayer.googleSignIn();
-//   //   }
-//   // );
-
-//   // this.sign_out_button = this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width - 90, this.height - 50,
-//   //   "SIGN OUT", 24, 6, 0xFFFFFF,
-//   //   120, 40, 0x3cb0f3,
-//   //   function() {
-//   //     self.multiplayer.signOut();
-//   //   }
-//   // );
-//   // this.sign_out_button.disable();
-//   // this.sign_out_button.visible = false;
-
-
-//   // var title_text = new PIXI.Text("WORD ROCKETS", {fontFamily: "Bebas Neue", fontSize: 80, fill: 0x000000, letterSpacing: 25, align: "center"});
-//   // title_text.position.set(this.width * 1/2, this.height * 4/16);
-//   // title_text.anchor.set(0.5,0.5);
-//   // this.scenes["title"].addChild(title_text);
-
-//   let size = 80;
-//   for (var i = 0; i < "WORD ROCKETS".length; i++) {
-//     let letter = "WORD ROCKETS"[i];
-//     if (i < 4) {
-//       let x = this.width * 1/2 - 8 * size/2 + i * size;
-//       let y = this.height * 1/4 - 1.5*size + size/4 * i;
-//       this.makeParachute(this.scenes["title"], x, y - size, 0.5, 0.5);
-//       this.makeTile(this.scenes["title"], x, y, letter, size, size, size, 0xEFEFEF, "", function(){});
-//     } else if (i > 4) {
-//       let x = this.width * 1/2 - 14 * size/2 + i * size;
-//       let y = this.height * 1/4 - 0.5*size + size/4 * i;
-//       let fire = this.makeFire(this.scenes["title"], x, y + size * 0.8, 0.4, -0.3);
-//       this.makeTile(this.scenes["title"], x, y, letter, size, size, size, 0xEFEFEF, "", function(){});
-//     }
-//   }
-
-//   var solo_test = new PIXI.Text("[SINGLE PLAYER TEST]", {fontFamily: "Bebas Neue", fontSize: 30, fill: 0x000000, letterSpacing: 10, align: "center"});
-//   solo_test.position.set(this.width * 1/2, this.height * 5/8);
-//   solo_test.anchor.set(0.5,0.5);
-//   this.scenes["title"].addChild(solo_test);
-
-//   // this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width * 1/2, this.height * 4/8,
-//   //   "QUICKPLAY", 44, 6, 0x000000,
-//   //   224, 80, 0x71d07d,
-//   //   function() {
-//   //     if (self.auth_user == null) {
-//   //       self.multiplayer.anonymousSignIn(function() {self.quickPlayGame()});
-//   //     } else {
-//   //       self.quickPlayGame();
-//   //     }
-//   //   }
-//   // );
-
-//   // this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width * 1/2, this.height * 5/8,
-//   //   "CREATE", 44, 6, 0xFFFFFF,
-//   //   224, 80, 0x3cb0f3,
-//   //   function() {
-//   //     self.initializeSetupCreate();
-//   //     self.animateSceneSwitch("title", "setup_create")
-//   //   }
-//   // );
-
-//   // this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width * 1/2, this.height * 6/8,
-//   //   "JOIN", 44, 6, 0x000000,
-//   //   224, 80, 0xf3db3c,
-//   //   function() {
-//   //     self.initializeSetupJoin();
-//   //     self.animateSceneSwitch("title", "setup_join")
-//   //   }
-//   // );
-
-//   // this.makeButton(
-//   //   this.scenes["title"],
-//   //   this.width * 1/2, this.height * 7/8,
-//   //   "WATCH", 44, 6, 0xFFFFFF,
-//   //   224, 80, 0xdb5858,
-//   //   function() {
-//   //     self.initializeSetupWatch();
-//   //     self.animateSceneSwitch("title", "setup_watch")
-//   //   }
-//   // );
-
-//   this.makeButton(
-//     this.scenes["title"],
-//     this.width * 1/2, this.height * 12/16,
-//     "TUTORIAL", 44, 6, 0x000000,
-//     224, 80, 0x71d07d,
-//     function() {
-//       // self.initializeSetupWatch();
-//       // self.animateSceneSwitch("title", "setup_watch")
-//       self.tutorial = true;
-//       self.soloGame();
-//     }
-//   );
-
-//   this.makeButton(
-//     this.scenes["title"],
-//     this.width * 1/2, this.height * 14/16,
-//     "PLAY", 44, 6, 0xFFFFFF,
-//     224, 80, 0xdb5858,
-//     function() {
-//       // self.initializeSetupWatch();
-//       // self.animateSceneSwitch("title", "setup_watch")
-//       self.tutorial = false;
-//       self.soloGame();
-//     }
-//   );
-// }
-
 
 Game.prototype.initializeSetupCreate = function() {
   this.clearScene(this.scenes["setup_create"]);
@@ -1765,3 +1545,5 @@ Game.prototype.resetSetupLobby = function() {
 
 
 //// 
+
+

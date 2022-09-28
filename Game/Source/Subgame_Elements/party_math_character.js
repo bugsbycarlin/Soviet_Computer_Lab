@@ -5,16 +5,16 @@
 // Written by Matthew Carlin
 //
 
-var mg_default_walk_speed = 4.5;
-var mg_frame_time = 50;
+var party_math_character_default_walk_speed = 4.5;
+var party_math_character_frame_time = 50;
 
-var sprites = ["down", "left", "up", "right", "victory", "work", "defeat"]
-var walk_frames = [0, 1, 2, 1];
-var work_frames = [0, 1, 2, 1, 0];
-var victory_frames = [0, 1, 2, 1];
-var defeat_frames = [0, 1, 2, 1];
+var cpe_character_sprites = ["down", "left", "up", "right", "victory", "work", "defeat"]
+var cpe_character_walk_frames = [0, 1, 2, 1];
+var cpe_character_work_frames = [0, 1, 2, 1, 0];
+var cpe_character_victory_frames = [0, 1, 2, 1];
+var cpe_character_defeat_frames = [0, 1, 2, 1];
 
-Game.prototype.makeCharacter = function(character_name) {
+PartyMath.prototype.makeCharacter = function(character_name) {
   let character = new PIXI.Container();
   character.position.set(0,0);
 
@@ -26,8 +26,8 @@ Game.prototype.makeCharacter = function(character_name) {
   let path = "Art/Party_Math/Characters/" + character_name + ".json";
   character.character_sprite = {};
   for(let i = 0; i < character.sprite_count; i++) {
-    character.character_sprite[sprites[i]] = makeAnimatedSprite(path, sprites[i], character, 0, 0, 0.5, 0.82)
-    character.character_sprite[sprites[i]].visible = false;
+    character.character_sprite[cpe_character_sprites[i]] = makeAnimatedSprite(path, cpe_character_sprites[i], character, 0, 0, 0.5, 0.82)
+    character.character_sprite[cpe_character_sprites[i]].visible = false;
   }
 
   character.state = "stopped";
@@ -35,9 +35,9 @@ Game.prototype.makeCharacter = function(character_name) {
   character.character_sprite["down"].visible = true;
 
   character.direction = "down";
-  character.frame_time = mg_frame_time;
+  character.frame_time = party_math_character_frame_time;
   character.last_image_time = null;
-  character.walk_speed = mg_default_walk_speed;
+  character.walk_speed = party_math_character_default_walk_speed;
 
   character.step_value = 0;
 
@@ -56,10 +56,10 @@ Game.prototype.makeCharacter = function(character_name) {
 
   character.walk = function() {
     for(let i = 0; i < character.sprite_count; i++) {
-      if (sprites[i] == character.direction) {
-        character.character_sprite[sprites[i]].visible = true;
+      if (cpe_character_sprites[i] == character.direction) {
+        character.character_sprite[cpe_character_sprites[i]].visible = true;
       } else {
-        character.character_sprite[sprites[i]].visible = false;
+        character.character_sprite[cpe_character_sprites[i]].visible = false;
       }
     }
 
@@ -93,8 +93,8 @@ Game.prototype.makeCharacter = function(character_name) {
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
     } else if (Date.now() - character.last_image_time > character.frame_time) {
-      character.step_value = (character.step_value + 1) % walk_frames.length;
-      character.character_sprite[character.direction].gotoAndStop(walk_frames[character.step_value]);
+      character.step_value = (character.step_value + 1) % cpe_character_walk_frames.length;
+      character.character_sprite[character.direction].gotoAndStop(cpe_character_walk_frames[character.step_value]);
       character.last_image_time = Date.now();
     }
   } 
@@ -104,10 +104,10 @@ Game.prototype.makeCharacter = function(character_name) {
     if (character.direction == null) return;
 
     for(let i = 0; i < character.sprite_count; i++) {
-      if (sprites[i] == character.direction) {
-        character.character_sprite[sprites[i]].visible = true;
+      if (cpe_character_sprites[i] == character.direction) {
+        character.character_sprite[cpe_character_sprites[i]].visible = true;
       } else {
-        character.character_sprite[sprites[i]].visible = false;
+        character.character_sprite[cpe_character_sprites[i]].visible = false;
       }
     }
 
@@ -123,10 +123,10 @@ Game.prototype.makeCharacter = function(character_name) {
     character.step_value = 0;
 
     for(let i = 0; i < character.sprite_count; i++) {
-      if (sprites[i] == "work") {
-        character.character_sprite[sprites[i]].visible = true;
+      if (cpe_character_sprites[i] == "work") {
+        character.character_sprite[cpe_character_sprites[i]].visible = true;
       } else {
-        character.character_sprite[sprites[i]].visible = false;
+        character.character_sprite[cpe_character_sprites[i]].visible = false;
       }
     }
 
@@ -142,8 +142,8 @@ Game.prototype.makeCharacter = function(character_name) {
       character.last_image_time = Date.now();
     } else if (Date.now() - character.last_image_time > character.frame_time) {
       character.step_value = character.step_value + 1;
-      if (character.step_value < work_frames.length) {
-        character.character_sprite["work"].gotoAndStop(work_frames[character.step_value]);
+      if (character.step_value < cpe_character_work_frames.length) {
+        character.character_sprite["work"].gotoAndStop(cpe_character_work_frames[character.step_value]);
         character.last_image_time = Date.now();
       } else {
         character.state = "stopped";
@@ -161,10 +161,10 @@ Game.prototype.makeCharacter = function(character_name) {
     character.frame_time *= 2;
 
     for(let i = 0; i < character.sprite_count; i++) {
-      if (sprites[i] == "victory") {
-        character.character_sprite[sprites[i]].visible = true;
+      if (cpe_character_sprites[i] == "victory") {
+        character.character_sprite[cpe_character_sprites[i]].visible = true;
       } else {
-        character.character_sprite[sprites[i]].visible = false;
+        character.character_sprite[cpe_character_sprites[i]].visible = false;
       }
     }
 
@@ -179,8 +179,8 @@ Game.prototype.makeCharacter = function(character_name) {
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
     } else if (Date.now() - character.last_image_time > character.frame_time) {
-      character.step_value = (character.step_value + 1) % victory_frames.length;
-      character.character_sprite["victory"].gotoAndStop(victory_frames[character.step_value]);
+      character.step_value = (character.step_value + 1) % cpe_character_victory_frames.length;
+      character.character_sprite["victory"].gotoAndStop(cpe_character_victory_frames[character.step_value]);
       character.last_image_time = Date.now();
     }
   } 
@@ -194,10 +194,10 @@ Game.prototype.makeCharacter = function(character_name) {
     character.frame_time *= 3;
 
     for(let i = 0; i < character.sprite_count; i++) {
-      if (sprites[i] == "defeat") {
-        character.character_sprite[sprites[i]].visible = true;
+      if (cpe_character_sprites[i] == "defeat") {
+        character.character_sprite[cpe_character_sprites[i]].visible = true;
       } else {
-        character.character_sprite[sprites[i]].visible = false;
+        character.character_sprite[cpe_character_sprites[i]].visible = false;
       }
     }
 
@@ -212,8 +212,8 @@ Game.prototype.makeCharacter = function(character_name) {
     if (character.last_image_time == null) {
       character.last_image_time = Date.now();
     } else if (Date.now() - character.last_image_time > character.frame_time) {
-      character.step_value = (character.step_value + 1) % defeat_frames.length;
-      character.character_sprite["defeat"].gotoAndStop(defeat_frames[character.step_value]);
+      character.step_value = (character.step_value + 1) % cpe_character_defeat_frames.length;
+      character.character_sprite["defeat"].gotoAndStop(cpe_character_defeat_frames[character.step_value]);
       character.last_image_time = Date.now();
     }
   }

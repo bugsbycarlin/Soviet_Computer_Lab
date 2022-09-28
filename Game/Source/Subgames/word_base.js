@@ -1417,7 +1417,7 @@ class WordBase extends Screen {
     this.updateRockets();
 
     // Skip the rest if we aren't in active gameplay
-    if (this.state != "active" && this.state != "tutorial") {
+    if (this.state != "active") {
       return;
     }
 

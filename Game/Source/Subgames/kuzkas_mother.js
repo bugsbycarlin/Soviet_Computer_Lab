@@ -129,19 +129,15 @@ class KuzkasMother extends Screen {
 
     this.resetBoard();
 
-    if (this.tutorial) {
-      this.tutorial1();
-    } else {
-      this.state = "pre_game";
+    this.state = "pre_game";
 
-      delay(() => {
-        paused = false;
-        pause_time = 0;
-        this.start_time = markTime();
-        this.state = "countdown";
-        soundEffect("countdown"); 
-      }, 1800);
-    }
+    delay(() => {
+      paused = false;
+      pause_time = 0;
+      this.start_time = markTime();
+      this.state = "countdown";
+      soundEffect("countdown"); 
+    }, 1800);
   }
 
 
@@ -407,11 +403,6 @@ class KuzkasMother extends Screen {
 
 
   enemyAction() {
-    // guard
-    if (this.state == "tutorial" && this.tutorial_number < 8) {
-      return;
-    }
-
     if(timeSince(this.enemy_last_action) <= 60000/this.enemy_wpm) {
       return;
     } else {
@@ -432,7 +423,6 @@ class KuzkasMother extends Screen {
       // this.enemy_base_selection_corners.position.set(target_x, target_y);
     }
 
-    let targeting = this.state != "tutorial";
     let rerolls = this.enemy_rerolls;
 
     let word_choice = null;
@@ -848,10 +838,6 @@ class KuzkasMother extends Screen {
 
     if (this.state == "none") return;
 
-    if (this.state == "tutorial") {
-      this.tutorial_screen.tutorial_text.hover();
-    }
-
     if (this.launchpad == null) return;
     if (paused) return;
 
@@ -863,7 +849,7 @@ class KuzkasMother extends Screen {
     freeeeeFreeeeeFalling(fractional);
 
     // Skip the rest if we aren't in active gameplay
-    if (this.state != "active" && (this.state != "tutorial" || this.tutorial_number < 5)) {
+    if (this.state != "active") {
       return;
     }
 
