@@ -6,20 +6,7 @@
 //
 
 
-class Intro extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
+class Intro extends Screen {
   initialize() {
     makeBlank(this, game.width, game.height, 0, 0, 0x000000);
 

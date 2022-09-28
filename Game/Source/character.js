@@ -23,18 +23,10 @@ Game.prototype.makeCharacter = function(character_name) {
   character.sprite_count = 4;
   if (character_name == "grigory") character.sprite_count = 7;
 
-  // character.red_circle = new PIXI.Sprite(PIXI.Texture.from("Art/red_circle.png"));
-  // character.red_circle.anchor.set(0.5,0.78125);
-  // character.red_circle.position.set(0,0);
-  // character.red_circle.visible = false;
-  // character.addChild(character.red_circle);
-  let sheet = PIXI.Loader.shared.resources["Art/Party_Math/Characters/" + character_name + ".json"].spritesheet;
+  let path = "Art/Party_Math/Characters/" + character_name + ".json";
   character.character_sprite = {};
   for(let i = 0; i < character.sprite_count; i++) {
-    character.character_sprite[sprites[i]] = new PIXI.AnimatedSprite(sheet.animations[sprites[i]]);
-    character.character_sprite[sprites[i]].anchor.set(0.5,0.82);
-    character.character_sprite[sprites[i]].position.set(0, 0);
-    character.addChild(character.character_sprite[sprites[i]]);
+    character.character_sprite[sprites[i]] = makeAnimatedSprite(path, sprites[i], character, 0, 0, 0.5, 0.82)
     character.character_sprite[sprites[i]].visible = false;
   }
 

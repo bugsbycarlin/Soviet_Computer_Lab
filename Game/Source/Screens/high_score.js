@@ -6,21 +6,13 @@
 //
 
 
-class HighScore extends PIXI.Container {
-  constructor(new_score) {
+class HighScore extends Screen {
+  constructor() {
     super();
-    this.new_high_score = new_score;
-    this.initialize();
+
+    this.new_high_score = game.score;
+    this.high_score_value.text = this.new_high_score + " POINTS";
   }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
 
   initialize() {
     makeBlank(this, game.width, game.height, 0, 0, 0x000000);
@@ -54,7 +46,7 @@ class HighScore extends PIXI.Container {
 
     makeText("YOU GOT A HIGH SCORE!", {fontFamily: "Press Start 2P", fontSize: 48, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
       this, game.width / 2, 100, 0.5, 0.5);
-    makeText(this.new_high_score + " POINTS", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
+    this.high_score_value = makeText("", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
       this, game.width / 2, 300, 0.5, 0.5);
 
 

@@ -78,6 +78,21 @@ function makeSprite(path, parent, x, y, anchor_x=0, anchor_y=0, pixel_hard_scale
 }
 
 
+function makeAnimatedSprite(path, animation, parent, x, y, anchor_x=0, anchor_y=0, pixel_hard_scale=true) {
+  let sheet = PIXI.Loader.shared.resources[path].spritesheet;
+  if (animation == null) animation = Object.keys(sheet.animations)[0];
+  let new_sprite = new PIXI.AnimatedSprite(sheet.animations[animation]);
+  if (pixel_hard_scale) new_sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+  new_sprite.position.set(x, y);
+  new_sprite.anchor.set(anchor_x, anchor_y);
+  if (parent != null) {
+    parent.addChild(new_sprite);
+    new_sprite.parent = parent;
+  }
+  return new_sprite;
+}
+
+
 function makeText(text, font, parent, x, y, anchor_x=0, anchor_y=0) {
   let new_text = new PIXI.Text(text, font);
   new_text.anchor.set(anchor_x, anchor_y);
@@ -148,12 +163,7 @@ function makeRocketTile2(parent, letter, score_value, base, target_base, player)
 
 
 function makeFire(parent, x, y, xScale, yScale) {
-  var sheet = PIXI.Loader.shared.resources["Art/fire.json"].spritesheet;
-  let fire_sprite = new PIXI.AnimatedSprite(sheet.animations["fire"]);
-  fire_sprite.anchor.set(0.5,0.5);
-  fire_sprite.scaleMode = PIXI.SCALE_MODES.NEAREST;
-  fire_sprite.position.set(x, y);
-  parent.addChild(fire_sprite);
+  let fire_sprite = makeAnimatedSprite("Art/fire.json", "fire", parent, x, y, 0.5, 0.5);
   fire_sprite.animationSpeed = 0.35; 
   fire_sprite.scale.set(xScale, yScale);
   fire_sprite.play();
@@ -162,32 +172,22 @@ function makeFire(parent, x, y, xScale, yScale) {
 
 
 function makeParachute(parent, x, y, xScale, yScale) {
-  let parachute_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/parachute.png"));
-  parachute_sprite.anchor.set(0.5, 0.5);
+  let parachute_sprite = makeSprite("Art/parachute.png", parent, x, y, 0.5, 0.5);
   parachute_sprite.scale.set(xScale, yScale);
-  parachute_sprite.position.set(x, y);
-  parent.addChild(parachute_sprite);
   return parachute_sprite;
 }
 
 
 function makeBomb(parent, x, y, xScale, yScale) {
-  let bomb_sprite = new PIXI.Sprite(PIXI.Texture.from("Art/bomb.png"));
-  bomb_sprite.anchor.set(0.5, 0.5);
+  let bomb_sprite = makeSprite("Art/bomb.png", parent, x, y, 0.5, 0.5);
   bomb_sprite.scale.set(xScale, yScale);
-  bomb_sprite.position.set(x, y);
   bomb_sprite.angle = 10;
-  parent.addChild(bomb_sprite);
   return bomb_sprite;
 }
 
 
 function makeExplosion(parent, x, y, xScale, yScale, action) {
-  let sheet = PIXI.Loader.shared.resources["Art/explosion.json"].spritesheet;
-  let explosion_sprite = new PIXI.AnimatedSprite(sheet.animations["explosion"]);
-  explosion_sprite.anchor.set(0.5,0.5);
-  explosion_sprite.position.set(x, y);
-  parent.addChild(explosion_sprite);
+  let explosion_sprite = makeAnimatedSprite("Art/explosion.json", "explosion", parent, x, y, 0.5, 0.5);
   explosion_sprite.animationSpeed = 0.5; 
   explosion_sprite.scale.set(xScale, yScale);
   explosion_sprite.loop = false;
@@ -200,12 +200,8 @@ function makeExplosion(parent, x, y, xScale, yScale, action) {
 
 
 function makeElectric(parent, x, y, xScale, yScale) {
-  let sheet = PIXI.Loader.shared.resources["Art/electric.json"].spritesheet;
-  let electric_sprite = new PIXI.AnimatedSprite(sheet.animations["electric"]);
-  electric_sprite.anchor.set(0.5,0.5);
-  electric_sprite.position.set(x, y);
+  let electric_sprite = makeAnimatedSprite("Art/electric.json", "electric", parent, x, y, 0.5, 0.5);
   electric_sprite.angle = Math.random() * 360;
-  parent.addChild(electric_sprite);
   electric_sprite.animationSpeed = 0.4; 
   electric_sprite.scale.set(xScale, yScale);
   electric_sprite.play();
@@ -217,20 +213,9 @@ function makeElectric(parent, x, y, xScale, yScale) {
 
 
 function makeSmoke(parent, x, y, xScale, yScale) {
-  let sheet = PIXI.Loader.shared.resources["Art/smoke.json"].spritesheet;
-  let smoke_sprite = new PIXI.AnimatedSprite(sheet.animations["smoke"]);
-  smoke_sprite.anchor.set(0.5,0.5);
-  smoke_sprite.position.set(x, y);
-  // smoke_sprite.angle = Math.random() * 360;
-  parent.addChild(smoke_sprite);
+  let smoke_sprite = makeAnimatedSprite("Art/smoke.json", "smoke", parent, x, y, 0.5, 0.5);
   smoke_sprite.animationSpeed = 0.4; 
   smoke_sprite.scale.set(xScale, yScale);
-
-  // smoke_sprite.onLoop = function() {
-  //   this.angle = Math.random() * 360;
-  // }
-  // console.log("But abba tho");
-  parent.addChild(smoke_sprite);
   smoke_sprite.loop = false;
   smoke_sprite.onComplete = function() {
     parent.removeChild(smoke_sprite);
@@ -241,16 +226,9 @@ function makeSmoke(parent, x, y, xScale, yScale) {
 
 
 function makeFireworks(parent, color, x, y, xScale, yScale) {
-  let sheet = PIXI.Loader.shared.resources["Art/fireworks_" + color + ".json"].spritesheet;
-  let fireworks_sprite = new PIXI.AnimatedSprite(sheet.animations["fireworks"]);
-  fireworks_sprite.anchor.set(0.5,0.5);
-  fireworks_sprite.position.set(x, y);
-
-  parent.addChild(fireworks_sprite);
+  let fireworks_sprite = makeAnimatedSprite("Art/fireworks_" + color + ".json", "fireworks", parent, x, y, 0.5, 0.5);
   fireworks_sprite.animationSpeed = 0.4; 
   fireworks_sprite.scale.set(xScale, yScale);
-
-  parent.addChild(fireworks_sprite);
   fireworks_sprite.loop = false;
   fireworks_sprite.onComplete = function() {
     parent.removeChild(fireworks_sprite);
@@ -261,20 +239,9 @@ function makeFireworks(parent, color, x, y, xScale, yScale) {
 
 
 function makePop(parent, x, y, xScale, yScale) {
-  let sheet = PIXI.Loader.shared.resources["Art/pop.json"].spritesheet;
-  let pop_sprite = new PIXI.AnimatedSprite(sheet.animations["pop"]);
-  pop_sprite.anchor.set(0.5,0.5);
-  pop_sprite.position.set(x, y);
-  // pop_sprite.angle = Math.random() * 360;
-  parent.addChild(pop_sprite);
+  let pop_sprite = makeAnimatedSprite("Art/pop.json", "pop", parent, x, y, 0.5, 0.5);
   pop_sprite.animationSpeed = 0.4;
   pop_sprite.scale.set(xScale, yScale);
-
-  // pop_sprite.onLoop = function() {
-  //   this.angle = Math.random() * 360;
-  // }
-  // console.log("But abba tho");
-  parent.addChild(pop_sprite);
   pop_sprite.loop = false;
   pop_sprite.onComplete = function() {
     parent.removeChild(pop_sprite);

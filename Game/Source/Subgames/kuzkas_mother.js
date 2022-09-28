@@ -101,21 +101,7 @@ var stefansson_base_points = [
 ];
 
 
-class KuzkasMother extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class KuzkasMother extends Screen {
   initialize() {
     freefalling = [];
     shakers = [];
@@ -342,8 +328,8 @@ class KuzkasMother extends PIXI.Container {
     if (this.difficulty_level == "EASY") {
       this.spelling_help.position.set(this.launchpad.cursors[0].x - 10, -64);
       let word = this.launchpad.word();
-      if (word in this.spelling_prediction) {
-        this.spelling_help.text = this.spelling_prediction[word].slice(0, board_width - this.launchpad.shift);
+      if (word.length > 0 && word in game.spelling_prediction) {
+        this.spelling_help.text = game.spelling_prediction[word].slice(0, board_width - this.launchpad.shift);
       } else {
         this.spelling_help.text = "";
       }
@@ -586,17 +572,18 @@ class KuzkasMother extends PIXI.Container {
 
       if (enemy_dead === true || player_dead === true || bypass === true) {
         this.announcement.style.fontSize = 36;
+        game.score = this.score;
+
         if (player_dead === true || bypass === true) { //regardless of whether enemy is dead
           this.announcement.text = "YOU LOSE";
           stopMusic();
           soundEffect("game_over");
-          game.gameOverScreen(4000);
+          game.gameOver(4000);
         } else if (enemy_dead == true) {
           this.announcement.text = "YOU WIN!";
           soundEffect("victory");
           flicker(this.announcement, 500, 0xFFFFFF, 0x67d8ef);
           delay(() => {
-            game.score = this.score;
             game.nextFlow();
           }, 4000);
         }
@@ -832,6 +819,7 @@ class KuzkasMother extends PIXI.Container {
       game.fadeToBlack(800);
       delay(() => {
         resume();
+        game.score = this.score;
         game.createScreen("lobby");
         game.popScreens("kuzkas_mother", "lobby");
         game.fadeFromBlack(800);

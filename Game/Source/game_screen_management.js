@@ -11,6 +11,30 @@
 //
 
 
+
+class Screen extends PIXI.Container {
+  constructor() {
+    super();
+    this.initialize();
+  }
+
+
+  destroy() {
+    while(this.children[0]) {
+      let x = this.removeChild(this.children[0]);
+      x.destroy();
+    }
+    super.destroy();
+  }
+
+  update() {
+  }
+
+  initialize() {
+  }
+}
+
+
 Game.prototype.createScreen = function(screen_name, extra_param = null, reset = false) {
   if (screen_name == "intro") {
     this.screens["intro"] = new Intro;
@@ -193,7 +217,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
       this.screens[i].visible = true;
     } else {
       this.screens[i].visible = false;
-      this.screens[i].clear();
+      this.screens[i].destroy();
     }
   }
   pixi.stage.addChild(this.monitor_overlay);
@@ -201,7 +225,7 @@ Game.prototype.switchScreens = function(old_screen, new_screen) {
     .to({x: direction * (this.width + 200)})
     .duration(1000)
     .easing(TWEEN.Easing.Cubic.InOut)
-    .onComplete(() => {this.screens[old_screen].clear();})
+    .onComplete(() => {this.screens[old_screen].destroy();})
     .start();
   var tween_2 = new TWEEN.Tween(this.screens[new_screen].position)
     .to({x: 0})
@@ -231,7 +255,7 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
       this.screens[i].visible = true;
     } else {
       this.screens[i].visible = false;
-      this.screens[i].clear();
+      this.screens[i].destroy();
     }
   }
   pixi.stage.addChild(this.monitor_overlay);
@@ -245,14 +269,14 @@ Game.prototype.fadeScreens = function(old_screen, new_screen, double_fade = fals
     // .easing(TWEEN.Easing.Linear)
     .onComplete(() => {
       if (!double_fade) {
-        if (old_screen != new_screen) this.screens[old_screen].clear();
+        if (old_screen != new_screen) this.screens[old_screen].destroy();
         this.current_screen = new_screen;
       } else {
         var tween2 = new TWEEN.Tween(this.black)
         .to({alpha: 0})
         .duration(fade_time)
         .onComplete(() => {
-          if (old_screen != new_screen) this.screens[old_screen].clear();
+          if (old_screen != new_screen) this.screens[old_screen].destroy();
           this.current_screen = new_screen;
           pixi.stage.removeChild(this.black);
         })
@@ -305,20 +329,20 @@ Game.prototype.popScreens = function(old_screen, new_screen) {
       this.screens[i].visible = true;
     } else {
       this.screens[i].visible = false;
-      this.screens[i].clear();
+      this.screens[i].destroy();
     }
   }
-  this.screens[old_screen].clear();
+  this.screens[old_screen].destroy();
   this.current_screen = new_screen;
 }
 
 
 // Go to the lobby or the high score screen.
-Game.prototype.gameOver = function(delay_time, score) {
+Game.prototype.gameOver = function(delay_time) {
   delay(() => {
     let low_high = this.local_high_scores[this.getModeName()][this.difficulty_level.toLowerCase()][9];
-    if (low_high == null || low_high.score < score) {
-      this.createScreen("high_score", score);
+    if (true || low_high == null || low_high.score < game.score) {
+      this.createScreen("high_score");
       this.fadeScreens(this.current_screen, "high_score", true, 800);
     } else {
       this.createScreen("lobby");

@@ -350,7 +350,10 @@ class Game {
       this.createScreen(type);
       this.fadeScreens(this.current_screen, type, true, 800);
     } else {
+      let old_screen = this.screens[type];
       this.createScreen(type);
+      pixi.stage.removeChild(old_screen);
+      old_screen.destroy();
     }
   }
 

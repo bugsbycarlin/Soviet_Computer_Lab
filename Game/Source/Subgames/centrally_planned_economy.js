@@ -8,21 +8,7 @@
 cpe_character_types = ["walker", "runner", "construction", "policeman", "traffic", "academic", "partyboy", "businessman", "soldier"]
 
 
-class CentrallyPlannedEconomy extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class CentrallyPlannedEconomy extends Screen {
   // Set up the game board
   initialize() {
     this.state = null;
@@ -32,6 +18,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
  
     this.level = game.level != null ? game.level : 1;
     this.score = game.score != null ? game.score : 0;
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
 
     this.display_score = this.score;
     this.next_score_bump = 20;
@@ -140,29 +127,19 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       layers["display"], game.width/4, game.height/12, 0.5, 0.5);
     this.failure_text.visible = false;
 
-    let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/time_clocks.json"].spritesheet;
-    let time_clocks_graphic = new PIXI.AnimatedSprite(sheet.animations["time_clocks"]);
-    time_clocks_graphic.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    time_clocks_graphic.position.set(14, game.height/2 - glyph_gap + 11);
-    time_clocks_graphic.anchor.set(0, 0)
-    layers["display"].addChild(time_clocks_graphic);
-    time_clocks_graphic.gotoAndStop(0);
-    this.time_clocks_graphic = time_clocks_graphic;
+    this.time_clocks_graphic = makeAnimatedSprite("Art/CPE/UI/time_clocks.json", "time_clocks", 
+      layers["display"], 14, game.height/2 - glyph_gap + 11);
+    this.time_clocks_graphic.gotoAndStop(0);
 
     shakers.push(this.time_clocks_graphic);
     shakers.push(this.time_clocks_text);
     shakers.push(this.time_clocks_backing);
 
-    sheet = PIXI.Loader.shared.resources["Art/CPE/UI/play_pause_glyph.json"].spritesheet;
-    let play_pause_glyph = new PIXI.AnimatedSprite(sheet.animations["play_pause"]);
-    play_pause_glyph.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    play_pause_glyph.position.set(76 + glyph_gap, game.height/2 - glyph_gap);
-    play_pause_glyph.anchor.set(0, 0)
-    play_pause_glyph.scale.set(0.75, 0.75)
-    play_pause_glyph.alpha = 0.75;
-    layers["display"].addChild(play_pause_glyph);
-    play_pause_glyph.gotoAndStop(0);
-    this.play_pause_glyph = play_pause_glyph;
+    this.play_pause_glyph = makeAnimatedSprite("Art/CPE/UI/play_pause_glyph.json", "play_pause",
+      layers["display"], 76 + glyph_gap, game.height/2 - glyph_gap);
+    this.play_pause_glyph.scale.set(0.75, 0.75)
+    this.play_pause_glyph.alpha = 0.75;
+    this.play_pause_glyph.gotoAndStop(0);
     this.play_pause_glyph.interactive = true;
     this.play_pause_glyph.on("pointertap", () => {
       if (this.paused) {
@@ -425,10 +402,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     for (let i = 0; i < this.config.animations.length; i++) {
       let [name, layer, x, y, speed, delay_time] = this.config.animations[i];
 
-      let sheet = PIXI.Loader.shared.resources["Art/CPE/Animations/" + name + ".json"].spritesheet;
-      let animation = new PIXI.AnimatedSprite(sheet.animations[Object.keys(sheet.animations)[0]]);
-      animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-      animation.position.set(x, y);
+      let animation = makeAnimatedSprite("Art/CPE/Animations/" + name + ".json", null, layers[layer], x, y);
       animation.name = name;
       if (animation.name.includes("butterfly")) {
         let angle = dice(358) + 1;
@@ -441,7 +415,6 @@ class CentrallyPlannedEconomy extends PIXI.Container {
           delay(function() {animation.play()}, delay_time);
         }
       }
-      layers[layer].addChild(animation);
       animation.animationSpeed = speed;
       animation.play();
       this.animations.push(animation);
@@ -471,14 +444,10 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       this.doors.death.push(death_door);
     }
 
-    let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/red_arrow.json"].spritesheet;
-    let red_arrow = new PIXI.AnimatedSprite(sheet.animations["red_arrow"]);
-    red_arrow.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    red_arrow.position.set(this.config.end[0], this.config.end[1] - 50);
-    red_arrow.anchor.set(0.5, 0.5)
-    red_arrow.name = "red_arrow";
-    layers["floating"].addChild(red_arrow);
+    let red_arrow = makeAnimatedSprite("Art/CPE/UI/red_arrow.json", "red_arrow",
+      layers["floating"], this.config.end[0], this.config.end[1] - 50, 0.5, 0.5);
     red_arrow.animationSpeed = 0.035;
+    red_arrow.name = "red_arrow";
     red_arrow.play();
     this.animations.push(red_arrow);
   }
@@ -500,6 +469,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
     //     }
     // }
 
+    game.score = this.score;
     if (this.state == "victory" && ev.key === "Enter") {
       soundEffect("button_accept");
       this.victory_text.visible = false;
@@ -521,7 +491,7 @@ class CentrallyPlannedEconomy extends PIXI.Container {
       }
       soundEffect("descending_plinks");
       this.state = "game_over";
-      game.gameOver(2500, this.score);
+      game.gameOver(2500);
     }
   }
 
@@ -990,15 +960,12 @@ class CentrallyPlannedEconomy extends PIXI.Container {
               if (character.state != "standing" && comp_character.state != "random_walk") {
                   character.clickable = false;
                   character.setState("standing");
-                  let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
                   if (character.dot_dot_dot_animation == null) {
-                    let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
-                    animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-                    animation.position.set(character.x - 8, character.y - 30);
+                    let animation = makeAnimatedSprite("Art/CPE/UI/dot_dot_dot.json", "dot_dot_dot",
+                      layers["floating"], character.x - 8, character.y - 30);
                     animation.animationSpeed = 0.035;
                     animation.play();
                     character.dot_dot_dot_animation = animation;
-                    layers["floating"].addChild(animation);
                   }
                   character.academic_countdown_start = markTime();
               }
@@ -1064,14 +1031,11 @@ class CentrallyPlannedEconomy extends PIXI.Container {
                 character.setState("standing");
                 character.clickable = false;
                 if (character.dot_dot_dot_animation == null) {
-                  let sheet = PIXI.Loader.shared.resources["Art/CPE/UI/dot_dot_dot.json"].spritesheet;
-                  let animation = new PIXI.AnimatedSprite(sheet.animations["dot_dot_dot"]);
-                  animation.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-                  animation.position.set(character.x - 8, character.y - 30);
+                  let animation = makeAnimatedSprite("Art/CPE/UI/dot_dot_dot.json", "dot_dot_dot",
+                    layers["floating"], character.x - 8, character.y - 30);
                   animation.animationSpeed = 0.035;
                   animation.play();
                   character.dot_dot_dot_animation = animation;
-                  layers["floating"].addChild(animation);
                 }
                 character.police_countdown_start = markTime();
               }

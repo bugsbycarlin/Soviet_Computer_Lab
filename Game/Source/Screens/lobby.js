@@ -1,19 +1,5 @@
 
-class Lobby extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();  
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class Lobby extends Screen {
   initialize() {
     this.sections = {};
 

@@ -6,25 +6,9 @@
 //
 
 
-class Title extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-
-    if (use_music) setMusic("title_song")
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class Title extends Screen {
   initialize() {
-    let self = this;
+    if (use_music) setMusic("title_song")
 
     this.state = "active";
 
@@ -146,8 +130,6 @@ class Title extends PIXI.Container {
 
 
   update(diff) {
-    let self = this;
-
     if (timeSince(this.start_time) > 4155) {
       this.start_time = markTime();
       this.soviet_text.text = "";

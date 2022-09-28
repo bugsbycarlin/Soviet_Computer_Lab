@@ -27,21 +27,7 @@ course_origin.x = 268;
 course_origin.y = 375;
 
 
-class FirstStrike extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class FirstStrike extends Screen {
   initialize() {
     freefalling = [];
     shakers = [];
@@ -225,7 +211,7 @@ class FirstStrike extends PIXI.Container {
     this.level_text_box = makeText(this.level, font_16, this, 742, 87, 0.5, 0.5);
     this.type_to_run = makeSprite("Art/Nav/type_to_run_v3.png", area, 170 - 129, 150 - 39, 0, 0.5);
     this.double_tap_to_act = makeSprite("Art/Nav/double_tap_action_v4.png", area, 320 - 129, 200 - 39, 0, 0.5);
-    this.escape_to_quit = makeText("PRESS ESC TO QUIT", font_18, this, 470, 303, 0.5, 0.5);
+    this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5);
 
     this.runner_arrow.visible = false;
     this.mini_runner.visible = false;
@@ -489,7 +475,7 @@ class FirstStrike extends PIXI.Container {
       stopMusic();
       soundEffect("game_over");
 
-      this.gameOverScreen(10000);
+      game.gameOver(10000);
     }
   }
 
@@ -780,6 +766,7 @@ class FirstStrike extends PIXI.Container {
       game.fadeToBlack(800);
       delay(() => {
         resume();
+        game.score = this.score;
         game.createScreen("lobby");
         game.popScreens("first_strike", "lobby");
         game.fadeFromBlack(800);

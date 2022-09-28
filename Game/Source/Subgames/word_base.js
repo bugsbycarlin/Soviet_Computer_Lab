@@ -22,21 +22,7 @@
 var run_clock_when_winning = true;
 
 
-class WordBase extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class WordBase extends Screen {
   initialize() {
     freefalling = [];
     shakers = [];
@@ -188,7 +174,7 @@ class WordBase extends PIXI.Container {
     this.play_clock_text_box = makeText(this.play_clock, font_18, this, 735, 377, 0.5, 0.5);
     this.play_clock_text_box.visible = false;
     this.announcement = makeText("", font_36, this, 470, 78, 0.5, 0.5);
-    this.escape_to_quit = makeText("PRESS ESC TO QUIT", font_18, this, 470, 303, 0.5, 0.5)
+    this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5)
 
     this.play_clock_label.visible = false;
     this.escape_to_quit.visible = false;
@@ -335,6 +321,7 @@ class WordBase extends PIXI.Container {
       game.fadeToBlack(800);
       delay(() => {
         resume();
+        game.score = this.score;
         game.createScreen("lobby");
         game.popScreens("word_base", "lobby");
         game.fadeFromBlack(800);

@@ -65,28 +65,15 @@ let subversive_list = [
 ]
 
 
-class PartyMath extends PIXI.Container {
-  constructor() {
-    super();
-    this.initialize();
-  }
-
-
-  clear() {
-    while(this.children[0]) {
-      let x = this.removeChild(this.children[0]);
-      x.destroy();
-    }
-  }
-
-
+class PartyMath extends Screen {
   // Set up the game board
   initialize() {
     freefalling = [];
     shakers = [];
 
-    if (this.score == null) this.score = 0;
-    this.level = game.level;
+    this.level = game.level != null ? game.level : 1;
+    this.score = game.score != null ? game.score : 0;
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
 
     this.hearts = 4;
 
@@ -755,6 +742,7 @@ class PartyMath extends PIXI.Container {
               .easing(TWEEN.Easing.Quartic.Out)
               .start();
             this.executioner.sequence = "after_arrest";
+            game.score = this.score;
             game.gameOver(800);
           }
         }
@@ -796,6 +784,7 @@ class PartyMath extends PIXI.Container {
 
       //flicker(this.stalin_text, 500, 0xFFFFFF, 0x67d8ef);
       delay(() => {
+        game.score = this.score;
         game.nextFlow();
       }, 2000);
     }
