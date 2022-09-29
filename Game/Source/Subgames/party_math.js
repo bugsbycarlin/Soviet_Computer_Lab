@@ -1,6 +1,10 @@
 //
 // This file contains the Party Math subgame.
 //
+// In this game, you guide Grigory to do his work,
+// picking up numbers and words that match certain patterns,
+// while avoiding the evil subversives.
+//
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
@@ -138,6 +142,9 @@ class PartyMath extends Screen {
     this.stalin_icon = makeSprite("Art/Party_Math/stalin_icon.png", this.background_layer, 673, 301);
     this.stalin_icon.visible = false;
 
+    this.q_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font, this.foreground_layer, game.width/4, game.height/4, 0.5, 0.5);
+    this.q_to_quit.visible = false;
+
     this.life_stars = [];
     for (let i = 0; i < this.hearts; i++) {
       let star = makeSprite("Art/Party_Math/star_4.png", this.background_layer, 734 - 26 * (this.hearts - 1)/2 + 26 * i, 32, 0.5, 0.5);
@@ -154,7 +161,7 @@ class PartyMath extends Screen {
 
     this.setGameType();
 
-    this.grigory = game.makeCharacter("grigory");
+    this.grigory = this.makeCharacter("grigory");
     this.grigory.cell_x = 2;
     this.grigory.cell_y = 4;
     this.grigory.position.set(
@@ -266,8 +273,8 @@ class PartyMath extends Screen {
       this.rule_list = {};
 
       for (let k = 4; k <= 5; k++) {
-        for (let i = 0; i < this.enemy_words[k].length; i++) {
-          let word = this.enemy_words[k][i];
+        for (let i = 0; i < game.enemy_words[k].length; i++) {
+          let word = game.enemy_words[k][i];
           if (word[0] == this.rule_value) this.rule_list[word] = 1;
         }
       }
@@ -275,7 +282,7 @@ class PartyMath extends Screen {
       shuffleArray(matching_words);
       for (let x = 0; x < 6; x++) {
         for (let y = 0; y < 5; y++) {
-          words = this.enemy_words[dice(2)+3];
+          let words = game.enemy_words[dice(2)+3];
           let value = pick(words);
           if (dice(100) < 40) {
             value = pick(matching_words);
@@ -319,35 +326,60 @@ class PartyMath extends Screen {
 
     if (this.state != "active") return;
 
+    let key = ev.key;
+
     if (this.grigory.state == "stopped") {
-      if (ev.key === "ArrowDown" && this.grigory.cell_y < 4) {
+      if (key === "ArrowDown" && this.grigory.cell_y < 4) {
         this.grigory.move("down");
         this.grigory.cell_y += 1;
-      } else if (ev.key === "ArrowUp" && this.grigory.cell_y > 0) {
+      } else if (key === "ArrowUp" && this.grigory.cell_y > 0) {
         this.grigory.move("up");
         this.grigory.cell_y -= 1;
-      } else if (ev.key === "ArrowLeft" && this.grigory.cell_x > 0) {
+      } else if (key === "ArrowLeft" && this.grigory.cell_x > 0) {
         this.grigory.move("left");
         this.grigory.cell_x -= 1;
-      } else if (ev.key === "ArrowRight" && this.grigory.cell_x < 5) {
+      } else if (key === "ArrowRight" && this.grigory.cell_x < 5) {
         this.grigory.move("right");
         this.grigory.cell_x += 1;
-      } else if (ev.key === " ") {
+      } else if (key === " ") {
         if (this.cells[this.grigory.cell_x][this.grigory.cell_y].cell_value != null) {
           this.consumeCell(this.grigory.cell_x, this.grigory.cell_y)
         }
       }
     } else if (this.grigory.state == "walking" || this.grigory.state == "working") {
-      if (ev.key === "ArrowDown" && this.grigory.cell_y < 4) {
+      if (key === "ArrowDown" && this.grigory.cell_y < 4) {
         this.queued_move = "ArrowDown";
-      } else if (ev.key === "ArrowUp" && this.grigory.cell_y > 0) {
+      } else if (key === "ArrowUp" && this.grigory.cell_y > 0) {
         this.queued_move = "ArrowUp";
-      } else if (ev.key === "ArrowLeft" && this.grigory.cell_x > 0) {
+      } else if (key === "ArrowLeft" && this.grigory.cell_x > 0) {
         this.queued_move = "ArrowLeft";
-      } else if (ev.key === "ArrowRight" && this.grigory.cell_x < 5) {
+      } else if (key === "ArrowRight" && this.grigory.cell_x < 5) {
         this.queued_move = "ArrowRight";
-      } else if (ev.key === " ") {
+      } else if (key === " ") {
         this.queued_move = " ";
+      }
+    }
+
+    if (paused && key === "q") {
+      if (sound_data["countdown"] != null && sound_data["countdown"].hold_up == true) {
+        sound_data["countdown"].hold_up = null;
+        sound_data["countdown"].stop();
+      }
+      game.monitor_overlay.restore();
+      this.state = "none";
+      fadeMusic(500);
+      resume();
+      game.score = this.score;
+      game.gameOver(0);
+    }
+
+    if (key === "Escape" && (this.state == "pre_game" || this.state == "active" || this.state == "countdown")) {
+      if (!paused) {
+        pause();
+        this.q_to_quit.visible = true;
+      } else {
+        this.q_to_quit.visible = false;
+        resume();
       }
     }
   }
@@ -425,7 +457,7 @@ class PartyMath extends Screen {
       this.next_subversive_add = 2000 + dice(6000);
 
       let subversive_type = pick(subversive_list);
-      let subversive = game.makeCharacter(subversive_type);
+      let subversive = this.makeCharacter(subversive_type);
       subversive.behavior = subversive_type.split("_")[0];
       subversive.last_move = markTime();
       subversive.next_move = 1500 + dice(1500);
@@ -650,7 +682,7 @@ class PartyMath extends Screen {
           .start();
       }
 
-      this.executioner = game.makeCharacter("executioner");
+      this.executioner = this.makeCharacter("executioner");
       shakers.push(this.executioner);
       this.executioner.last_move = markTime();
       this.executioner.next_move = 500 + dice(500);

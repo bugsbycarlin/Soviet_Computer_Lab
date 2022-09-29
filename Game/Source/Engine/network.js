@@ -1,3 +1,9 @@
+//
+// This file contains network code for running multiplayer games and keeping global high scores.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -37,9 +43,9 @@ class Network {
     }
     
     this.game.global_high_scores = {};
-    ["story", "mixed", "wr", "bc", "lc"].forEach((mode) => {
+    subgames.forEach((mode) => {
       self.game.global_high_scores[mode] = {};
-      ["easy", "medium", "hard", "beacon"].forEach((difficulty) => {
+      difficulty_levels.forEach((difficulty) => {
         self.game.global_high_scores[mode][difficulty] = [];
 
         this.database.ref("/high_scores/" + mode + "/" + difficulty).orderByChild("score").limitToLast(10).once("value").then((result) => {
@@ -81,15 +87,15 @@ class Network {
   seedHighScores() {
     var self = this;
 
-    ["story", "mixed", "wr", "bc", "lc"].forEach((mode) => {
-      ["easy", "medium", "hard", "beacon"].forEach((difficulty) => {
+    subgames.forEach((mode) => {
+      difficulty_levels.forEach((difficulty) => {
         for (var i = 0; i < 50; i++) {
           let name = ""
           for(var j = 0; j < 8; j++) {
             let t = namez[Math.floor(Math.random() * namez.length)].split(" ")[0];
             if(t.length <= 6) name = t.toUpperCase();
           }
-          let score = 5500 - 100 * i - Math.floor(Math.random() * 30);
+          let score = 2500 - 100 * i - Math.floor(Math.random() * 30);
           this.addGlobalHighScore(name, score, mode, difficulty, function(){}, function(){});
         }
       });

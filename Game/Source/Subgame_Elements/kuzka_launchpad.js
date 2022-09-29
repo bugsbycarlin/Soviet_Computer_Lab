@@ -1,3 +1,9 @@
+//
+// This file contains the Launchpad for the Kuzka's Mother subgame.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 class Launchpad {
   constructor(subgame, parent, player, player_bases, x, y, size) {

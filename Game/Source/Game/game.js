@@ -1,11 +1,16 @@
+//
+// This file contains the root game class for Soviet Computer Lab. This is the starting point.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
+
 'use strict';
 
-var multiplayer_name = null;
-var multiplayer_picture_number = null;
-var use_scores = false;
 var log_performance = true;
+var performance_result = null;
 
-// var first_screen = "word_base";
+// var first_screen = "magnitogorsk";
 // var first_screen = "first_strike";
 // var first_screen = "intro";
 // var first_screen = "kuzkas_mother"
@@ -14,7 +19,11 @@ var log_performance = true;
 var first_screen = "title";
 // var first_screen = "cutscene";
 
-var performance_result = null;
+var multiplayer_name = null;
+var multiplayer_picture_number = null;
+
+var subgames = ["kuzkas_mother", "magnitogorsk", "party_math", "centrally_planned_economy", "first_strike", "mixed"];
+var difficulty_levels = ["easy", "medium", "hard", "beacon"];
 
 var pixi = null;
 var game = null;
@@ -55,14 +64,11 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 class Game {
   constructor() {
-
-    var self = this;
-
     this.tracking = {};
 
     this.basicInit();
 
-    this.loadPrompts();
+    this.loadTypingPrompts();
     this.loadWords();
 
     this.auth_user = null;
@@ -70,25 +76,27 @@ class Game {
 
     this.keymap = {};
 
-    document.addEventListener("keydown", function(ev) {self.handleKeyDown(ev)}, false);
-    document.addEventListener("keyup", function(ev) {self.handleKeyUp(ev)}, false);
-    document.addEventListener("mousemove", function(ev) {self.handleMouseMove(ev)}, false);
-    document.addEventListener("mousedown", function(ev) {self.handleMouseDown(ev)}, false);
+    this.cpe_level_count = Object.keys(cpe_level_config).length;
 
-    window.onfocus = function(ev) {
-      if (self.keymap != null) {
-        self.keymap["ArrowDown"] = null;
-        self.keymap["ArrowUp"] = null;
-        self.keymap["ArrowLeft"] = null;
-        self.keymap["ArrowRight"] = null;
+    document.addEventListener("keydown", (ev) => {this.handleKeyDown(ev)}, false);
+    document.addEventListener("keyup", (ev) => {this.handleKeyUp(ev)}, false);
+    document.addEventListener("mousemove", (ev) => {this.handleMouseMove(ev)}, false);
+    document.addEventListener("mousedown", (ev) => {this.handleMouseDown(ev)}, false);
+
+    window.onfocus = (ev) => {
+      if (this.keymap != null) {
+        this.keymap["ArrowDown"] = null;
+        this.keymap["ArrowUp"] = null;
+        this.keymap["ArrowLeft"] = null;
+        this.keymap["ArrowRight"] = null;
       }
     };
-    window.onblur = function(ev) {
-      if (self.keymap != null) {
-        self.keymap["ArrowDown"] = null;
-        self.keymap["ArrowUp"] = null;
-        self.keymap["ArrowLeft"] = null;
-        self.keymap["ArrowRight"] = null;
+    window.onblur = (ev) => {
+      if (this.keymap != null) {
+        this.keymap["ArrowDown"] = null;
+        this.keymap["ArrowUp"] = null;
+        this.keymap["ArrowLeft"] = null;
+        this.keymap["ArrowRight"] = null;
       }
     };
 
@@ -118,14 +126,13 @@ class Game {
       multiplayer_name = "ANON";
       localStorage.setItem("soviet_computer_lab_multiplayer_name", multiplayer_name);
     }
-    
 
     this.difficulty_level = localStorage.getItem("soviet_computer_lab_difficulty_level");
     if (this.difficulty_level == null) {
-      this.difficulty_level = "EASY";
+      this.difficulty_level = "easy";
       this.difficulty_choice = 0;
     } else {
-      this.difficulty_choice = Math.max(0, ["EASY", "MEDIUM", "HARD", "BEACON"].indexOf(this.difficulty_level));
+      this.difficulty_choice = Math.max(0, difficulty_levels.indexOf(this.difficulty_level));
     }
 
     this.game_type_selection = localStorage.getItem("soviet_computer_lab_game_type_selection");
@@ -144,20 +151,18 @@ class Game {
 
     this.loadLocalHighScores();
 
+    // if you're going to do cutscenes and story, this is where you need to do it.
     // this.initializeFlows();
 
     this.preloadAnimations(() => {
-      self.initializeScreens();
+      this.initializeScreens();
     });
-    
-
-    // this.current_screen = "cutscene";
 
     // This is how you add an event listener for multiplayer sudden quits
-    // window.addEventListener("unload", function(ev) {
-    //   if (self.game_code != "" && self.player > 0) {
-    //     self.network.leaveGame(self.game_code, self.player)
-    //     self.resetTitle();
+    // window.addEventListener("unload", (ev) => {
+    //   if (this.game_code != "" && this.player > 0) {
+    //     this.network.leaveGame(this.game_code, this.player)
+    //     this.resetTitle();
     //   }
     // })
 
@@ -167,16 +172,14 @@ class Game {
       this.network.uid = mu.uid;
     }
     if (this.network.uid == null) {
-      this.network.anonymousSignIn(function() {
-        self.network.loadGlobalHighScores();
+      this.network.anonymousSignIn(() => {
+        this.network.loadGlobalHighScores();
       });
     }
   }
 
 
   basicInit() {
-    var self = this;
-
     this.width = 1664;
     this.height = 960;
 
@@ -197,30 +200,30 @@ class Game {
     let last_frame = 0;
     let last_performance_update = 0;
 
-    function animate(now) {
+    let animate = now => {
       
       fps_counter += 1;
       let diff = now - last_frame;
       last_frame = now
 
-      if (!self.paused == true) {
-        self.trackStart("tween");
+      if (!this.paused == true) {
+        this.trackStart("tween");
         TWEEN.update(now);
-        self.trackStop("tween");
+        this.trackStop("tween");
 
-        self.trackStart("update");
-        self.update(diff);
-        self.trackStop("update");
+        this.trackStart("update");
+        this.update(diff);
+        this.trackStop("update");
 
-        self.trackStart("animate");
+        this.trackStart("animate");
         ticker.update(now);
         pixi.renderer.render(pixi.stage);
-        self.trackStop("animate");
+        this.trackStop("animate");
 
         if (now - last_performance_update > 3000 && log_performance) {
           //There were 3000 milliseconds, so divide fps_counter by 3
           // console.log("FPS: " + fps_counter / 3);
-          // self.trackPrint(["update", "tween", "animate"]);
+          // this.trackPrint(["update", "tween", "animate"]);
           fps_counter = 0;
           last_performance_update = now;
         }
@@ -267,64 +270,11 @@ class Game {
   }
 
 
-  // initializeFlows() {
-  //   this.flow = {};
-  //   this.flow_marker = -1;
-
-  //   // game type is story
-  //   this.flow[0] = {};
-  //   this.flow[0]["EASY"] = [
-  //     "cut:c1", "wr:1:an", "wr:2:an", "cut:c2", "bc:3:zh", "bc:4:zh",
-  //     "cut:c3", "lc:5:iv", "lc:6:iv", "cut:c4", "wr:7:ro", "wr:8:ro",
-  //     "cut:c5", "bc:9:fe", "bc:10:fe", "cut:c6", "lc:11:fe", "lc:12:fe",
-  //     "cut:c7", "wr:13:pu", "wr:14:pu", "cut:c8"
-  //   ];
-  //   this.flow[0]["MEDIUM"] = [
-  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-  //   ];
-  //   this.flow[0]["HARD"] = [
-  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-  //   ];
-  //   this.flow[0]["BEACON"] = [
-  //     "cut:c1", "wr:1:an", "wr:2:an", "wr:3:an", "cut:c2", "bc:4:zh", "bc:5:zh", "bc:6:zh",
-  //     "cut:c3", "lc:7:iv", "lc:8:iv", "lc:9:iv", "cut:c4", "wr:10:ro", "wr:11:ro", "wr:12:ro",
-  //     "cut:c5", "bc:13:fe", "bc:14:fe", "bc:15:fe", "cut:c6", "lc:16:fe", "lc:17:fe", "lc:18:fe",
-  //     "cut:c7", "wr:19:pu", "wr:20:pu", "wr:21:pu", "cut:c8"
-  //   ];
-
-  //   this.flow[2] = {};
-  //   this.flow[2]["EASY"] = [
-  //     "cut:t1", "wr:1", "cut:t2", "bc:1:an", "cut:t3", "lc:1:an", "cut:t4"
-  //   ];
-  // }
-
-
-  // returnToLastCutscene() {
-  //   if (this.last_cutscene != null && this.last_flow_marker != null) {
-  //     console.log("switching to cutscene");
-  //     this.flow_marker = this.last_flow_marker;
-  //     //fadeMusic();
-  //     this.initializeCutscene(this.last_cutscene);
-  //     if (this.current_screen != "cutscene") {
-  //       this.switchScreens(this.current_screen, "cutscene");
-  //     }
-  //   } else {
-  //     this.resetGame();
-  //     this.nextFlow();
-  //   }
-  // }
-
-
+  // Simple version of next flow with no story or cutscenes.
+  // It just moves you to the next level in whatever subgame
+  // you've chosen, and randomly chooses game types if you're
+  // playing the mixed mode.
   nextFlow() {
-
-    // Simple version for now
-
     this.flow_marker = this.level;
     this.level = this.flow_marker + 1;
 
@@ -333,17 +283,24 @@ class Game {
     if (this.game_type_selection == 1) {
       type = "kuzkas_mother";
     } else if (this.game_type_selection == 2) {
-      type = "word_base";
+      type = "magnitogorsk";
     } else if (this.game_type_selection == 3) {
       type = "party_math";
     } else if (this.game_type_selection == 4) {
-      if (this.level <= 1) {
+      if (this.level <= this.cpe_level_count) {
         type = "centrally_planned_economy";
       } else {
         type = "lobby";
       }
     } else if (this.game_type_selection == 5) {
       type = "first_strike";
+    } else if (this.game_type_selection == 8) {
+      // Mixed Mode
+      let choice_list = ["kuzkas_mother", "magnitogorsk", "party_math", "first_strike"];
+      if (this.level <= this.cpe_level_count) {
+        choice_list.push("centrally_planned_economy");
+      }
+      type = pick(choice_list)
     }
 
     if (this.current_screen != type) {
@@ -359,14 +316,21 @@ class Game {
 
 
   getModeName() {
-    // if (this.game_type_selection === 0) {
-    //   return "story";
-    // } else if (this.game_type_selection === 1) {
-    //   return ["mixed", "wr", "bc", "lc"][this.game_type_selection];
-    // }
+    if (this.game_type_selection == 1) {
+      return "kuzkas_mother";
+    } else if (this.game_type_selection == 2) {
+      return "magnitogorsk";
+    } else if (this.game_type_selection == 3) {
+      return "party_math";
+    } else if (this.game_type_selection == 4) {
+      return "centrally_planned_economy";
+    } else if (this.game_type_selection == 5) {
+      return "first_strike";
+    } else if (this.game_type_selection == 8) {
+      return "mixed";
+    }
 
-    //throw "Error: I was unable to determine the game mode.";
-    return "mixed";
+    throw "Error: I was unable to determine the game mode.";
   }
 
 
@@ -383,7 +347,6 @@ class Game {
 
 
   preloadAnimations(and_then) {
-    var self = this;
     PIXI.Loader.shared
       .add("Art/alpha_zoo_logo_v2.png")
       .add("Art/fire.json")
@@ -490,7 +453,7 @@ class Game {
   }
 
 
-  loadPrompts() {
+  loadTypingPrompts() {
     var self = this;
     let request;
 
@@ -688,53 +651,24 @@ class Game {
 
 
   loadLocalHighScores() {
-    var self = this;
     this.local_high_scores = JSON.parse(localStorage.getItem("soviet_computer_lab_local_high_scores"));
     
     if (this.local_high_scores == null) {
       this.local_high_scores = {};
 
-      ["story", "mixed", "wr", "bc", "lc"].forEach((val) => {
-        if (self.local_high_scores[val] == null) self.local_high_scores[val] = {};
-        ["easy", "medium", "hard", "beacon"].forEach((val2) => {
-          if (self.local_high_scores[val][val2] == null) self.local_high_scores[val][val2] = [];
+      subgames.forEach((val) => {
+        if (this.local_high_scores[val] == null) this.local_high_scores[val] = {};
+        difficulty_levels.forEach((val2) => {
+          if (this.local_high_scores[val][val2] == null) this.local_high_scores[val][val2] = [];
         });
       });
     }
   }
 
-
-  // loadGlobalHighScores(callback) {
-  //   var self = this;
-  //   // load in cloud
-  //   this.global_high_scores = {};
-  //   this.network.getGlobalHighScores(function(value) {
-  //     self.global_high_scores = value
-
-  //     console.log(self.global_high_scores);
-
-  //     if (self.global_high_scores == null) {
-  //       self.global_high_scores = {};
-  //       ["story", "mixed", "wr", "bc", "lc"].forEach((val) => {
-  //         if (self.global_high_scores[val] == null) self.global_high_scores[val] = {};
-  //         ["easy", "medium", "hard", "beacon"].forEach((val2) => {
-  //           if (self.global_high_scores[val][val2] == null) self.global_high_scores[val][val2] = [];
-  //         });
-  //       });
-  //     }
-  //   });
-  // }
-
  
   addHighScore(name, score, callback, error_callback = null) {
-    var self = this;
     let mode = this.getModeName();
     let difficulty = this.difficulty_level.toLowerCase();
-    console.log("Adding high score.");
-    console.log(name);
-    console.log(score);
-    console.log(mode);
-    console.log(difficulty);
 
     this.local_high_scores[mode][difficulty].push({name: name, score: score})
     this.local_high_scores[mode][difficulty].sort((a,b) => (a.score < b.score) ? 1 : -1)

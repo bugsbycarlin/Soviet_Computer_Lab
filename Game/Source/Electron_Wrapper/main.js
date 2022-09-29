@@ -1,6 +1,11 @@
-// main.js
+//
+// This file contains the main entry point electron uses to run the game.
+// It follows this format: https://www.electronjs.org/docs/tutorial/quick-start
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
-// https://www.electronjs.org/docs/tutorial/quick-start
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');

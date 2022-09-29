@@ -1,3 +1,9 @@
+//
+// This file contains the level configurations for Centrally Planned Economy.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 cpe_level_config = {
   1: {

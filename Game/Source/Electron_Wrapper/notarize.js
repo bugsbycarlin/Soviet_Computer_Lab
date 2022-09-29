@@ -1,3 +1,11 @@
+//
+// This file contains the code to notarize a MacOS application.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
+
+
 require('dotenv').config();
 const { notarize } = require('/usr/local/lib/node_modules/electron-notarize');
 

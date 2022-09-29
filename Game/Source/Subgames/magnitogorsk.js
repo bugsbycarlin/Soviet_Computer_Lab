@@ -1,5 +1,8 @@
 //
-// This file contains the Word Base subgame.
+// This file contains the Magnitogorsk subgame.
+//
+// In this game, you play words on a 2d board (ala Scrabble and Words with Friends)
+// to build a planned industrial city.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
@@ -14,22 +17,22 @@
 // 100, 100: nice and easy.
 //
 // Remember, even on medium difficulty, level 15 needs to be eminently beatable.
-// Hard difficulty can reach barely beatable around level 15.
-// Beacon can be however hard you want.
+// hard difficulty can reach barely beatable around level 15.
+// beacon can be however hard you want.
 //
 
 
 var run_clock_when_winning = true;
 
 
-class WordBase extends Screen {
+class Magnitogorsk extends Screen {
   initialize() {
     freefalling = [];
     shakers = [];
 
     this.level = game.level != null ? game.level : 1;
     this.score = game.score != null ? game.score : 0;
-    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "medium";
 
     this.base_letters = [];
     this.base_letters[0] = [];
@@ -42,17 +45,17 @@ class WordBase extends Screen {
     
     this.state = "pre_game";
 
-    let difficulty_multiplier = this.difficulty_level == "EASY" ? 1 :
-      this.difficulty_level == "MEDIUM" ? 2 :
-      this.difficulty_level == "HARD" ? 3 : 5;
+    let difficulty_multiplier = this.difficulty_level == "easy" ? 1 :
+      this.difficulty_level == "medium" ? 2 :
+      this.difficulty_level == "hard" ? 3 : 5;
 
     // See top of file for a note about enemy speeds.
     this.enemy_move_speed = 100 + 50 * difficulty_multiplier + 25 * this.level * difficulty_multiplier;
     this.enemy_typing_speed = 50 + 25 * difficulty_multiplier + 10 * this.level * difficulty_multiplier;
     this.enemy_phase = "moving"; // moving, typing
-    if (this.difficulty_level == "EASY" || this.difficulty_level == "MEDIUM") this.enemy_start_len = 3;
-    if (this.difficulty_level == "HARD") this.enemy_start_len = 4;
-    if (this.difficulty_level == "BEACON") this.enemy_start_len = 5;
+    if (this.difficulty_level == "easy" || this.difficulty_level == "medium") this.enemy_start_len = 3;
+    if (this.difficulty_level == "hard") this.enemy_start_len = 4;
+    if (this.difficulty_level == "beacon") this.enemy_start_len = 5;
 
     this.play_clock = 15;
     this.last_play = markTime();
@@ -174,10 +177,10 @@ class WordBase extends Screen {
     this.play_clock_text_box = makeText(this.play_clock, font_18, this, 735, 377, 0.5, 0.5);
     this.play_clock_text_box.visible = false;
     this.announcement = makeText("", font_36, this, 470, 78, 0.5, 0.5);
-    this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5)
+    this.q_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5)
 
     this.play_clock_label.visible = false;
-    this.escape_to_quit.visible = false;
+    this.q_to_quit.visible = false;
     
 
     // let player_monitor_mask = new PIXI.Graphics();
@@ -318,26 +321,21 @@ class WordBase extends Screen {
       game.monitor_overlay.restore();
       this.state = "none";
       fadeMusic(500);
-      game.fadeToBlack(800);
-      delay(() => {
-        resume();
-        game.score = this.score;
-        game.createScreen("lobby");
-        game.popScreens("word_base", "lobby");
-        game.fadeFromBlack(800);
-      }, 900)
+      resume();
+      game.score = this.score;
+      game.gameOver(0);
     }
 
     if (key === "Escape" && (this.state == "active" || this.state == "countdown")) {
       if (!paused) {
         pause();
         this.announcement.visible = false;
-        this.escape_to_quit.visible = true;
+        this.q_to_quit.visible = true;
         pauseSoundEffect("countdown");
       } else {
         resumeSoundEffect("countdown");
         this.announcement.visible = true;
-        this.escape_to_quit.visible = false;
+        this.q_to_quit.visible = false;
         resume();
       }
     }
@@ -1020,7 +1018,9 @@ class WordBase extends Screen {
 
         // We're at the beginning of the game. Make a big word right away.
         let word_size = this.enemy_start_len + Math.floor(Math.random() * (this.enemy_start_len + 2));
+        console.log(word_size);
         let word_list = game.enemy_words[word_size];
+        console.log(word_list);
         word = pick(word_list);
 
         tiles = this.wordList(word, this.cursor[1].x_tile, this.cursor[1].y_tile, this.cursor[1].angle);

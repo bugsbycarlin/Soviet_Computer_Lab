@@ -1,3 +1,9 @@
+//
+// This file contains general utilites useful across all Alpha Zoo javascript projects.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 // Some colors
 // Blue: 0x3cb0f3

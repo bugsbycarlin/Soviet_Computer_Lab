@@ -107,20 +107,25 @@ class HighScore extends Screen {
       name += this.name[i].text;
     }
     if (name.length > 0) {
-      game.addHighScore(name, this.new_high_score, () => {
+      game.addHighScore(name, this.new_high_score,
+      () => {
         console.log("Successfully added a high score.");
-        game.createScreen("lobby");
-        game.switchScreens("high_score", "lobby");
-        //game.updateHighScoreDisplay();
-      }, function() {
+        this.gotoLobby();
+      },
+      () => {
         console.log("Failed to add a high score");
-        game.showAlert("Oh no! Can't send \nhigh scores to server.", () => {
-          game.createScreen("lobby");
-          game.switchScreens("high_score", "lobby");
-          //game.updateHighScoreDisplay();
-        });
+        //game.showAlert("Oh no! Can't send \nhigh scores to server.", () => {
+        this.gotoLobby();
+        //});
       })
     }
+  }
+
+
+  gotoLobby() {
+    game.score = 0;
+    game.createScreen("lobby");
+    game.switchScreens("high_score", "lobby");
   }
 
 

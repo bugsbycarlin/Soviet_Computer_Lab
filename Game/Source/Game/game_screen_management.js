@@ -50,16 +50,14 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
     this.screens["party_math"] = new PartyMath();
   } else if (screen_name == "centrally_planned_economy") {
     this.screens["centrally_planned_economy"] = new CentrallyPlannedEconomy();
-  } else if (screen_name == "word_base") {
-    this.screens["word_base"] = new WordBase();
+  } else if (screen_name == "magnitogorsk") {
+    this.screens["magnitogorsk"] = new Magnitogorsk();
   } else if (screen_name == "first_strike") {
     this.screens["first_strike"] = new FirstStrike();
   } else if (screen_name == "multi_set_name") {
     this.initializeMultiSetName();
-  } else if (screen_name == "cutscene") {
-    this.initializeCutscene("t4");
   } else if (screen_name == "credits") {
-    this.initializeCredits();
+    this.screens["credits"] = new Credits();
   }
 
   console.log(screen_name);
@@ -341,10 +339,11 @@ Game.prototype.popScreens = function(old_screen, new_screen) {
 Game.prototype.gameOver = function(delay_time) {
   delay(() => {
     let low_high = this.local_high_scores[this.getModeName()][this.difficulty_level.toLowerCase()][9];
-    if (true || low_high == null || low_high.score < game.score) {
+    if (game.score > 0 && (low_high == null || low_high.score < game.score)) {
       this.createScreen("high_score");
       this.fadeScreens(this.current_screen, "high_score", true, 800);
     } else {
+      this.score = 0;
       this.createScreen("lobby");
       this.fadeScreens(this.current_screen, "lobby", true, 800);
     }

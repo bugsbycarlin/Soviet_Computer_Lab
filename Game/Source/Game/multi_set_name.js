@@ -1,3 +1,9 @@
+//
+// This file contains the name choosing screen for multiplayer.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 Game.prototype.initializeMultiSetName = function(next_screen) {
   let self = this;

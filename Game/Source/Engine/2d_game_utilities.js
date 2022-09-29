@@ -1,8 +1,9 @@
-
 //
+// This file contains utilities to make common 2d game elements, like sprites,
+// text labels, visual effects, etc.
 //
-// Game utilities
-//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
 //
 
 

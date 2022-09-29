@@ -1,6 +1,10 @@
 //
 // This file contains the First Strike subgame.
 //
+// This game is a typing race between you and an opponent.
+// Type to move a runner through a military base, to be the
+// one to launch (or stop the launch of) a nuclear missile.
+//
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
@@ -34,7 +38,7 @@ class FirstStrike extends Screen {
 
     this.level = game.level != null ? game.level : 1;
     this.score = game.score != null ? game.score : 0;
-    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "medium";
 
     this.state = "pre_game";
 
@@ -50,9 +54,9 @@ class FirstStrike extends Screen {
     this.last_key_pressed = "A";
     this.last_key_pressed_time = markTime();
 
-    let difficulty_multiplier = this.difficulty_level == "EASY" ? 0.5 :
-      this.difficulty_level == "MEDIUM" ? 0.75 :
-      this.difficulty_level == "HARD" ? 1 : 1.25;
+    let difficulty_multiplier = this.difficulty_level == "easy" ? 0.5 :
+      this.difficulty_level == "medium" ? 0.75 :
+      this.difficulty_level == "hard" ? 1 : 1.25;
 
     this.setDifficulty1(this.level, difficulty_multiplier);
 
@@ -211,7 +215,7 @@ class FirstStrike extends Screen {
     this.level_text_box = makeText(this.level, font_16, this, 742, 87, 0.5, 0.5);
     this.type_to_run = makeSprite("Art/Nav/type_to_run_v3.png", area, 170 - 129, 150 - 39, 0, 0.5);
     this.double_tap_to_act = makeSprite("Art/Nav/double_tap_action_v4.png", area, 320 - 129, 200 - 39, 0, 0.5);
-    this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5);
+    this.q_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_18, this, 470, 303, 0.5, 0.5);
 
     this.runner_arrow.visible = false;
     this.mini_runner.visible = false;
@@ -222,7 +226,7 @@ class FirstStrike extends Screen {
     this.level_text_box.visible = false;
     this.type_to_run.visible = false;
     this.double_tap_to_act.visible = false;
-    this.escape_to_quit.visible = false;
+    this.q_to_quit.visible = false;
   }
 
 
@@ -433,7 +437,7 @@ class FirstStrike extends Screen {
     let dict_1 = game.short_starting_dictionaries[letter];
     let dict_2 = game.starting_dictionaries[letter];
     for (let i = 0; i < length; i++) {
-      let dict = (this.difficulty_level == "EASY" || i % 2 == 0) ? dict_1 : dict_2;
+      let dict = (this.difficulty_level == "easy" || i % 2 == 0) ? dict_1 : dict_2;
       let word = pick(dict).toLowerCase();
       for (let j = 0; j < 10; j++) {
         if (word.length > 3 + difficulty / 2) word = pick(dict).toLowerCase();
@@ -749,24 +753,19 @@ class FirstStrike extends Screen {
       game.monitor_overlay.restore();
       this.state = "none";
       fadeMusic(500);
-      game.fadeToBlack(800);
-      delay(() => {
-        resume();
-        game.score = this.score;
-        game.createScreen("lobby");
-        game.popScreens("first_strike", "lobby");
-        game.fadeFromBlack(800);
-      }, 900)
+      resume();
+      game.score = this.score;
+      game.gameOver(0);
     }
 
     if (key === "Escape" && (this.state == "active" || this.state == "countdown" || this.state == "terminal")) {
       if (!paused) {
         pause();
         this.announcement.visible = false;
-        this.escape_to_quit.visible = true;
+        this.q_to_quit.visible = true;
       } else {
         this.announcement.visible = true;
-        this.escape_to_quit.visible = false;
+        this.q_to_quit.visible = false;
         resume();
       }
     }

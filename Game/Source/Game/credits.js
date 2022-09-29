@@ -1,3 +1,9 @@
+//
+// This file contains the credits screen.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 Game.prototype.initializeCredits = function() {
   let self = this;

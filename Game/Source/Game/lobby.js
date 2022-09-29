@@ -1,3 +1,10 @@
+//
+// This file contains the game lobby, where subgame and difficulty
+// are chosen and high scores are displayed.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 class Lobby extends Screen {
   initialize() {
@@ -27,23 +34,26 @@ class Lobby extends Screen {
 
     this.game_type_choices = new NestedOptionsList({
         "Kuzka's Mother": () => {
-          this.giveEmKuzkasMother();
+          this.startGame(1);
         },
-        "Word Base": () => {
-          this.switchToWordBase();
+        "Magnitogorsk": () => {
+          this.startGame(2);
         },
         "Party Math": () => {
-          this.switchToPartyMath();
+          this.startGame(3);
         },
         "Centrally Planned Economy": () => {
-          this.switchToCentrallyPlannedEconomy();
+          this.startGame(4);
         },
         "First Strike": () => {
-          this.switchToFirstStrike();
+          this.startGame(5);
         },
         "Siberian Trail": () => {
         },
         "Where in the World is Leon Trotsky?": () => {
+        },
+        "Party Congress (Mixed Mode)": () => {
+          this.startGame(8);
         },
       }, 
       (text) => {
@@ -68,57 +78,13 @@ class Lobby extends Screen {
   }
 
 
-  giveEmKuzkasMother() {
-    game.game_type_selection = 1;
+  startGame(game_type) {
+    game.level = 0;
+    game.game_type_selection = game_type;
     this.state = "leaving";
     game.monitor_overlay.dissolve();
     delay(() => {
-      game.createScreen("kuzkas_mother");
-      game.fadeScreens("lobby", "kuzkas_mother", true, 800);
-    }, 900);
-  }
-
-
-  switchToWordBase() {
-    game.game_type_selection = 2;
-    this.state = "leaving";
-    game.monitor_overlay.dissolve();
-    delay(() => {
-      game.createScreen("word_base");
-      game.fadeScreens("lobby", "word_base", true);
-    }, 1000);
-  }
-
-
-  switchToPartyMath() {
-    this.state = "leaving";
-    game.game_type_selection = 3;
-    game.monitor_overlay.dissolve();
-    delay(() => {
-      game.createScreen("party_math");
-      game.fadeScreens("lobby", "party_math", true, 800);
-    }, 1000);
-  }
-
-
-  switchToCentrallyPlannedEconomy() {
-    this.state = "leaving";
-    game.game_type_selection = 4;
-    game.monitor_overlay.dissolve();
-    delay(function() {
-      game.createScreen("centrally_planned_economy");
-      game.fadeScreens("lobby", "centrally_planned_economy", true, 800);
-    }, 900);
-  }
-
-
-  switchToFirstStrike() {
-    game.game_type_selection = 5;
-    this.state = "leaving";
-    game.monitor_overlay.dissolve();
-    delay(() => {
-      game.createScreen("first_strike");
-      game.fadeScreens("lobby", "first_strike", true);
+      game.nextFlow();
     }, 1000);
   }
 

@@ -1,3 +1,10 @@
+//
+// This file contains a system for pausing and resuming games, for keeping time
+// that respects pauses, and for making delays that respect pauses.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 let paused = false;
 let pause_moment = 0;

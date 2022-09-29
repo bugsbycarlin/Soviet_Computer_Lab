@@ -1,5 +1,5 @@
 //
-// The character class makes characters for Party Math.
+// This file contains the character class for Party Math.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin

@@ -1,4 +1,3 @@
-
 //
 // The door class makes doors for Centrally Planned Economy.
 //

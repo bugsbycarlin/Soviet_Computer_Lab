@@ -1,3 +1,9 @@
+//
+// This file contains general sound effect and music utilities based on Howl.js.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 var use_music = true;
 var use_sound = true;

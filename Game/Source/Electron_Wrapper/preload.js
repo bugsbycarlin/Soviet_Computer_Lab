@@ -1,4 +1,3 @@
-
 //
 // preload.js is glue to allow the app's javascript environment to communicate with the
 // electron wrapper's javascript environment in a sandboxed manner.

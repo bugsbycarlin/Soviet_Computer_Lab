@@ -1,6 +1,11 @@
 //
 // This file contains the Centrally Planned Economy subgame.
 //
+// In this game, you must demonstrate the power of centrally planned economies
+// by guiding proletariat workers in the newly liberated city of London to their
+// newly assigned factory jobs. If you do not guide them, these recently capitalist
+// workers will literally walk off cliffs like lemmings.
+//
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
 //
@@ -120,6 +125,9 @@ class CentrallyPlannedEconomy extends Screen {
     this.victory_text = makeText("SUCCESS! PRESS ENTER TO MOVE ON.", font_bright_16, layers["display"], game.width/4, game.height/12, 0.5, 0.5);
     this.victory_text.tint = 0x71d07d;
     this.victory_text.visible = false;
+
+    this.q_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_bright_16, layers["display"], game.width/4, game.height/12, 0.5, 0.5);
+    this.q_to_quit.visible = false;
 
     this.failure_text = makeText("YOU FAILED. PRESS RESET TO TRY AGAIN\n OR ENTER TO MOVE ON.",
       {fontFamily: "Press Start 2P", fontSize: 16, fill: 0xdb5858, letterSpacing: 2, align: "center",
@@ -457,7 +465,9 @@ class CentrallyPlannedEconomy extends Screen {
   keyDown(ev) {
     if (this.state == "none") return;
 
-    // if (ev.key === "Enter" && this.state != "vack") {
+    let key = ev.key;
+
+    // if (key === "Enter" && this.state != "vack") {
     //   this.state = "vack";
     //   soundEffect("fireworks")
     //   let num_fireworks = 4 + dice(4);
@@ -470,12 +480,12 @@ class CentrallyPlannedEconomy extends Screen {
     // }
 
     game.score = this.score;
-    if (this.state == "victory" && ev.key === "Enter") {
+    if (this.state == "victory" && key === "Enter") {
       soundEffect("button_accept");
       this.victory_text.visible = false;
       this.state = "post_victory_exit";
       game.nextFlow();  // this needs changing
-    } else if (this.failure_text.visible = true && ev.key === "Enter") {
+    } else if (this.failure_text.visible = true && key === "Enter") {
       this.failure_text.visible = false;
       for (let i = 0; i < this.characters.length; i++) {
         let character = this.characters[i];
@@ -492,6 +502,30 @@ class CentrallyPlannedEconomy extends Screen {
       soundEffect("descending_plinks");
       this.state = "game_over";
       game.gameOver(2500);
+    }
+
+
+    if (paused && key === "q") {
+      if (sound_data["countdown"] != null && sound_data["countdown"].hold_up == true) {
+        sound_data["countdown"].hold_up = null;
+        sound_data["countdown"].stop();
+      }
+      game.monitor_overlay.restore();
+      this.state = "none";
+      fadeMusic(500);
+      resume();
+      game.score = this.score;
+      game.gameOver(0);
+    }
+
+    if (key === "Escape" && (this.state == "pre_game" || this.state == "countdown" || this.state == "active")) {
+      if (!paused) {
+        pause();
+        this.q_to_quit.visible = true;
+      } else {
+        this.q_to_quit.visible = false;
+        resume();
+      }
     }
   }
 

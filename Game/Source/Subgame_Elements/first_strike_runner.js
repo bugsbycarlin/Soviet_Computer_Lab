@@ -1,3 +1,9 @@
+//
+// This file contains the running character class for the First Strike subgame.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 run_speeds = {
   0: {

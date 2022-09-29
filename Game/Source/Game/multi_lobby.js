@@ -1,3 +1,10 @@
+//
+// This file contains the multiplayer lobby, where options and chosen and players
+// gather and wait before an actual game is played.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 
 let multi_lobby_x_left = 280;

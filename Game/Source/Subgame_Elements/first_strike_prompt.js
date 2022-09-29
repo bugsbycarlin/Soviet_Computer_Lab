@@ -1,4 +1,9 @@
-
+//
+// This file contains the typing prompt for the First Strike subgame.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 FirstStrike.prototype.makePrompt = function(parent, x, y, text, fixed = false, finished_callback = false) {
   let prompt = new PIXI.Container();

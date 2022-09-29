@@ -1,3 +1,9 @@
+//
+// This file contains the multiplayer join game screen.
+//
+// Copyright 2022 Alpha Zoo LLC.
+// Written by Matthew Carlin
+//
 
 Game.prototype.initializeMultiJoinGame = function() {
   let self = this;

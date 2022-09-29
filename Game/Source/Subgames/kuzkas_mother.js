@@ -1,5 +1,8 @@
 //
-// This file contains the Word Rockets subgame.
+// This file contains the Kuzka's Mother subgame.
+//
+// In this game, you type words to launch rockets
+// at enemy bases.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
@@ -108,7 +111,7 @@ class KuzkasMother extends Screen {
 
     this.level = game.level != null ? game.level : 1;
     this.score = game.score != null ? game.score : 0;
-    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "MEDIUM";
+    this.difficulty_level = game.difficulty_level != null ? game.difficulty_level : "medium";
 
     this.played_words = {};
     this.num_players = 2;
@@ -183,8 +186,8 @@ class KuzkasMother extends Screen {
     this.wpm_label = makeText("WPM", font_2, this.hud, 1.5 * 32, 8.5 * 32, 0.5, 0.4);
     this.wpm_text_box = makeText(this.play_clock, font_3, this.hud, 1.5 * 32, 9.5 * 32, 0.5, 0.4);
     this.announcement = makeText("", font_4, this.hud, 832 / 2, 480 / 2, 0.5, 0.5);
-    this.escape_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_5, this.hud, 832 / 2, 480 / 2, 0.5, 0.5);
-    this.escape_to_quit.visible = false;
+    this.q_to_quit = makeText("PAUSED\n\nPRESS Q TO QUIT", font_5, this.hud, 832 / 2, 480 / 2, 0.5, 0.5);
+    this.q_to_quit.visible = false;
 
     // NO MULTI
     this.setEnemyDifficulty(this.level, this.difficulty_level);
@@ -229,23 +232,22 @@ class KuzkasMother extends Screen {
     let min_word;
     let med_word;
     let max_word;
-    if (difficulty_level == "EASY") {
+    if (difficulty_level == "easy") {
       scale = 0.7;
       min_word = 4;
       med_word = 5;
       max_word = 8;
-    } else if (difficulty_level == "MEDIUM") {
+    } else if (difficulty_level == "medium") {
       scale = 0.8;
       min_word = 4;
       med_word = 7;
       max_word = 9;
-      console.log("medium");
-    } else if (difficulty_level == "HARD") {
+    } else if (difficulty_level == "hard") {
       scale = 1.2;
       min_word = 4;
       med_word = 9;
       max_word = 12;
-    } else if (difficulty_level == "BEACON") {
+    } else if (difficulty_level == "beacon") {
       scale = 2;
       min_word = 4;
       med_word = 10;
@@ -304,7 +306,7 @@ class KuzkasMother extends Screen {
 
 
   disabledTime(letter) {
-    if (this.difficulty_level != "BEACON") {
+    if (this.difficulty_level != "beacon") {
       if (["A", "E", "I", "O", "U"].includes(letter)) {
         return 2000;
       } else {
@@ -321,7 +323,7 @@ class KuzkasMother extends Screen {
 
 
   spellingHelp() {
-    if (this.difficulty_level == "EASY") {
+    if (this.difficulty_level == "easy") {
       this.spelling_help.position.set(this.launchpad.cursors[0].x - 10, -64);
       let word = this.launchpad.word();
       if (word.length > 0 && word in game.spelling_prediction) {
@@ -362,8 +364,8 @@ class KuzkasMother extends Screen {
           this.launchpad.cursors[i].visible = true;
         }
 
-        if ((this.difficulty_level == "EASY" && (this.level == 13 || this.level == 14))
-          || (this.difficulty_level != "EASY" && (this.level == 19 || this.level == 20 || this.level == 21))) {
+        if ((this.difficulty_level == "easy" && (this.level == 13 || this.level == 14))
+          || (this.difficulty_level != "easy" && (this.level == 19 || this.level == 20 || this.level == 21))) {
           setMusic("putzen_song");
         } else {
           setMusic("action_song_1");
@@ -806,14 +808,9 @@ class KuzkasMother extends Screen {
       game.monitor_overlay.restore();
       this.state = "none";
       fadeMusic(500);
-      game.fadeToBlack(800);
-      delay(() => {
-        resume();
-        game.score = this.score;
-        game.createScreen("lobby");
-        game.popScreens("kuzkas_mother", "lobby");
-        game.fadeFromBlack(800);
-      }, 900)
+      resume();
+      game.score = this.score;
+      game.gameOver(0);
     }
 
 
@@ -821,12 +818,12 @@ class KuzkasMother extends Screen {
       if (!paused) {
         pause();
         this.announcement.visible = false;
-        this.escape_to_quit.visible = true;
+        this.q_to_quit.visible = true;
         pauseSoundEffect("countdown");
       } else {
         resumeSoundEffect("countdown");
         this.announcement.visible = true;
-        this.escape_to_quit.visible = false;
+        this.q_to_quit.visible = false;
         resume();
       }
     }  

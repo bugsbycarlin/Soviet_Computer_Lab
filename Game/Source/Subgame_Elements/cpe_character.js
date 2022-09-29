@@ -1,5 +1,5 @@
 //
-// The character class makes characters for Centrally Planned Economy.
+// This file contains the character class for Centrally Planned Economy.
 //
 // Copyright 2022 Alpha Zoo LLC.
 // Written by Matthew Carlin
