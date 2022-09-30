@@ -207,3 +207,9 @@ toggleSound = function() {
   use_sound = !use_sound;
   localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
 }
+
+
+keySound = function(key, volume=1.0) {
+  let click_sound = "keyboard_click_" + ((key.charCodeAt(0) % 5)+1).toString();
+  soundEffect(click_sound, volume);
+}

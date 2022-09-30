@@ -670,6 +670,8 @@ class FirstStrike extends Screen {
       //   this.runner[0].punch(target, true);
       // }
 
+      keySound(key, 0.6);
+
       if (key === "Enter") {
         this.act();
       }

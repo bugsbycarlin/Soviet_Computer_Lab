@@ -54,11 +54,15 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
     this.screens["magnitogorsk"] = new Magnitogorsk();
   } else if (screen_name == "first_strike") {
     this.screens["first_strike"] = new FirstStrike();
-  } else if (screen_name == "multi_set_name") {
-    this.initializeMultiSetName();
   } else if (screen_name == "credits") {
     this.screens["credits"] = new Credits();
-  }
+  } else if (screen_name == "multi_lobby") {
+    this.screens["multi_lobby"] = new MultiLobby();
+  } else if (screen_name == "multi_join_game") {
+    this.screens["multi_join_game"] = new MultiJoinGame();
+  } else if (screen_name == "multi_set_name") {
+    this.screens["multi_set_name"] = new MultiSetName();
+  } 
 
   console.log(screen_name);
   this.screens[screen_name].position.x = 0;

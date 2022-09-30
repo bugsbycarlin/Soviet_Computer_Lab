@@ -26,7 +26,7 @@ class Title extends Screen {
         "MULTI": {
           "QUICK PLAY": () => {},
           "CREATE GAME": () => {this.titleCreateGame("create")},
-          "JOIN GAME": () => {this.switchFromTitleToMultiSetName("multi_set_name")},
+          "JOIN GAME": () => {this.switchFromTitleToMultiSetName("multi_lobby")},
         },
         "SETTINGS": {
           "MUSIC ON": () => {
@@ -99,6 +99,19 @@ class Title extends Screen {
   }
 
 
+  titleCreateGame() {
+    this.state = "creating";
+    game.network.createNewGame("quick_closed", () => {
+      this.switchFromTitleToMultiSetName("multi_lobby");
+    }, () => {
+      console.log("Error with network call.");
+      //self.showAlert("Couldn't make game.\n Please try later.", function() {
+        this.state = "active";
+      //});
+    });
+  }
+
+
   switchFromTitleToMultiLobby(multi_type) {
     this.state = "transitioning";
     this.multi_type = multi_type;
@@ -111,6 +124,7 @@ class Title extends Screen {
     this.state = "transitioning";
     game.createScreen("multi_set_name");
     game.switchScreens("title", "multi_set_name");
+    game.screens["multi_set_name"].next_screen = next_screen;
   }
 
 

@@ -768,7 +768,7 @@ class KuzkasMother extends Screen {
       for (i in lower_array) {
         if (key === lower_array[i] || key === letter_array[i]) {
           if (!this.launchpad.full()) {
-            soundEffect("keyboard_click_" + dice(5), 1.0);
+            keySound(key);
             let tile = this.launchpad.push(this.player_palette, letter_array[i]);
             tile.tint = 0x000000;
           }

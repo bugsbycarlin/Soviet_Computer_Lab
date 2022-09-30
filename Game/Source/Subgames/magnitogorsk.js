@@ -232,6 +232,8 @@ class Magnitogorsk extends Screen {
     let player = 0;
     if (!paused) {
 
+      keySound(key);
+
       if (key === "ArrowRight") {
         this.moveCursor("right", player);
       }

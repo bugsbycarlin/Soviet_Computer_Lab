@@ -332,15 +332,27 @@ class PartyMath extends Screen {
       if (key === "ArrowDown" && this.grigory.cell_y < 4) {
         this.grigory.move("down");
         this.grigory.cell_y += 1;
+        if (this.queued_move == null) {
+          keySound(key);
+        }
       } else if (key === "ArrowUp" && this.grigory.cell_y > 0) {
         this.grigory.move("up");
         this.grigory.cell_y -= 1;
+        if (this.queued_move == null) {
+          keySound(key);
+        }
       } else if (key === "ArrowLeft" && this.grigory.cell_x > 0) {
         this.grigory.move("left");
         this.grigory.cell_x -= 1;
+        if (this.queued_move == null) {
+          keySound(key);
+        }
       } else if (key === "ArrowRight" && this.grigory.cell_x < 5) {
         this.grigory.move("right");
         this.grigory.cell_x += 1;
+        if (this.queued_move == null) {
+          keySound(key);
+        }
       } else if (key === " ") {
         if (this.cells[this.grigory.cell_x][this.grigory.cell_y].cell_value != null) {
           this.consumeCell(this.grigory.cell_x, this.grigory.cell_y)
@@ -348,12 +360,24 @@ class PartyMath extends Screen {
       }
     } else if (this.grigory.state == "walking" || this.grigory.state == "working") {
       if (key === "ArrowDown" && this.grigory.cell_y < 4) {
+        if (this.queued_move == null) {
+          keySound(key);
+        }
         this.queued_move = "ArrowDown";
       } else if (key === "ArrowUp" && this.grigory.cell_y > 0) {
+        if (this.queued_move == null) {
+          keySound(key);
+        }
         this.queued_move = "ArrowUp";
       } else if (key === "ArrowLeft" && this.grigory.cell_x > 0) {
+        if (this.queued_move == null) {
+          keySound(key);
+        }
         this.queued_move = "ArrowLeft";
       } else if (key === "ArrowRight" && this.grigory.cell_x < 5) {
+        if (this.queued_move == null) {
+          keySound(key);
+        }
         this.queued_move = "ArrowRight";
       } else if (key === " ") {
         this.queued_move = " ";

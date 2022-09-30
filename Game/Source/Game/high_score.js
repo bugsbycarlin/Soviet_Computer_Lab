@@ -67,17 +67,20 @@ class HighScore extends Screen {
 
   keyDown(ev) {
     if (this.state === "entry") {
+      let key = ev.key;
+      keySound(key);
+
       for (i in lower_array) {
-        if (ev.key === lower_array[i] || ev.key === letter_array[i]) {
+        if (key === lower_array[i] || key === letter_array[i]) {
           this.key(letter_array[i]);
         }
       }
 
-      if (ev.key === "Backspace" || ev.key === "Delete") {
+      if (key === "Backspace" || key === "Delete") {
         this.hsDelete();
       }
 
-      if (ev.key === "Enter") {
+      if (key === "Enter") {
         this.enter();
       }
     }
