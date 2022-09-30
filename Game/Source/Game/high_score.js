@@ -7,19 +7,14 @@
 
 
 class HighScore extends Screen {
-  constructor() {
-    super();
-
-    this.new_high_score = game.score;
-    this.high_score_value.text = this.new_high_score + " POINTS";
-  }
-
-  initialize() {
+  initialize(extra_param = null) {
     makeBlank(this, game.width, game.height, 0, 0, 0x000000);
 
     this.state = "entry";
 
-    game.monitor_overlay.restore();
+    this.new_high_score = extra_param != null ? extra_param : game.score;
+
+    // game.monitor_overlay.restore();
 
     this.high_score_palette = makeKeyboard({
       player: 1,
@@ -46,7 +41,7 @@ class HighScore extends Screen {
 
     makeText("YOU GOT A HIGH SCORE!", {fontFamily: "Press Start 2P", fontSize: 48, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
       this, game.width / 2, 100, 0.5, 0.5);
-    this.high_score_value = makeText("", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
+    this.high_score_value = makeText(this.new_high_score + " POINTS", {fontFamily: "Press Start 2P", fontSize: 36, fill: 0xFFFFFF, letterSpacing: 6, align: "left"},
       this, game.width / 2, 300, 0.5, 0.5);
 
 

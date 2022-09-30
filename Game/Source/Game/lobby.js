@@ -12,7 +12,7 @@ class Lobby extends Screen {
 
     this.initializeSectionGameType();
 
-    game.monitor_overlay.restore();
+    // game.monitor_overlay.restore();
 
     fadeMusic(500); // fade the music when coming to the lobby
     game.level = 1; // reset the level when coming to the lobby
@@ -26,6 +26,9 @@ class Lobby extends Screen {
     
     let section = this.sections.game_type;
     this.addChild(section);
+
+    this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, 1022, 1280, 0.5, 1);
+    this.tvs_dark.scale.set(16, 16);
 
     let choose_game_type = new PIXI.Text("GAME TYPE", {fontFamily: "Press Start 2P", fontSize: 32, fill: 0xFFFFFF, letterSpacing: 6, align: "right"});
     choose_game_type.anchor.set(0,0);
@@ -73,8 +76,8 @@ class Lobby extends Screen {
 
   returnToTitle() {
     this.state = "leaving";
-    game.createScreen("title");
-    game.switchScreens("lobby", "title");
+    game.createScreen("title", true);
+    game.popScreens("lobby", "title");
   }
 
 

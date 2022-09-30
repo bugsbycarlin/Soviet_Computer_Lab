@@ -7,7 +7,7 @@
 
 
 class Title extends Screen {
-  initialize() {
+  initialize(extra_param = null) {
     if (use_music) setMusic("title_song")
 
     // makeSprite("Art/Title/lab_screen_tester_with_stock_photo.png", this, 0, 0, 0, 0);
@@ -16,10 +16,16 @@ class Title extends Screen {
     this.tvs.animationSpeed = 0.34;
     this.tvs.loop = false;
 
-    game.fadeFromBlack(800);
-    delay(() => {
-      this.tvs.play();
-    }, 800); 
+    let post_animation_delay = 4800;
+    if (extra_param == null) {
+      game.fadeFromBlack(800);
+      delay(() => {
+        this.tvs.play();
+      }, 800); 
+    } else {
+      this.tvs.gotoAndStop(143);
+      post_animation_delay = 0;
+    }
 
     this.state = "pre_game";
 
@@ -34,7 +40,7 @@ class Title extends Screen {
 
       this.choices = new NestedOptionsList({
           "SINGLE": () => {
-            this.switchFromTitleToLobby();
+            this.switchFromTitleTo("lobby");
           },
           "MULTI": {
             "QUICK PLAY": () => {},
@@ -66,15 +72,15 @@ class Title extends Screen {
             },
           },
           "CREDITS": () =>  {
-            this.switchFromTitleToCredits();
+            this.switchFromTitleTo("credits");
           },
           "QUIT": () => {
             window.close();
           },
         }, 
         (text) => {
-          let entry_button = makeText(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"},
-            null, 0, 0, 0.5, 0.5);
+          let entry_button = makeText(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "left"},
+            null, 0, 0, 0, 0.5);
           entry_button.interactive = true;
           entry_button.buttonMode = true;
           return entry_button;
@@ -84,9 +90,9 @@ class Title extends Screen {
       if (!use_music) this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF");
       if (!use_sound) this.choices.rename(["SETTINGS", "SOUND ON"], "SOUND OFF");
 
-      this.choices.position.set(game.width / 2 - 25, game.height - 250);
+      this.choices.position.set(737, 720);
       this.addChild(this.choices);
-      this.choices.visible = false;
+      // this.choices.visible = false;
 
       this.start_time = markTime() - 5000;
 
@@ -95,22 +101,13 @@ class Title extends Screen {
       this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, this.tvs.x, this.tvs.y, 0.5, 1);
       this.tvs_dark.scale.set(6, 6);
       this.tvs_dark.visible = false;
-    }, 4800);
+    }, post_animation_delay);
 
     
   }
 
 
-  switchFromTitleToLobby() {
-    if (game.network.uid == null) {
-      game.network.anonymousSignIn(() => {
-        game.network.loadGlobalHighScores();
-      });
-    } else {
-      game.network.loadGlobalHighScores();
-    }
-    this.state = "transitioning";
-
+  animateTitleTransition() {
     this.tvs_dark.alpha = 0.01;
     this.tvs_dark.visible = true;
     let top_y = this.tvs.y;
@@ -122,37 +119,44 @@ class Title extends Screen {
       .start();
     delay(() => {
       var tween = new TWEEN.Tween(this.tvs)
-      .to({x: top_x + 200, y: top_y + 500})
+      .to({x: 1022, y: 1280})
       .easing(TWEEN.Easing.Cubic.InOut)
       .duration(2000)
       .start();
       var tween = new TWEEN.Tween(this.tvs_dark)
-        .to({x: top_x + 200, y: top_y + 500})
+        .to({x: 1022, y: 1280})
         .easing(TWEEN.Easing.Cubic.InOut)
         .duration(2000)
         .start();
       var tween = new TWEEN.Tween(this.tvs_dark.scale)
-        .to({x: 20, y: 20})
+        .to({x: 16, y: 16})
         .easing(TWEEN.Easing.Cubic.InOut)
         .duration(2000)
         .start();
       var tween = new TWEEN.Tween(this.tvs.scale)
-        .to({x: 20, y: 20})
+        .to({x: 16, y: 16})
         .easing(TWEEN.Easing.Cubic.InOut)
         .duration(2000)
         .start();
     }, 800)
-    delay(() => {
-      game.createScreen("lobby");
-      game.popScreens("title", "lobby");
-      game.fadeFromBlack(800);
-    }, 3200);
   }
 
-  switchFromTitleToCredits() {
+
+  switchFromTitleTo(next_screen) {
+    if (game.network.uid == null) {
+      game.network.anonymousSignIn(() => {
+        game.network.loadGlobalHighScores();
+      });
+    } else {
+      game.network.loadGlobalHighScores();
+    }
     this.state = "transitioning";
-    game.createScreen("credits");
-    game.switchScreens("title", "credits");
+    this.animateTitleTransition();
+    delay(() => {
+      game.createScreen(next_screen);
+      game.popScreens("title", next_screen);
+      game.fadeFromBlack(800);
+    }, 3200);
   }
 
 
@@ -201,33 +205,41 @@ class Title extends Screen {
 
 
   update(diff) {
-    if (this.state == "active" && timeSince(this.start_time) > 4155) {
+    if (this.state == "active" && timeSince(this.start_time) > 500 && this.soviet_text.text == "") {
       this.start_time = markTime();
-      this.soviet_text.text = "";
-      this.computer_text.text = "";
-      this.lab_text.text = "";
+      // this.soviet_text.text = "";
+      // this.computer_text.text = "";
+      // this.lab_text.text = "";
 
       let rate = 100;
-      for (let i = 1; i <= 6; i++) {
-        delay(() => {
-          this.soviet_text.text = "SOVIET".slice(0, i);
-        }, rate * i);
-      }
-      for (let i = 1; i <= 8; i++) {
-        delay(() => {
-          this.computer_text.text = "COMPUTER".slice(0, i);
-        }, 6*rate + rate * i);
-      }
-      for (let i = 1; i <= 3; i++) {
-        delay(() => {
-          this.lab_text.text = "LAB".slice(0, i);
-        }, 14*rate + rate * i);
+
+      let texts = [this.soviet_text, this.computer_text, this.lab_text, null,
+        this.choices.children[0], this.choices.children[1], this.choices.children[2],
+        this.choices.children[3], this.choices.children[4]
+      ]
+      let values = ["SOVIET", "COMPUTER", "LAB", "  ", "SINGLE", "MULTI",
+        "SETTINGS", "CREDITS", "QUIT"
+      ]
+
+      let delay_marker = 0;
+      for (let i = 0; i < texts.length; i++) {
+        let t = texts[i];
+        let v = values[i];
+        if (t != null) {
+          t.text = "";
+          for (let j = 1; j <= v.length; j++) {
+            delay(() => {
+              t.text = v.slice(0, j);
+            }, delay_marker*rate + rate * j);
+          }
+        }
+        delay_marker += v.length;
       }
 
       // show the title menu
-      delay(() => {
-        this.choices.visible = true;
-      }, 500);
+      // delay(() => {
+      //   this.choices.visible = true;
+      // }, 500);
     }
   }
 }

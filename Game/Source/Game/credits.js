@@ -6,12 +6,15 @@
 //
 
 class Credits extends Screen {
-  initialize() {
+  initialize(extra_param = null) {
     makeBlank(this, game.width, game.height, 0, 0, 0x000000);
 
     let credits_y = 180;
 
     this.state = "active";
+
+    this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, 1022, 1280, 0.5, 1);
+    this.tvs_dark.scale.set(16, 16);
 
     let font = (size) => {return {fontFamily: "Press Start 2P", fontSize: size, fill: 0xFFFFFF, letterSpacing: 6, align: "center"}};
 
@@ -67,8 +70,8 @@ class Credits extends Screen {
   creditsBackToTitle() {
     this.left_shark_tween.stop();
     this.right_shark_tween.stop();
-    game.createScreen("title");
-    game.switchScreens("credits", "title");
+    game.createScreen("title", true);
+    game.popScreens("credits", "title");
   }
 }
 

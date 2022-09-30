@@ -13,9 +13,9 @@
 
 
 class Screen extends PIXI.Container {
-  constructor() {
+  constructor(extra_param) {
     super();
-    this.initialize();
+    this.initialize(extra_param);
   }
 
 
@@ -30,7 +30,7 @@ class Screen extends PIXI.Container {
   update() {
   }
 
-  initialize() {
+  initialize(extra_param) {
   }
 }
 
@@ -39,7 +39,7 @@ Game.prototype.createScreen = function(screen_name, extra_param = null, reset = 
   if (screen_name == "intro") {
     this.screens["intro"] = new Intro;
   } else if (screen_name == "title") {
-    this.screens["title"] = new Title();
+    this.screens["title"] = new Title(extra_param);
   } else if (screen_name == "lobby") {
     this.screens["lobby"] = new Lobby();
   } else if (screen_name == "high_score") {
@@ -90,7 +90,7 @@ Game.prototype.initializeScreens = function() {
   // pixi.stage.addChild(this.alertBox);
   // this.initializeAlertBox();
 
-  this.createScreen(first_screen, true);
+  this.createScreen(first_screen);
   this.current_screen = first_screen;
 }
 
@@ -346,7 +346,7 @@ Game.prototype.gameOver = function(delay_time) {
   delay(() => {
     let low_high = this.local_high_scores[this.getModeName()][this.difficulty_level.toLowerCase()][9];
     if (game.score > 0 && (low_high == null || low_high.score < game.score)) {
-      this.createScreen("high_score");
+      this.createScreen("high_score", game.score);
       this.fadeScreens(this.current_screen, "high_score", true, 800);
     } else {
       this.score = 0;

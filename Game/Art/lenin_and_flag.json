@@ -1,0 +1,687 @@
+{"frames": {
+
+"lenin_and_flags-00001.png":
+{
+	"frame": {"x":1,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00003.png":
+{
+	"frame": {"x":280,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00005.png":
+{
+	"frame": {"x":559,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00007.png":
+{
+	"frame": {"x":838,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00009.png":
+{
+	"frame": {"x":1117,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00011.png":
+{
+	"frame": {"x":1396,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00013.png":
+{
+	"frame": {"x":1675,"y":1,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00015.png":
+{
+	"frame": {"x":1,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00017.png":
+{
+	"frame": {"x":280,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00019.png":
+{
+	"frame": {"x":559,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00021.png":
+{
+	"frame": {"x":838,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00023.png":
+{
+	"frame": {"x":1117,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00025.png":
+{
+	"frame": {"x":1396,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00027.png":
+{
+	"frame": {"x":1675,"y":166,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00029.png":
+{
+	"frame": {"x":1,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00031.png":
+{
+	"frame": {"x":280,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00033.png":
+{
+	"frame": {"x":559,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00035.png":
+{
+	"frame": {"x":838,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00037.png":
+{
+	"frame": {"x":1117,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00039.png":
+{
+	"frame": {"x":1396,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00041.png":
+{
+	"frame": {"x":1675,"y":331,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00043.png":
+{
+	"frame": {"x":1,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00045.png":
+{
+	"frame": {"x":280,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00047.png":
+{
+	"frame": {"x":559,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00049.png":
+{
+	"frame": {"x":838,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00051.png":
+{
+	"frame": {"x":1117,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00053.png":
+{
+	"frame": {"x":1396,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00055.png":
+{
+	"frame": {"x":1675,"y":496,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00057.png":
+{
+	"frame": {"x":1,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00059.png":
+{
+	"frame": {"x":280,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00061.png":
+{
+	"frame": {"x":559,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00063.png":
+{
+	"frame": {"x":838,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00065.png":
+{
+	"frame": {"x":1117,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00067.png":
+{
+	"frame": {"x":1396,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00069.png":
+{
+	"frame": {"x":1675,"y":661,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00071.png":
+{
+	"frame": {"x":1,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00073.png":
+{
+	"frame": {"x":280,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00075.png":
+{
+	"frame": {"x":559,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00077.png":
+{
+	"frame": {"x":838,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00079.png":
+{
+	"frame": {"x":1117,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00081.png":
+{
+	"frame": {"x":1396,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00083.png":
+{
+	"frame": {"x":1675,"y":826,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00085.png":
+{
+	"frame": {"x":1,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00087.png":
+{
+	"frame": {"x":280,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00089.png":
+{
+	"frame": {"x":559,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00091.png":
+{
+	"frame": {"x":838,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00093.png":
+{
+	"frame": {"x":1117,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00095.png":
+{
+	"frame": {"x":1396,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00097.png":
+{
+	"frame": {"x":1675,"y":991,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00099.png":
+{
+	"frame": {"x":1,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00101.png":
+{
+	"frame": {"x":280,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00103.png":
+{
+	"frame": {"x":559,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00105.png":
+{
+	"frame": {"x":838,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00107.png":
+{
+	"frame": {"x":1117,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00109.png":
+{
+	"frame": {"x":1396,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00111.png":
+{
+	"frame": {"x":1675,"y":1156,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00113.png":
+{
+	"frame": {"x":1,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00115.png":
+{
+	"frame": {"x":280,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00117.png":
+{
+	"frame": {"x":559,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00119.png":
+{
+	"frame": {"x":838,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00121.png":
+{
+	"frame": {"x":1117,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00123.png":
+{
+	"frame": {"x":1396,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00125.png":
+{
+	"frame": {"x":1675,"y":1321,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00127.png":
+{
+	"frame": {"x":1,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00129.png":
+{
+	"frame": {"x":280,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00131.png":
+{
+	"frame": {"x":559,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00133.png":
+{
+	"frame": {"x":838,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00135.png":
+{
+	"frame": {"x":1117,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00137.png":
+{
+	"frame": {"x":1396,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00139.png":
+{
+	"frame": {"x":1675,"y":1486,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00141.png":
+{
+	"frame": {"x":1,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00143.png":
+{
+	"frame": {"x":280,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00145.png":
+{
+	"frame": {"x":559,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00147.png":
+{
+	"frame": {"x":838,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00149.png":
+{
+	"frame": {"x":1117,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00151.png":
+{
+	"frame": {"x":1396,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00153.png":
+{
+	"frame": {"x":1675,"y":1651,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00155.png":
+{
+	"frame": {"x":1,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00157.png":
+{
+	"frame": {"x":280,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00159.png":
+{
+	"frame": {"x":559,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00161.png":
+{
+	"frame": {"x":838,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00163.png":
+{
+	"frame": {"x":1117,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00165.png":
+{
+	"frame": {"x":1396,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+},
+"lenin_and_flags-00167.png":
+{
+	"frame": {"x":1675,"y":1816,"w":277,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":163},
+	"sourceSize": {"w":277,"h":163}
+}},
+"animations": {
+	"lenin_and_flags": ["lenin_and_flags-00001.png","lenin_and_flags-00003.png","lenin_and_flags-00005.png","lenin_and_flags-00007.png","lenin_and_flags-00009.png","lenin_and_flags-00011.png","lenin_and_flags-00013.png","lenin_and_flags-00015.png","lenin_and_flags-00017.png","lenin_and_flags-00019.png","lenin_and_flags-00021.png","lenin_and_flags-00023.png","lenin_and_flags-00025.png","lenin_and_flags-00027.png","lenin_and_flags-00029.png","lenin_and_flags-00031.png","lenin_and_flags-00033.png","lenin_and_flags-00035.png","lenin_and_flags-00037.png","lenin_and_flags-00039.png","lenin_and_flags-00041.png","lenin_and_flags-00043.png","lenin_and_flags-00045.png","lenin_and_flags-00047.png","lenin_and_flags-00049.png","lenin_and_flags-00051.png","lenin_and_flags-00053.png","lenin_and_flags-00055.png","lenin_and_flags-00057.png","lenin_and_flags-00059.png","lenin_and_flags-00061.png","lenin_and_flags-00063.png","lenin_and_flags-00065.png","lenin_and_flags-00067.png","lenin_and_flags-00069.png","lenin_and_flags-00071.png","lenin_and_flags-00073.png","lenin_and_flags-00075.png","lenin_and_flags-00077.png","lenin_and_flags-00079.png","lenin_and_flags-00081.png","lenin_and_flags-00083.png","lenin_and_flags-00085.png","lenin_and_flags-00087.png","lenin_and_flags-00089.png","lenin_and_flags-00091.png","lenin_and_flags-00093.png","lenin_and_flags-00095.png","lenin_and_flags-00097.png","lenin_and_flags-00099.png","lenin_and_flags-00101.png","lenin_and_flags-00103.png","lenin_and_flags-00105.png","lenin_and_flags-00107.png","lenin_and_flags-00109.png","lenin_and_flags-00111.png","lenin_and_flags-00113.png","lenin_and_flags-00115.png","lenin_and_flags-00117.png","lenin_and_flags-00119.png","lenin_and_flags-00121.png","lenin_and_flags-00123.png","lenin_and_flags-00125.png","lenin_and_flags-00127.png","lenin_and_flags-00129.png","lenin_and_flags-00131.png","lenin_and_flags-00133.png","lenin_and_flags-00135.png","lenin_and_flags-00137.png","lenin_and_flags-00139.png","lenin_and_flags-00141.png","lenin_and_flags-00143.png","lenin_and_flags-00145.png","lenin_and_flags-00147.png","lenin_and_flags-00149.png","lenin_and_flags-00151.png","lenin_and_flags-00153.png","lenin_and_flags-00155.png","lenin_and_flags-00157.png","lenin_and_flags-00159.png","lenin_and_flags-00161.png","lenin_and_flags-00163.png","lenin_and_flags-00165.png","lenin_and_flags-00167.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "lenin_and_flag.png",
+	"format": "RGBA8888",
+	"size": {"w":1953,"h":1980},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c8afbde23ee139231daaff77327509ae:e7215a713aa01dadb59def8af38c2d04:80a02849ced21b0d171801dc999cfdff$"
+}
+}

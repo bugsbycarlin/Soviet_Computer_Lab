@@ -752,7 +752,7 @@ class FirstStrike extends Screen {
         sound_data["countdown"].hold_up = null;
         sound_data["countdown"].stop();
       }
-      game.monitor_overlay.restore();
+      // game.monitor_overlay.restore();
       this.state = "none";
       fadeMusic(500);
       resume();
