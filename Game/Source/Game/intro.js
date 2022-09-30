@@ -14,7 +14,7 @@ class Intro extends Screen {
 
     game.fadeFromBlack(1200);
 
-    this.lenin_and_flag = makeAnimatedSprite("Art/lenin_and_flag.json", "lenin_and_flags", this, game.width/2, game.height, 0.5, 1);
+    this.lenin_and_flag = makeAnimatedSprite("Art/Big_Animations/lenin_and_flag.json", "lenin_and_flags", this, game.width/2, game.height, 0.5, 1);
     this.lenin_and_flag.scale.set(6, 6);
     this.lenin_and_flag.animationSpeed = 0.2;
     this.lenin_and_flag.loop = false;

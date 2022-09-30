@@ -10,8 +10,8 @@
 var log_performance = true;
 var performance_result = null;
 
-var first_screen = "intro";
-// var first_screen = "title";
+// var first_screen = "intro";
+var first_screen = "title";
 // var first_screen = "magnitogorsk";
 // var first_screen = "first_strike";
 // var first_screen = "kuzkas_mother"
@@ -356,8 +356,9 @@ class Game {
       .add("Art/fireworks_blue.json")
       .add("Art/fireworks_orange.json")
       .add("Art/pop.json")
-      .add("Art/lenin_and_flag.json")
-      .add("Art/Title/soviet_tvs_unlicensed.json")
+      .add("Art/Big_Animations/lenin_and_flag.json")
+      .add("Art/Big_Animations/soviet_tvs_unlicensed.json")
+      .add("Art/Big_Animations/kuzkas_mother_bg.json")
       .add("Art/Party_Math/Characters/grigory.json")
       .add("Art/Party_Math/Characters/carrying_1.json")
       .add("Art/Party_Math/Characters/carrying_2.json")

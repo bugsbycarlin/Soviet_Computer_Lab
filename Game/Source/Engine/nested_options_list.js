@@ -35,13 +35,14 @@
 //
 
 class NestedOptionsList extends PIXI.Container {
-  constructor(choice_list, format, root_escape, spacing, unselected_tint, selected_tint) {
+  constructor(choice_list, format, root_escape, spacing, new_line_spacing, unselected_tint, selected_tint) {
     super();
     this.choice_list = choice_list;
     // this.choice is a chain of choices from the top to the current sub list.
     // so [0, 1] might correspond to "MULTI", "CREATE GAME".
     this.choice = [0];
     this.spacing = spacing;
+    this.new_line_spacing = new_line_spacing;
     this.format = format;
     this.unselected_tint = unselected_tint;
     this.selected_tint = selected_tint;
@@ -72,9 +73,11 @@ class NestedOptionsList extends PIXI.Container {
     // Walk through the entries of the current sub list, tinting
     // the selected entry, and add them all to the container.
     let count = 0;
+    let new_line_count = 0;
     for (const [key, value] of this.sub_list) {
       let entry = this.format(key);
-      entry.position.y = count * this.spacing;
+      let new_lines = key.split("\n").length - 1;
+      entry.position.y = count * this.spacing + new_line_count * this.new_line_spacing;
       if (count == this.choice[this.choice.length - 1]) {
         entry.tint = this.selected_tint;
       } else {
@@ -84,6 +87,7 @@ class NestedOptionsList extends PIXI.Container {
       this.addChild(entry);
 
       count += 1;
+      new_line_count += new_lines;
     }
   }
 

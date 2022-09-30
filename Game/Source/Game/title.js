@@ -11,7 +11,7 @@ class Title extends Screen {
     if (use_music) setMusic("title_song")
 
     // makeSprite("Art/Title/lab_screen_tester_with_stock_photo.png", this, 0, 0, 0, 0);
-    this.tvs = makeAnimatedSprite("Art/Title/soviet_tvs_unlicensed.json", "tvs", this, game.width/2 + 30, game.height + 40, 0.5, 1);
+    this.tvs = makeAnimatedSprite("Art/Big_Animations/soviet_tvs_unlicensed.json", "tvs", this, game.width/2 + 30, game.height + 40, 0.5, 1);
     this.tvs.scale.set(6, 6);
     this.tvs.animationSpeed = 0.34;
     this.tvs.loop = false;
@@ -84,7 +84,7 @@ class Title extends Screen {
           entry_button.interactive = true;
           entry_button.buttonMode = true;
           return entry_button;
-        }, () => {}, 40, 0xFFFFFF, 0xfcba03
+        }, () => {}, 40, 24, 0xFFFFFF, 0xfcba03
       );
 
       if (!use_music) this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF");
@@ -98,7 +98,7 @@ class Title extends Screen {
 
       this.state = "active";
 
-      this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, this.tvs.x, this.tvs.y, 0.5, 1);
+      this.tvs_dark = makeSprite("Art/tvs_dark.png", this, this.tvs.x, this.tvs.y, 0.5, 1);
       this.tvs_dark.scale.set(6, 6);
       this.tvs_dark.visible = false;
     }, post_animation_delay);

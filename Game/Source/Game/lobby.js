@@ -23,17 +23,25 @@ class Lobby extends Screen {
 
   initializeSectionGameType() {
     this.sections.game_type = new PIXI.Container();
-    
+
     let section = this.sections.game_type;
     this.addChild(section);
 
-    this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, 1022, 1280, 0.5, 1);
+    this.tvs_dark = makeSprite("Art/tvs_hollow.png", this, 1022, 1280, 0.5, 1);
     this.tvs_dark.scale.set(16, 16);
 
-    let choose_game_type = new PIXI.Text("GAME TYPE", {fontFamily: "Press Start 2P", fontSize: 32, fill: 0xFFFFFF, letterSpacing: 6, align: "right"});
-    choose_game_type.anchor.set(0,0);
-    choose_game_type.position.set(300, 200);
-    section.addChild(choose_game_type);
+    this.kuzkas_mother_bg = makeAnimatedSprite("Art/Big_Animations/kuzkas_mother_bg.json", "kuzkas_mother", section, game.width/2, game.height, 0.5, 1);
+    this.kuzkas_mother_bg.scale.set(6, 6);
+    this.kuzkas_mother_bg.alpha = 0.35;
+    this.kuzkas_mother_bg.animationSpeed = 0.15;
+    this.kuzkas_mother_bg.loop = true;
+    this.kuzkas_mother_bg.play();
+
+    // makeBlank(section, game.width, game.height, 0, 0, 0xf3db3c);
+
+    let font_32 = {fontFamily: "Press Start 2P", fontSize: 64, fill: 0xFFFFFF, letterSpacing: 6, align: "right"};
+
+    let choose_game_type = makeText("GAME TYPE", font_32, section, 120, 80, 0, 0);
 
     this.game_type_choices = new NestedOptionsList({
         "Kuzka's Mother": () => {
@@ -45,7 +53,7 @@ class Lobby extends Screen {
         "Party Math": () => {
           this.startGame(3);
         },
-        "Centrally Planned Economy": () => {
+        "Planned Economy": () => {
           this.startGame(4);
         },
         "First Strike": () => {
@@ -53,24 +61,24 @@ class Lobby extends Screen {
         },
         "Siberian Trail": () => {
         },
-        "Where in the World is Leon Trotsky?": () => {
+        "Where in the World\nis Leon Trotsky?": () => {
         },
-        "Party Congress (Mixed Mode)": () => {
+        "Mixed Mode": () => {
           this.startGame(8);
         },
       }, 
       (text) => {
-        let entry_button = new PIXI.Text(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"});
+        let entry_button = new PIXI.Text(text, {fontFamily: "Press Start 2P", fontSize: 32, lineHeight: 40, fill: 0xFFFFFF, letterSpacing: 2, align: "left"});
         entry_button.scaleMode = PIXI.SCALE_MODES.NEAREST;
         entry_button.anchor.set(0,0);
         entry_button.interactive = true;
         entry_button.buttonMode = true;
         return entry_button;
       },
-      () => { this.returnToTitle() }, 40, 0xFFFFFF, 0x67d8ef
+      () => { this.returnToTitle() }, 64, 40, 0xFFFFFF, 0x67d8ef
     );
-    this.game_type_choices.position.set(300, 280);
-    this.addChild(this.game_type_choices);
+    this.game_type_choices.position.set(120, 220);
+    section.addChild(this.game_type_choices);
   }
 
 
@@ -113,5 +121,6 @@ class Lobby extends Screen {
 
 
   update(diff) {
-  }
+    this.kuzkas_mother_bg.visible = this.game_type_choices.choice[0] == 0 ? true : false;
+  } 
 }

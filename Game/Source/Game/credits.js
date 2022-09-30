@@ -13,7 +13,7 @@ class Credits extends Screen {
 
     this.state = "active";
 
-    this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, 1022, 1280, 0.5, 1);
+    this.tvs_dark = makeSprite("Art/tvs_hollow.png", this, 1022, 1280, 0.5, 1);
     this.tvs_dark.scale.set(16, 16);
 
     let font = (size) => {return {fontFamily: "Press Start 2P", fontSize: size, fill: 0xFFFFFF, letterSpacing: 6, align: "center"}};
