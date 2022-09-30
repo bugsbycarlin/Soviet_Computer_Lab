@@ -28,7 +28,7 @@ class Title extends Screen {
 
     delay(() => {
 
-      this.soviet_text = makeText("", font, this, 724, 524, 0, 0.5);
+      this.soviet_text = makeText("", font, this, 726, 524, 0, 0.5);
       this.computer_text = makeText("", font, this, 684, 584, 0, 0.5);
       this.lab_text = makeText("", font, this, 790, 644, 0, 0.5);
 
@@ -91,6 +91,10 @@ class Title extends Screen {
       this.start_time = markTime() - 5000;
 
       this.state = "active";
+
+      this.tvs_dark = makeSprite("Art/Title/tvs_dark.png", this, this.tvs.x, this.tvs.y, 0.5, 1);
+      this.tvs_dark.scale.set(6, 6);
+      this.tvs_dark.visible = false;
     }, 4800);
 
     
@@ -106,8 +110,43 @@ class Title extends Screen {
       game.network.loadGlobalHighScores();
     }
     this.state = "transitioning";
-    game.createScreen("lobby");
-    game.switchScreens("title", "lobby");
+
+    this.tvs_dark.alpha = 0.01;
+    this.tvs_dark.visible = true;
+    let top_y = this.tvs.y;
+    let top_x = this.tvs.x;
+    var tween = new TWEEN.Tween(this.tvs_dark)
+      .to({alpha: 1})
+      .duration(800)
+      .easing(TWEEN.Easing.Cubic.InOut)
+      .start();
+    delay(() => {
+      var tween = new TWEEN.Tween(this.tvs)
+      .to({x: top_x + 200, y: top_y + 500})
+      .easing(TWEEN.Easing.Cubic.InOut)
+      .duration(2000)
+      .start();
+      var tween = new TWEEN.Tween(this.tvs_dark)
+        .to({x: top_x + 200, y: top_y + 500})
+        .easing(TWEEN.Easing.Cubic.InOut)
+        .duration(2000)
+        .start();
+      var tween = new TWEEN.Tween(this.tvs_dark.scale)
+        .to({x: 20, y: 20})
+        .easing(TWEEN.Easing.Cubic.InOut)
+        .duration(2000)
+        .start();
+      var tween = new TWEEN.Tween(this.tvs.scale)
+        .to({x: 20, y: 20})
+        .easing(TWEEN.Easing.Cubic.InOut)
+        .duration(2000)
+        .start();
+    }, 800)
+    delay(() => {
+      game.createScreen("lobby");
+      game.popScreens("title", "lobby");
+      game.fadeFromBlack(800);
+    }, 3200);
   }
 
   switchFromTitleToCredits() {
