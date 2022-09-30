@@ -205,6 +205,7 @@ Game.prototype.initializeMonitorOverlay = function() {
     }
   }
 
+  this.monitor_overlay.visible = false;
   pixi.stage.addChild(this.monitor_overlay);
 }
 
@@ -304,6 +305,7 @@ Game.prototype.fadeToBlack = function(fade_time=1500) {
 // Fade in from the black screen.
 Game.prototype.fadeFromBlack = function(fade_time=1500) {
   pixi.stage.addChild(this.black);
+  this.black.visible = true;
   this.black.alpha = 1;
 
   var tween = new TWEEN.Tween(this.black)

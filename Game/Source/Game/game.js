@@ -356,6 +356,7 @@ class Game {
       .add("Art/fireworks_blue.json")
       .add("Art/fireworks_orange.json")
       .add("Art/pop.json")
+      .add("Art/Title/soviet_tvs_unlicensed.json")
       .add("Art/Party_Math/Characters/grigory.json")
       .add("Art/Party_Math/Characters/carrying_1.json")
       .add("Art/Party_Math/Characters/carrying_2.json")

@@ -10,72 +10,90 @@ class Title extends Screen {
   initialize() {
     if (use_music) setMusic("title_song")
 
-    this.state = "active";
+    // makeSprite("Art/Title/lab_screen_tester_with_stock_photo.png", this, 0, 0, 0, 0);
+    this.tvs = makeAnimatedSprite("Art/Title/soviet_tvs_unlicensed.json", "tvs", this, game.width/2 + 30, game.height + 40, 0.5, 1);
+    this.tvs.scale.set(6, 6);
+    this.tvs.animationSpeed = 0.34;
+    this.tvs.loop = false;
 
-    let font = {fontFamily: "Press Start 2P", fontSize: 84, fill: 0xcd0000, letterSpacing: 2, align: "left",
-      dropShadow: true, dropShadowColor: 0x440000, dropShadowDistance: 8, dropShadowAngle: Math.PI/4};
+    game.fadeFromBlack(800);
+    delay(() => {
+      this.tvs.play();
+    }, 800); 
 
-    this.soviet_text = makeText("", font, this, 574, 264, 0, 0.5);
-    this.computer_text = makeText("", font, this, 473, 394, 0, 0.5);
-    this.lab_text = makeText("", font, this, 690, 524, 0, 0.5);
+    this.state = "pre_game";
 
-    this.choices = new NestedOptionsList({
-        "SINGLE": () => {
-          this.switchFromTitleToLobby();
-        },
-        "MULTI": {
-          "QUICK PLAY": () => {},
-          "CREATE GAME": () => {this.titleCreateGame("create")},
-          "JOIN GAME": () => {this.switchFromTitleToMultiSetName("multi_lobby")},
-        },
-        "SETTINGS": {
-          "MUSIC ON": () => {
-            use_music = !use_music
-            localStorage.setItem("soviet_computer_lab_use_music", use_music);
-            if (use_music) {
-              this.choices.rename(["SETTINGS", "MUSIC OFF"], "MUSIC ON")
-              setMusic("title_song");
-            } else {
-              this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF")
-              stopMusic();
-            }
+    let font = {fontFamily: "Press Start 2P", fontSize: 40, fill: 0xfcba03, letterSpacing: 2, align: "left",
+      dropShadow: true, dropShadowColor: 0xdc9a03, dropShadowDistance: 4, dropShadowAngle: Math.PI/4};
+
+    delay(() => {
+
+      this.soviet_text = makeText("", font, this, 724, 524, 0, 0.5);
+      this.computer_text = makeText("", font, this, 684, 584, 0, 0.5);
+      this.lab_text = makeText("", font, this, 790, 644, 0, 0.5);
+
+      this.choices = new NestedOptionsList({
+          "SINGLE": () => {
+            this.switchFromTitleToLobby();
           },
-          "SOUND ON": () => {
-            use_sound = !use_sound
-            localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
-            if (use_sound) {
-              this.choices.rename(["SETTINGS", "SOUND OFF"], "SOUND ON")
-              soundEffect("button_accept");
-            } else {
-              stopAllSound();
-              this.choices.rename(["SETTINGS", "SOUND ON"], "SOUND OFF")
-            }
+          "MULTI": {
+            "QUICK PLAY": () => {},
+            "CREATE GAME": () => {this.titleCreateGame("create")},
+            "JOIN GAME": () => {this.switchFromTitleToMultiSetName("multi_lobby")},
           },
-        },
-        "CREDITS": () =>  {
-          this.switchFromTitleToCredits();
-        },
-        "QUIT": () => {
-          window.close();
-        },
-      }, 
-      (text) => {
-        let entry_button = makeText(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"},
-          null, 0, 0, 0.5, 0.5);
-        entry_button.interactive = true;
-        entry_button.buttonMode = true;
-        return entry_button;
-      }, () => {}, 40, 0xFFFFFF, 0xa10000
-    );
+          "SETTINGS": {
+            "MUSIC ON": () => {
+              use_music = !use_music
+              localStorage.setItem("soviet_computer_lab_use_music", use_music);
+              if (use_music) {
+                this.choices.rename(["SETTINGS", "MUSIC OFF"], "MUSIC ON")
+                setMusic("title_song");
+              } else {
+                this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF")
+                stopMusic();
+              }
+            },
+            "SOUND ON": () => {
+              use_sound = !use_sound
+              localStorage.setItem("soviet_computer_lab_use_sound", use_sound);
+              if (use_sound) {
+                this.choices.rename(["SETTINGS", "SOUND OFF"], "SOUND ON")
+                soundEffect("button_accept");
+              } else {
+                stopAllSound();
+                this.choices.rename(["SETTINGS", "SOUND ON"], "SOUND OFF")
+              }
+            },
+          },
+          "CREDITS": () =>  {
+            this.switchFromTitleToCredits();
+          },
+          "QUIT": () => {
+            window.close();
+          },
+        }, 
+        (text) => {
+          let entry_button = makeText(text, {fontFamily: "Press Start 2P", fontSize: 24, fill: 0xFFFFFF, letterSpacing: 2, align: "center"},
+            null, 0, 0, 0.5, 0.5);
+          entry_button.interactive = true;
+          entry_button.buttonMode = true;
+          return entry_button;
+        }, () => {}, 40, 0xFFFFFF, 0xfcba03
+      );
 
-    if (!use_music) this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF");
-    if (!use_sound) this.choices.rename(["SETTINGS", "SOUND ON"], "SOUND OFF");
+      if (!use_music) this.choices.rename(["SETTINGS", "MUSIC ON"], "MUSIC OFF");
+      if (!use_sound) this.choices.rename(["SETTINGS", "SOUND ON"], "SOUND OFF");
 
-    this.choices.position.set(game.width / 2 - 5, game.height - 280);
-    this.addChild(this.choices);
-    this.choices.visible = false;
+      this.choices.position.set(game.width / 2 - 25, game.height - 250);
+      this.addChild(this.choices);
+      this.choices.visible = false;
 
-    this.start_time = markTime() - 5000;
+      this.start_time = markTime() - 5000;
+
+      this.state = "active";
+    }, 4800);
+
+    
   }
 
 
@@ -144,7 +162,7 @@ class Title extends Screen {
 
 
   update(diff) {
-    if (timeSince(this.start_time) > 4155) {
+    if (this.state == "active" && timeSince(this.start_time) > 4155) {
       this.start_time = markTime();
       this.soviet_text.text = "";
       this.computer_text.text = "";
