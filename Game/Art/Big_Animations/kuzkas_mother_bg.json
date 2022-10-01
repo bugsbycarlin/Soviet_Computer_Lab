@@ -58,7 +58,7 @@
 },
 "kuzkas_mother-00214.png":
 {
-	"frame": {"x":1989,"y":1,"w":282,"h":158},
+	"frame": {"x":1,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -66,7 +66,7 @@
 },
 "kuzkas_mother-00216.png":
 {
-	"frame": {"x":2273,"y":1,"w":282,"h":158},
+	"frame": {"x":285,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -74,7 +74,7 @@
 },
 "kuzkas_mother-00218.png":
 {
-	"frame": {"x":2557,"y":1,"w":282,"h":158},
+	"frame": {"x":569,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -82,7 +82,7 @@
 },
 "kuzkas_mother-00220.png":
 {
-	"frame": {"x":2841,"y":1,"w":282,"h":158},
+	"frame": {"x":853,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -90,7 +90,7 @@
 },
 "kuzkas_mother-00222.png":
 {
-	"frame": {"x":3125,"y":1,"w":282,"h":158},
+	"frame": {"x":1137,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -98,7 +98,7 @@
 },
 "kuzkas_mother-00224.png":
 {
-	"frame": {"x":3409,"y":1,"w":282,"h":158},
+	"frame": {"x":1421,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
@@ -106,117 +106,13 @@
 },
 "kuzkas_mother-00226.png":
 {
-	"frame": {"x":3693,"y":1,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00228.png":
-{
-	"frame": {"x":1,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00230.png":
-{
-	"frame": {"x":285,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00232.png":
-{
-	"frame": {"x":569,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00234.png":
-{
-	"frame": {"x":853,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00236.png":
-{
-	"frame": {"x":1137,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00238.png":
-{
-	"frame": {"x":1421,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00240.png":
-{
 	"frame": {"x":1705,"y":161,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00242.png":
-{
-	"frame": {"x":1989,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00244.png":
-{
-	"frame": {"x":2273,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00246.png":
-{
-	"frame": {"x":2557,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00248.png":
-{
-	"frame": {"x":2841,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00250.png":
-{
-	"frame": {"x":3125,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00252.png":
-{
-	"frame": {"x":3409,"y":161,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00254.png":
+"kuzkas_mother-00228.png":
 {
 	"frame": {"x":1,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -224,7 +120,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00256.png":
+"kuzkas_mother-00230.png":
 {
 	"frame": {"x":285,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -232,7 +128,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00258.png":
+"kuzkas_mother-00232.png":
 {
 	"frame": {"x":569,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -240,7 +136,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00260.png":
+"kuzkas_mother-00234.png":
 {
 	"frame": {"x":853,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -248,7 +144,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00262.png":
+"kuzkas_mother-00236.png":
 {
 	"frame": {"x":1137,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -256,7 +152,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00264.png":
+"kuzkas_mother-00238.png":
 {
 	"frame": {"x":1421,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -264,7 +160,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00266.png":
+"kuzkas_mother-00240.png":
 {
 	"frame": {"x":1705,"y":321,"w":282,"h":158},
 	"rotated": false,
@@ -272,63 +168,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00268.png":
-{
-	"frame": {"x":1989,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00270.png":
-{
-	"frame": {"x":2273,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00272.png":
-{
-	"frame": {"x":2557,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00274.png":
-{
-	"frame": {"x":2841,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00276.png":
-{
-	"frame": {"x":3125,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00278.png":
-{
-	"frame": {"x":3409,"y":321,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00280.png":
-{
-	"frame": {"x":3693,"y":285,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00282.png":
+"kuzkas_mother-00242.png":
 {
 	"frame": {"x":1,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -336,7 +176,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00284.png":
+"kuzkas_mother-00244.png":
 {
 	"frame": {"x":285,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -344,7 +184,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00286.png":
+"kuzkas_mother-00246.png":
 {
 	"frame": {"x":569,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -352,7 +192,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00288.png":
+"kuzkas_mother-00248.png":
 {
 	"frame": {"x":853,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -360,7 +200,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00290.png":
+"kuzkas_mother-00250.png":
 {
 	"frame": {"x":1137,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -368,7 +208,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00292.png":
+"kuzkas_mother-00252.png":
 {
 	"frame": {"x":1421,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -376,7 +216,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00294.png":
+"kuzkas_mother-00254.png":
 {
 	"frame": {"x":1705,"y":481,"w":282,"h":158},
 	"rotated": false,
@@ -384,55 +224,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00296.png":
-{
-	"frame": {"x":1989,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00298.png":
-{
-	"frame": {"x":2273,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00300.png":
-{
-	"frame": {"x":2557,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00302.png":
-{
-	"frame": {"x":2841,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00304.png":
-{
-	"frame": {"x":3125,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00306.png":
-{
-	"frame": {"x":3409,"y":481,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00308.png":
+"kuzkas_mother-00256.png":
 {
 	"frame": {"x":1,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -440,7 +232,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00310.png":
+"kuzkas_mother-00258.png":
 {
 	"frame": {"x":285,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -448,7 +240,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00312.png":
+"kuzkas_mother-00260.png":
 {
 	"frame": {"x":569,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -456,7 +248,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00314.png":
+"kuzkas_mother-00262.png":
 {
 	"frame": {"x":853,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -464,7 +256,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00316.png":
+"kuzkas_mother-00264.png":
 {
 	"frame": {"x":1137,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -472,7 +264,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00318.png":
+"kuzkas_mother-00266.png":
 {
 	"frame": {"x":1421,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -480,7 +272,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00320.png":
+"kuzkas_mother-00268.png":
 {
 	"frame": {"x":1705,"y":641,"w":282,"h":158},
 	"rotated": false,
@@ -488,63 +280,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00322.png":
-{
-	"frame": {"x":1989,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00324.png":
-{
-	"frame": {"x":2273,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00326.png":
-{
-	"frame": {"x":2557,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00328.png":
-{
-	"frame": {"x":2841,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00330.png":
-{
-	"frame": {"x":3125,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00332.png":
-{
-	"frame": {"x":3409,"y":641,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00334.png":
-{
-	"frame": {"x":3693,"y":569,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00336.png":
+"kuzkas_mother-00270.png":
 {
 	"frame": {"x":1,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -552,7 +288,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00338.png":
+"kuzkas_mother-00272.png":
 {
 	"frame": {"x":285,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -560,7 +296,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00340.png":
+"kuzkas_mother-00274.png":
 {
 	"frame": {"x":569,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -568,7 +304,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00342.png":
+"kuzkas_mother-00276.png":
 {
 	"frame": {"x":853,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -576,7 +312,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00344.png":
+"kuzkas_mother-00278.png":
 {
 	"frame": {"x":1137,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -584,7 +320,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00346.png":
+"kuzkas_mother-00280.png":
 {
 	"frame": {"x":1421,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -592,7 +328,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00348.png":
+"kuzkas_mother-00282.png":
 {
 	"frame": {"x":1705,"y":801,"w":282,"h":158},
 	"rotated": false,
@@ -600,55 +336,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00350.png":
-{
-	"frame": {"x":1989,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00352.png":
-{
-	"frame": {"x":2273,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00354.png":
-{
-	"frame": {"x":2557,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00356.png":
-{
-	"frame": {"x":2841,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00358.png":
-{
-	"frame": {"x":3125,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00360.png":
-{
-	"frame": {"x":3409,"y":801,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00362.png":
+"kuzkas_mother-00284.png":
 {
 	"frame": {"x":1,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -656,7 +344,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00364.png":
+"kuzkas_mother-00286.png":
 {
 	"frame": {"x":285,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -664,7 +352,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00366.png":
+"kuzkas_mother-00288.png":
 {
 	"frame": {"x":569,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -672,7 +360,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00368.png":
+"kuzkas_mother-00290.png":
 {
 	"frame": {"x":853,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -680,7 +368,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00370.png":
+"kuzkas_mother-00292.png":
 {
 	"frame": {"x":1137,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -688,7 +376,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00372.png":
+"kuzkas_mother-00294.png":
 {
 	"frame": {"x":1421,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -696,7 +384,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00374.png":
+"kuzkas_mother-00296.png":
 {
 	"frame": {"x":1705,"y":961,"w":282,"h":158},
 	"rotated": false,
@@ -704,63 +392,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00376.png":
-{
-	"frame": {"x":1989,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00378.png":
-{
-	"frame": {"x":2273,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00380.png":
-{
-	"frame": {"x":2557,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00382.png":
-{
-	"frame": {"x":2841,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00384.png":
-{
-	"frame": {"x":3125,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00386.png":
-{
-	"frame": {"x":3409,"y":961,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00388.png":
-{
-	"frame": {"x":3693,"y":853,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00390.png":
+"kuzkas_mother-00298.png":
 {
 	"frame": {"x":1,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -768,7 +400,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00392.png":
+"kuzkas_mother-00300.png":
 {
 	"frame": {"x":285,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -776,7 +408,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00394.png":
+"kuzkas_mother-00302.png":
 {
 	"frame": {"x":569,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -784,7 +416,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00396.png":
+"kuzkas_mother-00304.png":
 {
 	"frame": {"x":853,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -792,7 +424,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00398.png":
+"kuzkas_mother-00306.png":
 {
 	"frame": {"x":1137,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -800,7 +432,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00400.png":
+"kuzkas_mother-00308.png":
 {
 	"frame": {"x":1421,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -808,7 +440,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00402.png":
+"kuzkas_mother-00310.png":
 {
 	"frame": {"x":1705,"y":1121,"w":282,"h":158},
 	"rotated": false,
@@ -816,63 +448,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00404.png":
-{
-	"frame": {"x":1989,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00406.png":
-{
-	"frame": {"x":2273,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00408.png":
-{
-	"frame": {"x":2557,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00410.png":
-{
-	"frame": {"x":2841,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00412.png":
-{
-	"frame": {"x":3125,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00414.png":
-{
-	"frame": {"x":3409,"y":1121,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00416.png":
-{
-	"frame": {"x":3693,"y":1137,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00418.png":
+"kuzkas_mother-00312.png":
 {
 	"frame": {"x":1,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -880,7 +456,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00420.png":
+"kuzkas_mother-00314.png":
 {
 	"frame": {"x":285,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -888,7 +464,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00422.png":
+"kuzkas_mother-00316.png":
 {
 	"frame": {"x":569,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -896,7 +472,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00424.png":
+"kuzkas_mother-00318.png":
 {
 	"frame": {"x":853,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -904,7 +480,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00426.png":
+"kuzkas_mother-00320.png":
 {
 	"frame": {"x":1137,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -912,7 +488,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00428.png":
+"kuzkas_mother-00322.png":
 {
 	"frame": {"x":1421,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -920,7 +496,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00430.png":
+"kuzkas_mother-00324.png":
 {
 	"frame": {"x":1705,"y":1281,"w":282,"h":158},
 	"rotated": false,
@@ -928,55 +504,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00432.png":
-{
-	"frame": {"x":1989,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00434.png":
-{
-	"frame": {"x":2273,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00436.png":
-{
-	"frame": {"x":2557,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00438.png":
-{
-	"frame": {"x":2841,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00440.png":
-{
-	"frame": {"x":3125,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00442.png":
-{
-	"frame": {"x":3409,"y":1281,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00444.png":
+"kuzkas_mother-00326.png":
 {
 	"frame": {"x":1,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -984,7 +512,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00446.png":
+"kuzkas_mother-00328.png":
 {
 	"frame": {"x":285,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -992,7 +520,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00448.png":
+"kuzkas_mother-00330.png":
 {
 	"frame": {"x":569,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -1000,7 +528,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00450.png":
+"kuzkas_mother-00332.png":
 {
 	"frame": {"x":853,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -1008,7 +536,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00452.png":
+"kuzkas_mother-00334.png":
 {
 	"frame": {"x":1137,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -1016,7 +544,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00454.png":
+"kuzkas_mother-00336.png":
 {
 	"frame": {"x":1421,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -1024,7 +552,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00456.png":
+"kuzkas_mother-00338.png":
 {
 	"frame": {"x":1705,"y":1441,"w":282,"h":158},
 	"rotated": false,
@@ -1032,63 +560,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00458.png":
-{
-	"frame": {"x":1989,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00460.png":
-{
-	"frame": {"x":2273,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00462.png":
-{
-	"frame": {"x":2557,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00464.png":
-{
-	"frame": {"x":2841,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00466.png":
-{
-	"frame": {"x":3125,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00468.png":
-{
-	"frame": {"x":3409,"y":1441,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00470.png":
-{
-	"frame": {"x":3693,"y":1421,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00472.png":
+"kuzkas_mother-00340.png":
 {
 	"frame": {"x":1,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1096,7 +568,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00474.png":
+"kuzkas_mother-00342.png":
 {
 	"frame": {"x":285,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1104,7 +576,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00476.png":
+"kuzkas_mother-00344.png":
 {
 	"frame": {"x":569,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1112,7 +584,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00478.png":
+"kuzkas_mother-00346.png":
 {
 	"frame": {"x":853,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1120,7 +592,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00480.png":
+"kuzkas_mother-00348.png":
 {
 	"frame": {"x":1137,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1128,7 +600,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00482.png":
+"kuzkas_mother-00350.png":
 {
 	"frame": {"x":1421,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1136,7 +608,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00484.png":
+"kuzkas_mother-00352.png":
 {
 	"frame": {"x":1705,"y":1601,"w":282,"h":158},
 	"rotated": false,
@@ -1144,55 +616,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00486.png":
-{
-	"frame": {"x":1989,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00488.png":
-{
-	"frame": {"x":2273,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00490.png":
-{
-	"frame": {"x":2557,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00492.png":
-{
-	"frame": {"x":2841,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00494.png":
-{
-	"frame": {"x":3125,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00496.png":
-{
-	"frame": {"x":3409,"y":1601,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00498.png":
+"kuzkas_mother-00354.png":
 {
 	"frame": {"x":1,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1200,7 +624,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00500.png":
+"kuzkas_mother-00356.png":
 {
 	"frame": {"x":285,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1208,7 +632,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00502.png":
+"kuzkas_mother-00358.png":
 {
 	"frame": {"x":569,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1216,7 +640,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00504.png":
+"kuzkas_mother-00360.png":
 {
 	"frame": {"x":853,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1224,7 +648,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00506.png":
+"kuzkas_mother-00362.png":
 {
 	"frame": {"x":1137,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1232,7 +656,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00508.png":
+"kuzkas_mother-00364.png":
 {
 	"frame": {"x":1421,"y":1761,"w":282,"h":158},
 	"rotated": false,
@@ -1240,384 +664,24 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
 },
-"kuzkas_mother-00510.png":
+"kuzkas_mother-00366.png":
 {
 	"frame": {"x":1705,"y":1761,"w":282,"h":158},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
 	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00512.png":
-{
-	"frame": {"x":1989,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00514.png":
-{
-	"frame": {"x":2273,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00516.png":
-{
-	"frame": {"x":2557,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00518.png":
-{
-	"frame": {"x":2841,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00520.png":
-{
-	"frame": {"x":3125,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00522.png":
-{
-	"frame": {"x":3409,"y":1761,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00524.png":
-{
-	"frame": {"x":3693,"y":1705,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00526.png":
-{
-	"frame": {"x":1,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00528.png":
-{
-	"frame": {"x":285,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00530.png":
-{
-	"frame": {"x":569,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00532.png":
-{
-	"frame": {"x":853,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00534.png":
-{
-	"frame": {"x":1137,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00536.png":
-{
-	"frame": {"x":1421,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00538.png":
-{
-	"frame": {"x":1705,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00540.png":
-{
-	"frame": {"x":1989,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00542.png":
-{
-	"frame": {"x":2273,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00544.png":
-{
-	"frame": {"x":2557,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00546.png":
-{
-	"frame": {"x":2841,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00548.png":
-{
-	"frame": {"x":3125,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00550.png":
-{
-	"frame": {"x":3409,"y":1921,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00552.png":
-{
-	"frame": {"x":1,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00554.png":
-{
-	"frame": {"x":285,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00556.png":
-{
-	"frame": {"x":569,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00558.png":
-{
-	"frame": {"x":853,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00560.png":
-{
-	"frame": {"x":1137,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00562.png":
-{
-	"frame": {"x":1421,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00564.png":
-{
-	"frame": {"x":1705,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00566.png":
-{
-	"frame": {"x":1989,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00568.png":
-{
-	"frame": {"x":2273,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00570.png":
-{
-	"frame": {"x":2557,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00572.png":
-{
-	"frame": {"x":2841,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00574.png":
-{
-	"frame": {"x":3125,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00576.png":
-{
-	"frame": {"x":3409,"y":2081,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00578.png":
-{
-	"frame": {"x":3693,"y":1989,"w":282,"h":158},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00580.png":
-{
-	"frame": {"x":1,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00582.png":
-{
-	"frame": {"x":285,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00584.png":
-{
-	"frame": {"x":569,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00586.png":
-{
-	"frame": {"x":853,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00588.png":
-{
-	"frame": {"x":1137,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00590.png":
-{
-	"frame": {"x":1421,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00592.png":
-{
-	"frame": {"x":1705,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00594.png":
-{
-	"frame": {"x":1989,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00596.png":
-{
-	"frame": {"x":2273,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00598.png":
-{
-	"frame": {"x":2557,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
-},
-"kuzkas_mother-00600.png":
-{
-	"frame": {"x":2841,"y":2241,"w":282,"h":158},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
-	"sourceSize": {"w":282,"h":158}
 }},
 "animations": {
-	"kuzkas_mother": ["kuzkas_mother-00200.png","kuzkas_mother-00202.png","kuzkas_mother-00204.png","kuzkas_mother-00206.png","kuzkas_mother-00208.png","kuzkas_mother-00210.png","kuzkas_mother-00212.png","kuzkas_mother-00214.png","kuzkas_mother-00216.png","kuzkas_mother-00218.png","kuzkas_mother-00220.png","kuzkas_mother-00222.png","kuzkas_mother-00224.png","kuzkas_mother-00226.png","kuzkas_mother-00228.png","kuzkas_mother-00230.png","kuzkas_mother-00232.png","kuzkas_mother-00234.png","kuzkas_mother-00236.png","kuzkas_mother-00238.png","kuzkas_mother-00240.png","kuzkas_mother-00242.png","kuzkas_mother-00244.png","kuzkas_mother-00246.png","kuzkas_mother-00248.png","kuzkas_mother-00250.png","kuzkas_mother-00252.png","kuzkas_mother-00254.png","kuzkas_mother-00256.png","kuzkas_mother-00258.png","kuzkas_mother-00260.png","kuzkas_mother-00262.png","kuzkas_mother-00264.png","kuzkas_mother-00266.png","kuzkas_mother-00268.png","kuzkas_mother-00270.png","kuzkas_mother-00272.png","kuzkas_mother-00274.png","kuzkas_mother-00276.png","kuzkas_mother-00278.png","kuzkas_mother-00280.png","kuzkas_mother-00282.png","kuzkas_mother-00284.png","kuzkas_mother-00286.png","kuzkas_mother-00288.png","kuzkas_mother-00290.png","kuzkas_mother-00292.png","kuzkas_mother-00294.png","kuzkas_mother-00296.png","kuzkas_mother-00298.png","kuzkas_mother-00300.png","kuzkas_mother-00302.png","kuzkas_mother-00304.png","kuzkas_mother-00306.png","kuzkas_mother-00308.png","kuzkas_mother-00310.png","kuzkas_mother-00312.png","kuzkas_mother-00314.png","kuzkas_mother-00316.png","kuzkas_mother-00318.png","kuzkas_mother-00320.png","kuzkas_mother-00322.png","kuzkas_mother-00324.png","kuzkas_mother-00326.png","kuzkas_mother-00328.png","kuzkas_mother-00330.png","kuzkas_mother-00332.png","kuzkas_mother-00334.png","kuzkas_mother-00336.png","kuzkas_mother-00338.png","kuzkas_mother-00340.png","kuzkas_mother-00342.png","kuzkas_mother-00344.png","kuzkas_mother-00346.png","kuzkas_mother-00348.png","kuzkas_mother-00350.png","kuzkas_mother-00352.png","kuzkas_mother-00354.png","kuzkas_mother-00356.png","kuzkas_mother-00358.png","kuzkas_mother-00360.png","kuzkas_mother-00362.png","kuzkas_mother-00364.png","kuzkas_mother-00366.png","kuzkas_mother-00368.png","kuzkas_mother-00370.png","kuzkas_mother-00372.png","kuzkas_mother-00374.png","kuzkas_mother-00376.png","kuzkas_mother-00378.png","kuzkas_mother-00380.png","kuzkas_mother-00382.png","kuzkas_mother-00384.png","kuzkas_mother-00386.png","kuzkas_mother-00388.png","kuzkas_mother-00390.png","kuzkas_mother-00392.png","kuzkas_mother-00394.png","kuzkas_mother-00396.png","kuzkas_mother-00398.png","kuzkas_mother-00400.png","kuzkas_mother-00402.png","kuzkas_mother-00404.png","kuzkas_mother-00406.png","kuzkas_mother-00408.png","kuzkas_mother-00410.png","kuzkas_mother-00412.png","kuzkas_mother-00414.png","kuzkas_mother-00416.png","kuzkas_mother-00418.png","kuzkas_mother-00420.png","kuzkas_mother-00422.png","kuzkas_mother-00424.png","kuzkas_mother-00426.png","kuzkas_mother-00428.png","kuzkas_mother-00430.png","kuzkas_mother-00432.png","kuzkas_mother-00434.png","kuzkas_mother-00436.png","kuzkas_mother-00438.png","kuzkas_mother-00440.png","kuzkas_mother-00442.png","kuzkas_mother-00444.png","kuzkas_mother-00446.png","kuzkas_mother-00448.png","kuzkas_mother-00450.png","kuzkas_mother-00452.png","kuzkas_mother-00454.png","kuzkas_mother-00456.png","kuzkas_mother-00458.png","kuzkas_mother-00460.png","kuzkas_mother-00462.png","kuzkas_mother-00464.png","kuzkas_mother-00466.png","kuzkas_mother-00468.png","kuzkas_mother-00470.png","kuzkas_mother-00472.png","kuzkas_mother-00474.png","kuzkas_mother-00476.png","kuzkas_mother-00478.png","kuzkas_mother-00480.png","kuzkas_mother-00482.png","kuzkas_mother-00484.png","kuzkas_mother-00486.png","kuzkas_mother-00488.png","kuzkas_mother-00490.png","kuzkas_mother-00492.png","kuzkas_mother-00494.png","kuzkas_mother-00496.png","kuzkas_mother-00498.png","kuzkas_mother-00500.png","kuzkas_mother-00502.png","kuzkas_mother-00504.png","kuzkas_mother-00506.png","kuzkas_mother-00508.png","kuzkas_mother-00510.png","kuzkas_mother-00512.png","kuzkas_mother-00514.png","kuzkas_mother-00516.png","kuzkas_mother-00518.png","kuzkas_mother-00520.png","kuzkas_mother-00522.png","kuzkas_mother-00524.png","kuzkas_mother-00526.png","kuzkas_mother-00528.png","kuzkas_mother-00530.png","kuzkas_mother-00532.png","kuzkas_mother-00534.png","kuzkas_mother-00536.png","kuzkas_mother-00538.png","kuzkas_mother-00540.png","kuzkas_mother-00542.png","kuzkas_mother-00544.png","kuzkas_mother-00546.png","kuzkas_mother-00548.png","kuzkas_mother-00550.png","kuzkas_mother-00552.png","kuzkas_mother-00554.png","kuzkas_mother-00556.png","kuzkas_mother-00558.png","kuzkas_mother-00560.png","kuzkas_mother-00562.png","kuzkas_mother-00564.png","kuzkas_mother-00566.png","kuzkas_mother-00568.png","kuzkas_mother-00570.png","kuzkas_mother-00572.png","kuzkas_mother-00574.png","kuzkas_mother-00576.png","kuzkas_mother-00578.png","kuzkas_mother-00580.png","kuzkas_mother-00582.png","kuzkas_mother-00584.png","kuzkas_mother-00586.png","kuzkas_mother-00588.png","kuzkas_mother-00590.png","kuzkas_mother-00592.png","kuzkas_mother-00594.png","kuzkas_mother-00596.png","kuzkas_mother-00598.png","kuzkas_mother-00600.png"]
+	"kuzkas_mother": ["kuzkas_mother-00200.png","kuzkas_mother-00202.png","kuzkas_mother-00204.png","kuzkas_mother-00206.png","kuzkas_mother-00208.png","kuzkas_mother-00210.png","kuzkas_mother-00212.png","kuzkas_mother-00214.png","kuzkas_mother-00216.png","kuzkas_mother-00218.png","kuzkas_mother-00220.png","kuzkas_mother-00222.png","kuzkas_mother-00224.png","kuzkas_mother-00226.png","kuzkas_mother-00228.png","kuzkas_mother-00230.png","kuzkas_mother-00232.png","kuzkas_mother-00234.png","kuzkas_mother-00236.png","kuzkas_mother-00238.png","kuzkas_mother-00240.png","kuzkas_mother-00242.png","kuzkas_mother-00244.png","kuzkas_mother-00246.png","kuzkas_mother-00248.png","kuzkas_mother-00250.png","kuzkas_mother-00252.png","kuzkas_mother-00254.png","kuzkas_mother-00256.png","kuzkas_mother-00258.png","kuzkas_mother-00260.png","kuzkas_mother-00262.png","kuzkas_mother-00264.png","kuzkas_mother-00266.png","kuzkas_mother-00268.png","kuzkas_mother-00270.png","kuzkas_mother-00272.png","kuzkas_mother-00274.png","kuzkas_mother-00276.png","kuzkas_mother-00278.png","kuzkas_mother-00280.png","kuzkas_mother-00282.png","kuzkas_mother-00284.png","kuzkas_mother-00286.png","kuzkas_mother-00288.png","kuzkas_mother-00290.png","kuzkas_mother-00292.png","kuzkas_mother-00294.png","kuzkas_mother-00296.png","kuzkas_mother-00298.png","kuzkas_mother-00300.png","kuzkas_mother-00302.png","kuzkas_mother-00304.png","kuzkas_mother-00306.png","kuzkas_mother-00308.png","kuzkas_mother-00310.png","kuzkas_mother-00312.png","kuzkas_mother-00314.png","kuzkas_mother-00316.png","kuzkas_mother-00318.png","kuzkas_mother-00320.png","kuzkas_mother-00322.png","kuzkas_mother-00324.png","kuzkas_mother-00326.png","kuzkas_mother-00328.png","kuzkas_mother-00330.png","kuzkas_mother-00332.png","kuzkas_mother-00334.png","kuzkas_mother-00336.png","kuzkas_mother-00338.png","kuzkas_mother-00340.png","kuzkas_mother-00342.png","kuzkas_mother-00344.png","kuzkas_mother-00346.png","kuzkas_mother-00348.png","kuzkas_mother-00350.png","kuzkas_mother-00352.png","kuzkas_mother-00354.png","kuzkas_mother-00356.png","kuzkas_mother-00358.png","kuzkas_mother-00360.png","kuzkas_mother-00362.png","kuzkas_mother-00364.png","kuzkas_mother-00366.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "kuzkas_mother_bg.png",
 	"format": "RGBA8888",
-	"size": {"w":3852,"h":2400},
+	"size": {"w":1988,"h":1920},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:11cf732daca9a33d2f80410f06c9ed84:c6b1504e16e276f6689d945346e02894:9c46dbfbf597496e255b2b68517855fc$"
+	"smartupdate": "$TexturePacker:SmartUpdate:da5eed37b3ac90a2b48249b290cb6b03:b28edeeb27542debac4aa21061253dab:9c46dbfbf597496e255b2b68517855fc$"
 }
 }

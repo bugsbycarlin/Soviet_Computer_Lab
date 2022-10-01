@@ -294,7 +294,7 @@ class Game {
       }
     } else if (this.game_type_selection == 5) {
       type = "first_strike";
-    } else if (this.game_type_selection == 8) {
+    } else if (this.game_type_selection == 9) {
       // Mixed Mode
       let choice_list = ["kuzkas_mother", "magnitogorsk", "party_math", "first_strike"];
       if (this.level <= this.cpe_level_count) {
@@ -326,7 +326,7 @@ class Game {
       return "centrally_planned_economy";
     } else if (this.game_type_selection == 5) {
       return "first_strike";
-    } else if (this.game_type_selection == 8) {
+    } else if (this.game_type_selection == 9) {
       return "mixed";
     }
 
@@ -359,6 +359,7 @@ class Game {
       .add("Art/Big_Animations/lenin_and_flag.json")
       .add("Art/Big_Animations/soviet_tvs_unlicensed.json")
       .add("Art/Big_Animations/kuzkas_mother_bg.json")
+      .add("Art/Big_Animations/party_math_bg.json")
       .add("Art/Party_Math/Characters/grigory.json")
       .add("Art/Party_Math/Characters/carrying_1.json")
       .add("Art/Party_Math/Characters/carrying_2.json")
