@@ -315,18 +315,18 @@ class Game {
   }
 
 
-  getModeName() {
-    if (this.game_type_selection == 1) {
+  getModeName(mode_value = this.game_type_selection) {
+    if (mode_value == 1) {
       return "kuzkas_mother";
-    } else if (this.game_type_selection == 2) {
+    } else if (mode_value == 2) {
       return "magnitogorsk";
-    } else if (this.game_type_selection == 3) {
+    } else if (mode_value == 3) {
       return "party_math";
-    } else if (this.game_type_selection == 4) {
+    } else if (mode_value == 4) {
       return "centrally_planned_economy";
-    } else if (this.game_type_selection == 5) {
+    } else if (mode_value == 5) {
       return "first_strike";
-    } else if (this.game_type_selection == 9) {
+    } else if (mode_value == 9) {
       return "mixed";
     }
 

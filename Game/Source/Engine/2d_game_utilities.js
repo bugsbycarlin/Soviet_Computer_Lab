@@ -123,6 +123,64 @@ function makeBlank(parent, width, height, x, y, color=0xFFFFFF, anchor_x=0, anch
 }
 
 
+// Make a text element that starts empty and types out its message
+// using an update function.
+function makeTypewriterText(text, font, parent, x, y, anchor_x=0, anchor_y=0, wrap_width=0) {
+  let t_text = makeText("", font, parent, x, y, anchor_x=0, anchor_y=0);
+  
+  t_text.partial_value = 0;
+  t_text.final_text = text;
+  t_text.wrap_width = wrap_width;
+
+  // Update function types out another letter each time it's called,
+  // until all the letters have been typed.
+  t_text.updatePartial = function() {
+    this.partial_value += 0.35;
+    if (this.partial_value > this.final_text.length + 1) {
+      this.partial_value = this.final_text.length + 1;
+    } else {
+      this.text = this.final_text.slice(0, Math.floor(this.partial_value));
+    }
+  }
+
+  // Set function clears the existing text and sets a new string value.
+  t_text.setPartial = function(new_str) {
+
+    // If there's a positive wrap width, rebuild the text string to include line breaks.
+    if (t_text.wrap_width > 0) {
+      // Width of a single character. Note that this only works when the font is monospaced.
+      let c_width = PIXI.TextMetrics.measureText('A', t_text.style).width;
+      let words = new_str.split(" ");
+      new_str = "";
+      line_length = 0;
+      for (let i = 0; i < words.length; i++) {
+        console.log(words[i]);
+        console.log("L: " + c_width * words[i].length);
+        console.log("C: " + line_length);
+        console.log("M: " + t_text.wrap_width);
+        if (line_length + c_width * words[i].length <= t_text.wrap_width) {
+          new_str += words[i] + " ";
+          line_length += c_width * (words[i].length + 1);
+        } else {
+          new_str += "\n"
+          line_length = c_width * (words[i].length + 1);
+          new_str += words[i] + " ";
+        }
+      }
+      console.log(words);
+    }
+
+    this.partial_value = 0;
+    this.final_text = new_str;
+    t_text.text = "";
+  }
+
+  t_text.setPartial(text);
+
+  return t_text;
+}
+
+
 function makeRocketTile2(parent, letter, score_value, base, target_base, player) {
   let rocket_tile = new PIXI.Container();
   parent.addChild(rocket_tile);
